@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "webimpetus-chart.fullname" . }}-test-connection"
+  labels:
+    {{- include "webimpetus-chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "webimpetus-chart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
