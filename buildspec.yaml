@@ -21,7 +21,7 @@ phases:
       - "cp config-staging ~/.kube/config"
   build: # Build Docker image and tag it with the commit sha
     commands:
-      - aws eks update-kubeconfig —-name ${EKS_NAME} —-region ${REGION}
+      - aws eks update-kubeconfig --name workstation-eks-YTyc6Mf1 --region eu-west-2
       - /usr/local/bin/kubectl get pods
       - docker build . -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION -f devops/docker/Dockerfile
       - docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
