@@ -29,4 +29,4 @@ phases:
     commands:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
-      - "helm upgrade -i first_release hello-world-chart -f ./hello-world-chart/values.$ENV.yaml --set image.tag=$CODEBUILD_RESOLVED_SOURCE_VERSION"
+      - helm upgrade -i webimpetus_release --values ./webimpetus-chart/values-staging.yaml --set image.tag=$CODEBUILD_RESOLVED_SOURCE_VERSION" ./webimpetus-chart
