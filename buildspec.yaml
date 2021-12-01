@@ -21,12 +21,10 @@ phases:
       - "cp config-staging ~/.kube/config"
   build: # Build Docker image and tag it with the commit sha
     commands:
-      - aws eks update-kubeconfig --name workstation-eks-YTyc6Mf1 --region eu-west-2
-      - /usr/local/bin/kubectl get pods
       - docker build . -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION -f devops/docker/Dockerfile
       - docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
   post_build: # Push the Docker image to the ECR
     commands:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
-      - helm upgrade -i webimpetus_release --values ./webimpetus-chart/values-staging.yaml --set image.tag=$CODEBUILD_RESOLVED_SOURCE_VERSION" ./webimpetus-chart
+      - "helm upgrade -i webimpetus_release ./devops/webimpetus-chart  -f ./devops/webimpetus-chart/values-staging.yaml --set image.tag=$CODEBUILD_RESOLVED_SOURCE_VERSION"
