@@ -8,7 +8,7 @@ image:
   repository: 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "10700edb1f89715108f8c3b6bca51abdcddc7154"
 
 imagePullSecrets: eu-west-2-ecr-registry
 nameOverride: ""
