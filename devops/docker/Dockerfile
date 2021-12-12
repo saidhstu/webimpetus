@@ -22,9 +22,9 @@ RUN sh /setup.sh
 
 # Install Composer
 #RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    && php -r "unlink('composer-setup.php');"
+#seems like moved to base image RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+#    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+#    && php -r "unlink('composer-setup.php');"
 
 WORKDIR /var/www/html/appstarter
 
