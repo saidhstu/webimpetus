@@ -6,7 +6,7 @@ ARG PHP_IMAGE_BASE="php:7.4-fpm-alpine"
 #FROM ${PHP_IMAGE_BASE}:${PHP_IMAGE_TAG}
 FROM ${PHP_IMAGE_BASE}
 
-LABEL maintainer="Balinder Walia <bwalia@tizo.co.uk>"
+LABEL maintainer="Balinder Walia <bwalia@tenthmatrix.co.uk>"
 
 ARG PHP_ADD_PACKAGE_BUILDDEPS=""
 RUN apk update && apk upgrade && apk add --no-cache \
@@ -230,6 +230,9 @@ COPY devops/docker/index.php /usr/local/openresty/nginx/html/index.php
 #COPY tenants_infra_manager /var/www/html/tenants_infra_manager/
 ADD . /var/www/html/appstarter/
 RUN rm -rf /var/www/html/appstarter/devops/
+RUN rm -rf /var/www/html/appstarter/tizo.sql
+RUN rm -rf /var/www/html/appstarter/buildspec.yaml
+
 
 # Change permissions in directory /var/www/html to belong to www-data (PHP) 
 RUN chown -R www-data:www-data /var/www/html
@@ -262,7 +265,6 @@ RUN mkdir -p /var/php
 
 #CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
 COPY devops/docker/start.sh /
-
 RUN chmod +x /start.sh
 CMD sh /start.sh
 
