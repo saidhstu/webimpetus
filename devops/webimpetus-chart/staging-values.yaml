@@ -80,3 +80,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+TENANT_KEY: thisisfakedata
