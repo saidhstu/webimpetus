@@ -1,0 +1,52 @@
+name: Docker build and push ECR
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  autodeploy:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: short-sha
+      uses: benjlevesque/short-sha@v1.2
+      with:
+        length: 6
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - run: echo $SHA
+      env:
+       SHA: ${{ steps.short-sha.outputs.sha }}
+
+    - run: echo $SHA
+      env:
+       SHA: ${{ env.SHA }}
+
+    - name: Build, tag, and push image to Amazon ECR
+      run: |
+        docker build -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }} -f devops/docker/Dockerfile .
+        docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }}
+
+    - name: helm deploy
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        command: helm upgrade -i webimpetus-release ./devops/webimpetus-chart -f ./devops/webimpetus-chart/staging-values.yaml --set=image.tag=${{ env.SHA }}
