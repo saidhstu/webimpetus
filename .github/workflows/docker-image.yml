@@ -46,7 +46,7 @@ jobs:
       # Build and push docker image to customer AWS ECR
     - name: Build, tag, and push image to Amazon ECR
       run: |
-        docker build -f Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }} .
+        docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }} .
         docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }}
 
     - name: helm deploy
