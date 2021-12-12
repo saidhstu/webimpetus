@@ -49,4 +49,4 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        command: helm upgrade -i webimpetus-release ./devops/webimpetus-chart -f ./devops/webimpetus-chart/staging-values.yaml --set=image.tag=${{ env.SHA }}
+        command: helm upgrade -i webimpetus-release ./devops/webimpetus-chart -f ./devops/webimpetus-chart/staging-values.yaml --set env.TENANT_KEY=${{ secrets.TENANT_KEY }}  --set=image.tag=${{ env.SHA }}
