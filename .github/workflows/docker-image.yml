@@ -43,11 +43,6 @@ jobs:
       env:
        SHA: ${{ env.SHA }}
      
-      # Runs a set of commands using the runners shell
-    - name: Clone the TizoHub Repo
-      run: |
-        git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/TeamTizo/Tizohub.git && ls -al Tizohub
-
       # Build and push docker image to customer AWS ECR
     - name: Build, tag, and push image to Amazon ECR
       run: |
