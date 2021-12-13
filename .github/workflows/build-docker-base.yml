@@ -1,4 +1,3 @@
-# Build and Deploy WebImpetus Code Igniter 4 Base Docker Image
 on:
   push:
     branches: [ base ]
