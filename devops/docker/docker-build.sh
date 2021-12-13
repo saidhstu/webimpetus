@@ -60,4 +60,4 @@ fi
 fi
 
 docker build -t ${ACCOUNTID}.dkr.ecr.${REGION}.amazonaws.com/${DOCKER_IMAGE_NAME}:${VERSION} -f devops/docker/Dockerfile .
-#docker push ${ACCOUNTID}.dkr.ecr.${REGION}.amazonaws.com/${DOCKER_IMAGE_NAME}:${VERSION}
+docker push ${ACCOUNTID}.dkr.ecr.${REGION}.amazonaws.com/${DOCKER_IMAGE_NAME}:${VERSION}

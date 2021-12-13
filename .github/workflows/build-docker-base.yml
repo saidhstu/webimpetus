@@ -1,9 +1,9 @@
 # Build and Deploy WebImpetus Code Igniter 4 Docker Image
 on:
   push:
-    branches: [ main ]
+    branches: [ base ]
   pull_request:
-    branches: [ main ]
+    branches: [ base ]
   workflow_dispatch:
   
 name: Main image
@@ -17,11 +17,6 @@ jobs:
     steps:
     - name: Check out this repo code
       uses: actions/checkout@v2
-
-    - name: short-sha
-      uses: benjlevesque/short-sha@v1.2
-      with:
-        length: 6
         
       # Runs a single command using the runners shell
     - name: Configure AWS credentials
@@ -34,27 +29,12 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-      
-    - run: echo $SHA
-      env:
-       SHA: ${{ steps.short-sha.outputs.sha }}
-
-    - run: echo $SHA
-      env:
-       SHA: ${{ env.SHA }}
      
       # Build and push docker image to customer AWS ECR
     - name: Build, tag, and push image to Amazon ECR
       run: |
-#        docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }} .
-#        docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }}
-
-    - name: helm deploy
-      uses: koslib/helm-eks-action@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-#        command: helm upgrade -i webimpetus-release ./devops/webimpetus-chart -f ./devops/webimpetus-chart/staging-values.yaml --set=image.tag=${{ env.SHA }} --set env.TENANT_KEY="${{ secrets.TENANT_KEY }}"
+        docker build -f devops/docker/Dockerfile-base -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-base:base .
+        docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-base:base
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
