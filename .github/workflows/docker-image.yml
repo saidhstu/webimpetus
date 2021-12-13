@@ -49,12 +49,12 @@ jobs:
         docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }} .
         docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }}
 
-#    - name: helm deploy
-#      uses: koslib/helm-eks-action@master
-#      env:
-#        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-#      with:
-#        command: helm upgrade -i webimpetus-release ./devops/webimpetus-chart -f ./devops/webimpetus-chart/staging-values.yaml --set=image.tag=${{ env.SHA }} --set env.TENANT_KEY="${{ secrets.TENANT_KEY }}"
+    - name: helm deploy
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        command: helm upgrade -i webimpetus-release ./devops/webimpetus-chart -f ./devops/webimpetus-chart/staging-values.yaml --set=image.tag=${{ env.SHA }} --set env.TENANT_KEY="${{ secrets.TENANT_KEY }}"
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
