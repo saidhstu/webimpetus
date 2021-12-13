@@ -1,3 +1,4 @@
+# PULL BASE IMAGE AND PUSH DEPLOYMENT
 FROM 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-base:base
 
 # Copy nginx configuration files
