@@ -37,10 +37,10 @@ CI_ENVIRONMENT = development
 # DATABASE
 #--------------------------------------------------------------------
 
-database.default.hostname = localhost
-database.default.database = tenants
-database.default.username = root
-database.default.password = 
+#database.default.hostname = localhost
+#database.default.username = root
+#database.default.database = tenants
+#database.default.password = 
 database.default.DBDriver = MySQLi
 # database.default.DBPrefix =
 

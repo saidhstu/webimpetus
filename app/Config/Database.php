@@ -32,10 +32,10 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'database' => 'tizo',
+        'hostname' => 'sql.tizohub.com',
+        'username' => 'admin',
+        'password' => 'AtMFWm6QAKX1R8FtJ9',
+        'database' => 'tizohub_dro',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

@@ -13531,9 +13531,6 @@ input:checked + .slider:before {
 
 }
 
-
-
-
 div.dataTables_wrapper div.dataTables_filter input {
   margin-left: .5em;
   display: inline-block;
@@ -13560,9 +13557,6 @@ div.dataTables_wrapper div.dataTables_filter input {
   height: 32px !important;
 }
 
-.custom-file {
-    margin: 0px!important;
-}
-.loginModel .logo img {
-  width: 170px !important;
+.loginModel .large_logo img {
+  width: 90px !important;
 }
