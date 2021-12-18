@@ -5,6 +5,9 @@ use App\Models\Tenant_model;
 use App\Models\Domain_model;
 use App\Models\Cat_model;
 use App\Models\Content_model;
+use App\Models\Enquiries_model;
+use App\Models\Blocks_model;
+use App\Models\Gallery_model;
 class Api extends BaseController
 {
 	public function __construct()
@@ -12,8 +15,11 @@ class Api extends BaseController
 	  $this->smodel = new Service_model();
 	  $this->tmodel = new Tenant_model();
 	  $this->dmodel = new Domain_model();
-	  $this->cmodel = new Cat_model();
+	  $this->catmodel = new Cat_model();
 	  $this->cmodel = new Content_model();
+	  $this->emodel = new Enquiries_model();
+	  $this->bmodel = new Blocks_model();
+	  $this->gmodel = new Gallery_model();
 	  header('Content-Type: application/json; charset=utf-8');
 	}
 	
@@ -66,9 +72,9 @@ class Api extends BaseController
 	public function categories($id=false)
     {
 		if($this->request->getVar('q')){
-			$data['data'] = $this->cmodel->like('name', $this->request->getVar('q'))->get()->getResult();
+			$data['data'] = $this->catmodel->like('name', $this->request->getVar('q'))->get()->getResult();
 		}else {
-			$data['data'] = ($id>0)?$this->cmodel->getRows($id)->getRow():$this->cmodel->getRows();
+			$data['data'] = ($id>0)?$this->catmodel->getRows($id)->getRow():$this->catmodel->getRows();
 		}
 		$data['status'] = 'success';
         echo json_encode($data); die;
@@ -80,6 +86,40 @@ class Api extends BaseController
 			$data['data'] = $this->cmodel->where(['status' => 1,'type'=>$type])->like('name', $this->request->getVar('q'))->get()->getResult();
 		}else {
 			$data['data'] = ($id>0)?$this->cmodel->getWhere(['status' => 1,'id' => $id,'type'=>$type])->getRow():$this->cmodel->where(['status' => 1,'type'=>$type])->get()->getResult();
+		}
+		$data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+	
+	
+	public function enquiries($type=1,$id=false)
+    {
+		if($this->request->getVar('q')){
+			$data['data'] = $this->emodel->where(['type'=>$type])->like('name', $this->request->getVar('q'))->get()->getResult();
+		}else {
+			$data['data'] = ($id>0)?$this->emodel->getWhere(['id' => $id,'type'=>$type])->getRow():$this->emodel->where(['type'=>$type])->get()->getResult();
+		}
+		$data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+	
+	public function blocks($id=false)
+    {
+		if($this->request->getVar('q')){
+			$data['data'] = $this->bmodel->like('code', $this->request->getVar('q'))->get()->getResult();
+		}else {
+			$data['data'] = ($id>0)?$this->bmodel->getWhere(['id' => $id])->getRow():$this->bmodel->get()->getResult();
+		}
+		$data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+	
+	public function media($id=false)
+    {
+		if($this->request->getVar('q')){
+			$data['data'] = $this->gmodel->like('code', $this->request->getVar('q'))->get()->getResult();
+		}else {
+			$data['data'] = ($id>0)?$this->gmodel->getWhere(['id' => $id])->getRow():$this->gmodel->get()->getResult();
 		}
 		$data['status'] = 'success';
         echo json_encode($data); die;

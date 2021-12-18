@@ -59,10 +59,22 @@
 				
 			});
 		}
+		$('table tbody tr td').not(":last-child").click(function(){
+			if($('table tbody tr').data('href').indexOf("enquiries") === -1)
+				window.location.href = $('table tbody tr').data('href')
+		})
+		
 		<?php if(empty($_SESSION['role'])){ ?>
-		$("table a").click(function(){
-			return false;
-		});
+			/*$("table a").click(function(){
+				return false;
+			});*/
+
+		<?php } else { ?>
+		/* $("table tr").click(function(){
+			
+		}); */
+		
+		
 		<?php } ?>
 	} );
 	
@@ -72,5 +84,87 @@
 <script src="/assets/js/custom.js"></script>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script--> 
 
+    <script>
+		// Add the following code if you want the name of the file appear on select
+		$(".custom-file-input").on("change", function() {
+		  var fileName = $(this).val().split("\\").pop();
+		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+		});
+	</script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
+ <script src="/assets/ckeditor/ckeditor.js"></script>
+ 
+ <script>
+   if ($("#addcat").length > 0) {
+      $("#addcat").validate({
+    ignore : [], rules: {
+      title: {
+        required: true,
+      }, 
+      content: {
+        required: function(textarea) {
+       CKEDITOR.instances[textarea.id].updateElement();
+       var editorcontent = textarea.value.replace(/<[^>]*>/gi, '');
+       return editorcontent.length === 0;
+     }
+      }
+    },
+    messages: {
+      name: {
+        required: "Please enter title",
+      },
+        
+    },
+  })
+}
+
+
+if ($("#chk_manual").length > 0) {
+				$("#chk_manual").click(function(){
+					if($(this).is(':checked')){
+						$('#code').attr("readonly",false);
+						$('#code').val("");
+					}
+					else
+					{
+						$('#code').attr("readonly",true);
+						$('#code').val("");
+					}
+					
+				});
+			}
+			
+			var sr = 0;	
+	 $(document).on('change','.filee', function() { 
+	 //alert($(this).val()); 
+	 $('#'+$(this).attr('id')).after($(this).val())
+	 
+	 var inc = sr++; $("#divfile").append('<div class="custom-file"><input type="file" name="file[]" class="custom-file-input filee" id="customFile'+inc+'"><label class="custom-file-label" for="customFile'+inc+'">Choose file</label></div>') });
+	
+	
+</script>
+
+
+
+<script type="text/javascript">
+    CKEDITOR.replace( 'content' , {
+    filebrowserBrowseUrl: '/assets/ckfinder/ckfinder.html',
+    filebrowserUploadUrl: '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+    filebrowserWindowWidth: '900',
+    filebrowserWindowHeight: '700'
+});
+</script>
+
+<!-- Include Bootstrap Datepicker -->
+
+<script>
+        //$('#publish_date').datepicker({ format: "dd/mm/yyyy" });
+    </script>
+<style>
+.custom-file{
+margin:30px;
+}</style>
 </body>
 </html>

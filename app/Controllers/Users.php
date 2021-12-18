@@ -2,6 +2,7 @@
  
 use CodeIgniter\Controller;
 use App\Models\Users_model;
+use App\Models\Menu_model;
  
 class Users extends Controller
 {
@@ -9,7 +10,8 @@ class Users extends Controller
 	public function __construct()
 	{
 		$this->session = \Config\Services::session();
-	  $this->model = new Users_model();
+		$this->model = new Users_model();
+		$this->menu_model = new Menu_model();
 	}
     public function index()
     {        
@@ -20,7 +22,8 @@ class Users extends Controller
 	
 	public function add()
     {
-        echo view('add_user');
+		$data['menu'] = $this->menu_model->getRows();
+        echo view('add_user',$data);
     }
  
     public function saveuser()
@@ -42,6 +45,7 @@ class Users extends Controller
 					'notes' => $this->request->getPost('notes'),
 					'uuid' => mt_rand(10000, 100000),
 					'status' => 0,
+					'permissions' => json_encode($this->request->getPost('sid'))
 				);
 				$this->model->saveUser($data);
 				session()->setFlashdata('message', 'Data entered Successfully!');
@@ -54,6 +58,7 @@ class Users extends Controller
 	 public function edit($id)
     {        
         $data['user'] = $this->model->getUser($id)->getRow();
+		$data['menu'] = $this->menu_model->getRows();
         echo view('edit_user', $data);
     }
 	
@@ -71,7 +76,8 @@ class Users extends Controller
             'name'  => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
 			'address' => $this->request->getPost('address'),
-			'notes' => $this->request->getPost('notes')
+			'notes' => $this->request->getPost('notes'),
+			'permissions' => json_encode($this->request->getPost('sid'))
         );
         $this->model->updateUser($data, $id);
 		session()->setFlashdata('message', 'Data updated Successfully!');

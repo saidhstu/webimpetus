@@ -10,7 +10,7 @@
         </div>
     </div>
     <ul id="sidebar_menu">
-        <li class="mm-active">
+        <?php if(empty($_SESSION['permissions'])) { ?><li class="mm-active">
           <a   class="has-arrow" href="/dashboard" aria-expanded="true">
             <div class="nav_icon_small">
                 <img src="/assets/img/menu-icon/dashboard.svg" alt="">
@@ -21,8 +21,16 @@
           </a>
         
         </li>
-        <li><a href="/categories" class=""><i class="fa fa-table"></i> <span>Categories</span></a></li>
-        <li><a href="/users" class=""><i class="fa fa-users"></i> <span>Users</span></a></li>
+		<?php } else { 
+		$menu = $_SESSION['permissions'];
+		
+		//echo '<pre>'; print_r($menu); die;
+		foreach($menu as $val) { ?>
+			<li><a href="<?php echo $val['link']; ?>" class=""><i class="fa fa-table"></i> <span><?php echo $val['name']; ?> </span></a></li>		
+		
+		<?php } }  ?>
+       <?php /* <li><a href="/categories" class=""><i class="fa fa-table"></i> <span>Categories</span></a></li>
+         <li><a href="/users" class=""><i class="fa fa-users"></i> <span>Users</span></a></li>
         <li><a href="/tenants" class=""><i class="fa fa-building"></i> <span>Tenants</span></a></li>
         
         <li><a href="/services" class=""><i class="fa fa-wrench"></i> <span>Services</span></a></li>
@@ -35,7 +43,7 @@
         <li><a href="/jobapps" class=""><i class="fa fa-building"></i> <span>Job Applications</span></a></li>        
 		<li><a href="/gallery" class=""><i class="fa fa-globe"></i> <span>Image Gallery</span></a></li>
 		<li><a href="/blocks" class=""><i class="fa fa-globe"></i> <span>Blocks</span></a></li>
-		<li><a href="/enquiries" class=""><i class="fa fa-globe"></i> <span>Enquiries</span></a></li>
+		<li><a href="/enquiries" class=""><i class="fa fa-globe"></i> <span>Enquiries</span></a></li> */ ?>
     </ul>
 </nav>
 

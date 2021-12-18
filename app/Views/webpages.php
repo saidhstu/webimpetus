@@ -20,12 +20,11 @@
                             </ol>
                         </div>
                         <div class="page_title_right">
-                          <?php if(!empty($_SESSION['role'])){ ?>
+                        
                             <div class="header_more_tool setDropDownBlk">
                               
                             <a href="/webpages/add" class="btn btn-primary"><i class="ti-plus"></i> Add Webpage</a>
-						  </div> <?php } ?>
-
+						  </div> 
                     </div>
                 </div>
             </div>
@@ -65,7 +64,7 @@
                                             
 											<th scope="col">Published at</th>
 											<th scope="col">created at</th>
-                                            <?php if(!empty($_SESSION['role'])){ ?><th scope="col" width="50">Action</th><?php } ?>
+                                            <th scope="col" width="50">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>                                        
@@ -92,7 +91,7 @@
 										<td class="f_s_12 f_w_400 text_color_1 ">
                                              <p class="pd10"> <?= $row['created'];?></p>
                                         </td>
-                                       <?php if(!empty($_SESSION['role'])){ ?> <td class="f_s_12 f_w_400 text-right">
+                                      <td class="f_s_12 f_w_400 text-right">
                                             <div class="header_more_tool">
                                                 <div class="dropdown">
                                                     <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
@@ -108,7 +107,7 @@
                                                 </div>
                                             </div>
                                         </td>   
-									   <?php } ?>                                        
+									                                       
                                     </tr>
                                    
                                    <?php endforeach;?>  

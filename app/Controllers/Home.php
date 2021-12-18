@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Models\Users_model;
 use App\Models\Meta_model;
+use App\Models\Menu_model;
 class Home extends BaseController
 {
 	public function __construct()
@@ -9,6 +10,7 @@ class Home extends BaseController
 		$this->session = \Config\Services::session();
 	  $this->model = new Users_model();
 	  $this->meta_model = new Meta_model();
+	  $this->menu_model = new Menu_model();
 	}
 	
     public function index()
@@ -35,7 +37,11 @@ class Home extends BaseController
 				$this->session->set('uuid',$row->id);
 				$this->session->set('uname',$row->name);
 				$this->session->set('role',$row->role);
-				$this->session->set('logo',$logo->meta_value);
+				$this->session->set('logo',$logo->meta_value);	
+				$arr = json_decode($row->permissions);
+				$roww = $this->menu_model->getWherein($arr);
+				//echo '<pre>';print_r($roww); die;
+				$this->session->set('permissions',$roww);
 				return redirect()->to('/dashboard');
 			}else {
 				session()->setFlashdata('message', 'Wrong email or password!');

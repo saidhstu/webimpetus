@@ -78,6 +78,20 @@
                                         </div>
                                        
                                     </div>
+									
+									<div class="form-row">
+    									<div class="form-group col-md-12">
+                                                <label for="inputState">Set Permissions</label>
+                                                <select id="sid" name="sid[]" multiple class="form-control js-example-basic-multiple">                                            
+    												<?php 
+    												
+    												$arr = json_decode($user->permissions);
+    												foreach($menu as $row):?>
+                                                    <option value="<?= $row['id'];?>" <?= in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
+                                                   <?php endforeach;?>
+                                                </select>
+                                        </div>
+                                    </div>
                                    
 
 

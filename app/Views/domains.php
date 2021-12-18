@@ -20,12 +20,12 @@
                             </ol>
                         </div>
                         <div class="page_title_right">                         
-                            <?php if(!empty($_SESSION['role'])){ ?>
+                          
                             <div class="header_more_tool setDropDownBlk">
                               
                             <a href="/domains/add" class="btn btn-primary"><i class="ti-plus"></i> Add Domain</a>
                         </div>
-							<?php } ?>
+							
 
                     </div>
                 </div>
@@ -71,10 +71,9 @@
                                             <th scope="col">Logo</th>
                                             <th scope="col">Note</th>
                                              <!--th scope="col">Status</th-->
-											 <?php if(!empty($_SESSION['role'])){ ?> 
+											 
                                             <th scope="col" width="50">Action</th>
-											 <?php } ?>
-                                        </tr>
+											</tr>
                                     </thead>
                                     <tbody>                                        
                                   
@@ -98,7 +97,7 @@
                                         <td class="f_s_12 f_w_400 text_color_1 ">
                                              <p class="pd10"> <?= $row['notes'];?> </p>
                                         </td>
-                                         <?php if(!empty($_SESSION['role'])){ ?> 
+                                        
                                         <td class="f_s_12 f_w_400 text-right">
                                             <div class="header_more_tool">
 											
@@ -116,7 +115,7 @@
                                                 </div>
 											
                                             </div>
-                                        </td>   <?php } ?>                                        
+                                        </td>                                   
                                     </tr>
                                    
                                    <?php endforeach;?>  

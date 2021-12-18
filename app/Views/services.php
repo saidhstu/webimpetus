@@ -20,14 +20,13 @@
                             </ol>
                         </div>
                         <div class="page_title_right">
-                           <?php if(!empty($_SESSION['role'])){ ?> 
+                        
                             <div class="header_more_tool setDropDownBlk">
                               
                             <a href="/services/add" class="btn btn-primary"><i class="ti-plus"></i> Add Services</a>
                         </div>
 						
-						   <?php } ?>
-
+						
                     </div>
                 </div>
             </div>
@@ -74,8 +73,8 @@
                                           
                                             <th scope="col">Notes</th>
                                             
-                                             <?php if(!empty($_SESSION['role'])){ ?> <th scope="col">Status</th>
-                                             <th scope="col" width="50">Action</th><?php } ?>
+                                              <th scope="col">Status</th>
+                                             <th scope="col" width="50">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>                                        
@@ -112,7 +111,7 @@
                                              <p class="pd10"> <?= $row['notes'];?> </p>
                                         </td>
                                         
-                                         <?php if(!empty($_SESSION['role'])){ ?>  <td class="f_s_12 f_w_400 text_color_1 "><a href="/services/edit/<?= $row['id'];?>"> <div class="">
+                                          <td class="f_s_12 f_w_400 text_color_1 "><a href="/services/edit/<?= $row['id'];?>"> <div class="">
                                                 <label class="switch2">
                                                   <input type="checkbox" class="checkb" data-url="services/status" name="checkb[]" value="<?= $row['id'];?>" <?=($row['status']==1)?'checked':''?>  />
                                                   <span class="slider round"></span>
@@ -135,7 +134,7 @@
                                                 </div>
                                             </div>
                                         </td> 
-									   <?php } ?>										
+									 									
                                     </tr>
                                   <?php endforeach;?>  
                                     
