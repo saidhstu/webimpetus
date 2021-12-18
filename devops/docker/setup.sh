@@ -19,14 +19,14 @@ THE_DIR="/var/run/php-fpm/"
 mkdir -p ${THE_DIR}
 chown www-data:root ${THE_DIR}
 chmod +x ${THE_DIR}
-chmod 755 -R ${THE_DIR}
+chmod 777 -R ${THE_DIR}
 
 # Create dir for nginx.
 THE_DIR="/var/nginx/"
 mkdir -p ${THE_DIR}
 chown www-data:root ${THE_DIR}
 chmod +x ${THE_DIR}
-chmod 755 -R ${THE_DIR}
+chmod 775 -R ${THE_DIR}
 
 # Create dir for nginx logs.
 THE_DIR="/var/log/nginx/"
