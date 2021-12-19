@@ -1,4 +1,4 @@
-# PHP 7.x and openresty image
+# PHP 7.x official image is pulled and then openresty compiled into single docker image openresty calling php over unix socket
 
 FROM php:7.4.26-fpm-alpine3.15
 
