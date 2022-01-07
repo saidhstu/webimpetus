@@ -61,15 +61,15 @@
                                     
                                    
                                        
-										<div class="form-group col-md-12">
-                                            <label for="inputEmail4">show value</label>
+										<?php /* <div class="form-group col-md-12">
+                                            <label for="inputEmail4"></label>
 											</div>
 											<div class="form-group col-md-12">
 											
-                                            <label for="inputEmail4"><input type="checkbox" value="1" class="form-control" id="status" name="status" checked placeholder=""> Yes </label>
+                                            <label for="inputEmail4"><input type="checkbox" value="1" class="form-control" id="status" name="status" checked placeholder=""> show value </label>
 											
 											 <!--label for="inputEmail4"><input type="radio" value="0" class="form-control" id="status" name="status" placeholder=""> No</label-->
-                                        </div>
+                                        </div> */ ?>
                                       
                                    
 

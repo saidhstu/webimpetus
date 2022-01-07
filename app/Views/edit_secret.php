@@ -49,7 +49,7 @@
                                           
                                          <div class="form-group col-md-12">
                                             <label for="inputPassword4">Secret Value</label>
-                                          <textarea class="form-control" name="key_value" style="width:100%!important;height:250px" ><?=$content->key_value?></textarea> 
+                                          <textarea class="form-control" name="key_value" style="width:100%!important;height:250px" id="key_value">*****************</textarea> 
                                         </div>
                                     
                                    <div class="form-group col-md-12">
@@ -62,11 +62,11 @@
                                         </div>
                                        
 											<div class="form-group col-md-12">
-                                            <label for="inputEmail4">Status</label>
+                                            <label for="inputEmail4"></label>
 											</div>
 											<div class="form-group col-md-12">
 											
-                                             <label for="inputEmail4"><input type="checkbox" value="1" class="form-control" id="status" name="status" <?=$content->status==1?'checked':''?> placeholder="" /> Yes </label>
+                                             <label for="inputEmail4"><input type="checkbox" value="1" class="form-control" id="status" name="status" placeholder="" /> Show secret value </label>
                                         </div>
                                       
                                    
@@ -109,6 +109,16 @@
 		  var fileName = $(this).val().split("\\").pop();
 		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 		});
+		
+		$("#status").on("change", function(){
+			var vall = '<?=base64_encode($content->key_value)?>';
+			if($(this).is(":checked")===true){
+				$('#key_value').val(atob(vall))
+			}else{
+				$('#key_value').val("*************")
+			}
+			//alert($(this).is(":checked"))
+		})
 	</script>
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  

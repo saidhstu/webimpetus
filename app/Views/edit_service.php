@@ -245,11 +245,11 @@
     $('#RunCmd').on('click', function () {
         var Status = $(this).val();
         $.ajax({
-        url: "/dashboard/runcmd",
+        url: "/services/deploy_service/<?=$service->id?>",
         type: "post",
         data: {'data':Status },
         success: function (response) {
-            alert('done');
+            alert(response);
 
 
            // You will get response from your PHP page (what you echo or print)

@@ -61,7 +61,7 @@
                                             <th scope="col">Id</th>
                                             <th scope="col">Key name</th>
 											
-                                            <th scope="col">Key value</th>
+                                            <!--th scope="col">Key value</th-->
                                             
 											<th scope="col">created at</th>
                                             <?php if(!empty($_SESSION['role'])){ ?><th scope="col" width="50">Action</th><?php } ?>
@@ -75,9 +75,9 @@
                                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
                                         <td class="f_s_12 f_w_400"><?= $row['key_name'];?>
 										
-                                        <td class="f_s_12 f_w_400 <!--?=$row['status']==0?'text_color_1':'text_color_2'?--> "><?=$row['status']==0?'XXXXXXXXX':$row['key_value']?>
+                                        <?php /* ?><td class="f_s_12 f_w_400 <!--?=$row['status']==0?'text_color_1':'text_color_2'?--> "><?=$row['status']==0?'XXXXXXXXX':$row['key_value']?>
                                         </td>
-                                        <?php /* ?><td class="f_s_12 f_w_400  ">
+                                        <td class="f_s_12 f_w_400  ">
 										<?php if(!empty($row['image_logo'])) { ?>
                                             <img src="<?='data:image/jpeg;base64,'.$row['image_logo']?>" width="200px">
 										<?php } ?>
