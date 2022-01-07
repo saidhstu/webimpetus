@@ -52,6 +52,14 @@ class Secret_model extends Model
         return $this->db->table($this->table2)->where(['secret_id' => $id])->get()->getResult('array');
     }
 	
+	public function getSecrets($id)
+    { 
+		$this->join('secrets_services', 'secrets.id=secrets_services.secret_id', 'LEFT');			
+		$this->select('secrets.*');		
+			
+		return $this->where(['service_id' => $id])->get()->getResult('array');
+    }
+	
 	public function deleteService($id)
     {
         $query = $this->db->table($this->table2)->delete(array('secret_id' => $id));
