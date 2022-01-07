@@ -80,9 +80,13 @@ class Secrets extends Controller
 			$data = array(
 						'key_name' => $this->request->getPost('key_name'),
 						'status' => $this->request->getPost('status')?$this->request->getPost('status'):0,
-						'services' => implode(',',$this->request->getPost('sid')),
-						'key_value' => $this->request->getPost('key_value'),
-					);					
+						//'services' => implode(',',$this->request->getPost('sid')),
+						//'key_value' => $this->request->getPost('key_value'),
+					);	
+
+			if(strpos($this->request->getPost('key_value'), '********') === false){				
+				$data['key_value'] = $this->request->getPost('key_value');
+			}
 	
 			$this->model->updateData($id, $data);
 			

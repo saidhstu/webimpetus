@@ -8,6 +8,7 @@ use App\Models\Content_model;
 use App\Models\Enquiries_model;
 use App\Models\Blocks_model;
 use App\Models\Gallery_model;
+use App\Models\Secret_model;
 class Api extends BaseController
 {
 	public function __construct()
@@ -20,6 +21,7 @@ class Api extends BaseController
 	  $this->emodel = new Enquiries_model();
 	  $this->bmodel = new Blocks_model();
 	  $this->gmodel = new Gallery_model();
+	  $this->sec_model = new Secret_model();
 	  header('Content-Type: application/json; charset=utf-8');
 	}
 	
@@ -28,7 +30,7 @@ class Api extends BaseController
         echo 'API ....';
     }
 	
-	public function services($id=false)
+	public function services($id=false,$write=false)
     {
 		if($this->request->getVar('q')){
 			$data['data'] = $this->smodel->where(['status' => 1])->like('name', $this->request->getVar('q'))->get()->getResult();
@@ -44,7 +46,9 @@ class Api extends BaseController
 			$data['data'] =$data1;
 		}
 		$data['status'] = 'success';
-        echo json_encode($data); die;
+		if($write==true){
+			return json_encode($data['data']);
+		}else echo json_encode($data); die;
     }
 	
 	public function tenants($id=false)
@@ -120,6 +124,18 @@ class Api extends BaseController
 			$data['data'] = $this->gmodel->like('code', $this->request->getVar('q'))->get()->getResult();
 		}else {
 			$data['data'] = ($id>0)?$this->gmodel->getWhere(['id' => $id])->getRow():$this->gmodel->get()->getResult();
+		}
+		$data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+	
+	
+	public function secrets($id=false)
+    {
+		if($this->request->getVar('q')){
+			$data['data'] = $this->sec_model->like('key_name', $this->request->getVar('q'))->get()->getResult();
+		}else {
+			$data['data'] = ($id>0)?$this->sec_model->getWhere(['id' => $id])->getRow():$this->sec_model->get()->getResult();
 		}
 		$data['status'] = 'success';
         echo json_encode($data); die;

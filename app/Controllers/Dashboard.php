@@ -18,10 +18,7 @@ class Dashboard extends BaseController
         echo view('dashboard', $data);
     }
 	
-	  public function runcmd()
-    {
-    	echo "Hello world";
-    }
+	
 	
 	public function curlcmd(){
 		$url = 'http://localhost:8080/auth/login';

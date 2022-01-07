@@ -5,15 +5,18 @@ use App\Models\Service_model;
 use App\Models\Users_model;
 use App\Models\Tenant_model;
 use App\Models\Cat_model;
-class Services extends Controller
+use App\Models\Secret_model;
+class Services extends Api
 {	
 	public function __construct()
 	{
+		parent::__construct(); 
 		$this->session = \Config\Services::session();
 	  $this->model = new Service_model();
 	  $this->user_model = new Users_model();
 	  $this->tmodel = new Tenant_model();
 	  $this->cmodel = new Cat_model();
+	  $this->secret_model = new Secret_model();
 	}
     public function index()
     {        
@@ -191,4 +194,53 @@ class Services extends Controller
 		 }
 		 
 	}
+	
+	
+	public function deploy_service($uuid=0)
+    {
+		if(!empty($uuid)){
+			$return = true;
+			$enval = getenv('MYSECRET');
+			$this->export_service($uuid);
+			$this->push_service_env($uuid);
+			//exec('cmd', $output, $return);
+			if (!$return) {
+				echo "Command run Successfully";
+			} else {
+				echo "Command not working".$enval;
+			}
+			
+		}else echo "Uuid is empty!!";
+		
+
+    }
+	
+	public function export_service($uuid) 
+	{
+		//export service json same format as provided by the api
+		// url/api/service/uuid.json -> json
+		// write json to to file	
+		$myfile = fopen(FCPATH."tmp/services-".$uuid.".json", "w") or die("Unable to open file!");
+		fwrite($myfile, $this->services($uuid,true));
+		fclose($myfile);		
+	
+	}
+	
+	public function push_service_env($uuid) 
+	{
+		// loop through all secrets of this service 
+		//foreach ();
+		//putenv("secretname", "secretvalue");
+		$secrets = $this->secret_model->getSecrets($uuid);
+		if(!empty($secrets)){
+			foreach($secrets as $key=>$val){
+				putenv($val['key_name']."=".$val['key_value']);
+			}
+		}
+		
+		
+		
+	}
+	
+	
 }
