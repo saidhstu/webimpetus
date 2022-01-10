@@ -11,7 +11,7 @@ REGION=$3
 
 if [ -z ${VERSION} ];
 then
-  echo "webimpetus nginx docker image version not set"
+  echo "webimpetus image version not set"
   exit 1
 fi
 if [ -z ${AWS_PROFILE_NAME} ];
@@ -24,7 +24,7 @@ then
 fi
 
 DOCKER_REG_HUB_USER=tenthmatrix # change repostory, can be changed to match customer repo domain name
-DOCKER_IMAGE_NAME=${DOCKER_REG_HUB_USER}/webimpetus
+DOCKER_IMAGE_NAME=${DOCKER_REG_HUB_USER}/webimpetus-ci4
 #DOCKER_IMAGE_NAME=webimpetus
 
     #TAG=$(git log -1 --pretty=%H) # Tag image same as git commit by default

@@ -1,4 +1,4 @@
-# PULL BASE IMAGE AND PUSH DEPLOYMENT
+# PULL openresty119php74 BASE IMAGE AND PUSH DEPLOYMENT
 FROM docker.io/bwalia/openresty119php74:latest
 
 ADD . /var/www/html/
@@ -15,5 +15,4 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 
 WORKDIR /var/www/html
 
-#RUN cd /var/www/html && composer create-project codeigniter4/appstarter
 RUN cd /var/www/html && composer update
