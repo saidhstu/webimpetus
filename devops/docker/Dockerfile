@@ -3,6 +3,8 @@ FROM docker.io/bwalia/openresty119php74:latest
 
 ADD . /var/www/html/
 
+COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+
 RUN rm -rf /var/www/html/devops/
 RUN rm -rf /var/www/html/*.sql
 RUN rm -rf /var/www/html/buildspec.yaml
