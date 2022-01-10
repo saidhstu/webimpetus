@@ -32,7 +32,7 @@ jobs:
       # Build and push docker image to customer AWS ECR
     - name: Build, tag, and push WebImpetus ci4 image to Amazon ECR
       run: |
-        docker build -f devops/docker/Dockerfile-main -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:latest .
+        docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:latest .
         docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:latest
 
     - name: Slack Notification
