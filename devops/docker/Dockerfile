@@ -1,9 +1,17 @@
 # PULL openresty119php74 BASE IMAGE AND PUSH DEPLOYMENT
 FROM docker.io/bwalia/openresty119php74:latest
 
+COPY devops/docker/php-fpm-7.conf /usr/local/etc/php-fpm.conf
+COPY devops/docker/php.ini /usr/local/etc/php/conf.d/php.ini
+
+#Prepare dir for PHP unix socket etc
 COPY devops/docker/setup.sh /
 RUN chmod +x /setup.sh
 RUN sh /setup.sh
+
+WORKDIR /var/www/html
+
+RUN mkdir -p /var/php
 
 ADD . /var/www/html/
 
@@ -18,8 +26,6 @@ RUN rm -rf /var/www/html/buildspec.yaml
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && php -r "unlink('composer-setup.php');"
-
-WORKDIR /var/www/html
 
 RUN cd /var/www/html && composer update
 
