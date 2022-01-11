@@ -3,7 +3,7 @@
 replicaCount: 1
 
 image:
-  repository: 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus
+  repository: 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -45,7 +45,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: chart-example.local
+    - host: ci4baseimagetest.webimpetus.dev
       paths:
         - path: /
           pathType: ImplementationSpecific
