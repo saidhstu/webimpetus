@@ -21,6 +21,8 @@ RUN cd /var/www/html && composer update
 
 RUN mv /var/www/html/env /var/www/html/.env
 
+RUN chown www-data:root -R /var/www/html/
+RUN chmod 775 -R /var/www/html/
 RUN chmod 777 -Rv /var/www/html/writable
 
 RUN mkdir -p /var/php
