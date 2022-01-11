@@ -51,8 +51,6 @@
                                                <?php endforeach;?>
                                             </select>
                                         </div>
-                                        
-                                       
                                     </div>
 									
 									
@@ -76,10 +74,6 @@
                                                <?php endforeach;?>
                                             </select>
                                         </div>
-										
-										
-                                        
-                                       
                                     </div>
 									
 									
@@ -131,17 +125,74 @@
                                                 });
                                             </script>
                                         </div>
-										
-										
-										
-										 
-									
-									
                                      </div>
-									 
-									 
-									 
-<div class="form-row">
+									
+									<?php
+										if(count($secret_services) > 0){
+									?>
+									<div class="form-row addresscontainer">
+										<?php
+											for($jak_i=0; $jak_i<count($secret_services); $jak_i++){
+												$new_id = $jak_i + 1;
+										?>
+										<div class="form-row col-md-12" id="office_address_<?php echo $new_id; ?>">
+											<div class="form-group col-md-6">
+												<label for="inputEmail4">Secret Key</label>
+												<input type="text" class="form-control" id="key_name_<?php echo $new_id; ?>" name="key_name[]" placeholder="" value="<?=$secret_services[$jak_i]['key_name'] ?>">
+											</div>
+											<div class="form-group col-md-5">
+												<label for="inputEmail4">Secret Value</label>
+												<input type="text" class="form-control" id="key_value_<?php echo $new_id; ?>" name="key_value[]" placeholder="" value="<?=$secret_services[$jak_i]['key_value'] ?>">
+											</div>
+											<?php
+												if($jak_i == 0){
+											?>
+												<div class="form-group col-md-1 change">
+													<button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+												</div>
+											<?php
+												}else{
+											?>
+												<div class="form-group col-md-1 change">
+													<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>
+												</div>
+											<?php
+												}
+											?>
+										</div>
+										<?php
+											}
+										?>
+									</div>
+									
+									<input type="hidden" value="<?php echo count($secret_services); ?>" id="total_secret_services" name="total_secret_services">
+									
+									<?php
+										}else{
+									?>
+										<div class="form-row" id="office_address_1">
+											<div class="form-group col-md-6">
+												<label for="inputEmail4">Secret Key</label>
+												<input type="text" class="form-control" id="key_name_1" name="key_name[]" placeholder="" value="">
+											</div>
+											<div class="form-group col-md-5">
+												<label for="inputEmail4">Secret Value</label>
+												<input type="text" class="form-control" id="key_value_1" name="key_value[]" placeholder="" value="">
+											</div>
+											<div class="form-group col-md-1 change">
+												<button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+											</div>
+										</div>
+										<div class="form-row addresscontainer">
+										
+										</div>
+										<input type="hidden" value="1" id="total_secret_services" name="total_secret_services">
+									<?php
+										}
+									?>
+									
+									
+									<!-- <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="inputPassword4">nginx config</label>
                                             <textarea type="text" class="form-control" id="nginx_config" name="nginx_config" placeholder=""  value=""><?=$service->nginx_config ?></textarea>
@@ -151,30 +202,18 @@
                                             <textarea type="text" class="form-control" id="varnish_config" name="varnish_config" placeholder=""  value=""><?=$service->varnish_config ?></textarea>
                                         </div>                                      
                                     </div>                                    
-                                   
-
-
-                                    
-                                  
+                                   ---> 
                                         
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                    
                                 </form>
                                 <div class="btndata">
-                      <button type="button" id="RunCmd" class="btn btn-primary page_title_right">Run CMD</button>
-                </div>
+									  <button type="button" id="RunCmd" class="btn btn-primary page_title_right">Run CMD</button>
+								</div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
-
-                
-              
-
-             
-               
             </div>
         </div>
     </div>
@@ -259,4 +298,38 @@
         }
     });
     });
+	
+	
+	$(document).ready(function() {
+
+        var max_fields_limit = 10; //set limit for maximum input fields
+		var x = $('#total_secret_services').val(); //initialize counter for text box
+		$('.add').click(function(e){ //click event on add more fields button having class add_more_button
+			// e.preventDefault();
+			if(x < max_fields_limit){ //check conditions
+				x++; //counter increment
+				
+				$('.addresscontainer').append('<div class="form-row col-md-12" id="office_address_'+x+'"><div class="form-group col-md-6">'+
+												'<label for="inputSecretKey">Secret Key</label>'+
+												'<input type="text" class="form-control" id="key_name_'+x+'" name="key_name[]" placeholder="" value="">'+
+											'</div>'+
+											'<div class="form-group col-md-5">'+
+												'<label for="inputSecretValue">Secret Value</label>'+
+												'<input type="text" class="form-control" id="key_value_'+x+'" name="key_value[]" placeholder="" value="">'+
+											'</div>'+
+											'<div class="form-group col-md-1 change">'+
+												'<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>'+
+											'</div></div>'
+											);
+				
+				
+			}
+			
+			$('.deleteaddress').on("click", function(e){ //user click on remove text links
+				e.preventDefault(); 
+				$(this).parent().parent().remove();
+				x--;
+			})
+		});   
+	});
 </script>

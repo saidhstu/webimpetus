@@ -47,6 +47,11 @@ class Secret_model extends Model
         return $query;
     }
 	
+	public function getServicesFromSecret($id)
+    {        
+        return $this->db->table($this->table)->where(['service_id' => $id])->get()->getResult('array');
+    }
+	
 	public function getServices($id)
     {        
         return $this->db->table($this->table2)->where(['secret_id' => $id])->get()->getResult('array');
@@ -63,6 +68,12 @@ class Secret_model extends Model
 	public function deleteService($id)
     {
         $query = $this->db->table($this->table2)->delete(array('secret_id' => $id));
+        return $query;
+    }
+	
+	public function deleteServiceFromServiceID($id)
+    {
+        $query = $this->db->table($this->table)->delete(array('service_id' => $id));
         return $query;
     }
 }

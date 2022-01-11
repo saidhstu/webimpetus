@@ -49,10 +49,7 @@
                                                <?php endforeach;?>
                                             </select>
                                         </div>
-                                        
-                                       
                                     </div>
-									
 									
 									<div class="form-row">
                                         <div class="form-group col-md-6">
@@ -64,7 +61,6 @@
                                                <?php endforeach;?>
                                             </select>
                                         </div>
-										
 										<div class="form-group col-md-6">
                                             <label for="inputState">Choose Tenant</label>
                                             <select id="tid" name="tid" class="form-control">
@@ -74,12 +70,7 @@
                                                <?php endforeach;?>
                                             </select>
                                         </div>
-										
-										
-                                        
-                                       
                                     </div>
-									
 									
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
@@ -121,17 +112,28 @@
                                                 });
                                             </script>
                                         </div>
-										
-										
-										
-										 
-									
-									
                                      </div>
-									 
-									 
-									 
-<div class="form-row">
+									
+									<div class="form-row" id="office_address_1">
+										<div class="form-group col-md-6">
+											<label for="inputEmail4">Secret Key</label>
+											<input type="text" class="form-control" id="key_name_1" name="key_name[]" placeholder="" value="">
+										</div>
+										<div class="form-group col-md-5">
+											<label for="inputEmail4">Secret Value</label>
+											<input type="text" class="form-control" id="key_value_1" name="key_value[]" placeholder="" value="">
+										</div>
+										<div class="form-group col-md-1 change">
+											<button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+										</div>
+									</div>
+									<div class="form-row addresscontainer">
+									
+									</div>
+									<input type="hidden" value="1" id="total_secret_services" name="total_secret_services">
+									
+									<!-- 
+									<div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="inputPassword4">nginx config</label>
                                             <textarea class="form-control" id="nginx_config" name="nginx_config" placeholder=""></textarea>
@@ -141,14 +143,7 @@
                                             <textarea type="text" class="form-control" id="varnish_config" name="varnish_config" placeholder=""></textarea>
                                         </div>                                      
                                     </div>
-
-
-                                    
-                                   
-
-
-                                    
-                                  
+									-->
 
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
@@ -235,4 +230,38 @@
     },
   })
 }
+
+
+	$(document).ready(function() {
+	
+        var max_fields_limit = 10; //set limit for maximum input fields
+		var x = $('#total_secret_services').val(); //initialize counter for text box
+		$('.add').click(function(e){ //click event on add more fields button having class add_more_button
+			// e.preventDefault();
+			if(x < max_fields_limit){ //check conditions
+				x++; //counter increment
+				
+				$('.addresscontainer').append('<div class="form-row col-md-12" id="office_address_'+x+'"><div class="form-group col-md-6">'+
+												'<label for="inputSecretKey">Secret Key</label>'+
+												'<input type="text" class="form-control" id="key_name_'+x+'" name="key_name[]" placeholder="" value="">'+
+											'</div>'+
+											'<div class="form-group col-md-5">'+
+												'<label for="inputSecretValue">Secret Value</label>'+
+												'<input type="text" class="form-control" id="key_value_'+x+'" name="key_value[]" placeholder="" value="">'+
+											'</div>'+
+											'<div class="form-group col-md-1 change">'+
+												'<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>'+
+											'</div></div>'
+											);
+				
+				
+			}
+			
+			$('.deleteaddress').on("click", function(e){ //user click on remove text links
+				e.preventDefault(); 
+				$(this).parent().parent().remove();
+				x--;
+			})
+		});   
+	});
 </script>

@@ -21,7 +21,7 @@ class Services extends Api
     public function index()
     {        
         $data['services'] = $this->model->getRows();
-        echo view('services',$data);
+		echo view('services',$data);
     }
 	
 	public function add()
@@ -37,44 +37,57 @@ class Services extends Api
 		//echo '<pre>';print_r($this->request); die;        
 		if(!empty($this->request->getPost('code'))){		
 
-				   // File path to display preview
-					//$filepath = $this->upload('file');	
-					//echo '<pre>'; print_r($this->request->getFile('file')); die;
-					//$filepath2 = $this->upload('file2');		   
-				   
-				   $data = array(
-						'name'  => $this->request->getPost('name'),
-						'code' => $this->request->getPost('code'),				
-						'notes' => $this->request->getPost('notes'),	
-						'uuid' => $this->request->getPost('uuid'),
-						'nginx_config' => $this->request->getPost('nginx_config'),
-						'varnish_config' => $this->request->getPost('varnish_config'),
-						/* 'image_logo' => $filepath,
-						'image_brand' => $filepath2, */
-						'cid' => $this->request->getPost('cid'),
-						'tid' => $this->request->getPost('tid'),
-					);
-					
-					if($_FILES['file']['tmp_name']) {		
-						//echo '<pre>';print_r($_FILES['file']); die;											
-						$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name']));				
-						$data['image_logo'] = $imgData;
-					 }
-					 
-					 if($_FILES['file2']['tmp_name']) {		
-						//echo '<pre>';print_r($_FILES['file']); die;											
-						$imgData2 = base64_encode(file_get_contents($_FILES['file2']['tmp_name']));				
-						$data['image_brand'] = $imgData2;
-					 }
+		   // File path to display preview
+			//$filepath = $this->upload('file');	
+			//echo '<pre>'; print_r($this->request->getFile('file')); die;
+			//$filepath2 = $this->upload('file2');		   
+		   
+		   $data = array(
+				'name'  => $this->request->getPost('name'),
+				'code' => $this->request->getPost('code'),				
+				'notes' => $this->request->getPost('notes'),	
+				'uuid' => $this->request->getPost('uuid'),
+				//'nginx_config' => $this->request->getPost('nginx_config'),
+				//'varnish_config' => $this->request->getPost('varnish_config'),
+				/* 'image_logo' => $filepath,
+				'image_brand' => $filepath2, */
+				'cid' => $this->request->getPost('cid'),
+				'tid' => $this->request->getPost('tid'),
+			);
+			
+			if($_FILES['file']['tmp_name']) {		
+				//echo '<pre>';print_r($_FILES['file']); die;											
+				$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name']));				
+				$data['image_logo'] = $imgData;
+			 }
 			 
-			 
-					$this->model->saveData($data);	
-					// Set Session
-				   session()->setFlashdata('message', 'Data entered Successfully!');
-				   session()->setFlashdata('alert-class', 'alert-success');
-				   					
-
-		 }	 
+			 if($_FILES['file2']['tmp_name']) {		
+				//echo '<pre>';print_r($_FILES['file']); die;											
+				$imgData2 = base64_encode(file_get_contents($_FILES['file2']['tmp_name']));				
+				$data['image_brand'] = $imgData2;
+			 }
+			
+			$this->model->saveData($data);	
+			
+		//	Sanket Changes start 11th January 2022
+		$service_id = $this->model->getLastInserted();
+		
+		$key_name = $this->request->getPost('key_name');
+		$key_value = $this->request->getPost('key_value');
+		
+		foreach ($key_name as $key => $value) {
+			$address_data['service_id'] = $service_id;
+			$address_data['key_name'] = $key_name[$key];
+			$address_data['key_value'] = $key_value[$key];
+			$address_data['status'] = 1;
+			
+			$this->secret_model->saveData($address_data);
+		}
+		//	Sanket Changes end 11th January 2022
+			// Set Session
+		   session()->setFlashdata('message', 'Data entered Successfully!');
+		   session()->setFlashdata('alert-class', 'alert-success');
+		}	 
         return redirect()->to('/services');
     }
 	
@@ -84,6 +97,8 @@ class Services extends Api
 		$data['tenants'] = $this->tmodel->getRows();
 		$data['category'] = $this->cmodel->getRows();
 		$data['users'] = $this->user_model->getUser();
+		$data['secret_services'] = $this->secret_model->getServicesFromSecret($id);
+        
         echo view('edit_service', $data);
     }
 	
@@ -101,34 +116,51 @@ class Services extends Api
 	}
 	
     public function update()
-    {        
+    {
         $id = $this->request->getPost('id');
+		
 		if(!empty($id)){
         $data = array(
-						'name'  => $this->request->getPost('name'),
-						'code' => $this->request->getPost('code'),				
-						'notes' => $this->request->getPost('notes'),	
-						'uuid' => $this->request->getPost('uuid'),
-						'nginx_config' => $this->request->getPost('nginx_config'),
-						'varnish_config' => $this->request->getPost('varnish_config'),
-						'cid' => $this->request->getPost('cid'),
-						'tid' => $this->request->getPost('tid'),
-						//'image_logo' => $filepath,
-						//'image_brand' => $filepath2
-					);
-					
-					if($_FILES['file']['tmp_name']) {		
-						//echo '<pre>';print_r($_FILES['file']); die;											
-						$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name']));				
-						$data['image_logo'] = $imgData;
-					 }
-					 
-					 if($_FILES['file2']['tmp_name']) {		
-						//echo '<pre>';print_r($_FILES['file']); die;											
-						$imgData2 = base64_encode(file_get_contents($_FILES['file2']['tmp_name']));				
-						$data['image_brand'] = $imgData2;
-					 }
+			'name'  => $this->request->getPost('name'),
+			'code' => $this->request->getPost('code'),				
+			'notes' => $this->request->getPost('notes'),	
+			'uuid' => $this->request->getPost('uuid'),
+			//'nginx_config' => $this->request->getPost('nginx_config'),
+			//'varnish_config' => $this->request->getPost('varnish_config'),
+			'cid' => $this->request->getPost('cid'),
+			'tid' => $this->request->getPost('tid'),
+			//'image_logo' => $filepath,
+			//'image_brand' => $filepath2
+		);
+		
+		if($_FILES['file']['tmp_name']) {		
+			//echo '<pre>';print_r($_FILES['file']); die;											
+			$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name']));				
+			$data['image_logo'] = $imgData;
+		 }
+		 
+		 if($_FILES['file2']['tmp_name']) {		
+			//echo '<pre>';print_r($_FILES['file']); die;											
+			$imgData2 = base64_encode(file_get_contents($_FILES['file2']['tmp_name']));				
+			$data['image_brand'] = $imgData2;
+		 }
         $this->model->updateData($id,$data);
+		
+		//	Sanket Changes start 11th January 2022
+		$this->secret_model->deleteServiceFromServiceID($id);
+		
+		$key_name = $this->request->getPost('key_name');
+		$key_value = $this->request->getPost('key_value');
+		
+		foreach ($key_name as $key => $value) {
+			$address_data['service_id'] = $id;
+			$address_data['key_name'] = $key_name[$key];
+			$address_data['key_value'] = $key_value[$key];
+			$address_data['status'] = 1;
+			
+			$this->secret_model->saveData($address_data);
+		}
+		//	Sanket Changes end 11th January 2022
 		
 		session()->setFlashdata('message', 'Data updated Successfully!');
 		session()->setFlashdata('alert-class', 'alert-success');
@@ -203,7 +235,7 @@ class Services extends Api
 			$enval = getenv('MYSECRET');
 			$this->export_service($uuid);
 			$this->push_service_env($uuid);
-			//exec('cmd', $output, $return);
+			exec('cmd', $output, $return);
 			if (!$return) {
 				echo "Command run Successfully";
 			} else {

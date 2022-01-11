@@ -50,4 +50,8 @@ class Service_model extends Model
 		$query = $this->db->table($this->table)->update($data, array('id' => $id));
 		return $query;
 	}
+	
+	public function getLastInserted() {
+		return $this->db->insertID();
+	}
 }
