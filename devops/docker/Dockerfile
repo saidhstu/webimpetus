@@ -1,6 +1,10 @@
 # PULL openresty119php74 BASE IMAGE AND PUSH DEPLOYMENT
 FROM docker.io/bwalia/openresty119php74:latest
 
+COPY devops/docker/setup.sh /
+RUN chmod +x /setup.sh
+RUN sh /setup.sh
+
 ADD . /var/www/html/
 
 COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
