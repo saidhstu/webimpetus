@@ -16,6 +16,11 @@ jobs:
     steps:
     - name: Check out this repo code
       uses: actions/checkout@v2
+
+    - name: short-sha
+      uses: benjlevesque/short-sha@v1.2
+      with:
+        length: 6
         
       # Runs a single command using the runners shell
     - name: Configure AWS credentials
@@ -28,6 +33,14 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+
+    - run: echo $SHA
+      env:
+       SHA: ${{ steps.short-sha.outputs.sha }}
+
+    - run: echo $SHA
+      env:
+       SHA: ${{ env.SHA }}
      
       # Build and push docker image to customer AWS ECR
     - name: Build, tag, and push WebImpetus ci4 image to Amazon ECR
