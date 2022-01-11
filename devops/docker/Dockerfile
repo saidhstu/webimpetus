@@ -18,3 +18,17 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 WORKDIR /var/www/html
 
 RUN cd /var/www/html && composer update
+
+RUN mv /var/www/html/env /var/www/html/.env
+
+RUN chmod 777 -Rv /var/www/html/writable
+
+RUN mkdir -p /var/php
+
+RUN apk add supervisor
+
+COPY devops/docker/supervisord.conf /etc/
+
+ENTRYPOINT /usr/bin/supervisord -c /etc/supervisord.conf
+
+STOPSIGNAL SIGQUIT
