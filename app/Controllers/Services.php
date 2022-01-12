@@ -29,6 +29,9 @@ class Services extends Api
 		$data['users'] = $this->user_model->getUser();
 		$data['tenants'] = $this->tmodel->getRows();
 		$data['category'] = $this->cmodel->getRows();
+		
+		$data['defaultSecret'] = $this->secret_model->getDefaultRows();
+		
         echo view('add_service',$data);
     }
  
@@ -72,17 +75,32 @@ class Services extends Api
 		//	Sanket Changes start 11th January 2022
 		$service_id = $this->model->getLastInserted();
 		
+		$default_key_name = $this->request->getPost('default_key_name');
+		$default_key_value = $this->request->getPost('default_key_value');
+		$jak_increment_val = 1;
+		foreach ($default_key_name as $key => $value) {
+			$def_data['service_id'] = $service_id;
+			$def_data['secrets_default_id'] = $jak_increment_val;
+			$def_data['secrets_default_value'] = $default_key_value[$key];
+			
+			$this->secret_model->saveDefaultData($def_data);
+			$jak_increment_val++;
+		}
+		
 		$key_name = $this->request->getPost('key_name');
 		$key_value = $this->request->getPost('key_value');
 		
-		foreach ($key_name as $key => $value) {
-			$address_data['service_id'] = $service_id;
-			$address_data['key_name'] = $key_name[$key];
-			$address_data['key_value'] = $key_value[$key];
-			$address_data['status'] = 1;
-			
-			$this->secret_model->saveData($address_data);
+		if(count($key_name) > 0){
+			foreach ($key_name as $key => $value) {
+				$address_data['service_id'] = $service_id;
+				$address_data['key_name'] = $key_name[$key];
+				$address_data['key_value'] = $key_value[$key];
+				$address_data['status'] = 1;
+				
+				$this->secret_model->saveData($address_data);
+			}
 		}
+		
 		//	Sanket Changes end 11th January 2022
 			// Set Session
 		   session()->setFlashdata('message', 'Data entered Successfully!');
@@ -99,6 +117,9 @@ class Services extends Api
 		$data['users'] = $this->user_model->getUser();
 		$data['secret_services'] = $this->secret_model->getServicesFromSecret($id);
         
+		$data['defaultSecret'] = $this->secret_model->getDefaultRows();
+		$data['default_secrets_services'] = $this->secret_model->getServicesFromSecret2($id);
+		
         echo view('edit_service', $data);
     }
 	
@@ -160,6 +181,16 @@ class Services extends Api
 			
 			$this->secret_model->saveData($address_data);
 		}
+		
+		$default_key_name = $this->request->getPost('default_key_name');
+		$default_key_value = $this->request->getPost('default_key_value');
+		$jak_increment_val = 1;
+		foreach ($default_key_name as $key => $value) {
+			$def_data['secrets_default_value'] = $default_key_value[$key];
+			
+			$this->secret_model->updateDefaultData($id, $jak_increment_val, $def_data);
+			$jak_increment_val++;
+		}
 		//	Sanket Changes end 11th January 2022
 		
 		session()->setFlashdata('message', 'Data updated Successfully!');
@@ -174,13 +205,13 @@ class Services extends Api
 	
 	public function status()
     {  
-	if(!empty($id = $this->request->getPost('id'))){
-		$data = array(            
-			'status' => $this->request->getPost('status')
-        );
-        $this->model->updateData($id,$data);
-	}
-	echo '1';
+		if(!empty($id = $this->request->getPost('id'))){
+			$data = array(            
+				'status' => $this->request->getPost('status')
+			);
+			$this->model->updateData($id,$data);
+		}
+		echo '1';
 	}
 	
 	public function delete($id)

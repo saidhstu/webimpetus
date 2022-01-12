@@ -5,6 +5,7 @@ class Secret_model extends Model
 {
     protected $table = 'secrets';
 	protected $table2 = 'secrets_services';
+	protected $table3 = 'secrets_default';
      
     public function getRows($id = false)
     {
@@ -15,9 +16,20 @@ class Secret_model extends Model
         }   
     }
 	
+	public function getDefaultRows($id = false)
+    {
+		return $this->db->table($this->table3)->get()->getResult('array');
+    }
+	
 	public function saveData($data)
     {
         $query = $this->db->table($this->table)->insert($data);
+        return $query;
+    }
+	
+	public function saveDefaultData($data)
+    {
+        $query = $this->db->table($this->table2)->insert($data);
         return $query;
     }
 	
@@ -30,6 +42,12 @@ class Secret_model extends Model
 	public function updateData($id = null, $data = null)
 	{
 		$query = $this->db->table($this->table)->update($data, array('id' => $id));
+		return $query;
+	}
+	
+	public function updateDefaultData($service_id = null, $secrets_default_id = null, $data = null)
+	{
+		$query = $this->db->table($this->table2)->update($data, array('service_id' => $service_id, 'secrets_default_id' => $secrets_default_id));
 		return $query;
 	}
 	
@@ -50,6 +68,11 @@ class Secret_model extends Model
 	public function getServicesFromSecret($id)
     {        
         return $this->db->table($this->table)->where(['service_id' => $id])->get()->getResult('array');
+    }
+	
+	public function getServicesFromSecret2($id)
+    {        
+        return $this->db->table($this->table2)->where(['service_id' => $id])->get()->getResult('array');
     }
 	
 	public function getServices($id)

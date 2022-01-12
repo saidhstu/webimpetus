@@ -114,6 +114,28 @@
                                         </div>
                                      </div>
 									
+									
+									<div class="form-row">
+										<?php
+											for($jak_i=0; $jak_i<count($defaultSecret); $jak_i++){
+												$new_id = $jak_i + 1;
+										?>
+										<div class="form-row col-md-12">
+											<div class="form-group col-md-6">
+												<label for="inputEmail4">Secret Key</label>
+												<input type="text" class="form-control" id="default_key_name_<?php echo $new_id; ?>" name="default_key_name[]" readonly placeholder="" value="<?=$defaultSecret[$jak_i]['secrets_default_key'] ?>">
+											</div>
+											<div class="form-group col-md-6">
+												<label for="inputEmail4">Secret Value</label>
+												<input type="text" class="form-control" id="default_key_value_<?php echo $new_id; ?>" name="default_key_value[]" placeholder="" value="">
+											</div>
+										</div>
+										<?php
+											}
+										?>
+									</div>
+									
+									
 									<div class="form-row" id="office_address_1">
 										<div class="form-group col-md-6">
 											<label for="inputEmail4">Secret Key</label>
