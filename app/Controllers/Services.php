@@ -118,8 +118,8 @@ class Services extends Api
 		$data['secret_services'] = $this->secret_model->getServicesFromSecret($id);
         
 		$data['defaultSecret'] = $this->secret_model->getDefaultRows();
-		$data['default_secrets_services'] = $this->secret_model->getServicesFromSecret2($id);
-		
+		echo $data['default_secrets_services'] = $this->secret_model->getServicesFromSecret2($id);
+		die();
         echo view('edit_service', $data);
     }
 	
