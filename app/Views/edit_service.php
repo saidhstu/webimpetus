@@ -131,6 +131,9 @@
 										<?php
 											for($jak_i=0; $jak_i<count($defaultSecret); $jak_i++){
 												$new_id = $jak_i + 1;
+												
+												if(empty($default_secrets_services[$jak_i]['secrets_default_value']))
+													$default_secrets_services[$jak_i]['secrets_default_value'] = '';
 										?>
 										<div class="form-row col-md-12">
 											<div class="form-group col-md-6">
