@@ -99,4 +99,16 @@ class Secret_model extends Model
         $query = $this->db->table($this->table)->delete(array('service_id' => $id));
         return $query;
     }
+	
+	public function getSecretsForDeployService($id)
+    {
+		$this->join('secrets_services', 'secrets_services.service_id=secrets.service_id', 'LEFT');
+		$this->join('secrets_default', 'secrets_default.id=secrets_services.secrets_default_id', 'LEFT');
+		$this->groupBy('secrets_default.id');
+		$this->orderBy('secrets_default.id');
+		$this->select('secrets_services.*');
+		$this->select('secrets_default.*');
+		
+		return $this->where(['secrets_services.service_id' => $id])->get()->getResult('array');
+    }
 }

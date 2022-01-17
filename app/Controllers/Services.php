@@ -6,17 +6,20 @@ use App\Models\Users_model;
 use App\Models\Tenant_model;
 use App\Models\Cat_model;
 use App\Models\Secret_model;
+use App\Models\Template_model;
+
 class Services extends Api
 {	
 	public function __construct()
 	{
 		parent::__construct(); 
 		$this->session = \Config\Services::session();
-	  $this->model = new Service_model();
-	  $this->user_model = new Users_model();
-	  $this->tmodel = new Tenant_model();
-	  $this->cmodel = new Cat_model();
-	  $this->secret_model = new Secret_model();
+		$this->model = new Service_model();
+		$this->user_model = new Users_model();
+		$this->tmodel = new Tenant_model();
+		$this->cmodel = new Cat_model();
+		$this->secret_model = new Secret_model();
+		$this->template_model = new Template_model();
 	}
     public function index()
     {        
@@ -123,7 +126,7 @@ class Services extends Api
         echo view('edit_service', $data);
     }
 	
-	public function rmimg($type="", $id)
+	/*public function rmimg($type="", $id)
     {
 		if(!empty($id)){
 			$data[$type] = "";
@@ -134,7 +137,7 @@ class Services extends Api
 		}
 		return redirect()->to('/services/edit/'.$id);
 		
-	}
+	}*/
 	
     public function update()
     {
@@ -258,14 +261,18 @@ class Services extends Api
 		 
 	}
 	
-	
 	public function deploy_service($uuid=0)
     {
 		if(!empty($uuid)){
 			$return = true;
-			$enval = getenv('MYSECRET');
+			//$enval = getenv('MYSECRET');
+			
 			$this->export_service($uuid);
-			$this->push_service_env($uuid);
+			
+			//$this->push_service_env($uuid);
+			
+			$this->gen_service_env($uuid);
+			
 			exec('cmd', $output, $return);
 			if (!$return) {
 				echo "Command run Successfully";
@@ -275,7 +282,6 @@ class Services extends Api
 			
 		}else echo "Uuid is empty!!";
 		
-
     }
 	
 	public function export_service($uuid) 
@@ -283,10 +289,11 @@ class Services extends Api
 		//export service json same format as provided by the api
 		// url/api/service/uuid.json -> json
 		// write json to to file	
+		
 		$myfile = fopen(FCPATH."tmp/services-".$uuid.".json", "w") or die("Unable to open file!");
+		
 		fwrite($myfile, $this->services($uuid,true));
-		fclose($myfile);		
-	
+		fclose($myfile);
 	}
 	
 	public function push_service_env($uuid) 
@@ -300,10 +307,53 @@ class Services extends Api
 				putenv($val['key_name']."=".$val['key_value']);
 			}
 		}
-		
-		
-		
 	}
 	
-	
+	public function gen_service_env($uuid) 
+	{
+		//	From Default Secret Services
+		$get_template = $this->template_model->getRows('1')->getRow();
+		$template_content = $get_template->template_content;
+		
+		$secrets = $this->secret_model->getSecretsForDeployService($uuid);
+		$jak_i=1;
+		if(!empty($secrets)){
+			
+			for($jak_j=0; $jak_j<count($secrets); $jak_j++)
+			{
+				$template_content = str_replace('[[variable_'.$jak_i.']]',$secrets[$jak_j]['secrets_default_key'],$template_content);
+				$template_content = str_replace('[[value_'.$jak_i.']]',$secrets[$jak_j]['secrets_default_value'],$template_content);
+				
+				$jak_i++;
+			}
+		}
+		$template_content = $template_content.PHP_EOL;
+		$myfile_2 = fopen(FCPATH."tmp/services_env-".$uuid, "w") or die("Unable to open file!");
+		fwrite($myfile_2, $template_content);
+		fclose($myfile_2);
+		
+		//	From User Define Secret Services
+		$get_template = $this->template_model->getRows('1')->getRow();
+		$template_content = $get_template->template_content;
+		
+		$service_secrets = $this->secret_model->getServicesFromSecret($uuid);
+		$jak_i=1;
+		
+		if(!empty($service_secrets)){
+			
+			for($jak_j=0; $jak_j<count($service_secrets); $jak_j++)
+			{
+				if($service_secrets[$jak_j]['key_name'] != '')
+				{
+					$template_content = str_replace('[[variable_'.$jak_i.']]',$service_secrets[$jak_j]['key_name'],$template_content);
+					$template_content = str_replace('[[value_'.$jak_i.']]',$service_secrets[$jak_j]['key_value'],$template_content);
+				}
+				$jak_i++;
+			}
+		}
+		
+		$myfile_3 = fopen(FCPATH."tmp/services_env-".$uuid, "a") or die("Unable to open file!");
+		fwrite($myfile_3, $template_content);
+		fclose($myfile_3);
+	}
 }
