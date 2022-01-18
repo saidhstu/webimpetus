@@ -1,6 +1,8 @@
 # PULL openresty119php74 BASE IMAGE AND PUSH DEPLOYMENT
 FROM docker.io/bwalia/openresty119php74:latest
 
+WORKDIR /tmp
+
 #Install kubectl and helmchart binaries
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl \
     chmod +x ./kubectl \
