@@ -81,7 +81,7 @@ class Services extends Api
 		$service_id = $this->model->getLastInserted();
 		
 //BW
-$default_secrets_template = $this->$meta_model->getRowsByCode('service_default_secret');
+$default_secrets_template = $this->meta_model->getRowsByCode('service_default_secret');
 
 foreach ($default_secrets_template as $key => $value) {
 	$default_meta_data['key_name'] = $value['meta_key'];
