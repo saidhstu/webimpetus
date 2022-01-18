@@ -21,11 +21,11 @@ class Secret_model extends Model
         return $query;
     }
 	
-	public function saveDefaultData($data)
-    {
-        $query = $this->db->table($this->table2)->insert($data);
-        return $query;
-    }
+	// public function saveDefaultData($data)
+    // {
+    //     $query = $this->db->table($this->table2)->insert($data);
+    //     return $query;
+    // }
 	
 	public function deleteData($id)
     {
@@ -38,13 +38,7 @@ class Secret_model extends Model
 		$query = $this->db->table($this->table)->update($data, array('id' => $id));
 		return $query;
 	}
-	
-	public function updateDefaultData($service_id = null, $secrets_default_id = null, $data = null)
-	{
-		$query = $this->db->table($this->table2)->update($data, array('service_id' => $service_id, 'secrets_default_id' => $secrets_default_id));
-		return $query;
-	}
-	
+		
 	public function getSecret($code=""){
 		return !empty($this->select('key_value')->getWhere(['key_name' => $code])->getRow())?$this->select('key_value')->getWhere(['key_name' => $code])->getRow()->text:'';
 	}
@@ -85,7 +79,7 @@ class Secret_model extends Model
 	
 	public function deleteServiceFromServiceID($id)
     {
-        $query = $this->db->table($this->table)->delete(array('service_id' => $id));
+        $query = $this->db->table($this->table2)->delete(array('service_id' => $id));
         return $query;
     }
 	
