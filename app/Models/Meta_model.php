@@ -13,7 +13,16 @@ class Meta_model extends Model
             return $this->getWhere(['meta_key' => $id]);
         }   
     }
-	
+
+	public function getRowsByCode($code = '')
+    {
+        if($code === ''){
+            return false;
+        }else{
+            return $this->getWhere(['code=' => $code]);
+        }   
+    }
+
 	public function saveData($data)
     {
         $query = $this->db->table($this->table)->insert($data);

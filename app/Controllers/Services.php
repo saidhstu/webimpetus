@@ -7,6 +7,7 @@ use App\Models\Tenant_model;
 use App\Models\Cat_model;
 use App\Models\Secret_model;
 use App\Models\Template_model;
+use App\Models\Meta_model;
 
 class Services extends Api
 {	
@@ -20,6 +21,7 @@ class Services extends Api
 		$this->cmodel = new Cat_model();
 		$this->secret_model = new Secret_model();
 		$this->template_model = new Template_model();
+		$this->meta_model = new Meta_model();
 	}
     public function index()
     {        
@@ -78,6 +80,24 @@ class Services extends Api
 		//	Sanket Changes start 11th January 2022
 		$service_id = $this->model->getLastInserted();
 		
+//BW
+$default_secrets_template = $this->$meta_model->getRowsByCode('service_default_secret');
+
+foreach ($default_secrets_template as $key => $value) {
+	$default_meta_data['key_name'] = $value['meta_key'];
+	$default_meta_data['key_value'] = $value['meta_value'];
+	$default_meta_data['status'] = 1;
+
+	$this->secret_model->saveData($default_meta_data);
+	$secret_id = $this->secret_model->getLastInserted();
+	$dataRelated['secret_id'] = $secret_id;
+	$dataRelated['service_id'] = $service_id;
+
+	$this->secret_model->saveSecretRelatedData($dataRelated);	
+}
+
+//BW
+
 		// $default_key_name = $this->request->getPost('default_key_name');
 		// $default_key_value = $this->request->getPost('default_key_value');
 		// $jak_increment_val = 1;
@@ -95,7 +115,7 @@ class Services extends Api
 		
 		if(count($key_name) > 0){
 			foreach ($key_name as $key => $value) {
-				//$address_data['service_id'] = $service_id;
+				$address_data['service_id'] = $service_id;
 				$address_data['key_name'] = $key_name[$key];
 				$address_data['key_value'] = $key_value[$key];
 				$address_data['status'] = 1;
@@ -184,10 +204,10 @@ class Services extends Api
 
 			$this->secret_model->saveData($address_data);
 			$secret_id = $this->secret_model->getLastInserted();
-			$data['secret_id'] = $secret_id;
-			$data['service_id'] = $id;
+			$dataRelated['secret_id'] = $secret_id;
+			$dataRelated['service_id'] = $id;
 
-			$this->secret_model->saveSecretRelatedData($data);	
+			$this->secret_model->saveSecretRelatedData($dataRelated);	
 		}
 		
 				//	Sanket Changes end 11th January 2022
