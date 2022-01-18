@@ -33,7 +33,7 @@ class Services extends Api
 		$data['tenants'] = $this->tmodel->getRows();
 		$data['category'] = $this->cmodel->getRows();
 		
-		$data['defaultSecret'] = $this->secret_model->getDefaultRows();
+		//$data['defaultSecret'] = $this->secret_model->getDefaultRows();
 		
         echo view('add_service',$data);
     }
@@ -118,10 +118,10 @@ class Services extends Api
 		$data['tenants'] = $this->tmodel->getRows();
 		$data['category'] = $this->cmodel->getRows();
 		$data['users'] = $this->user_model->getUser();
-		$data['secret_services'] = $this->secret_model->getServicesFromSecret($id);
+		$data['secret_services'] = $this->secret_model->getSecrets($id);
         
-		$data['defaultSecret'] = $this->secret_model->getDefaultRows();
-		$data['default_secrets_services'] = $this->secret_model->getServicesFromSecret2($id);
+		//$data['defaultSecret'] = $this->secret_model->getDefaultRows();
+		//$data['default_secrets_services'] = $this->secret_model->getServicesFromSecret2($id);
 		
         echo view('edit_service', $data);
     }

@@ -139,7 +139,7 @@
 												
 												<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 													<div class="form-row">
-														<?php
+														<?php /*
 															for($jak_i=0; $jak_i<count($defaultSecret); $jak_i++){
 																$new_id = $jak_i + 1;
 																
@@ -158,7 +158,7 @@
 														</div>
 														<?php
 															}
-														?>
+														*/ ?>
 													</div>
 													
 													<?php
