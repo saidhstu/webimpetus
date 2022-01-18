@@ -292,7 +292,7 @@ class Services extends Api
 		
 		$myfile = fopen(FCPATH."tmp/services-".$uuid.".json", "w") or die("Unable to open file!");
 		
-		fwrite($myfile, $this->secret_model->getSecrets($uuid));
+		fwrite($myfile, $this->services($uuid,true));
 		fclose($myfile);
 	}
 	
