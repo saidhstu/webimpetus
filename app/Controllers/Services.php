@@ -73,8 +73,8 @@ class Services extends Api
 				$data['image_brand'] = $imgData2;
 			 }
 			
-			$this->model->saveData($data);	
-			
+			 $this->model->saveData($data);	
+			 
 		//	Sanket Changes start 11th January 2022
 		$service_id = $this->model->getLastInserted();
 		
@@ -180,8 +180,14 @@ class Services extends Api
 			$address_data['key_name'] = $key_name[$key];
 			$address_data['key_value'] = $key_value[$key];
 			$address_data['status'] = 1;
-			
+
+
 			$this->secret_model->saveData($address_data);
+			$secret_id = $this->secret_model->getLastInserted();
+			$data['secret_id'] = $secret_id;
+			$data['service_id'] = $id;
+
+			$this->secret_model->saveSecretRelatedData($data);	
 		}
 		
 				//	Sanket Changes end 11th January 2022

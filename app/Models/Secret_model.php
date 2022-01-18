@@ -20,7 +20,13 @@ class Secret_model extends Model
         $query = $this->db->table($this->table)->insert($data);
         return $query;
     }
-	
+
+    public function saveSecretRelatedData($data)
+    {
+        $query = $this->db->table($this->table2)->insert($data);
+        return $query;
+    }
+
 	// public function saveDefaultData($data)
     // {
     //     $query = $this->db->table($this->table2)->insert($data);
