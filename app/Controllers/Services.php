@@ -81,11 +81,21 @@ class Services extends Api
 		$service_id = $this->model->getLastInserted();
 		
 //BW
-$default_secrets_template = $this->meta_model->getRowsByCode('service_default_secret');
 
-foreach ($default_secrets_template as $key => $value) {
-	$default_meta_data['key_name'] = $value['meta_key'];
-	$default_meta_data['key_value'] = $value['meta_value'];
+$default_secrets_template = $this->meta_model->getRowsByCode('service_default_secret');
+// print_r($default_secrets_template->result_array);
+// foreach ($default_secrets_template as $row)
+// {
+// 	echo $row['meta_key'];
+// 	echo $row['meta_value'];
+// }
+
+// die;
+
+foreach($default_secrets_template as $row)
+{
+	$default_meta_data['key_name'] = $row['meta_key'];
+	$default_meta_data['key_value'] = $row['meta_value'];
 	$default_meta_data['status'] = 1;
 
 	$this->secret_model->saveData($default_meta_data);
@@ -115,7 +125,7 @@ foreach ($default_secrets_template as $key => $value) {
 		
 		if(count($key_name) > 0){
 			foreach ($key_name as $key => $value) {
-				$address_data['service_id'] = $service_id;
+				//$address_data['service_id'] = $service_id;
 				$address_data['key_name'] = $key_name[$key];
 				$address_data['key_value'] = $key_value[$key];
 				$address_data['status'] = 1;

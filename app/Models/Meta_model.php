@@ -19,8 +19,11 @@ class Meta_model extends Model
         if($code === ''){
             return false;
         }else{
-            return $this->getWhere(['code=' => $code]);
-        }   
+            return $this->select('*')->where(['code'=>$code])->findAll();
+        } 
+
+        //$query = $this->db->query("SELECT * FROM webimpetusci4test.meta_fields WHERE code = 'service_default_secret'");
+        //return $query;
     }
 
 	public function saveData($data)

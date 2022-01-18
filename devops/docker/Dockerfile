@@ -3,7 +3,6 @@ FROM docker.io/bwalia/openresty119php74:latest
 
 #Install kubectl and helmchart binaries
 
-
 COPY devops/docker/php-fpm-7.conf /usr/local/etc/php-fpm.conf
 COPY devops/docker/php.ini /usr/local/etc/php/conf.d/php.ini
 
