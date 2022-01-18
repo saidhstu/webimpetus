@@ -4,8 +4,8 @@ FROM docker.io/bwalia/openresty119php74:latest
 #Install kubectl and helmchart binaries
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl \
     chmod +x ./kubectl \
-    mv ./kubectl /usr/local/bin/kubectl \
-    kubectl version --client
+    mv ./kubectl /usr/bin/kubectl
+RUN kubectl version --client
 
 #ARG VERSION
 ENV VERSION="3.7.2"
