@@ -35,6 +35,9 @@ RUN chown www-data:root -R /var/www/html/
 RUN chmod 775 -R /var/www/html/
 RUN chmod 777 -Rv /var/www/html/writable
 
+RUN mkdir -p /var/www/html/public/tmp
+RUN chmod 777 /var/www/html/public/tmp
+
 RUN mkdir -p /var/php
 
 RUN apk add supervisor
