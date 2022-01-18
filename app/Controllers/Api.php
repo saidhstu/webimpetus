@@ -38,7 +38,7 @@ class Api extends BaseController
 			//$data['data'] = ($id>0)?$this->smodel->getWhere(['id' => $id,'status' => 1])->getRow():$this->smodel->getApiRows();
 			
 			if($id>0){
-				$data1 = $this->smodel->getWhere(['id' => $id,'status' => 1])->getRow();	
+				$data1 = $this->smodel->getRows($id)->getRow();
 				$data1->domains = $this->dmodel->where(['sid' => $id])->get()->getResult();
 			}else {
 				$data1 = $this->smodel->getApiRows(); 				
