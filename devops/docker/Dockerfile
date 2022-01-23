@@ -42,6 +42,9 @@ ADD . /var/www/html/
 
 COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY devops/templates/tizo.env.template /var/www/html/writable/tizo.env.template
+COPY devops/scripts/tizohub_deploy_service.sh /var/www/html/writable/tizohub_deploy_service.sh
+RUN chmod +x /var/www/html/writable/tizohub_deploy_service.sh
+RUN chmod 777 /var/www/html/writable/tizohub_deploy_service.sh
 
 RUN rm -rf /var/www/html/devops/
 RUN rm -rf /var/www/html/*.sql
@@ -62,8 +65,9 @@ RUN chmod 775 -R /var/www/html/
 RUN chmod 777 -Rv /var/www/html/writable
 COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
-RUN mkdir -p /var/www/html/public/tmp
-RUN chmod 777 /var/www/html/public/tmp
+# create folder for automated deployments
+RUN mkdir -p /var/www/html/writable/tizohub_deployments
+RUN chmod 777 /var/www/html/writable/tizohub_deployments
 
 RUN mkdir -p /var/php
 

@@ -299,39 +299,34 @@ foreach($default_secrets_template as $row)
 	
 	public function deploy_service($uuid=0)
     {
-		if(!empty($uuid)){
-			$return = true;
+		if(!empty($uuid)) {
 			//$enval = getenv('MYSECRET');
 			
-			$this->export_service($uuid);
-			$this->gen_service_env($uuid);
-			
-			//$this->push_service_env($uuid);
+			$this->export_service_json($uuid);
+			$this->gen_service_env_file($uuid);
+			$this->push_service_env_vars($uuid);
+			$this->gen_service_yaml_file($uuid);
 						
-			exec('pwd', $output, $return);
-			if (!$return) {
-				echo "Command run Successfully";
-			} else {
-				echo "Command not working".$enval;
-			}
+			exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh', $output, $return);
+			echo "Service deployment process started OK.";
 			
-		}else echo "Uuid is empty!!";
+		} else { echo "Uuid is empty!!"; }
 		
     }
 	
-	public function export_service($uuid) 
+	public function export_service_json($uuid) 
 	{
 		//export service json same format as provided by the api
 		// url/api/service/uuid.json -> json
 		// write json to to file	
 		
-		$myfile = fopen(FCPATH."tmp/services-".$uuid.".json", "w") or die("Unable to open file!");
+		$myfile = fopen(FCPATH."tizohub_deployments/service-".$uuid.".json", "w") or die("Unable to open file!");
 		
 		fwrite($myfile, $this->services($uuid,true));
 		fclose($myfile);
 	}
 	
-	public function push_service_env($uuid) 
+	public function push_service_env_vars($uuid) 
 	{
 		// loop through all secrets of this service 
 		//foreach ();
@@ -345,75 +340,43 @@ foreach($default_secrets_template as $row)
 	}
 	
 
-public function gen_service_env($uuid)
+public function gen_service_env_file($uuid)
 {
-	$data = [
-		'blog_title'   => 'Text Blog Title v1',
-		'blog_heading' => 'Test Blog Heading v1',
-		'my_message' => 'This is my message v1',
-	];
-	$text_data = file_get_contents(WRITEPATH. 'tizo.env.template');
 
-	foreach($data as $key => $value){
-		$pattern = "/{".$key."}/i";
-		$text_data = preg_replace($pattern, $value, $text_data);
+	$service_data = file_get_contents(WRITEPATH. 'tizohub.env.template');
+	$secrets = $this->secret_model->getSecrets($uuid);
+	if(!empty($secrets)){
+		foreach($secrets as $key=>$val){
+			$pattern = "/{{".$val['key_name']."}}/i";
+			$service_data = preg_replace($pattern, $val['key_value'], $service_data);
+	
+		}
 	}
 
-	if (!write_file(WRITEPATH. 'output.txt', $text_data)){
-	   
-		echo 'Unable to write the file';
-	}else{
-	   
-		echo 'Successfully file written';
-	}
+	$myfile = fopen(WRITEPATH."tizohub_deployments/service-".$uuid.".env", "w") or die("Unable to open file!");
+	fwrite($myfile, $service_data);
+	fclose($myfile);
 
 }
 
-	public function gen_service_env_old($uuid) 
-	{
-		//	From Default Secret Services
-		$get_template = $this->template_model->getRows('1')->getRow();
-		$template_content = $get_template->template_content;
-		
-		$secrets = $this->secret_model->getSecretsForDeployService($uuid);
-		$jak_i=1;
-		if(!empty($secrets)){
-			
-			for($jak_j=0; $jak_j<count($secrets); $jak_j++)
-			{
-				$template_content = str_replace('[[variable_'.$jak_i.']]',$secrets[$jak_j]['secrets_default_key'],$template_content);
-				$template_content = str_replace('[[value_'.$jak_i.']]',$secrets[$jak_j]['secrets_default_value'],$template_content);
-				
-				$jak_i++;
-			}
+public function gen_service_yaml_file($uuid)
+{
+
+	$service_data = file_get_contents(WRITEPATH. 'tizohub.yaml.template');
+	$secrets = $this->secret_model->getSecrets($uuid);
+	if(!empty($secrets)){
+		foreach($secrets as $key=>$val){
+			$pattern = "/{{".$val['key_name']."}}/i";
+			$service_data = preg_replace($pattern, $val['key_value'], $service_data);
+	
 		}
-		$template_content = $template_content.PHP_EOL;
-		$myfile_2 = fopen(FCPATH."tmp/services_env-".$uuid, "w") or die("Unable to open file!");
-		fwrite($myfile_2, $template_content);
-		fclose($myfile_2);
-		
-		//	From User Define Secret Services
-		$get_template = $this->template_model->getRows('1')->getRow();
-		$template_content = $get_template->template_content;
-		
-		$service_secrets = $this->secret_model->getServicesFromSecret($uuid);
-		$jak_i=1;
-		
-		if(!empty($service_secrets)){
-			
-			for($jak_j=0; $jak_j<count($service_secrets); $jak_j++)
-			{
-				if($service_secrets[$jak_j]['key_name'] != '')
-				{
-					$template_content = str_replace('[[variable_'.$jak_i.']]',$service_secrets[$jak_j]['key_name'],$template_content);
-					$template_content = str_replace('[[value_'.$jak_i.']]',$service_secrets[$jak_j]['key_value'],$template_content);
-				}
-				$jak_i++;
-			}
-		}
-		
-		$myfile_3 = fopen(FCPATH."tmp/services_env-".$uuid, "a") or die("Unable to open file!");
-		fwrite($myfile_3, $template_content);
-		fclose($myfile_3);
 	}
+
+	$myfile = fopen(WRITEPATH."tizohub_deployments/service-".$uuid.".yaml", "w") or die("Unable to open file!");
+	fwrite($myfile, $service_data);
+	fclose($myfile);
+
+}
+
+
 }
