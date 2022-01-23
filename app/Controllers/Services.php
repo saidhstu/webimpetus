@@ -306,7 +306,9 @@ foreach($default_secrets_template as $row)
 			$this->push_service_env_vars($uuid);
 			$this->gen_service_yaml_file($uuid);
 						
-			exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh', $output, $return);
+			//exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh', $output, $return);
+			$output = shell_exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh');
+			//echo $output;
 			echo "Service deployment process started OK.";
 			
 		} else { echo "Uuid is empty!!"; }
@@ -329,25 +331,19 @@ foreach($default_secrets_template as $row)
 	{
 		// loop through all secrets of this service 
 		//putenv("secretname", "secretvalue");
-		
-		$kube_config = $this->secret_model->getSecretByName('KUBECONFIG');
-		if(!empty($kube_config)){
-			putenv("KUBECONFIG=".$kube_config);
-		}
-
-		$aws_secret_key_id = $this->secret_model->getSecretByName('AWS_ACCESS_KEY_ID');
-		if(!empty($aws_secret_key_id)){
-			putenv("AWS_ACCESS_KEY_ID=".$aws_secret_key_id);
-		}
-
-		$aws_access_secret_key = $this->secret_model->getSecretByName('AWS_SECRET_ACCESS_KEY');
-		if(!empty($aws_access_secret_key)){
-			putenv("AWS_SECRET_ACCESS_KEY=".$aws_access_secret_key);
-		}
-
-		$aws_default_region = $this->secret_model->getSecretByName('AWS_DEFAULT_REGION');
-		if(!empty($aws_default_region)){
-			putenv("AWS_DEFAULT_REGION=".$aws_default_region);
+		$secrets = $this->secret_model->getRows();
+		if(!empty($secrets)){
+				foreach($secrets as $key=>$val){
+					if ($val['key_name'] == 'KUBECONFIG') {
+						$myfile = fopen(WRITEPATH . "kube_config_auth", "w") or die("Unable to open file!");
+						fwrite($myfile, $val['key_value']);
+						fclose($myfile);
+					}
+					
+					if ($val['key_name'] == 'KUBENETES_CLUSTER_NAME' || $val['key_name'] == 'AWS_ACCESS_KEY_ID' || $val['key_name'] == 'AWS_SECRET_ACCESS_KEY' || $val['key_name'] == 'AWS_DEFAULT_REGION') {
+					putenv($val['key_name']."=".$val['key_value']);
+					}
+			}
 		}
 
 		$secrets = $this->secret_model->getSecrets($uuid);

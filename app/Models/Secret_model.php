@@ -49,18 +49,6 @@ class Secret_model extends Model
 		return !empty($this->select('key_value')->getWhere(['key_name' => $code])->getRow())?$this->select('key_value')->getWhere(['key_name' => $code])->getRow()->text:'';
 	}
 
-    public function getSecretByName($secret_name){
-        $this->db->select('key_value');
-        $this->db->from($table);
-        $this->db->where('key_name',$secret_name);
-        $row = $this->db->get()->row();
-        if (isset($row)) {
-            return $row->key_value;
-        } else {
-            return false;
-        }
-    }
-	
 	public function getLastInserted() {
 		return $this->db->insertID();
 	}
