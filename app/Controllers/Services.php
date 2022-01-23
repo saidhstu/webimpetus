@@ -304,12 +304,11 @@ foreach($default_secrets_template as $row)
 			//$enval = getenv('MYSECRET');
 			
 			$this->export_service($uuid);
-			
-			//$this->push_service_env($uuid);
-			
 			$this->gen_service_env($uuid);
 			
-			exec('cmd', $output, $return);
+			//$this->push_service_env($uuid);
+						
+			exec('pwd', $output, $return);
 			if (!$return) {
 				echo "Command run Successfully";
 			} else {
