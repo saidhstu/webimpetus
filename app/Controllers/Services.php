@@ -300,8 +300,7 @@ foreach($default_secrets_template as $row)
 	public function deploy_service($uuid=0)
     {
 		if(!empty($uuid)) {
-			//$enval = getenv('MYSECRET');
-			
+
 			$this->export_service_json($uuid);
 			$this->gen_service_env_file($uuid);
 			$this->push_service_env_vars($uuid);
@@ -320,7 +319,7 @@ foreach($default_secrets_template as $row)
 		// url/api/service/uuid.json -> json
 		// write json to to file	
 		
-		$myfile = fopen(FCPATH."tizohub_deployments/service-".$uuid.".json", "w") or die("Unable to open file!");
+		$myfile = fopen(WRITEPATH . "tizohub_deployments/service-".$uuid.".json", "w") or die("Unable to open file!");
 		
 		fwrite($myfile, $this->services($uuid,true));
 		fclose($myfile);
@@ -329,14 +328,35 @@ foreach($default_secrets_template as $row)
 	public function push_service_env_vars($uuid) 
 	{
 		// loop through all secrets of this service 
-		//foreach ();
 		//putenv("secretname", "secretvalue");
+		
+		$kube_config = $this->secret_model->getSecretByName('KUBECONFIG');
+		if(!empty($kube_config)){
+			putenv("KUBECONFIG=".$kube_config);
+		}
+
+		$aws_secret_key_id = $this->secret_model->getSecretByName('AWS_ACCESS_KEY_ID');
+		if(!empty($aws_secret_key_id)){
+			putenv("AWS_ACCESS_KEY_ID=".$aws_secret_key_id);
+		}
+
+		$aws_access_secret_key = $this->secret_model->getSecretByName('AWS_SECRET_ACCESS_KEY');
+		if(!empty($aws_access_secret_key)){
+			putenv("AWS_SECRET_ACCESS_KEY=".$aws_access_secret_key);
+		}
+
+		$aws_default_region = $this->secret_model->getSecretByName('AWS_DEFAULT_REGION');
+		if(!empty($aws_default_region)){
+			putenv("AWS_DEFAULT_REGION=".$aws_default_region);
+		}
+
 		$secrets = $this->secret_model->getSecrets($uuid);
 		if(!empty($secrets)){
 			foreach($secrets as $key=>$val){
 				putenv($val['key_name']."=".$val['key_value']);
 			}
 		}
+		
 	}
 	
 
@@ -353,7 +373,7 @@ public function gen_service_env_file($uuid)
 		}
 	}
 
-	$myfile = fopen(WRITEPATH."tizohub_deployments/service-".$uuid.".env", "w") or die("Unable to open file!");
+	$myfile = fopen(WRITEPATH . "tizohub_deployments/service-".$uuid.".env", "w") or die("Unable to open file!");
 	fwrite($myfile, $service_data);
 	fclose($myfile);
 
