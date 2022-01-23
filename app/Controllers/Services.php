@@ -345,7 +345,8 @@ foreach($default_secrets_template as $row)
 	}
 	
 
-	public function gen_service_env($uuid) 
+public function gen_service_env($uuid)
+{
 	$data = [
 		'blog_title'   => 'Text Blog Title v1',
 		'blog_heading' => 'Test Blog Heading v1',
