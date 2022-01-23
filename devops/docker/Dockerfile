@@ -41,7 +41,7 @@ RUN mkdir -p /var/php
 ADD . /var/www/html/
 
 COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-COPY devops/templates/tizo.env.template /var/www/html/writable/tizo.env.template
+COPY devops/templates/tizohub.env.template /var/www/html/writable/tizohub.env.template
 COPY devops/scripts/tizohub_deploy_service.sh /var/www/html/writable/tizohub_deploy_service.sh
 RUN chmod +x /var/www/html/writable/tizohub_deploy_service.sh
 RUN chmod 777 /var/www/html/writable/tizohub_deploy_service.sh
