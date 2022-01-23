@@ -345,7 +345,31 @@ foreach($default_secrets_template as $row)
 		}
 	}
 	
+
 	public function gen_service_env($uuid) 
+	$data = [
+		'blog_title'   => 'Text Blog Title v1',
+		'blog_heading' => 'Test Blog Heading v1',
+		'my_message' => 'This is my message v1',
+	];
+	$text_data = file_get_contents(WRITEPATH. 'tizo.env.template');
+
+	foreach($data as $key => $value){
+		$pattern = "/{".$key."}/i";
+		$text_data = preg_replace($pattern, $value, $text_data);
+	}
+
+	if (!write_file(WRITEPATH. 'output.txt', $text_data)){
+	   
+		echo 'Unable to write the file';
+	}else{
+	   
+		echo 'Successfully file written';
+	}
+
+}
+
+	public function gen_service_env_old($uuid) 
 	{
 		//	From Default Secret Services
 		$get_template = $this->template_model->getRows('1')->getRow();

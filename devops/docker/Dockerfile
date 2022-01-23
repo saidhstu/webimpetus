@@ -59,6 +59,9 @@ RUN mv /var/www/html/env /var/www/html/.env
 RUN chown www-data:root -R /var/www/html/
 RUN chmod 775 -R /var/www/html/
 RUN chmod 777 -Rv /var/www/html/writable
+COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+
+RUN mv devops/templates/tizo.env.template /var/www/html/writable/tizo.env.template
 
 RUN mkdir -p /var/www/html/public/tmp
 RUN chmod 777 /var/www/html/public/tmp
