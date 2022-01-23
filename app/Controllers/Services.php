@@ -325,9 +325,9 @@ foreach($default_secrets_template as $row)
 			$this->gen_service_yaml_file($uuid);
 						
 			//exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh', $output, $return);
-			$output = shell_exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh');
+			$output = shell_exec('/bin/bash /var/www/html/writable/tizohub_delete_service.sh');
 			//echo $output;
-			echo "Service deployment process started OK.";
+			echo "Service deletion process started OK.";
 			
 		} else { echo "Uuid is empty!!"; }
 		
@@ -349,7 +349,7 @@ foreach($default_secrets_template as $row)
 	{
 		// loop through all secrets of this service 
 		//putenv("SERVICE_UUID", $id);
-		putenv("SERVICE_ID", $uuid);
+		putenv("SERVICE_ID=".$uuid);
 		$secrets = $this->secret_model->getRows();
 		if(!empty($secrets)){
 				foreach($secrets as $key=>$val){
