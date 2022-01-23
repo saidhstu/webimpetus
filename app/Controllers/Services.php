@@ -314,6 +314,24 @@ foreach($default_secrets_template as $row)
 		} else { echo "Uuid is empty!!"; }
 		
     }
+
+	public function delete_service($uuid=0)
+    {
+		if(!empty($uuid)) {
+
+			$this->export_service_json($uuid);
+			$this->gen_service_env_file($uuid);
+			$this->push_service_env_vars($uuid);
+			$this->gen_service_yaml_file($uuid);
+						
+			//exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh', $output, $return);
+			$output = shell_exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh');
+			//echo $output;
+			echo "Service deployment process started OK.";
+			
+		} else { echo "Uuid is empty!!"; }
+		
+    }
 	
 	public function export_service_json($uuid) 
 	{
@@ -330,7 +348,8 @@ foreach($default_secrets_template as $row)
 	public function push_service_env_vars($uuid) 
 	{
 		// loop through all secrets of this service 
-		//putenv("secretname", "secretvalue");
+		//putenv("SERVICE_UUID", $id);
+		putenv("SERVICE_ID", $uuid);
 		$secrets = $this->secret_model->getRows();
 		if(!empty($secrets)){
 				foreach($secrets as $key=>$val){

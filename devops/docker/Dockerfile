@@ -44,8 +44,11 @@ COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY devops/templates/tizohub.env.template /var/www/html/writable/tizohub.env.template
 COPY devops/templates/tizohub.yaml.template /var/www/html/writable/tizohub.yaml.template
 COPY devops/scripts/tizohub_deploy_service.sh /var/www/html/writable/tizohub_deploy_service.sh
+COPY devops/scripts/tizohub_delete_service.sh /var/www/html/writable/tizohub_delete_service.sh
 RUN chmod +x /var/www/html/writable/tizohub_deploy_service.sh
 RUN chmod 777 /var/www/html/writable/tizohub_deploy_service.sh
+RUN chmod +x /var/www/html/writable/tizohub_delete_service.sh
+RUN chmod 777 /var/www/html/writable/tizohub_delete_service.sh
 
 RUN rm -rf /var/www/html/devops/
 RUN rm -rf /var/www/html/*.sql

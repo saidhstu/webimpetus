@@ -248,7 +248,10 @@
 											<button type="submit" class="btn btn-primary">Submit</button>
 										</div>
 										<div class="form-group col-md-2">
-											<button type="button" id="RunCmd" class="btn btn-primary page_title_right">Deploy Service</button>
+											<button type="button" id="DeployService" class="btn btn-primary page_title_right">Deploy Service</button>
+										</div>
+										<div class="form-group col-md-2">
+											<button type="button" id="DeleteService" class="btn btn-primary page_title_right">Delete Service</button>
 										</div>
 									</div>
                                 </form>
@@ -326,7 +329,7 @@
 
 <script type="text/javascript">
     
-    $('#RunCmd').on('click', function () {
+    $('#DeployService').on('click', function () {
         var Status = $(this).val();
         $.ajax({
         url: "/services/deploy_service/<?=$service->id?>",
@@ -341,7 +344,25 @@
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(textStatus, errorThrown);
         }
+    	});
     });
+	
+    $('#DeleteService').on('click', function () {
+        var Status = $(this).val();
+        $.ajax({
+        url: "/services/delete_service/<?=$service->id?>",
+        type: "post",
+        data: {'data':Status },
+        success: function (response) {
+            alert(response);
+
+
+           // You will get response from your PHP page (what you echo or print)
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+           console.log(textStatus, errorThrown);
+        }
+    	});
     });
 	
 	
