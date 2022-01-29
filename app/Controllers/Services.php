@@ -77,7 +77,7 @@ class Services extends Api
 			
 			 $this->model->saveData($data);	
 			 
-		//	Sanket Changes start 11th January 2022
+		//	BW Changes start 11th January 2022
 		$service_id = $this->model->getLastInserted();
 		
 //BW
@@ -134,7 +134,7 @@ foreach($default_secrets_template as $row)
 			}
 		}
 		
-		//	Sanket Changes end 11th January 2022
+		//	BW Changes end 11th January 2022
 			// Set Session
 		   session()->setFlashdata('message', 'Data entered Successfully!');
 		   session()->setFlashdata('alert-class', 'alert-success');
@@ -220,7 +220,7 @@ foreach($default_secrets_template as $row)
 			$this->secret_model->saveSecretRelatedData($dataRelated);	
 		}
 		
-				//	Sanket Changes end 11th January 2022
+				//	BW Changes end 11th January 2022
 // $default_key_name = $this->request->getPost('default_key_name');
 		// $default_key_value = $this->request->getPost('default_key_value');
 		// $jak_increment_val = 1;
@@ -230,7 +230,7 @@ foreach($default_secrets_template as $row)
 		// 	$this->secret_model->updateDefaultData($id, $jak_increment_val, $def_data);
 		// 	$jak_increment_val++;
 		// }
-		//	Sanket Changes end 11th January 2022
+		//	BW Changes end 11th January 2022
 		
 		session()->setFlashdata('message', 'Data updated Successfully!');
 		session()->setFlashdata('alert-class', 'alert-success');
@@ -391,6 +391,11 @@ public function gen_service_env_file($uuid)
 	$myfile = fopen(WRITEPATH . "tizohub_deployments/service-".$uuid.".env", "w") or die("Unable to open file!");
 	fwrite($myfile, $service_data);
 	fclose($myfile);
+
+	//create php seed
+	// $myfile = fopen(WRITEPATH . "tizohub_deployments/service-".$uuid.".php", "w") or die("Unable to open file!");
+	// fwrite($myfile, $service_data);
+	// fclose($myfile);
 
 }
 
