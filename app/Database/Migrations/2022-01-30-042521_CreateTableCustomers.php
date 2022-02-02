@@ -25,7 +25,7 @@ class CreateTableCustomers extends Migration
                 'null' => true,
             ],
 			'status' => [
-                'type' => 'bool',
+                'type' => 'INT',
 				'constraint' => '1',
 				'default' => '0',
                 'null' => true,
