@@ -1,3 +1,12 @@
+                      
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    
+<?php require_once (APPPATH.'Views/common/scripts.php'); ?>
 <!-- footer part -->
 <div class="footer_part">
     <div class="container-fluid">
@@ -10,3 +19,4 @@
         </div>
     </div>
 </div>
+</section>

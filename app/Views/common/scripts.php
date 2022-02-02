@@ -1,16 +1,4 @@
 
-<!--script type="text/javascript">
-   $(document).ready(function() {
-	   $('*[data-href]').on("click",function(){
-	  window.location = $(this).data('href');
-	  return false;
-	});
-	$("td > a").on("click",function(e){
-	  e.stopPropagation();
-	});
-	
-   });
-</script-->
 <!-- footer  -->
 <script src="/assets/js/jquery-3.4.1.min.js"></script>
 
@@ -82,6 +70,7 @@
 </script>
 
 <script src="/assets/js/custom.js"></script>
+<script src="/assets/js/edit.js"></script>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script--> 
 
     <script>
