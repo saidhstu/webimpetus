@@ -54,4 +54,27 @@ class Service_model extends Model
 	public function getLastInserted() {
 		return $this->db->insertID();
 	}
+
+    public function insertOrUpdate($table, $id = null, $data = null)
+	{
+        unset($data["id"]);
+
+        if(@$id){
+            $query = $this->db->table($table)->update($data, array('id' => $id));
+            if( $query){
+                session()->setFlashdata('message', 'Data updated Successfully!');
+                session()->setFlashdata('alert-class', 'alert-success');
+            }
+        }else{
+            $query = $this->db->table($table)->insert($data);
+            $id =  $this->db->insertID();
+            if($query){
+                session()->setFlashdata('message', 'Data updated Successfully!');
+                session()->setFlashdata('alert-class', 'alert-success');
+            }
+
+        }
+	
+		return $id;
+	}
 }

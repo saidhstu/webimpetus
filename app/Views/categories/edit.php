@@ -26,7 +26,7 @@
                     <div class="form-group col-md-12">
                         <label for="inputAddress">Upload</label>
                         <?php if(!empty(@$category->image_logo)) { ?>
-                        <img src="<?='data:image/jpeg;base64,'.@$category->image_logo;?>" width="150px">
+                        <img src="<?= @$category->image_logo;?>" width="150px">
                         <a href="/categories/deleteImage/<?=@$category->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                     <?php } ?>
                         <div class="custom-file">

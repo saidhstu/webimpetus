@@ -1,4 +1,4 @@
-<?php require_once (APPPATH.'Views/common/list-title.php'); ?>
+<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
                        
 <div class="white_card_body">
     <div class="card-body">
@@ -83,37 +83,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
  <script>
-   if ($("#userform").length > 0) {
-      $("#userform").validate({
-    rules: {
-      name: {
-        required: true,
-      },
-      email: {
-        required: true,
-        maxlength: 50,
-        email: true,
-      }, 
-      password: {
-        required: true,
-      },   
-    },
-    messages: {
-      name: {
-        required: "Please enter name",
-      },
-      email: {
-        required: "Please enter valid email",
-        email: "Please enter valid email",
-        maxlength: "The email name should less than or equal to 50 characters",
-        },      
-     password: {
-        required: "Please enter password",
-      },
-        
-    },
-  })
-}
 
 
 if ($("#chngpwd").length > 0) {

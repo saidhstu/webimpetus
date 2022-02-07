@@ -51,17 +51,19 @@ class Common_model extends Model
             if( $query){
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');
+                return $id;
             }
         }else{
             $query = $this->db->table($this->table)->insert($data);
             if($query){
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');
+                return $this->db->insertID();
             }
 
         }
 	
-		return $query;
+		return false;
 	}
 
     public function getAllDataFromTable($tableName)
@@ -84,5 +86,11 @@ class Common_model extends Model
         $query = $this->db->table($tableName, $this->table)->update($data, array('id' => $id));
         return $query;
     }
+
+    public function updateData($id = null, $data = null)
+	{
+		$query = $this->db->table($this->table)->update($data, array('id' => $id));
+		return $query;
+	}
 
 }
