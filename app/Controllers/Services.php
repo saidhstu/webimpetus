@@ -8,6 +8,7 @@ use App\Models\Cat_model;
 use App\Models\Secret_model;
 use App\Models\Template_model;
 use App\Models\Meta_model;
+use App\Models\Amazon_s3_model;
 
 class Services extends Api
 {	
@@ -22,6 +23,7 @@ class Services extends Api
 		$this->secret_model = new Secret_model();
 		$this->template_model = new Template_model();
 		$this->meta_model = new Meta_model();
+		$this->Amazon_s3_model = new Amazon_s3_model();
 	}
     public function index()
     {        
@@ -31,108 +33,7 @@ class Services extends Api
 		echo view('services/list',$data);
     }
 	 
-    public function save()
-    {        
-		//echo '<pre>';print_r($this->request); die;        
-		if(!empty($this->request->getPost('code'))){		
 
-		   // File path to display preview
-			//$filepath = $this->upload('file');	
-			//echo '<pre>'; print_r($this->request->getFile('file')); die;
-			//$filepath2 = $this->upload('file2');		   
-		   
-		   $data = array(
-				'name'  => $this->request->getPost('name'),
-				'code' => $this->request->getPost('code'),				
-				'notes' => $this->request->getPost('notes'),	
-				'uuid' => $this->request->getPost('uuid'),
-				//'nginx_config' => $this->request->getPost('nginx_config'),
-				//'varnish_config' => $this->request->getPost('varnish_config'),
-				/* 'image_logo' => $filepath,
-				'image_brand' => $filepath2, */
-				'cid' => $this->request->getPost('cid'),
-				'tid' => $this->request->getPost('tid'),
-			);
-			
-			if($_FILES['file']['tmp_name']) {		
-				//echo '<pre>';print_r($_FILES['file']); die;											
-				$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name']));				
-				$data['image_logo'] = $imgData;
-			 }
-			 
-			 if($_FILES['file2']['tmp_name']) {		
-				//echo '<pre>';print_r($_FILES['file']); die;											
-				$imgData2 = base64_encode(file_get_contents($_FILES['file2']['tmp_name']));				
-				$data['image_brand'] = $imgData2;
-			 }
-			
-			 $this->serviceModel->saveData($data);	
-			 
-		//	BW Changes start 11th January 2022
-		$service_id = $this->serviceModel->getLastInserted();
-		
-//BW
-
-$default_secrets_template = $this->meta_model->getRowsByCode('service_default_secret');
-// print_r($default_secrets_template->result_array);
-// foreach ($default_secrets_template as $row)
-// {
-// 	echo $row['meta_key'];
-// 	echo $row['meta_value'];
-// }
-
-// die;
-
-foreach($default_secrets_template as $row)
-{
-	$default_meta_data['key_name'] = $row['meta_key'];
-	$default_meta_data['key_value'] = $row['meta_value'];
-	$default_meta_data['status'] = 1;
-
-	$this->secret_model->saveData($default_meta_data);
-	$secret_id = $this->secret_model->getLastInserted();
-	$dataRelated['secret_id'] = $secret_id;
-	$dataRelated['service_id'] = $service_id;
-
-	$this->secret_model->saveSecretRelatedData($dataRelated);	
-}
-
-//BW
-
-		// $default_key_name = $this->request->getPost('default_key_name');
-		// $default_key_value = $this->request->getPost('default_key_value');
-		// $jak_increment_val = 1;
-		// foreach ($default_key_name as $key => $value) {
-		// 	$def_data['service_id'] = $service_id;
-		// 	$def_data['secrets_default_id'] = $jak_increment_val;
-		// 	$def_data['secrets_default_value'] = $default_key_value[$key];
-			
-		// 	$this->secret_model->saveDefaultData($def_data);
-		// 	$jak_increment_val++;
-		// }
-		
-		$key_name = $this->request->getPost('key_name');
-		$key_value = $this->request->getPost('key_value');
-		
-		if(count($key_name) > 0){
-			foreach ($key_name as $key => $value) {
-				//$address_data['service_id'] = $service_id;
-				$address_data['key_name'] = $key_name[$key];
-				$address_data['key_value'] = $key_value[$key];
-				$address_data['status'] = 1;
-				
-				$this->secret_model->saveData($address_data);
-			}
-		}
-		
-		//	BW Changes end 11th January 2022
-			// Set Session
-		   session()->setFlashdata('message', 'Data entered Successfully!');
-		   session()->setFlashdata('alert-class', 'alert-success');
-		}	 
-        return redirect()->to('/services');
-    }
-	
 	public function edit($id=0)
     {        
 		$data['tableName'] = "services";
@@ -143,18 +44,16 @@ foreach($default_secrets_template as $row)
 		$data['users'] = $this->user_model->getUser();
 		$data['secret_services'] = $this->secret_model->getSecrets($id);
         
-		//$data['defaultSecret'] = $this->secret_model->getDefaultRows();
-		//$data['default_secrets_services'] = $this->secret_model->getServicesFromSecret2($id);
 		
-        echo view('services/list', $data);
+        echo view('services/edit', $data);
     }
 	
 
     public function update()
     {
         $id = $this->request->getPost('id');
-		
-		if(!empty($id)){
+
+	
         $data = array(
 			'name'  => $this->request->getPost('name'),
 			'code' => $this->request->getPost('code'),				
@@ -164,22 +63,21 @@ foreach($default_secrets_template as $row)
 			//'varnish_config' => $this->request->getPost('varnish_config'),
 			'cid' => $this->request->getPost('cid'),
 			'tid' => $this->request->getPost('tid'),
-			//'image_logo' => $filepath,
-			//'image_brand' => $filepath2
 		);
 		
 		if($_FILES['file']['tmp_name']) {		
-			//echo '<pre>';print_r($_FILES['file']); die;											
-			$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name']));				
-			$data['image_logo'] = $imgData;
+			//echo '<pre>';print_r($_FILES['file']); die;	
+			$response = $this->Amazon_s3_model->doUpload("file", "service-logo");													
+			$data['image_logo'] = $response['filePath'];
 		 }
 		 
 		 if($_FILES['file2']['tmp_name']) {		
-			//echo '<pre>';print_r($_FILES['file']); die;											
-			$imgData2 = base64_encode(file_get_contents($_FILES['file2']['tmp_name']));				
-			$data['image_brand'] = $imgData2;
+			//echo '<pre>';print_r($_FILES['file']); die;		
+			$response = $this->Amazon_s3_model->doUpload("file2", "service-brand");															
+			$data['image_brand'] =  $response['filePath'];
 		 }
-        $this->serviceModel->updateData($id,$data);
+		 
+        $id = $this->serviceModel->insertOrUpdate("services", $id,$data);
 		
 		$this->secret_model->deleteServiceFromServiceID($id);
 		
@@ -192,33 +90,17 @@ foreach($default_secrets_template as $row)
 			$address_data['key_value'] = $key_value[$key];
 			$address_data['status'] = 1;
 
-
-			$this->secret_model->saveData($address_data);
-			$secret_id = $this->secret_model->getLastInserted();
-			$dataRelated['secret_id'] = $secret_id;
-			$dataRelated['service_id'] = $id;
-
-			$this->secret_model->saveSecretRelatedData($dataRelated);	
-		}
 		
-				//	BW Changes end 11th January 2022
-// $default_key_name = $this->request->getPost('default_key_name');
-		// $default_key_value = $this->request->getPost('default_key_value');
-		// $jak_increment_val = 1;
-		// foreach ($default_key_name as $key => $value) {
-		// 	$def_data['secrets_default_value'] = $default_key_value[$key];
-			
-		// 	$this->secret_model->updateDefaultData($id, $jak_increment_val, $def_data);
-		// 	$jak_increment_val++;
-		// }
-		//	BW Changes end 11th January 2022
-		
-		session()->setFlashdata('message', 'Data updated Successfully!');
-		session()->setFlashdata('alert-class', 'alert-success');
-		} else{
-			session()->setFlashdata('message', 'Something wrong!');
-			session()->setFlashdata('alert-class', 'alert-danger');
+			$secret_id = $this->secret_model->saveOrUpdateData($id , $address_data);
+
+			if($secret_id > 0){
+				$dataRelated['secret_id'] = $secret_id;
+				$dataRelated['service_id'] = $id;
+				$this->secret_model->saveSecretRelatedData($dataRelated);
+			}
+	
 		}
+
 		
         return redirect()->to('/services');
     }
@@ -345,6 +227,24 @@ public function gen_service_yaml_file($uuid)
 	fwrite($myfile, $service_data);
 	fclose($myfile);
 
+}
+
+public function delete($id)
+{       
+	//echo $id; die;
+	if(!empty($id)) {
+		$response = $this->serviceModel->deleteData($id);		
+		if($response){
+			session()->setFlashdata('message', 'Data deleted Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		}else{
+			session()->setFlashdata('message', 'Something wrong delete failed!');
+			session()->setFlashdata('alert-class', 'alert-danger');		
+		}
+
+	}
+	
+	return redirect()->to('/services');
 }
 
 

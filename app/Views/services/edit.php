@@ -14,18 +14,18 @@
                     <div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                             <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group required col-md-6">
                                     <label for="inputEmail4">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder=""  value="<?=$service->name ?>">
+                                    <input type="text" class="form-control required" id="name" name="name" placeholder=""  value="<?=@$service->name ?>">
                                     
-                                    <input type="hidden" class="form-control" name="id" placeholder="" value="<?=$service->id ?>" />
+                                    <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$service->id ?>" />
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group required col-md-6">
                                     <label for="inputState">Choose User</label>
-                                    <select id="uuid" name="uuid" class="form-control">
+                                    <select id="uuid" name="uuid" class="form-control required">
                                         <option value="" selected="">--Selected--</option>
                                         <?php foreach($users as $row):?>
-                                        <option value="<?= $row['uuid'];?>" <?=($row['uuid']==$service->uuid)?'selected':'' ?> ><?= $row['name'];?></option>
+                                        <option value="<?= $row['uuid'];?>" <?=($row['uuid']==@$service->uuid)?'selected':'' ?> ><?= $row['name'];?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
@@ -38,7 +38,7 @@
                                     <select id="cid" name="cid" class="form-control">
                                         <option value="" selected="">--Selected--</option>
                                         <?php foreach($category as $row):?>
-                                        <option value="<?= $row['id'];?>" <?=($row['id']==$service->cid)?'selected':'' ?>><?= $row['name'];?></option>
+                                        <option value="<?= $row['id'];?>" <?=($row['id']==@$service->cid)?'selected':'' ?>><?= $row['name'];?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
@@ -48,7 +48,7 @@
                                     <select id="tid" name="tid" class="form-control">
                                         <option value="" selected="">--Selected--</option>
                                         <?php foreach($tenants as $row):?>
-                                        <option value="<?= $row['id'];?>" <?=($row['id']==$service->tid)?'selected':'' ?>><?= $row['name'];?></option>
+                                        <option value="<?= $row['id'];?>" <?=($row['id']==@$service->tid)?'selected':'' ?>><?= $row['name'];?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
@@ -56,22 +56,22 @@
                             
                             
                             <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group required col-md-6">
                                     <label for="inputPassword4">Code</label>
-                                    <input type="text" class="form-control" id="code" name="code" placeholder=""  value="<?=$service->code ?>">
+                                    <input type="text" class="form-control required" id="code" name="code" placeholder=""  value="<?=@$service->code ?>">
                                 </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group required col-md-6">
                                     <label for="inputPassword4">Notes</label>
-                                    <textarea class="form-control" id="notes" name="notes" placeholder=""><?=$service->notes ?></textarea>
+                                    <textarea class="form-control required" id="notes" name="notes" placeholder=""><?=@$service->notes ?></textarea>
                                 </div>                                      
                             </div>
                             
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputAddress">Logo Upload</label>
-                                    <?php if(!empty($service->image_logo)) { ?>
-                                        <img class="img-rounded" src="<?= 'data:image/jpeg;base64,'.$service->image_logo;?>" width="100px">
-                                        <a href="/services/rmimg/image_logo/<?=$service->id ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    <?php if(!empty(@$service->image_logo)) { ?>
+                                        <img class="img-rounded" src="<?= @$service->image_logo;?>" width="100px">
+                                        <a href="/services/rmimg/image_logo/<?=@$service->id ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     <?php } ?>
                                     <div class="custom-file">
                                         <input type="file" name="file" class="custom-file-input" id="file">
@@ -87,9 +87,9 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputAddress">Brand Upload</label>
-                                    <?php if(!empty($service->image_brand)) { ?>
-                                        <img src="<?= 'data:image/jpeg;base64,'.$service->image_brand;?>" width="100px">
-                                        <a href="/services/rmimg/image_brand/<?=$service->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    <?php if(!empty(@$service->image_brand)) { ?>
+                                        <img src="<?= @$service->image_brand;?>" width="100px">
+                                        <a href="/services/rmimg/image_brand/<?=@$service->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     <?php } ?>
                                     <div class="custom-file">
                                         <input type="file" name="file2" class="custom-file-input" id="file2">
@@ -203,11 +203,11 @@
             <!-- <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">nginx config</label>
-                    <textarea type="text" class="form-control" id="nginx_config" name="nginx_config" placeholder=""  value=""><?=$service->nginx_config ?></textarea>
+                    <textarea type="text" class="form-control" id="nginx_config" name="nginx_config" placeholder=""  value=""><?=@$service->nginx_config ?></textarea>
                 </div>
                     <div class="form-group col-md-6">
                     <label for="inputPassword4">varnish config</label>
-                    <textarea type="text" class="form-control" id="varnish_config" name="varnish_config" placeholder=""  value=""><?=$service->varnish_config ?></textarea>
+                    <textarea type="text" class="form-control" id="varnish_config" name="varnish_config" placeholder=""  value=""><?=@$service->varnish_config ?></textarea>
                 </div>                                      
             </div>                                    
             ---> 
@@ -287,7 +287,7 @@
     $('#DeployService').on('click', function () {
         var Status = $(this).val();
         $.ajax({
-        url: "/services/deploy_service/<?=$service->id?>",
+        url: "/services/deploy_service/<?=@$service->id?>",
         type: "post",
         data: {'data':Status },
         success: function (response) {
@@ -305,7 +305,7 @@
     $('#DeleteService').on('click', function () {
         var Status = $(this).val();
         $.ajax({
-        url: "/services/delete_service/<?=$service->id?>",
+        url: "/services/delete_service/<?=@$service->id?>",
         type: "post",
         data: {'data':Status },
         success: function (response) {

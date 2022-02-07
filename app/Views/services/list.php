@@ -41,14 +41,14 @@
                 </td>
                     <td class="f_s_12 f_w_400  "><a href="/services/edit/<?= $row['id'];?>">
                     <?php if(!empty($row['image_logo'])) { ?>
-                    <img src="<?='data:image/jpeg;base64,'.$row['image_logo'];?>" width="150px">
+                    <img src="<?=$row['image_logo'];?>" width="150px">
                 <?php } ?>
                 </a>
                 </td>
 
                     <td class="f_s_12 f_w_400  "><a href="/services/edit/<?= $row['id'];?>">
                     <?php if(!empty($row['image_brand'])) { ?>
-                    <img src="<?='data:image/jpeg;base64,'.$row['image_brand'];?>" width="150px">
+                    <img src="<?=$row['image_brand'];?>" width="150px">
                 <?php } ?>
                 </a>
                 </td>
