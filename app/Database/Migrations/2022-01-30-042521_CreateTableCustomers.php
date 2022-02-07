@@ -27,7 +27,6 @@ class CreateTableCustomers extends Migration
 			'status' => [
                 'type' => 'INT',
 				'constraint' => '1',
-				'default' => '0',
                 'null' => true,
             ],
             'contact_firstname'       => [
@@ -77,9 +76,8 @@ class CreateTableCustomers extends Migration
                 'null' => true,
             ],
             'supplier' => [
-                'type' => 'bool',
+                'type' => 'INT',
 				'constraint' => '1',
-				'default' => '0',
                 'null' => true,
             ],
             'website'       => [

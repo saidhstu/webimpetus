@@ -52,7 +52,6 @@ class CreateTableContacts extends Migration
 			'allow_web_access' => [
                 'type' => 'INT',
 				'constraint' => '1',
-				'default' => '0',
                 'null' => true,
             ],
             'email'       => [

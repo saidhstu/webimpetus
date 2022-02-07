@@ -7,8 +7,9 @@ use App\Models\Users_model;
  
 class Enquiries extends Controller
 {	
-	public function __construct()
-	{
+	function __construct()
+    {
+        parent::__construct();
 		$this->session = \Config\Services::session();
 		$this->model = new Enquiries_model();
 		$this->user_model = new Users_model();
@@ -59,7 +60,7 @@ class Enquiries extends Controller
         return redirect()->to('/jobs');
     }
 	
-	public function edit($id)
+	public function edit($id=0)
     {
 		$data['content'] = $this->model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();

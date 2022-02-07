@@ -13564,3 +13564,28 @@ div.dataTables_wrapper div.dataTables_filter input {
 .error {
   color: red;
 }
+
+
+.checkbox-section{
+  position:relative;
+}
+
+.checkbox-label{
+ margin-top:35px;
+}
+.form-control-feedback{
+  color:red;
+}
+
+.has-danger{
+  color:red;
+}
+
+.form-group.required label:after { 
+    color: #d00;
+    content: "*";
+    position: absolute;
+    margin-left: 8px;
+    top:3px;
+    font-weight: 1000;
+}

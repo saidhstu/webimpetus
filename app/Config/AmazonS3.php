@@ -26,7 +26,7 @@ class AmazonS3 extends BaseConfig
     | certificate store.
     |
     */
-    public $s3_url = "https://s3-eu-west-1.amazonaws.com/";
+    public $s3_url = "";
 
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ class AmazonS3 extends BaseConfig
     | certificate store.
     |
     */
-    public $bucket = "endroit-static-assets";
+    public $bucket = "";
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ class AmazonS3 extends BaseConfig
     | Used as best-practice on Heroku
     |
     */
-    public $get_from_enviroment = FALSE;
+    public $get_from_enviroment = TRUE;
 
     /*
     |--------------------------------------------------------------------------
@@ -101,7 +101,7 @@ class AmazonS3 extends BaseConfig
     | Name for access key in enviroment
     |
     */
-    public $access_key_envname = 'S3_KEY';
+    public $access_key_envname = '';
 
     
     /*
@@ -112,7 +112,7 @@ class AmazonS3 extends BaseConfig
     | Name for access key in enviroment
     |
     */
-    public $secret_key_envname = 'S3_SECRET';
+    public $secret_key_envname = '';
     
     /*
     |--------------------------------------------------------------------------
@@ -123,11 +123,16 @@ class AmazonS3 extends BaseConfig
     public function __construct()
 	{
 		parent::__construct();
-
+        
         if ( $this->get_from_enviroment ){
             
-            $this->access_key = getenv($this->access_key_envname);
-            $this->secret_key = getenv($this->secret_key_envname);
+            $this->access_key = getenv('amazons3.access_key');
+            $this->secret_key = getenv('amazons3.secret_key');
+            $this->bucket = getenv('amazons3.bucket');
+            $this->s3_directory = getenv('amazons3.s3_directory');
+            $this->region = getenv('amazons3.region');
+            $this->s3_url = 'https://s3-'.$this->region.'.amazonaws.com/';
+            
         }
     }
 }

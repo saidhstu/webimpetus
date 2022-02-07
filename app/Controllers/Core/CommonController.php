@@ -3,6 +3,7 @@ namespace App\Controllers\Core;
 use App\Controllers\BaseController; 
 use CodeIgniter\Controller;
 use App\Models\Core\Common_model;
+use App\Models\Amazon_s3_model;
 
 use App\Models\Users_model;
  
@@ -18,6 +19,7 @@ class CommonController extends BaseController
         
 		$this->session = \Config\Services::session();
 		$this->model = new Common_model();
+		$this->Amazon_s3_model = new Amazon_s3_model();
 		
 		
 		$this->table = $this->getTableNameFromUri();
@@ -70,6 +72,26 @@ class CommonController extends BaseController
         return redirect()->to('/'.$this->table);
     }
 	
+	public function deleteImage($id )
+    {
+		if(!empty($id)){
+			$data['image_logo'] = null;
+			$response = $this->Amazon_s3_model->deleteFileFromS3($this->table, "image_logo");
+			$this->model->updateColumn($this->table, $id, $data);
+	
+			if($response){
+				session()->setFlashdata('message', 'Image deleted Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');	
+			
+			}else{
+				session()->setFlashdata('message', 'Something wrong!');
+				session()->setFlashdata('alert-class', 'alert-danger');		
+			}
+			
+		}
+		return redirect()->to('/'.$this->table.'/edit/'.$id);
+		
+	}
 	
 	public function delete($id)
     {       
@@ -88,6 +110,20 @@ class CommonController extends BaseController
 		
         return redirect()->to('/'.$this->table);
     }
+
+	// 
+	public function status()
+    {  
+		if(!empty($id = $this->request->getPost('id'))){
+			$data = array(            
+				'status' => $this->request->getPost('status')
+			);
+			$this->model->updateData($id,$data);
+		}
+		echo '1';
+	}
+
+
 	
 	// only call if there additional data needed on edit view
 	public function getAdditionalData($id)

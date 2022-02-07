@@ -15,7 +15,7 @@ class Services extends Api
 	{
 		parent::__construct(); 
 		$this->session = \Config\Services::session();
-		$this->model = new Service_model();
+		$this->serviceModel = new Service_model();
 		$this->user_model = new Users_model();
 		$this->tmodel = new Tenant_model();
 		$this->cmodel = new Cat_model();
@@ -25,21 +25,12 @@ class Services extends Api
 	}
     public function index()
     {        
-        $data['services'] = $this->model->getRows();
-		echo view('services',$data);
+        $data['services'] = $this->serviceModel->getRows();
+		$data['tableName'] = "services";
+        $data['rawTblName'] = "service";
+		echo view('services/list',$data);
     }
-	
-	public function add()
-    {
-		$data['users'] = $this->user_model->getUser();
-		$data['tenants'] = $this->tmodel->getRows();
-		$data['category'] = $this->cmodel->getRows();
-		
-		//$data['defaultSecret'] = $this->secret_model->getDefaultRows();
-		
-        echo view('add_service',$data);
-    }
- 
+	 
     public function save()
     {        
 		//echo '<pre>';print_r($this->request); die;        
@@ -75,10 +66,10 @@ class Services extends Api
 				$data['image_brand'] = $imgData2;
 			 }
 			
-			 $this->model->saveData($data);	
+			 $this->serviceModel->saveData($data);	
 			 
 		//	BW Changes start 11th January 2022
-		$service_id = $this->model->getLastInserted();
+		$service_id = $this->serviceModel->getLastInserted();
 		
 //BW
 
@@ -142,9 +133,11 @@ foreach($default_secrets_template as $row)
         return redirect()->to('/services');
     }
 	
-	public function edit($id)
+	public function edit($id=0)
     {        
-        $data['service'] = $this->model->getRows($id)->getRow();
+		$data['tableName'] = "services";
+        $data['rawTblName'] = "service";
+        $data['service'] = $this->serviceModel->getRows($id)->getRow();
 		$data['tenants'] = $this->tmodel->getRows();
 		$data['category'] = $this->cmodel->getRows();
 		$data['users'] = $this->user_model->getUser();
@@ -153,22 +146,10 @@ foreach($default_secrets_template as $row)
 		//$data['defaultSecret'] = $this->secret_model->getDefaultRows();
 		//$data['default_secrets_services'] = $this->secret_model->getServicesFromSecret2($id);
 		
-        echo view('edit_service', $data);
+        echo view('services/list', $data);
     }
 	
-	/*public function rmimg($type="", $id)
-    {
-		if(!empty($id)){
-			$data[$type] = "";
-			$this->model->updateData($id,$data);
-			session()->setFlashdata('message', 'Image deleted Successfully!');
-			session()->setFlashdata('alert-class', 'alert-success');
-			
-		}
-		return redirect()->to('/services/edit/'.$id);
-		
-	}*/
-	
+
     public function update()
     {
         $id = $this->request->getPost('id');
@@ -198,7 +179,7 @@ foreach($default_secrets_template as $row)
 			$imgData2 = base64_encode(file_get_contents($_FILES['file2']['tmp_name']));				
 			$data['image_brand'] = $imgData2;
 		 }
-        $this->model->updateData($id,$data);
+        $this->serviceModel->updateData($id,$data);
 		
 		$this->secret_model->deleteServiceFromServiceID($id);
 		
@@ -242,60 +223,8 @@ foreach($default_secrets_template as $row)
         return redirect()->to('/services');
     }
 	
-	public function status()
-    {  
-		if(!empty($id = $this->request->getPost('id'))){
-			$data = array(            
-				'status' => $this->request->getPost('status')
-			);
-			$this->model->updateData($id,$data);
-		}
-		echo '1';
-	}
+
 	
-	public function delete($id)
-    {       
-		//echo $id; die;
-        if(!empty($id)){
-			$this->model->deleteData($id);
-			session()->setFlashdata('message', 'Data deleted Successfully!');
-			session()->setFlashdata('alert-class', 'alert-success');
-		}
-		
-        return redirect()->to('/services');
-    }
-	
-	public function upload($filename = null){
-		$input = $this->validate([
-			$filename => "uploaded[$filename]|max_size[$filename,1024]|ext_in[$filename,jpg,jpeg,docx,pdf],"
-		 ]);
-
-		 if (!$input) { // Not valid
-			return '';
-		 }else{ // Valid
-
-			 if($file = $this->request->getFile($filename)) {
-				if ($file->isValid() && ! $file->hasMoved()) {
-				   // Get file name and extension
-				   $name = $file->getName();
-				   $ext = $file->getClientExtension();
-
-				   // Get random file name
-				   $newName = $file->getRandomName(); 
-
-				   // Store file in public/uploads/ folder
-				   $file->move('../public/uploads', $newName);
-
-				   // File path to display preview
-				   return $filepath = base_url()."/uploads/".$newName;
-				   
-				}
-				
-			 }
-			 
-		 }
-		 
-	}
 	
 	public function deploy_service($uuid=0)
     {

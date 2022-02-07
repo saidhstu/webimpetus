@@ -3,6 +3,7 @@
 use App\Models\Cat_model;
 use App\Models\Users_model;
 use App\Controllers\Core\CommonController; 
+use App\Models\Amazon_s3_model; 
 
 class Categories extends CommonController
 {	
@@ -12,29 +13,12 @@ class Categories extends CommonController
 		$this->session = \Config\Services::session();
 		$this->catModel = new Cat_model();
 		$this->user_model = new Users_model();
+		$this->Amazon_s3_model = new Amazon_s3_model();
 		$this->rawTblName =  "category"; 
 	}
 
 
-	public function deleteImage($id)
-    {
-		if(!empty($id)){
-			$data['image_logo'] = null;
 
-			$response = $this->model->updateColumn("categories", $id, $data);
-			if($response){
-				session()->setFlashdata('message', 'Image deleted Successfully!');
-				session()->setFlashdata('alert-class', 'alert-success');	
-			
-			}else{
-				session()->setFlashdata('message', 'Something wrong!');
-				session()->setFlashdata('alert-class', 'alert-danger');		
-			}
-			
-		}
-		return redirect()->to('/categories/edit/'.$id);
-		
-	}
 	
     public function update()
     {        
@@ -45,11 +29,10 @@ class Categories extends CommonController
 			'uuid' => $this->request->getPost('uuid')
 		);
 		
-		if($_FILES['file']['tmp_name']) {											
-			$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name']));
-			$imageProperties = getimageSize($_FILES['file']['tmp_name']);
-	
-			$data['image_logo'] = $imgData;
+
+		if($_FILES['file']['tmp_name']) {				
+			$response = $this->Amazon_s3_model->doUpload("file", "category-file");							
+			$data['image_logo'] = $response["filePath"];
 			}
 
 			$response = $this->model->insertOrUpdate($id, $data);
