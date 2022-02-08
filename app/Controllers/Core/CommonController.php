@@ -41,6 +41,7 @@ class CommonController extends BaseController
         $data[$this->table] = $this->model->getRows();
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
+        $data['is_add_permission'] = 1;
 
         echo view($this->table."/list",$data);
     }

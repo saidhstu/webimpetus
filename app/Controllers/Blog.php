@@ -29,8 +29,10 @@ class Blog extends CommonController
 	
 	public function blogcomments()
 	{
+		$data['tableName'] = $this->table;
+		$data['rawTblName'] = $this->rawTblName;
 		$data['content'] = $this->emodel->where(['type' => 3])->findAll();
-		echo view('blogcomments',$data);
+		echo view($this->table."/comments", $data);
 	}
 	
 
@@ -74,7 +76,7 @@ class Blog extends CommonController
 	public function update()
 	{        
 		$id = $this->request->getPost('id');
-		
+
 		$data = array(
 			'title'  => $this->request->getPost('title'),				
 			'sub_title' => $this->request->getPost('sub_title'),
@@ -172,16 +174,6 @@ class Blog extends CommonController
 	}
 	
 	
-	public function status()
-	{  
-		if(!empty($id = $this->request->getPost('id'))){
-			$data = array(            
-				'status' => $this->request->getPost('status')
-			);
-			$this->model->updateUser($data, $id);
-		}
-		echo '1';
-	}
 	
 	public function upload($filename = null){
 		$input = $this->validate([
