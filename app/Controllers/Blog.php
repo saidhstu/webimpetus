@@ -173,37 +173,5 @@ class Blog extends CommonController
 		return redirect()->to('/'.$this->table);
 	}
 	
-	
-	
-	public function upload($filename = null){
-		$input = $this->validate([
-			$filename => "uploaded[$filename]|max_size[$filename,1024]|ext_in[$filename,jpg,jpeg,docx,pdf],"
-		]);
 
-		 if (!$input) { // Not valid
-		 	return '';
-		 }else{ // Valid
-
-		 	if($file = $this->request->getFile($filename)) {
-		 		if ($file->isValid() && ! $file->hasMoved()) {
-				   // Get file name and extension
-		 			$name = $file->getName();
-		 			$ext = $file->getClientExtension();
-
-				   // Get random file name
-		 			$newName = $file->getRandomName(); 
-
-				   // Store file in public/uploads/ folder
-		 			$file->move('../public/uploads', $newName);
-
-				   // File path to display preview
-		 			return $filepath = base_url()."/uploads/".$newName;
-		 			
-		 		}
-		 		
-		 	}
-		 	
-		 }
-		 
-		}
-	}
+}
