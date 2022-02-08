@@ -132,7 +132,7 @@ class Blog extends CommonController
 		}else {
 
 			if(!empty($this->request->getPost('title'))){
-			
+				
 				if($this->request->getPost('title')) {
 					
 					// Set Session
@@ -162,7 +162,7 @@ class Blog extends CommonController
 							
 						}
 					}
-	
+					
 				}else{
 					   // Set Session
 					session()->setFlashdata('message', 'File not uploaded.');
