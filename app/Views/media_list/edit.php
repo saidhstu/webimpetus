@@ -1,4 +1,4 @@
-<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
+<?php require_once (APPPATH.'Views/media_list/edit-title.php'); ?>
 <div class="white_card_body">
     <div class="card-body">
 

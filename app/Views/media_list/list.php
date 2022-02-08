@@ -1,4 +1,4 @@
- <?php require_once (APPPATH.'Views/common/list-title.php'); ?>
+ <?php require_once (APPPATH.'Views/media_list/list-title.php'); ?>
  <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->

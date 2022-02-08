@@ -14,6 +14,7 @@ class Gallery extends CommonController
 		parent::__construct();
 		$this->gallery_model = new Gallery_model();
 		$this->user_model = new Users_model();
+		$this->Amazon_s3_model = new Amazon_s3_model();
 		$this->table = 'media_list';
 		$this->gallery = 'gallery';
 	}
@@ -23,7 +24,7 @@ class Gallery extends CommonController
 
 		$data[$this->table] = $this->gallery_model->findAll();
 		$data['tableName'] = $this->gallery;
-		$data['rawTblName'] = $this->rawTblName;
+		$data['rawTblName'] = "Image";
 		$data['is_add_permission'] = 1;
 
 		echo view($this->table."/list",$data);
@@ -31,6 +32,8 @@ class Gallery extends CommonController
 
 	public function edit($id = 0)
 	{
+		$data['rawTblName'] = "Image";
+		$data['tableName'] = $this->gallery;
 		$data[$this->table] = $this->gallery_model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
 		echo view($this->table.'/edit',$data);
@@ -57,7 +60,8 @@ class Gallery extends CommonController
 			
 			// if($_FILES['file']['tmp_name']) {	
 
-			// 	$response = $this->Amazon_s3_model->doUpload("file", "category-file");							
+			// 	$response = $this->Amazon_s3_model->doUpload("file", "category-file");	
+			// 	prd($response);						
 			// 	$data['name'] = $response["filePath"];
 			// }
 			$this->gallery_model->updateData($id, $data);
