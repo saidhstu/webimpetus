@@ -1,15 +1,19 @@
-<?php namespace App\Controllers;
+<?php 
+namespace App\Controllers;
 use App\Controllers\BaseController;
  
 use CodeIgniter\Controller;
 use App\Models\Content_model;
 use App\Models\Users_model;
-   use App\Models\Cat_model;
-class Jobs extends Controller
+use App\Models\Cat_model;
+use App\Controllers\Core\CommonController; 
+ini_set('display_errors', 1);
+
+class Jobs extends CommonController
 {	
 	public function __construct()
 	{
-		$this->session = \Config\Services::session();
+		parent::__construct();
 		$this->model = new Content_model();
 		$this->user_model = new Users_model();
 		$this->cat_model = new Cat_model();
@@ -17,78 +21,15 @@ class Jobs extends Controller
     public function index()
     {        
         $data['content'] = $this->model->where(['type' => 4])->findAll();
-        echo view('jobs',$data);
+		$data['tableName'] = $this->table;
+		$data['rawTblName'] = $this->rawTblName;
+		$data['is_add_permission'] = 0;
+		echo view($this->table."/list", $data);
     }
-	
-	public function add()
+	public function edit($id = 0)
     {
-		$data['users'] = $this->user_model->getUser();
-		$data['cats'] = $this->cat_model->getCats();
-        echo view('add_job',$data);
-    }
-	
-	
- 
-    public function save()
-    {		      
-		if(!empty($this->request->getPost('title'))){
-			
-				
-				   // Set Session
-				   session()->setFlashdata('message', 'Data entered Successfully!');
-				   session()->setFlashdata('alert-class', 'alert-success');
-				   $cus_fields = [];
-				   $cus_fields['reference'] = $this->request->getPost('reference');
-				   $cus_fields['job_type'] = $this->request->getPost('job_type');
-				   $cus_fields['salary'] = $this->request->getPost('salary');
-				   $cus_fields['employer'] = $this->request->getPost('employer');
-				   $cus_fields['jobstatus'] = $this->request->getPost('jobstatus');
-				   $cus_fields['location'] = $this->request->getPost('location');
-				   
-				   $data = array(
-						'title'  => $this->request->getPost('title'),				
-						'sub_title' => $this->request->getPost('sub_title'),
-						'content' => $this->request->getPost('content'),
-						'code' => $this->request->getPost('code')?$this->model->format_uri($this->request->getPost('code')):$this->model->format_uri($this->request->getPost('title')),
-						'meta_keywords' => $this->request->getPost('meta_keywords'),
-						'meta_title' => $this->request->getPost('meta_title'),
-						'meta_description' => $this->request->getPost('meta_description'),
-						'status' => $this->request->getPost('status'),
-						'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
-						'custom_fields' => json_encode($cus_fields),
-						'type' => ($this->request->getPost('type')?$this->request->getPost('type'):1),
-						//'image_logo' => $filepath
-					);
-					if(!empty($this->request->getPost('uuid'))){
-						$data['uuid'] = $this->request->getPost('uuid');
-					}
-					
-					$bid = $this->model->saveData($data); 
-					
-					if(!empty($bid) && !empty($this->request->getPost('catid'))){
-						
-						foreach($this->request->getPost('catid') as $val) {
-							$cat_data = [];
-							$cat_data['categoryid'] = $val;
-							$cat_data['contentid'] = $bid;
-							$this->cat_model->saveData2($cat_data);
-							
-						}
-						
-						
-					}
-
-				
-			 //}
-
-		 //}
-			
-		}
-        return redirect()->to('//jobs');
-    }
-	
-	public function edit($id)
-    {
+		$data['tableName'] = $this->table;
+		$data['rawTblName'] = $this->rawTblName;
 		$data['content'] = $this->model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
 		$data['cats'] = $this->cat_model->getCats();
@@ -99,7 +40,8 @@ class Jobs extends Controller
 			return $value['categoryid'];
 		} , $array1);
 		$data['selected_cats'] = $arr;
-        echo view('edit_job',$data);
+
+		echo view($this->table."/edit", $data);
     }
 	
 	public function rmimg($id)
@@ -118,34 +60,34 @@ class Jobs extends Controller
     public function update()
     {        
         $id = $this->request->getPost('id');
+		$cus_fields = [];
+		$cus_fields['reference'] = $this->request->getPost('reference');
+		$cus_fields['job_type'] = $this->request->getPost('job_type');
+		$cus_fields['salary'] = $this->request->getPost('salary');
+		$cus_fields['employer'] = $this->request->getPost('employer');
+		$cus_fields['jobstatus'] = $this->request->getPost('jobstatus');
+		$cus_fields['location'] = $this->request->getPost('location');
+		$data = array(
+			'title'  => $this->request->getPost('title'),				
+			'sub_title' => $this->request->getPost('sub_title'),
+			'content' => $this->request->getPost('content'),
+			'code' => $this->request->getPost('code')?$this->model->format_uri($this->request->getPost('code'),'-',$id):$this->model->format_uri($this->request->getPost('title'),'-',$id),
+			'meta_keywords' => $this->request->getPost('meta_keywords'),
+			'meta_title' => $this->request->getPost('meta_title'),
+			'meta_description' => $this->request->getPost('meta_description'),
+			'status' => $this->request->getPost('status'),
+			'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
+			'custom_fields' => json_encode($cus_fields),
+			'type' => ($this->request->getPost('type')?$this->request->getPost('type'):1),
+			//'image_logo' => $filepath
+		);
+		
+		if(!empty($this->request->getPost('uuid'))){
+			$data['uuid'] = $this->request->getPost('uuid');
+		}
+
 		if(!empty($id)){
-			$cus_fields = [];
-				   $cus_fields['reference'] = $this->request->getPost('reference');
-				   $cus_fields['job_type'] = $this->request->getPost('job_type');
-				   $cus_fields['salary'] = $this->request->getPost('salary');
-				   $cus_fields['employer'] = $this->request->getPost('employer');
-				   $cus_fields['jobstatus'] = $this->request->getPost('jobstatus');
-				   $cus_fields['location'] = $this->request->getPost('location');
-			$data = array(
-						'title'  => $this->request->getPost('title'),				
-						'sub_title' => $this->request->getPost('sub_title'),
-						'content' => $this->request->getPost('content'),
-						'code' => $this->request->getPost('code')?$this->model->format_uri($this->request->getPost('code'),'-',$id):$this->model->format_uri($this->request->getPost('title'),'-',$id),
-						'meta_keywords' => $this->request->getPost('meta_keywords'),
-						'meta_title' => $this->request->getPost('meta_title'),
-						'meta_description' => $this->request->getPost('meta_description'),
-						'status' => $this->request->getPost('status'),
-						'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
-						'custom_fields' => json_encode($cus_fields),
-						'type' => ($this->request->getPost('type')?$this->request->getPost('type'):1),
-						//'image_logo' => $filepath
-					);
-					
-					if(!empty($this->request->getPost('uuid'))){
-						$data['uuid'] = $this->request->getPost('uuid');
-					}
-					
-					
+			
 			$this->model->updateData($id, $data);
 			
 			if(!empty($id) && !empty($this->request->getPost('catid'))){
@@ -162,34 +104,27 @@ class Jobs extends Controller
 			session()->setFlashdata('message', 'Data updated Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		}else {
-			session()->setFlashdata('message', 'Something wrong!');
-			session()->setFlashdata('alert-class', 'alert-danger');				   
-		}
-        return redirect()->to('//jobs');
-    }
-	
-	public function status()
-    {  
-	if(!empty($id = $this->request->getPost('id'))){
-		$data = array(            
-			'status' => $this->request->getPost('status')
-        );
-        $this->model->updateUser($data, $id);
-	}
-	echo '1';
-	}
-	
-	public function delete($id)
-    {       
-		//echo $id; die;
-        if(!empty($id)) {
-			$this->model->deleteData($id);		
-			session()->setFlashdata('message', 'Data deleted Successfully!');
+			
+
+			$bid = $this->model->saveData($data); 
+					
+			if(!empty($bid) && !empty($this->request->getPost('catid'))){
+				
+				foreach($this->request->getPost('catid') as $val) {
+					$cat_data = [];
+					$cat_data['categoryid'] = $val;
+					$cat_data['contentid'] = $bid;
+					$this->cat_model->saveData2($cat_data);
+					
+				}
+			}
+			
+			session()->setFlashdata('message', 'Data entered Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		}
-		
-        return redirect()->to('//jobs');
+        return redirect()->to('/'.$this->table);
     }
+	
 	
 	public function upload($filename = null){
 		$input = $this->validate([

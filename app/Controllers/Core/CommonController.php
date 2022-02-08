@@ -41,6 +41,7 @@ class CommonController extends BaseController
         $data[$this->table] = $this->model->getRows();
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
+        $data['is_add_permission'] = 1;
 
         echo view($this->table."/list",$data);
     }
@@ -129,6 +130,39 @@ class CommonController extends BaseController
 	public function getAdditionalData($id)
 	{
 
+	}
+
+	public function upload($filename = null){
+		//echo $filename; die;
+		$input = $this->validate([
+			$filename => "uploaded[$filename]|max_size[$filename,1024]|ext_in[$filename,jpg,png,jpeg,docx,pdf],"
+		]);
+
+		if (!$input) { // Not valid
+		 	return '';
+		}else{ // Valid
+
+		 	if($file = $this->request->getFile($filename)) {
+		 		if ($file->isValid() && ! $file->hasMoved()) {
+				   // Get file name and extension
+		 			$name = $file->getName();
+		 			$ext = $file->getClientExtension();
+
+				   // Get random file name
+		 			$newName = $file->getRandomName(); 
+
+				   // Store file in public/uploads/ folder
+		 			$file->move('../public/ckfinder/userfiles/files/', $newName);
+
+				   // File path to display preview
+		 			return $filepath = base_url()."/ckfinder/userfiles/files/".$newName;
+
+		 		}
+
+		 	}
+
+		}
+		
 	}
 
 

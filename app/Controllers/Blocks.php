@@ -1,4 +1,5 @@
-<?php namespace App\Controllers;
+<?php 
+namespace App\Controllers;
 use App\Controllers\BaseController;
  
 use App\Models\Blocks_model;
@@ -14,66 +15,51 @@ class Blocks extends CommonController
     {
         parent::__construct();
 		$this->table = "blocks_list";
-		$this->rawTblName =  "block"; 
+		$this->rawTblName =  "blocks"; 
 		$this->model = new Blocks_model();
 		$this->user_model = new Users_model();
 	}
 
     public function index()
     {        
-        $data['content'] = $this->model->findAll();
-        echo view('blocks',$data);
+		$data['rawTblName'] = $this->rawTblName;
+		$data['tableName'] = "blocks";
+        $data[$this->rawTblName] = $this->model->findAll();
+        echo view($this->table.'/list',$data);
     }
 	
- 
-    public function save()
-    {		      
-		if(!empty($this->request->getPost('code'))){
-				
-				   // Set Session
-				   session()->setFlashdata('message', 'Data entered Successfully!');
-				   session()->setFlashdata('alert-class', 'alert-success');
-				   
-				   $data = array(						
-						'code' => $this->request->getPost('code'),
-						'text' => $this->request->getPost('text'),
-						'status' => $this->request->getPost('status'),						
-						//'image_logo' => $filepath
-					);				
-					
-					$this->model->saveData($data);			
-			
-		}
-        return redirect()->to('//blocks');
-    }
 	
-	public function edit($i = 0)
+	public function edit($id = 0)
     {
-		$data['content'] = $this->model->getRows($id)->getRow();
+		$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
-        echo view('edit_block',$data);
+        echo view($this->table.'/edit',$data);
     }
 	
 	
     public function update()
     {        
+		$data = array(
+			'code' => $this->request->getPost('code'),
+			'status' => $this->request->getPost('status'),
+			'text' => $this->request->getPost('text'),
+		);
+
         $id = $this->request->getPost('id');
-		if(!empty($id)){
-			$data = array(
-						'code' => $this->request->getPost('code'),
-						'status' => $this->request->getPost('status'),
-						'text' => $this->request->getPost('text'),
-					);					
+		if($id > 0){
+								
 	
 			$this->model->updateData($id, $data);
 			
 			session()->setFlashdata('message', 'Data updated Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		}else {
-			session()->setFlashdata('message', 'Something wrong!');
-			session()->setFlashdata('alert-class', 'alert-danger');				   
+
+			$this->model->saveData($data);	
+			session()->setFlashdata('message', 'Data entered Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');	   
 		}
-        return redirect()->to('//blocks');
+        return redirect()->to('/'.$this->rawTblName);
     }	
 
 }

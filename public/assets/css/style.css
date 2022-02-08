@@ -13354,11 +13354,11 @@ a.pswp__share--download:hover {
   display:inline-block;
   min-height:100%;
   width:100%;
-  padding: 10px; /* add your padding here */
+  padding: 0px; /* add your padding here */
 }
 
 .tableDocument td {
-   padding: 0;
+   padding: 10px;
 }
 .tableDocument td a {
   color: #000;
