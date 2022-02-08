@@ -1,9 +1,24 @@
-<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
+<?php require_once (APPPATH.'Views/common/edit-title.php'); 
+$contacts = $additional_data["contacts"];
+?>
     
 <div class="white_card_body">
     <div class="card-body">
         
         <form id="addcustomer" method="post" action="/customers/update" enctype="multipart/form-data">
+
+        <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Customer Detail</a>
+                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Contact details</a>
+                </div>
+            </nav>
+        
+            <div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
             <div class="form-row">
                 <div class="form-group required col-md-4">
                     <label for="selectCustomer">Company Name</label>
@@ -113,8 +128,102 @@
                 
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+
+            </div>
+
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+            <?php
+            if(count($contacts) > 0){
+            ?>
+            <div class="form-row addresscontainer">
+                <?php
+                    for($jak_i=0; $jak_i<count($contacts); $jak_i++){
+                        $new_id = $jak_i + 1;
+                ?>
+                <div class="form-row col-md-12" id="office_address_<?php echo $new_id; ?>">
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">First Name</label>
+                        <input type="text" class="form-control" id="first_name<?php echo $new_id; ?>" name="first_name[]" placeholder="" value="<?=$contacts[$jak_i]['first_name'] ?>">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Surname</label>
+                        <input type="text" class="form-control" id="surname<?php echo $new_id; ?>" name="surname[]" placeholder="" value="<?=$contacts[$jak_i]['surname'] ?>">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputEmail4">Surname</label>
+                        <input type="text" class="form-control" id="contact_email<?php echo $new_id; ?>" name="contact_email[]" placeholder="" value="<?=$contacts[$jak_i]['contact_email'] ?>">
+                    </div>
+                    <input type="hidden" value="<?=$contacts[$jak_i]['contact_id'] ?>" id="contact_id" name="contact_id[]">
+                    <?php
+                        if($jak_i == 0){
+                    ?>
+                        <div class="form-group col-md-1 change">
+                            <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+                        </div>
+                    <?php
+                        }else{
+                    ?>
+                        <div class="form-group col-md-1 change">
+                            <button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>
+                        </div>
+                    <?php
+                        }
+                    ?>
+                </div>
+                <?php
+                    }
+                ?>
+            </div>
+            
+            <input type="hidden" value="<?php echo count($contacts); ?>" id="total_secret_services" name="total_secret_services" />
+            
+            <?php
+                }else{
+            ?>
+                <div class="form-row" id="office_address_1">
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">First Name</label>
+                        <input type="text" class="form-control" id="first_name_1" name="first_name[]" placeholder="" value="">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Surname</label>
+                        <input type="text" class="form-control" id="surname" name="surname[]" placeholder="" value="">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputEmail4">Email</label>
+                        <input type="text" class="form-control" id="contact_email_1" name="contact_email[]" placeholder="" value="">
+                    </div>
+                    <div class="form-group col-md-1 change">
+                        <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+                    </div>
+                </div>
+                <input type="hidden" value="0" id="contact_id" name="contact_id">
+                <div class="form-row addresscontainer">
+                
+                </div>
+                <input type="hidden" value="1" id="total_contacts" name="total_contacts">
+            <?php
+                }
+            ?>
+
+                
+            </div>
+            </div>
+        </div>
+        </div>
+
+             
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        
+        </div>
+
         </form>
+        <input type="hidden" value="<?php echo @$totalContact; ?>" id="total_contacts" name="total_contacts">
+
     </div>
 </div>
 
@@ -129,5 +238,44 @@ $(document).on("click", ".form-check-input", function(){
     }else{
         $(this).val(1);
     }
+});
+</script>
+
+<script>
+$(document).ready(function() {
+
+var max_fields_limit = 10; //set limit for maximum input fields
+var x = $('#total_contacts').val(); //initialize counter for text box
+$('.add').click(function(e){ //click event on add more fields button having class add_more_button
+    // e.preventDefault();
+    if(x < max_fields_limit){ //check conditions
+        x++; //counter increment
+        
+        $('.addresscontainer').append('<div class="form-row col-md-12" id="office_address_'+x+'"><div class="form-group col-md-3">'+
+            '<label for="inputSecretKey">Name</label>'+
+            '<input type="text" class="form-control" id="first_name'+x+'" name="first_name[]" placeholder="" value="">'+
+        '</div>'+
+        '<div class="form-group col-md-3">'+
+            '<label for="inputSecretValue">Surname</label>'+
+            '<input type="text" class="form-control" id="surname'+x+'" name="surname[]" placeholder="" value="">'+
+        '</div>'+
+        '<div class="form-group col-md-5">'+
+            '<label for="inputSecretValue">Email</label>'+
+            '<input type="text" class="form-control" id="contact_email'+x+'" name="contact_email[]" placeholder="" value="">'+
+        '</div> <input type="hidden" value="0" id="contact_id" name="contact_id[]">'+
+        '<div class="form-group col-md-1 change">'+
+            '<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>'+
+        '</div></div>'
+        );
+        
+        
+    }
+    
+    $('.deleteaddress').on("click", function(e){ //user click on remove text links
+        e.preventDefault(); 
+        $(this).parent().parent().remove();
+        x--;
+    })
+});   
 });
 </script>
