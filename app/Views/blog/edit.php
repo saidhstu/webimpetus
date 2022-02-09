@@ -100,7 +100,7 @@
 								<?php foreach($json as $k=>$val){
 									if(!empty(@$content->custom_assets)) { ?>
 										<img class="img-rounded" src="<?= 'data:image/jpeg;base64,'.$val;?>" width="100px">
-										<a href="/blog/rmimg/<?=@$content->id.'/'.$k ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+										<a href="/blog/rmimg/<?=@$content->id.'/'.$k ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
 										<?php 
 									} 
 

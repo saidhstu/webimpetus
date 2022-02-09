@@ -21,7 +21,7 @@ body {
   font-family: "Mulish", sans-serif;
   padding: 0;
   margin: 0;
-  font-size: 14px;
+  font-size: 20px;
   position: relative;
   background: #F6F7FB;
 }
@@ -214,7 +214,7 @@ ul, ol {
 /* line 121,  */
 p {
   line-height: 24px;
-  font-size: 14px;
+  font-size: 20px;
   margin-bottom: 0px;
   color: #828BB2;
   font-family: "Mulish", sans-serif;
@@ -4214,7 +4214,7 @@ table.dataTable {
   border-top: 0 !important;
 }
 .table td, .table th, td {
-    font-size: 14px;
+    font-size: 20px;
 }
 
 /* line 574, /scss/_header.scss */
@@ -4606,8 +4606,8 @@ table.dataTable {
 
 /* line 278, /scss/_sidebar.scss */
 .sidebar #sidebar_menu > li a {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     color: #144339;
     padding: 0px 25px 0px 0px;
     background: #fff;
@@ -4957,8 +4957,8 @@ body::-webkit-scrollbar {
 /* line 6, /scss/_body_content.scss */
 .main-title h3 {
   font-family: "Mulish", sans-serif;
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 800;
+  font-size: 22px;
   color: #474D58;
 }
 
@@ -5531,8 +5531,8 @@ body::-webkit-scrollbar {
 /* line 286, /scss/_main_content.scss */
 .page_title_left h3 {
   color: #242934;
-  font-size: 25px;
-  font-weight: 900;
+  font-size: 30px;
+  font-weight: 1000;
 }
 
 /* line 293, /scss/_main_content.scss */
@@ -12746,8 +12746,8 @@ a.pswp__share--download:hover {
 .nav.nav-tabs .nav-item.show.active,
 .nav.nav-tabs .nav-link:focus,
 .nav.nav-tabs .nav-link.active {
-  color: #1761fd;
-  background-color: #fff;
+  color: #fff;
+  background-color: #1761fd;
   border-color: transparent transparent #1761fd;
 }
 
@@ -13528,6 +13528,10 @@ input:checked + .slider:before {
 .pd10{
   padding: 0px 10px;
   color: #000!important;
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
 }
 
@@ -13588,4 +13592,10 @@ div.dataTables_wrapper div.dataTables_filter input {
     margin-left: 8px;
     top:3px;
     font-weight: 1000;
+}
+
+/* custom datatable */
+table.table-bordered.dataTable th {
+  background-color: #d3b0058c;
+  color:#121211f2
 }
