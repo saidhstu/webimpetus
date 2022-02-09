@@ -29,7 +29,7 @@
                     </a>
                     </td>
                     <td class="f_s_12 f_w_400 text_color_1 ">
-                            <p class="pd10"> <?= $row['email'];?></p>
+                    <a href="contacts/edit/<?= $row['id'];?>"> <p class="pd10"> <?= $row['email'];?></p>   </a>
                     </td>
                     <td class="f_s_12 f_w_400 text-right">
                         <div class="header_more_tool">
