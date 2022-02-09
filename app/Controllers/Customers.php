@@ -31,21 +31,21 @@ class Customers extends CommonController
     public function update()
     {        
         $post = $this->request->getPost();
-        $data["company_name"] = ["company_name"];
-        $data["acc_no"] = ["acc_no"];
-        $data["status"] = ["status"];
-        $data["contact_firstname"] = ["contact_firstname"];
-        $data["contact_lastname"] = ["contact_lastname"];
-        $data["email"] = ["email"];
-        $data["address1"] = ["address1"];
-        $data["address2"] = ["address2"];
-        $data["city"] = ["city"];
-        $data["country"] = ["country"];
-        $data["postal_code"] = ["postal_code"];
-        $data["phone"] = ["phone"];
-        $data["notes"] = ["notes"];
-        $data["supplier"] = ["supplier"];
-        $data["website"] = ["website"];
+        $data["company_name"] = @$post["company_name"];
+        $data["acc_no"] = @$post["acc_no"];
+        $data["status"] = @$post["status"];
+        $data["contact_firstname"] = @$post["contact_firstname"];
+        $data["contact_lastname"] = @$post["contact_lastname"];
+        $data["email"] = @$post["email"];
+        $data["address1"] = @$post["address1"];
+        $data["address2"] = @$post["address2"];
+        $data["city"] = @$post["city"];
+        $data["country"] = @$post["country"];
+        $data["postal_code"] = @$post["postal_code"];
+        $data["phone"] = @$post["phone"];
+        $data["notes"] = $post["notes"];
+        $data["supplier"] = @$post["supplier"];
+        $data["website"] = @$post["website"];
 
         $id= $post["id"];
 		$response = $this->model->insertOrUpdate($id, $data);
@@ -60,8 +60,10 @@ class Customers extends CommonController
                 $contact["client_id"] = $id;
                 $contact["surname"] = $post["surname"][$i];
                 $contact["email"] = $post["contact_email"][$i];
-                $contactId =  $post["contact_id"];
-                $this->insertOrUpdate("contacts",$contactId, $contact);
+                $contactId =  @$post["contact_id"][$i];
+                if(strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"])>0) || strlen(trim($contact["email"])>0)){
+                    $this->insertOrUpdate("contacts",$contactId, $contact);
+                }
 
                 $i++;
             }
@@ -76,17 +78,18 @@ class Customers extends CommonController
         unset($data["id"]);
 
         if(@$id>0){
-            $query = $this->db->table($table);
-            $query->where('id', $id);
-            $query->update($data);
-            if( $query){
+           
+            $builder = $this->db->table($table);
+            $builder->where('id', $id);
+            $result = $builder->update($data);
+
+            if( $result){
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');
                 return $id;
             }
         }else{
             $query = $this->db->table($table)->insert($data);
-            echo $this->db->getlastQuery();
             if($query){
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');
