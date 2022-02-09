@@ -27,7 +27,7 @@ $contacts = $additional_data["contacts"];
 
                   
 
-                <div class="form-group col-md-4">
+                <div class="form-group required col-md-4">
                     <label for="inputEmail4">Account No</label>
                     <input type="text" class="form-control required" id="acc_no" name="acc_no" placeholder=""  value="<?= @$customer->acc_no ?>">
                 </div>
