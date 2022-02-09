@@ -47,29 +47,34 @@ class Gallery extends CommonController
 			'status' => $this->request->getPost('status'),
 		);
 
-		if($_FILES['file']['tmp_name']) {	
+		// if($_FILES['file']['tmp_name']) {	
 
-			$imgData = $this->upload('file');
-			$data['name'] = $imgData;
+		// 	$imgData = $this->upload('file');
+		// 	$data['name'] = $imgData;
 
-		}
+		// }
 
 		$id = $this->request->getPost('id');
 
 		if( $id > 0 ){
 			
-			// if($_FILES['file']['tmp_name']) {	
+			if($_FILES['file']['tmp_name']) {	
 
-			// 	$response = $this->Amazon_s3_model->doUpload("file", "category-file");	
-			// 	prd($response);						
-			// 	$data['name'] = $response["filePath"];
-			// }
+				$response = $this->Amazon_s3_model->doUpload("file", "category-file");						
+				$data['name'] = $response["filePath"];
+			}
 			$this->gallery_model->updateData($id, $data);
 			
 			session()->setFlashdata('message', 'Data updated Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 
 		}else {
+
+			if($_FILES['file']['tmp_name']) {	
+
+				$response = $this->Amazon_s3_model->doUpload("file", "category-file");						
+				$data['name'] = $response["filePath"];
+			}
 
 			if($file = $this->request->getFile('file')) {
 				

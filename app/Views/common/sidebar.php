@@ -26,7 +26,7 @@
 		
 		//echo '<pre>'; print_r($menu); die;
 		foreach($menu as $val) { ?>
-			<li><a href="<?php echo $val['link']; ?>" class=""><i class="fa fa-table"></i> <span><?php echo $val['name']; ?> </span></a></li>		
+			<li><a href="<?php echo $val['link']; ?>" class=""><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>		
 		
 		<?php } }  ?>
        <?php /* <li><a href="/categories" class=""><i class="fa fa-table"></i> <span>Categories</span></a></li>

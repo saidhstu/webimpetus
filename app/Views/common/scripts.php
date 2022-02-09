@@ -14,9 +14,11 @@
 <script src="/assets/js/select2.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
+
 		if ($(".js-example-basic-multiple").length > 0) {
-    $('.js-example-basic-multiple').select2();
+    		$('.js-example-basic-multiple').select2();
 		}
+		
 });
 </script>
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -24,7 +26,13 @@
 <script type="text/javascript">
     $(document).ready(function() {
 		if ($("#example").length > 0) {
-			$('#example').DataTable();
+			$('#example').DataTable({
+				columnDefs:[{targets:1,className:"truncate"}],
+    createdRow: function(row){
+       var td = $(row).find(".truncate");
+       td.attr("title", td.html());
+  }
+			});
 		}
 		
 		if ($(".checkb").length > 0) {
@@ -66,6 +74,9 @@
 		<?php } ?>
 	} );
 	
+	setTimeout(function(){
+		$('#example_length select').select2();
+	}, 300)
 	
 </script>
 

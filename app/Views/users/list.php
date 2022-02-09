@@ -3,7 +3,7 @@
 <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
-        <table id="example"  class="table tableDocument table-bordered table-hover">
+        <table id="example"  class="table tableDocument table-striped table-bordered">
             <thead>
                 <tr>
                     <!--th scope="col">
