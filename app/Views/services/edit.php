@@ -77,13 +77,7 @@
                                         <input type="file" name="file" class="custom-file-input" id="file">
                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                     </div>
-                                    <script>
-                                        // Add the following code if you want the name of the file appear on select
-                                        $(".custom-file-input").on("change", function() {
-                                            var fileName = $(this).val().split("\\").pop();
-                                            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-                                        });
-                                    </script>
+                           
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputAddress">Brand Upload</label>
@@ -95,13 +89,7 @@
                                         <input type="file" name="file2" class="custom-file-input" id="file2">
                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                     </div>
-                                    <script>
-                                        // Add the following code if you want the name of the file appear on select
-                                        $("#file2").on("change", function() {
-                                            var fileName = $(this).val().split("\\").pop();
-                                            $(this).siblings("#file2").addClass("selected").html(fileName);
-                                        });
-                                    </script>
+                           
                                 </div>
                             </div>
                         </div>
@@ -353,4 +341,16 @@
 			})
 		});   
 	});
+
+    
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+                   
+    $("#file2").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings("#file2").addClass("selected").html(fileName);
+    });
 </script>
