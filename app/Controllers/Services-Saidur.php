@@ -117,10 +117,10 @@ class Services extends Api
 			$this->push_service_env_vars($uuid);
 			$this->gen_service_yaml_file($uuid);
 						
-			//exec('/bin/sh /var/www/html/writable/tizohub_deploy_service.sh', $output, $return);
-			$output = shell_exec('/bin/sh /var/www/html/writable/tizohub_deploy_service.sh');
+			//exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh', $output, $return);
+			$output = shell_exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh');
 			//echo $output;
-			echo "Service deployment process started OK. Verify the deployment using kubectl get pods command";
+			echo "Service deployment process started OK.";
 			
 		} else { echo "Uuid is empty!!"; }
 		
@@ -136,14 +136,13 @@ class Services extends Api
 			$this->gen_service_yaml_file($uuid);
 						
 			//exec('/bin/bash /var/www/html/writable/tizohub_deploy_service.sh', $output, $return);
-			$output = shell_exec('/bin/sh /var/www/html/writable/tizohub_delete_service.sh');
+			$output = shell_exec('/bin/bash /var/www/html/writable/tizohub_delete_service.sh');
 			//echo $output;
-			echo "Service deletion process started OK. Note: This process does not delete the tenant database.";
+			echo "Service deletion process started OK.";
 			
 		} else { echo "Uuid is empty!!"; }
 		
     }
-
 	
 	public function export_service_json($uuid) 
 	{
@@ -156,17 +155,12 @@ class Services extends Api
 		fwrite($myfile, $this->services($uuid,true));
 		fclose($myfile);
 	}
-
 	
 	public function push_service_env_vars($uuid) 
 	{
-		// Get the contents of the JSON file for service and add as env variables to pass to the deployment
-		$svcJsonFileContents = file_get_contents(WRITEPATH . "tizohub_deployments/service-".$uuid.".json");
-		// Convert to array
-		$svcJsonFileObj = json_decode($svcJsonFileContents);
+		// loop through all secrets of this service 
+		//putenv("SERVICE_UUID", $id);
 		putenv("SERVICE_ID=".$uuid);
-		putenv("SERVICE_NAME=".$svcJsonFileObj->name);
-		// loop through all global secrets required for kubernetes deployment 
 		$secrets = $this->secret_model->getRows();
 		if(!empty($secrets)){
 				foreach($secrets as $key=>$val){
@@ -176,13 +170,12 @@ class Services extends Api
 						fclose($myfile);
 					}
 					
-					if ($val['key_name'] == 'TIZOHUB_DOCKER_IMAGE' || $val['key_name'] == 'TIZOHUB_DOCKER_IMAGE_TAG' || $val['key_name'] == 'KUBENETES_CLUSTER_NAME' || $val['key_name'] == 'AWS_ACCESS_KEY_ID' || $val['key_name'] == 'AWS_SECRET_ACCESS_KEY' || $val['key_name'] == 'AWS_DEFAULT_REGION') {
+					if ($val['key_name'] == 'KUBENETES_CLUSTER_NAME' || $val['key_name'] == 'AWS_ACCESS_KEY_ID' || $val['key_name'] == 'AWS_SECRET_ACCESS_KEY' || $val['key_name'] == 'AWS_DEFAULT_REGION') {
 					putenv($val['key_name']."=".$val['key_value']);
 					}
 			}
 		}
 
-		// loop through all secrets of this service 
 		$secrets = $this->secret_model->getSecrets($uuid);
 		if(!empty($secrets)){
 			foreach($secrets as $key=>$val){
@@ -191,74 +184,50 @@ class Services extends Api
 		}
 		
 	}
-
-
-	public function gen_service_env_file($uuid)
-	{
 	
-		$service_data = file_get_contents(WRITEPATH. 'tizohub.values.template');
-		$secrets = $this->secret_model->getSecrets($uuid);
-		if(!empty($secrets)){
-			foreach($secrets as $key=>$val){
-				$pattern = "/{{".$val['key_name']."}}/i";
-				$service_data = preg_replace($pattern, $val['key_value'], $service_data);
-		
-			}
+
+public function gen_service_env_file($uuid)
+{
+
+	$service_data = file_get_contents(WRITEPATH. 'tizohub.env.template');
+	$secrets = $this->secret_model->getSecrets($uuid);
+	if(!empty($secrets)){
+		foreach($secrets as $key=>$val){
+			$pattern = "/{{".$val['key_name']."}}/i";
+			$service_data = preg_replace($pattern, $val['key_value'], $service_data);
+	
 		}
-	
-		// loop through all global secrets required for kubernetes deployment 
-		$secrets = $this->secret_model->getRows();
-		if(!empty($secrets)){
-				foreach($secrets as $key=>$val){					
-					if ($val['key_name'] == 'TIZOHUB_DOCKER_IMAGE' || $val['key_name'] == 'TIZOHUB_DOCKER_IMAGE_TAG' || $val['key_name'] == 'KUBENETES_CLUSTER_NAME' || $val['key_name'] == 'AWS_ACCESS_KEY_ID' || $val['key_name'] == 'AWS_SECRET_ACCESS_KEY' || $val['key_name'] == 'AWS_DEFAULT_REGION') {
-						$pattern = "/{{".$val['key_name']."}}/i";
-						$service_data = preg_replace($pattern, $val['key_value'], $service_data);
-					}
-			}
-		}
-		
-		$myfile = fopen(WRITEPATH . "tizohub_deployments/values-".$uuid.".yaml", "w") or die("Unable to open file!");
-		fwrite($myfile, $service_data);
-		fclose($myfile);
-	
-		//create php seed
-		// $myfile = fopen(WRITEPATH . "tizohub_deployments/service-".$uuid.".php", "w") or die("Unable to open file!");
-		// fwrite($myfile, $service_data);
-		// fclose($myfile);
-	
 	}
-	
 
-	public function gen_service_yaml_file($uuid)
-	{
-		$service_data = file_get_contents(WRITEPATH. 'tizohub.yaml.template');
+	$myfile = fopen(WRITEPATH . "tizohub_deployments/service-".$uuid.".env", "w") or die("Unable to open file!");
+	fwrite($myfile, $service_data);
+	fclose($myfile);
+
+	//create php seed
+	// $myfile = fopen(WRITEPATH . "tizohub_deployments/service-".$uuid.".php", "w") or die("Unable to open file!");
+	// fwrite($myfile, $service_data);
+	// fclose($myfile);
+
+}
+
+public function gen_service_yaml_file($uuid)
+{
+
+	$service_data = file_get_contents(WRITEPATH. 'tizohub.yaml.template');
+	$secrets = $this->secret_model->getSecrets($uuid);
+	if(!empty($secrets)){
+		foreach($secrets as $key=>$val){
+			$pattern = "/{{".$val['key_name']."}}/i";
+			$service_data = preg_replace($pattern, $val['key_value'], $service_data);
 	
-			//then go through service secrets vars and may override any global var values
-			$secrets = $this->secret_model->getSecrets($uuid);
-			if(!empty($secrets)){
-				foreach($secrets as $key=>$val){
-					$pattern = "/{{".$val['key_name']."}}/i";
-					$service_data = preg_replace($pattern, $val['key_value'], $service_data);
-			
-				}
-			}
-				// loop through all global secrets required for kubernetes deployment 
-				$secrets = $this->secret_model->getRows();
-				if(!empty($secrets)){
-						foreach($secrets as $key=>$val){					
-							if ($val['key_name'] == 'TIZOHUB_DOCKER_IMAGE' || $val['key_name'] == 'TIZOHUB_DOCKER_IMAGE_TAG' || $val['key_name'] == 'KUBENETES_CLUSTER_NAME' || $val['key_name'] == 'AWS_ACCESS_KEY_ID' || $val['key_name'] == 'AWS_SECRET_ACCESS_KEY' || $val['key_name'] == 'AWS_DEFAULT_REGION') {
-								$pattern = "/{{".$val['key_name']."}}/i";
-								$service_data = preg_replace($pattern, $val['key_value'], $service_data);			
-							}
-					}
-				}
-	
-		$myfile = fopen(WRITEPATH."tizohub_deployments/service-".$uuid.".yaml", "w") or die("Unable to open file!");
-		fwrite($myfile, $service_data);
-		fclose($myfile);
-	
+		}
 	}
-	
+
+	$myfile = fopen(WRITEPATH."tizohub_deployments/service-".$uuid.".yaml", "w") or die("Unable to open file!");
+	fwrite($myfile, $service_data);
+	fclose($myfile);
+
+}
 
 public function delete($id)
 {       
