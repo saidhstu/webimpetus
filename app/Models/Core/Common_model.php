@@ -92,5 +92,38 @@ class Common_model extends Model
 		$query = $this->db->table($this->table)->update($data, array('id' => $id));
 		return $query;
 	}
+    public function updateTableData($id = null, $data = null, $tableName)
+	{
+		$query = $this->db->table($tableName)->update($data, array('id' => $id));
+		return $query;
+	}
+    public function saveDataInTable($data, $tableName)
+	{
+		$query = $this->db->table($tableName)->insert($data);
+		return $query;
+	}
+    public function getDataWhere($tableName, $value, $field = "id")
+    {
+		$result = $this->db->table($tableName)->getWhere([
+            $field => $value
+        ])->getResultArray();
+
+        return $result;
+	}
+
+    public function deleteTableData($tableName, $id)
+    {
+        $query = $this->db->table($tableName)->delete(array('id' => $id));
+        return $query;
+    }
+
+    public function getMenuCode($value)
+    {
+		$result = $this->db->table("menu")->getWhere([
+            "link" => $value
+        ])->getRowArray();
+
+        return @$result['id'];
+	}
 
 }

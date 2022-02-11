@@ -97,10 +97,10 @@
 								<?php 
 								$json = @$content->custom_assets?json_decode(@$content->custom_assets):[]; ?>
 
-								<?php foreach($json as $k=>$val){
-									if(!empty(@$content->custom_assets)) { ?>
-										<img class="img-rounded" src="<?= 'data:image/jpeg;base64,'.$val;?>" width="100px">
-										<a href="/blog/rmimg/<?=@$content->id.'/'.$k ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
+								<?php foreach($images as $image){
+									if(!empty(@$image)) { ?>
+										<img class="img-rounded" src="<?= $image['image'];?>" width="100px">
+										<a href="/blog/rmimg/<?=@$image['id'].'/'.@$content->id; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
 										<?php 
 									} 
 

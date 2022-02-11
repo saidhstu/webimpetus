@@ -103,4 +103,10 @@ class Content_model extends Model
 	public function getLastInserted() {
 		return $this->db->insertID();
 	}
+
+	public function saveDataInTable($data, $tableName)
+	{
+		$query = $this->db->table($tableName)->insert($data);
+		return $query;
+	}
 }

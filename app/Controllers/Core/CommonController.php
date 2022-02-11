@@ -24,6 +24,9 @@ class CommonController extends BaseController
 		
 		$this->table = $this->getTableNameFromUri();
 		$this->rawTblName =  substr($this->table, 0, -1); 
+		$this->menucode = $this->getMenuCode("/".$this->table);
+
+		$this->session->set("menucode", $this->menucode);
 
 	}
     
@@ -163,6 +166,11 @@ class CommonController extends BaseController
 
 		}
 		
+	}
+
+	public function getMenuCode($link){
+
+		return $this->model->getMenuCode($link);
 	}
 
 
