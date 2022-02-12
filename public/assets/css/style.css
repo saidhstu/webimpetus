@@ -4637,8 +4637,8 @@ table.dataTable {
 
 /* line 303, /scss/_sidebar.scss */
 .sidebar #sidebar_menu > li a.active {
-  color: #F65365;
-  background: #F8FAFC;
+  color: #fff;
+  background: #1761fd;
   border-radius: 15px;
 }
 
@@ -5517,7 +5517,7 @@ body::-webkit-scrollbar {
 
 /* line 271, /scss/_main_content.scss */
 .breadcrumb.page_bradcam li a {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 400;
     color: #9B9ABA;
 }

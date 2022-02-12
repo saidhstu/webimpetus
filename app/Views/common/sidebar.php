@@ -23,12 +23,13 @@
         </li>
 		<?php } else { 
 		$menu = $_SESSION['permissions'];
-		
-		//echo '<pre>'; print_r($menu); die;
+		$menucode = $_SESSION["menucode"];
+		// echo '<pre>'; print_r($menu); die;
 		foreach($menu as $val) { ?>
-			<li><a href="<?php echo $val['link']; ?>" class=""><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>		
+			<li><a href="<?php echo $val['link']; ?>" class="<?php if(@$menucode == $val['id'])echo "active";?>"><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>		
 		
-		<?php } }  ?>
+		<?php } }  
+        $_SESSION["menucode"] = 0;?>
        <?php /* <li><a href="/categories" class=""><i class="fa fa-table"></i> <span>Categories</span></a></li>
          <li><a href="/users" class=""><i class="fa fa-users"></i> <span>Users</span></a></li>
         <li><a href="/tenants" class=""><i class="fa fa-building"></i> <span>Tenants</span></a></li>

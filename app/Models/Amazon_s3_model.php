@@ -405,5 +405,57 @@ class Amazon_s3_model extends Model
         }
          // return the array value
     }
+
+    public function doUploadMultiple ( $fieldName, $subDirectoryName, $tempFIle, $fileName)
+    {
+	    // all special character will be removed from file
+        $fileinfo = $this->getFileExtension( $fileName );
+        $filename = $fileinfo['filename'].'.'.$fileinfo['extension'];
+        $time= time();
+        $fileName = "{$subDirectoryName}/{$time}/" . preg_replace( '/[^A-Za-z0-9\-.]/', '', $filename );
+	    
+	    $data = $this->uploadMultipleFileToS3 ( '', $fileName, $fieldName, $tempFIle );
+	    
+	    return $data;
+    }
+
+    public function uploadMultipleFileToS3( $tableName, $fileName, $fieldName, $tempFIle) 
+    {
+
+        $filePath = "";
+        $returArray = array(
+            "status" => false
+        );
+
+        $accessKey = $this->s3config->access_key;
+        $secretKey = $this->s3config->secret_key;
+        $s3Url = $this->s3config->s3_url;
+        $bucket = $this->s3config->bucket;
+        $directory = $this->s3config->s3_directory;
+        if(!empty($directory)){
+            $fileName = $directory."/".$fileName;
+        }
+        if (strlen($tempFIle) > 0) {
+            $file = $tempFIle;
+    
+            // set authetication
+
+            $newfilename = array(
+                'name' => $fileName,
+                'tmp_name'=> $tempFIle
+            );
+            // $contentType = $this->getMimeType($file);
+            $result =  Aws3::sendFile($bucket, $newfilename);
+            if($result){
+                $returArray['filePath'] = $result;
+                $returArray['status'] = TRUE;
+            }else{
+
+                $returArray['status'] = FALSE;
+            }
+        }
+
+        return $returArray;
+    }
     
 }
