@@ -2019,18 +2019,18 @@ p a:hover {
 }
 
 /* line 1495,  */
-.btn-primary {
+/* .btn-primary {
   color: #fff;
   background-color: #563d7c;
   border-color: #563d7c;
-}
+} */
 
 /* line 1500,  */
-.btn-primary:hover {
+/* .btn-primary:hover {
   color: #fff;
   background-color: #563d7ce6;
   border-color: #563d7ce6;
-}
+} */
 
 @media (max-width: 991px) {
   /* line 1506,  */

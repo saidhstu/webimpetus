@@ -21,4 +21,23 @@ class Contacts extends CommonController
         return  $data;
 
     }
+
+    public function update()
+    {        
+        $id = $this->request->getPost('id');
+
+		$data = $this->request->getPost();
+
+        if(strlen($data['password']) > 0){
+            $data['password'] = md5($data['password']);
+        }
+        
+		$response = $this->model->insertOrUpdate($id, $data);
+		if(!$response){
+			session()->setFlashdata('message', 'Something wrong!');
+			session()->setFlashdata('alert-class', 'alert-danger');	
+		}
+
+        return redirect()->to('/'.$this->table);
+    }
 }

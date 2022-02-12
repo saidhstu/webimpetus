@@ -18,7 +18,9 @@ class AddColumnOnMenu extends Migration
             ],
         ];
 
-        $this->forge->addColumn('menu', $fields);
+       
+       $this->forge->addColumn('menu', $fields);
+
 
     }
 

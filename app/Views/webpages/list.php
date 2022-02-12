@@ -1,5 +1,6 @@
- <?php require_once (APPPATH.'Views/common/list-title.php'); ?>
- <div class="white_card_body ">
+<?php require_once (APPPATH.'Views/common/list-title.php'); ?>
+
+<div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
         <table id="example"  class="table tableDocument table-striped table-bordered">
@@ -7,28 +8,30 @@
                 <tr>
 
                     <th scope="col">Id</th>
-                    <th scope="col">Code</th>
-                    <th scope="col">Image</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Sub title</th>
                     <th scope="col">status</th>
 
+                    <th scope="col">Published at</th>
                     <th scope="col">created at</th>
                     <th scope="col" width="50">Action</th>
                 </tr>
             </thead>
             <tbody>                                        
 
-                <?php foreach($gallery as $row):?>
-                    <tr data-href="/gallery/edit/<?= $row['id'];?>">
+                <?php foreach($webpages as $row):?>
+                    <tr data-href="/webpages/edit/<?= $row['id'];?>">
 
                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
-                        <td class="f_s_12 f_w_400"><?= trim($row['code']);?></td>
-                        <td class="f_s_12 f_w_400"><?php if(!empty($row['name'])) { ?>
-                            <img src="<?=$row['name']?>" width="140px"> <?php } ?>
-                        </td>
+                        <td class="f_s_12 f_w_400"><?= $row['title'];?></td>
+                        <td class="f_s_12 f_w_400"><?= $row['sub_title'];?>      </td>
                         <td class="f_s_12 f_w_400 <?=$row['status']==0?'text_color_1':'text_color_2'?> ">
                             <?=$row['status']==0?'inactive':'active'?>
                         </td>
 
+                        <td class="f_s_12 f_w_400 text_color_1 ">
+                            <p class="pd10"> <?= date('Y-m-d H:i:s',$row['publish_date']);?></p>
+                        </td>
 
                         <td class="f_s_12 f_w_400 text_color_1 ">
                             <p class="pd10"> <?= $row['created'];?></p>
@@ -41,8 +44,8 @@
                                     </span>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 
-                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/gallery/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
-                                        <a class="dropdown-item" href="/gallery/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/webpages/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
+                                        <a class="dropdown-item" href="/webpages/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
 
 
                                     </div>
@@ -53,6 +56,7 @@
                     </tr>
 
                 <?php endforeach;?>  
+
             </tbody>
         </table>
     </div>

@@ -55,7 +55,7 @@
 
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder=""  value="<?= @$contact->password ?>">
+                        <input autocomplete="new-password" type="password" class="form-control" id="password" name="password" placeholder=""  value="">
                     </div>
                 </div>
 
