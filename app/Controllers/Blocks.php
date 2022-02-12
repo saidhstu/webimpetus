@@ -31,6 +31,7 @@ class Blocks extends CommonController
 	
 	public function edit($id = 0)
     {
+		$data['tableName'] = "blocks";
 		$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
         echo view($this->table.'/edit',$data);

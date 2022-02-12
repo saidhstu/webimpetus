@@ -23,7 +23,12 @@
         </li>
 		<?php } else { 
 		$menu = $_SESSION['permissions'];
-		$menucode = $_SESSION["menucode"];
+        if(isset($_SESSION["menucode"])){
+
+            $menucode = $_SESSION["menucode"];
+        }else{
+            $menucode = 1;
+        }
 		// echo '<pre>'; print_r($menu); die;
 		foreach($menu as $val) { ?>
 			<li><a href="<?php echo $val['link']; ?>" class="<?php if(@$menucode == $val['id'])echo "active";?>"><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>		
