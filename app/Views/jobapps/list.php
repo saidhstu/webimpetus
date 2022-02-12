@@ -24,7 +24,7 @@
                     <tr data-href="enquiries/edit/<?= $row['id'];?>">
 
                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
-                        <td class="f_s_12 f_w_400"><?= $row['name'];?>
+                        <td class="f_s_12 f_w_400"><?= $row['name'];?></td>
                         <td class="f_s_12 f_w_400"><?= $row['email'];?> </td>
 
 
