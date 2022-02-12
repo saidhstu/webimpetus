@@ -34,6 +34,7 @@ class Webpages extends CommonController
 		$data['rawTblName'] = $this->rawTblName;
 		$data['webpage'] = $this->content_model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
+		$data['images'] = $this->model->getDataWhere("webpage_images", $id, "webpage_id");
 
 		echo view($this->table."/edit", $data);
 	}
@@ -104,6 +105,19 @@ class Webpages extends CommonController
 		}
         return redirect()->to('/'.$this->table);
     }
+
+	public function rmimg($id, $rowId)
+	{
+		if(!empty($id)){
+
+			$this->model->deleteTableData("webpage_images", $id);
+			session()->setFlashdata('message', 'Image deleted Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+			
+		}
+		return redirect()->to('//'.$this->table.'/edit/'.$rowId);
+		
+	}
 
 	
 }

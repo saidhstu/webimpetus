@@ -100,14 +100,14 @@
 									<?php 
 									$json = @$webpage->custom_assets?json_decode(@$webpage->custom_assets):[]; ?>
 
-									<?php foreach($json as $k=>$val){
-										if(!empty(@$webpage->custom_assets)) { ?>
-											<img class="img-rounded" src="<?= 'data:image/jpeg;base64,'.$val;?>" width="100px">
-											<a href="/webpages/rmimg/<?=@$webpage->id.'/'.$k ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
-											<?php 
-										} 
-										
-									}
+								<?php foreach($images as $image){
+									if(!empty(@$image)) { ?>
+										<img class="img-rounded" src="<?= $image['image'];?>" width="100px">
+										<a href="/webpages/rmimg/<?=@$image['id'].'/'.@$webpage->id; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
+										<?php 
+									} 
+
+								}
 									?>
 
 									<div class="form-group col-md-12" id="divfile">
