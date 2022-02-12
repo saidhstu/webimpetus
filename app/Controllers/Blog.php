@@ -114,7 +114,7 @@ class Blog extends CommonController
 
 						$blog_images['image'] = $response["filePath"];				
 						$blog_images['blog_id'] = $id;
-						pre($response);
+
 						$this->content_model->saveDataInTable($blog_images, "blog_images"); 
 					}							
 				}

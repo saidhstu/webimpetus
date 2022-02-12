@@ -21,7 +21,7 @@
                     <tr data-href="/gallery/edit/<?= $row['id'];?>">
 
                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
-                        <td class="f_s_12 f_w_400"><?= $row['code'];?>
+                        <td class="f_s_12 f_w_400"><?= trim($row['code']);?></td>
                         <td class="f_s_12 f_w_400"><?php if(!empty($row['name'])) { ?>
                             <img src="<?=$row['name']?>" width="140px"> <?php } ?>
                         </td>

@@ -103,7 +103,7 @@ $contacts = $additional_data["contacts"];
                 <div class="form-check checkbox-section col-md-3">
                     <div class = "checkbox-label" >
 
-                    <input class="form-check-input" name="supplier" id="supplier" value="<?php echo @$customer->supplier; ?>" type="checkbox" <?php if(@$customer->status == "1"){echo 
+                    <input class="form-check-input" name="supplier" id="supplier" value="<?php echo @$customer->supplier; ?>" type="checkbox" <?php if(@$customer->supplier == "1"){echo 
                         "checked"; }?>>
                     <label class="form-check-label" for="flexCheckIndeterminate">
                         Suppier
@@ -159,13 +159,13 @@ $contacts = $additional_data["contacts"];
                         if($jak_i == 0){
                     ?>
                         <div class="form-group col-md-1 change">
-                            <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+                            <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">+</button>
                         </div>
                     <?php
                         }else{
                     ?>
                         <div class="form-group col-md-1 change">
-                            <button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>
+                            <button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
                         </div>
                     <?php
                         }
