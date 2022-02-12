@@ -14,7 +14,8 @@ class Enquiries extends CommonController
 	function __construct()
     {
         parent::__construct();
-		$this->model = new Content_model();
+		// $this->model = new Content_model();
+		$this->content_model = new Content_model();
 		$this->enquries_model = new Enquiries_model();
 		$this->user_model = new Users_model();
 		$this->cat_model = new Cat_model();
@@ -57,7 +58,7 @@ class Enquiries extends CommonController
 			'title'  => $this->request->getPost('title'),				
 			'sub_title' => $this->request->getPost('sub_title'),
 			'content' => $this->request->getPost('content'),
-			'code' => $this->request->getPost('code')?$this->model	->format_uri($this->request->getPost('code'),'-',@$id):$this->model->format_uri($this->request->getPost('title'),'-',@$id),
+			'code' => $this->request->getPost('code')?$this->content_model->format_uri($this->request->getPost('code'),'-',@$id):$this->content_model->format_uri($this->request->getPost('title'),'-',@$id),
 			'meta_keywords' => $this->request->getPost('meta_keywords'),
 			'meta_title' => $this->request->getPost('meta_title'),
 			'meta_description' => $this->request->getPost('meta_description'),
@@ -90,7 +91,7 @@ class Enquiries extends CommonController
 				
 			}
 
-			$this->model->updateData($id, $data);
+			$this->content_model->updateData($id, $data);
 			
 			if(!empty($id) && !empty($this->request->getPost('catid'))){
 				$this->cat_model->deleteCatData($id);		
@@ -115,18 +116,7 @@ class Enquiries extends CommonController
 					session()->setFlashdata('message', 'Data entered Successfully!');
 					session()->setFlashdata('alert-class', 'alert-success');
 					
-					$filearr = [];
-					if(!empty($_FILES['file'])) {	
-						foreach($_FILES['file']['tmp_name'] as $key=>$v) {	
-							if($_FILES['file']['tmp_name'][$key]){
-								$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name'][$key]));
-								$filearr[$key] = $imgData;				
-							}							
-						}
-						$data['custom_assets'] = json_encode($filearr);
-						
-					}
-					$bid = $this->model->saveData($data); 
+					$bid = $this->content_model->saveData($data); 
 					
 					if(!empty($bid) && !empty($this->request->getPost('catid'))){
 						

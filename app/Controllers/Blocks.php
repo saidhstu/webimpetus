@@ -63,4 +63,23 @@ class Blocks extends CommonController
         return redirect()->to('/'.$this->rawTblName);
     }	
 
+	public function delete($id)
+    {       
+		//echo $id; die;
+        if(!empty($id)) {
+			$response = $this->model->deleteData($id);		
+			if($response){
+				session()->setFlashdata('message', 'Data deleted Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+			}else{
+				session()->setFlashdata('message', 'Something wrong delete failed!');
+				session()->setFlashdata('alert-class', 'alert-danger');		
+			}
+
+		}
+		
+        return redirect()->to('/blocks');
+    }
+
+
 }
