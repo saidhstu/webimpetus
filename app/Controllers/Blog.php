@@ -30,6 +30,7 @@ class Blog extends CommonController
 	
 	public function blogcomments()
 	{
+		$this->session->set("menucode", 9);
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
 		$data['content'] = $this->emodel->where(['type' => 3])->findAll();
@@ -114,7 +115,7 @@ class Blog extends CommonController
 
 						$blog_images['image'] = $response["filePath"];				
 						$blog_images['blog_id'] = $id;
-						pre($response);
+
 						$this->content_model->saveDataInTable($blog_images, "blog_images"); 
 					}							
 				}
@@ -188,6 +189,33 @@ class Blog extends CommonController
 		}
 		return redirect()->to('/'.$this->table);
 	}
+
+	public function delete($id, $redirect='')
+    {       
+		
+
+        if(!empty($id)) {
+			
+			if(strlen($redirect) > 0){
+				$url = '/blog/blogcomments';
+				$response = $this->emodel->deleteData($id);
+			}else{
+				$url = '/blog';
+				$response = $this->content_model->deleteData($id);
+			}
+					
+			if($response){
+				session()->setFlashdata('message', 'Data deleted Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+			}else{
+				session()->setFlashdata('message', 'Something wrong delete failed!');
+				session()->setFlashdata('alert-class', 'alert-danger');		
+			}
+
+		}
+		
+        return redirect()->to($url);
+    }
 	
 
 }

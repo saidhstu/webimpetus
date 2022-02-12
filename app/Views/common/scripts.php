@@ -81,6 +81,7 @@
 </script>
 
 <script src="/assets/js/custom.js"></script>
+<script src="/assets/js/list.js"></script>
 <script src="/assets/js/edit.js"></script>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script--> 
 

@@ -202,65 +202,7 @@
 		});
 	</script>
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
-	<script src="/assets/ckeditor/ckeditor.js"></script>
-	
-	<script>
-		if ($("#addcat").length > 0) {
-			$("#addcat").validate({
-				ignore : [], rules: {
-					title: {
-						required: true,
-					}, 
-					salary: {
-						required: true,
-					}, 
-					job_type: {
-						required: true,
-					}, 
-					content: {
-						required: function(textarea) {
-							CKEDITOR.instances[textarea.id].updateElement();
-							var editorcontent = textarea.value.replace(/<[^>]*>/gi, '');
-							return editorcontent.length === 0;
-						}
-					}
-				},
-				messages: {
-					name: {
-						required: "Please enter title",
-					},
-					
-				},
-			})
-		}
 
-
-		if ($("#chk_manual").length > 0) {
-			$("#chk_manual").click(function(){
-				if($(this).is(':checked')){
-					$('#code').attr("readonly",false);
-				}
-				else
-				{
-					$('#code').attr("readonly",true);
-				}
-				
-			});
-		}
-	</script>
-
-
-
-	<script type="text/javascript">
-		CKEDITOR.replace( 'content' , {
-			filebrowserBrowseUrl: '/assets/ckfinder/ckfinder.html',
-			filebrowserUploadUrl: '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-			filebrowserWindowWidth: '900',
-			filebrowserWindowHeight: '700'
-		});
-	</script>
 
 	<!-- Include Bootstrap Datepicker -->
 

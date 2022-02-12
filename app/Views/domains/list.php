@@ -3,7 +3,7 @@
 <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
-        <table id="example"  class="table tableDocument table-striped table-bordered">
+        <table id="example"  class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
                     
@@ -21,16 +21,16 @@
             <tbody>                                        
             
             <?php foreach($domains as $row):?> 
-            <tr >
+            <tr data-link="/domains/edit/<?= $row['id'];?>">
                 
-                    <td class="f_s_12 f_w_400"><a href="/domains/edit/<?= $row['id'];?>"><?= $row['id'];?></a>
+                    <td class="f_s_12 f_w_400"><a ><?= $row['id'];?>
                 </td>
-                <td class="f_s_12 f_w_400"><a href="/domains/edit/<?= $row['id'];?>"><?= $row['uuid'];?> </a>
+                <td class="f_s_12 f_w_400"><?= $row['uuid'];?> 
                 
-                <td class="f_s_12 f_w_400"><a href="/domains/edit/<?= $row['id'];?>"><?= $row['sname'];?> </a>
+                <td class="f_s_12 f_w_400"><?= $row['sname'];?>
                 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><a href="/domains/edit/<?= $row['id'];?>"><?= $row['name'];?></a>
+                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['name'];?>
                 </td>
                 <td class="f_s_12 f_w_400 text_color_1 ">
                     <?php if(!empty($row['image_logo'])) { //header('Content-type: image/jpeg'); ?>

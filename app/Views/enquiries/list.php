@@ -19,7 +19,7 @@
             <tbody>                                        
               
                 <?php foreach($enquiries as $row):?>
-                    <tr data-href="enquiries/edit/<?= $row['id'];?>">
+                    <tr>
                      
                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
                         <td class="f_s_12 f_w_400"><?= $row['name'];?>

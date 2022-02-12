@@ -2,7 +2,7 @@
 <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
-        <table id="example"  class="table tableDocument table-striped table-bordered">
+        <table id="example"  class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
                     
@@ -20,23 +20,23 @@
             <tbody>                                        
             
                 <?php foreach($tenants as $row):?>
-            <tr>
+            <tr  data-link="/secrets/edit/<?= $row['id'];?>">
                 
-                <td class="f_s_12 f_w_400"><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['id'];?></a>
+                <td class="f_s_12 f_w_400"><?= $row['id'];?>
                 </td>
-                <td class="f_s_12 f_w_400"><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['servicename'];?> </a>
+                <td class="f_s_12 f_w_400"><?= $row['servicename'];?> 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['name'];?></a>
+                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['name'];?>
                 </td>
-                <td class="f_s_12 f_w_400  "><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['address'];?></a>
+                <td class="f_s_12 f_w_400  "><?= $row['address'];?>
                 </td>
-                <td class="f_s_12 f_w_400  "><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['contact_name'];?></a>
+                <td class="f_s_12 f_w_400  "><?= $row['contact_name'];?>
                 </td>
-                <td class="f_s_12 f_w_400  "><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['contact_email'];?></a>
+                <td class="f_s_12 f_w_400  "><?= $row['contact_email'];?>
                 </td>
                 
                 <td class="f_s_12 f_w_400 text_color_1 ">
-                        <p class="pd10"><a href="/tenants/edit/<?= $row['id'];?>"> <?= $row['notes'];?></a> </p>
+                        <p class="pd10"> <?= $row['notes'];?> </p>
                 </td>
                 <td class="f_s_12 f_w_400 text-right">
                     <div class="header_more_tool">

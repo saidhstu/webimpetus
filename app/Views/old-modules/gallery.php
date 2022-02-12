@@ -13,17 +13,17 @@
                 <div class="col-12">
                     <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
                         <div class="page_title_left d-flex align-items-center">
-                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >Jobs </h3>
+                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >Gallery </h3>
                             <ol class="breadcrumb page_bradcam mb-0">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
-                                <li class="breadcrumb-item active">Jobs List</li>
+                                <li class="breadcrumb-item active">Images list</li>
                             </ol>
                         </div>
                         <div class="page_title_right">
-                         
+                       
                             <div class="header_more_tool setDropDownBlk">
                               
-                            <a href="/jobs/add" class="btn btn-primary"><i class="ti-plus"></i> Add job</a>
+                            <a href="/gallery/add" class="btn btn-primary"><i class="ti-plus"></i> Add Image</a>
 						  </div> 
 
                     </div>
@@ -54,16 +54,15 @@
                         <div class="white_card_body ">
                             <div class="QA_table ">
                                 <!-- table-responsive -->
-                                <table id="example"  class="table tableDocument table-bordered table-hover">
+                                <table id="example"  class="table table-listing-items tableDocument table-bordered table-hover">
                                     <thead>
                                         <tr>
                                            
                                             <th scope="col">Id</th>
-                                            <th scope="col">Title</th>
-											<th scope="col">Sub title</th>
+                                            <th scope="col">Code</th>
+											<th scope="col">Image</th>
                                             <th scope="col">status</th>
                                             
-											<th scope="col">Published at</th>
 											<th scope="col">created at</th>
                                             <th scope="col" width="50">Action</th>
                                         </tr>
@@ -71,11 +70,13 @@
                                     <tbody>                                        
                                   
                                     <?php foreach($content as $row):?>
-                                    <tr data-href="/jobs/edit/<?= $row['id'];?>">
+                                    <tr data-href="/gallery/edit/<?= $row['id'];?>">
                                        
                                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
-                                        <td class="f_s_12 f_w_400"><?= $row['title'];?>
-										<td class="f_s_12 f_w_400"><?= $row['sub_title'];?>
+                                        <td class="f_s_12 f_w_400"><?= $row['code'];?>
+										<td class="f_s_12 f_w_400"><?php if(!empty($row['name'])) { ?>
+                                            <img src="<?=$row['name']?>" width="140px">
+										<?php } ?>
                                         </td>
                                         <td class="f_s_12 f_w_400 <?=$row['status']==0?'text_color_1':'text_color_2'?> "><?=$row['status']==0?'inactive':'active'?>
                                         </td>
@@ -85,10 +86,7 @@
 										<?php } ?>
                                         </a>
                                         </td> */ ?>
-                                        <td class="f_s_12 f_w_400 text_color_1 ">
-                                             <p class="pd10"> <?= date('Y-m-d H:i:s',$row['publish_date']);?></p>
-                                        </td>
-										
+                                        										
 										<td class="f_s_12 f_w_400 text_color_1 ">
                                              <p class="pd10"> <?= $row['created'];?></p>
                                         </td>
@@ -100,15 +98,15 @@
                                                     </span>
                                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                                       
-                                                      <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/jobs/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
-                                                      <a class="dropdown-item" href="/jobs/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                                      <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/gallery/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
+                                                      <a class="dropdown-item" href="/gallery/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
                                                       
                                                       
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>   
-									                              
+									                             
                                     </tr>
                                    
                                    <?php endforeach;?>  

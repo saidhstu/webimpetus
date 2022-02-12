@@ -3,7 +3,7 @@
     <div class="white_card_body ">
         <div class="QA_table ">
             <!-- table-responsive -->
-            <table id="example"  class="table tableDocument table-striped table-bordered">
+            <table id="example"  class="table table-listing-items table-listing-items tableDocument table-striped table-bordered">
                 <thead>
                     <tr>
                         
@@ -18,24 +18,23 @@
                 <tbody>                                        
                 
                 <?php foreach($customers as $row):?>
-                <tr data-href="customers/edit/<?= $row['id'];?>">
+                <tr data-link="customers/edit/<?= $row['id'];?>">
                     
-                    <td class="f_s_12 f_w_400"><a href="customers/edit/<?= $row['id'];?>"><?= $row['id'];?></a>
+                    <td class="f_s_12 f_w_400"><?= $row['id'];?>
                     </td>
-                    <td class="f_s_12 f_w_400"><a href="customers/edit/<?= $row['id'];?>"><?= $row['company_name'];?> </a>
+                    <td class="f_s_12 f_w_400"><?= $row['company_name'];?>
                     </td>
-                    <td class="f_s_12 f_w_400 text_color_1 "><a href="customers/edit/<?= $row['id'];?>"><?= $row['acc_no'];?></a>
+                    <td class="f_s_12 f_w_400 text_color_1 "><?= $row['acc_no'];?>
                     </td>
-                    <td class="f_s_12 f_w_400  "><a href="customers/edit/<?= $row['id'];?>">
+                    <td class="f_s_12 f_w_400  ">
                     <?php if($row['status'] == 1) { 
                         echo "Active";
                         }else{
                         echo  "Inactive";
                     } ?>
-                    </a>
                     </td>
                     <td class="f_s_12 f_w_400 text_color_1 ">
-                    <a href="customers/edit/<?= $row['id'];?>"> <p class="pd10"> <?= $row['email'];?></p></a>
+                    <p class="pd10"> <?= $row['email'];?></p>
                     </td>
                     <td class="f_s_12 f_w_400 text-right">
                         <div class="header_more_tool">

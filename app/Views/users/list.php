@@ -3,7 +3,7 @@
 <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
-        <table id="example"  class="table tableDocument table-striped table-bordered">
+        <table id="example"  class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
                     <!--th scope="col">
@@ -23,16 +23,16 @@
             
             <?php foreach($users as $row):?>
             
-            <tr data-href="/users/edit/<?= $row['id'];?>">
+            <tr data-link="/users/edit/<?= $row['id'];?>">
                 
                 <!--td class="checkDocument">
                     <input type="checkbox" class="check_all" onclick="set_check_all(this);">
                 </td-->
-                <td class="f_s_12 f_w_400"><a href="/users/edit/<?= $row['id'];?>"><?= $row['id'];?></a></td>
-                <td class="f_s_12 f_w_400"><a href="/users/edit/<?= $row['id'];?>"><?= $row['uuid'];?> </a></td>
-                <td class="f_s_12 f_w_400 text_color_1 "><a href="/users/edit/<?= $row['id'];?>"><?= $row['name'];?></a></td>
-                    <td class="f_s_12 f_w_400  "><a href="/users/edit/<?= $row['id'];?>"><?= $row['email'];?></a></td>
-                    <td class="f_s_12 f_w_400  "><a href="/users/edit/<?= $row['id'];?>"><?= $row['address'];?></a></td>
+                <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
+                <td class="f_s_12 f_w_400"><?= $row['uuid'];?> </td>
+                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['name'];?></td>
+                    <td class="f_s_12 f_w_400  "><?= $row['email'];?></td>
+                    <td class="f_s_12 f_w_400  "><?= $row['address'];?></td>
                     
                     <td class="f_s_12 f_w_400 text_color_1 ">
                         <p class="pd10"> <?= $row['notes'];?></p>

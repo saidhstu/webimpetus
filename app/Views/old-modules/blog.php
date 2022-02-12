@@ -13,18 +13,19 @@
                 <div class="col-12">
                     <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
                         <div class="page_title_left d-flex align-items-center">
-                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >Webpages </h3>
+                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >blog </h3>
                             <ol class="breadcrumb page_bradcam mb-0">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
-                                <li class="breadcrumb-item active">Webpages List</li>
+                                <li class="breadcrumb-item active">blog List</li>
                             </ol>
                         </div>
                         <div class="page_title_right">
-                        
+                         
                             <div class="header_more_tool setDropDownBlk">
                               
-                            <a href="/webpages/add" class="btn btn-primary"><i class="ti-plus"></i> Add Webpage</a>
-						  </div> 
+                            <a href="/blog/add" class="btn btn-primary"><i class="ti-plus"></i> Add Blog</a>
+						  </div>
+
                     </div>
                 </div>
             </div>
@@ -53,7 +54,7 @@
                         <div class="white_card_body ">
                             <div class="QA_table ">
                                 <!-- table-responsive -->
-                                <table id="example"  class="table tableDocument table-bordered table-hover">
+                                <table id="example"  class="table table-listing-items tableDocument table-bordered table-hover">
                                     <thead>
                                         <tr>
                                            
@@ -69,8 +70,8 @@
                                     </thead>
                                     <tbody>                                        
                                   
-                                    <?php foreach($webpages as $row):?>
-                                    <tr data-href="/webpages/edit/<?= $row['id'];?>">
+                                    <?php foreach($content as $row):?>
+                                    <tr data-link="/blog/edit/<?= $row['id'];?>">
                                        
                                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
                                         <td class="f_s_12 f_w_400"><?= $row['title'];?>
@@ -99,15 +100,15 @@
                                                     </span>
                                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                                       
-                                                      <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/webpages/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
-                                                      <a class="dropdown-item" href="/webpages/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                                      <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/blog/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
+                                                      <a class="dropdown-item" href="/blog/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
                                                       
                                                       
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>   
-									                                       
+									                                  
                                     </tr>
                                    
                                    <?php endforeach;?>  
