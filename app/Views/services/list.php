@@ -3,7 +3,7 @@
 <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
-        <table id="example"  class="table tableDocument table-striped table-bordered">
+        <table id="example"  class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
                     
@@ -25,43 +25,42 @@
             <tbody>                                        
             
             <?php foreach($services as $row):?>  
-            <tr data-href="/services/edit/<?= $row['id'];?>">                                     
-                <td class="f_s_12 f_w_400"><a href="/services/edit/<?= $row['id'];?>"><?= $row['id'];?></a>
+            <tr data-link="/services/edit/<?= $row['id'];?>">                                     
+                <td class="f_s_12 f_w_400"><?= $row['id'];?>
                 </td>
-                <td class="f_s_12 f_w_400"><a href="/services/edit/<?= $row['id'];?>"><?= $row['uuid'];?> </a>
+                <td class="f_s_12 f_w_400"><?= $row['uuid'];?> 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><a href="/services/edit/<?= $row['id'];?>"><?= $row['name'];?></a>
+                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['name'];?>
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><a href="/services/edit/<?= $row['id'];?>"><?= $row['category'];?></a>
+                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['category'];?>
                 </td>
                 
-                <td class="f_s_12 f_w_400"><a href="/services/edit/<?= $row['id'];?>"><?= $row['tenant'];?> </a>
+                <td class="f_s_12 f_w_400"><?= $row['tenant'];?> 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><a href="/services/edit/<?= $row['id'];?>"><?= $row['code'];?></a>
+                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['code'];?>
                 </td>
-                    <td class="f_s_12 f_w_400  "><a href="/services/edit/<?= $row['id'];?>">
+                    <td class="f_s_12 f_w_400  ">
                     <?php if(!empty($row['image_logo'])) { ?>
                     <img src="<?=$row['image_logo'];?>" width="150px">
                 <?php } ?>
-                </a>
+                
                 </td>
 
-                    <td class="f_s_12 f_w_400  "><a href="/services/edit/<?= $row['id'];?>">
+                    <td class="f_s_12 f_w_400  ">
                     <?php if(!empty($row['image_brand'])) { ?>
                     <img src="<?=$row['image_brand'];?>" width="150px">
                 <?php } ?>
-                </a>
                 </td>
                 <td class="f_s_12 f_w_400 text_color_1 ">
                         <p class="pd10"> <?= $row['notes'];?> </p>
                 </td>
                 
-                    <td class="f_s_12 f_w_400 text_color_1 "><a href="/services/edit/<?= $row['id'];?>"> <div class="">
+                    <td class="f_s_12 f_w_400 text_color_1 "> <div class="">
                         <label class="switch2">
                             <input type="checkbox" class="checkb" data-url="services/status" name="checkb[]" value="<?= $row['id'];?>" <?=($row['status']==1)?'checked':''?>  />
                             <span class="slider round"></span>
                         </label>
-                    </div></a>
+                    </div>
                 </td>
                 <td class="f_s_12 f_w_400 text-right">
                     <div class="header_more_tool">

@@ -5,12 +5,12 @@
 
         <form action="/users/update" method="post"  id="userform">
             <div class="form-row">
-                <div class="form-group required col-md-6">
+                <div class="form-group required  col-md-6">
                     <label for="inputEmail4">Name</label>
                     <input type="text" class="form-control required" name="name" placeholder="" value="<?=@$user->name ?>" />
                 </div>
-                <input type="hidden" class="form-control required" name="id" placeholder="" value="<?=@$user->id ?>" />
-                <div class="form-group col-md-6">
+                <input type="hidden" class="form-control " name="id" placeholder="" value="<?=@$user->id ?>" />
+                <div class="form-group required col-md-6">
                     <label for="inputPassword4">Email</label>
                     <input type="email" class="form-control required" name="email" placeholder=""  value="<?=@$user->email ?>">
                 </div>
@@ -41,7 +41,8 @@
                             
                             $arr = json_decode(@$user->permissions);
                             foreach($menu as $row):?>
-                            <option value="<?= $row['id'];?>" <?= in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
+                            <option value="<?= $row['id'];?>" <?php  if($arr) echo 
+                            in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
                             <?php endforeach;?>
                         </select>
                 </div>
@@ -56,17 +57,17 @@
         <form action="/users/savepwd" method="post" id="chngpwd">
 
             <div class="form-row">
-                <div class="form-group required col-md-12">
+                <div class="form-group  col-md-12">
                     <label for="inputPassword4">New Password</label>
-                    <input type="password" id="npassword" class="form-control required" name="npassword" placeholder="">
+                    <input type="password" id="npassword" class="form-control" name="npassword" placeholder="">
                 </div>                                        
                 <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$user->id ?>" />
             </div>
 
             <div class="form-row">
-                    <div class="form-group required npasswordcol-md-12">
+                    <div class="form-group  npasswordcol-md-12">
                     <label for="inputPassword4">Confirm Password</label>
-                    <input type="password" class="form-control required" name="cpassword" placeholder="">
+                    <input type="password" class="form-control" name="cpassword" placeholder="">
                 </div>                                        
             </div>
 

@@ -17,64 +17,61 @@ class Users extends CommonController
 	}
 
 	
-    public function saveuser()
-    {        
-		//echo '<pre>';print_r($this->request->getPost('name')); die;        
-		if(!empty($this->request->getPost('email'))){		
-
-			$count = $this->userModel->getWhere(['email' => $this->request->getPost('email')])->getNumRows();
-			if(!empty($count)){
-				session()->setFlashdata('message', 'Email already exist!');
-				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/users/add');
-			}else {
-				$data = array(
-					'name'  => $this->request->getPost('name'),
-					'email' => $this->request->getPost('email'),
-					'password' => md5($this->request->getPost('password')),
-					'address' => $this->request->getPost('address'),
-					'notes' => $this->request->getPost('notes'),
-					'uuid' => mt_rand(10000, 100000),
-					'status' => 0,
-					'permissions' => json_encode($this->request->getPost('sid'))
-				);
-				$this->userModel->saveUser($data);
-				session()->setFlashdata('message', 'Data entered Successfully!');
-				session()->setFlashdata('alert-class', 'alert-success');
-			}
-		}
-        return redirect()->to('/users');
-    }
-	
 	 public function edit($id = 0)
     {        
+		$data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
         $data['user'] = $this->userModel->getUser($id)->getRow();
 		$data['menu'] = $this->menu_model->getRows();
-        echo view('edit_user', $data);
+        echo view('users/edit', $data);
     }
 	
     public function update()
     {        
         $id = $this->request->getPost('id');
 		
-		$count = $this->userModel->getWhere(['email' => $this->request->getPost('email'), 'id!=' => $id])->getNumRows();
-			if(!empty($count)){
-				session()->setFlashdata('message', 'Email already exist!');
-				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/users/edit/'.$id);
-			}else {
-        $data = array(
-            'name'  => $this->request->getPost('name'),
-            'email' => $this->request->getPost('email'),
-			'address' => $this->request->getPost('address'),
-			'notes' => $this->request->getPost('notes'),
-			'permissions' => json_encode($this->request->getPost('sid'))
-        );
-        $this->userModel->updateUser($data, $id);
-		session()->setFlashdata('message', 'Data updated Successfully!');
-		session()->setFlashdata('alert-class', 'alert-success');
-		
-		
+		if($id){
+			$count = $this->userModel->getWhere(['email' => $this->request->getPost('email'), 'id!=' => $id])->getNumRows();
+				if(!empty($count)){
+					session()->setFlashdata('message', 'Email already exist!');
+					session()->setFlashdata('alert-class', 'alert-danger');
+					return redirect()->to('/users/edit/'.$id);
+				}else {
+				$data = array(
+					'name'  => $this->request->getPost('name'),
+					'email' => $this->request->getPost('email'),
+					'address' => $this->request->getPost('address'),
+					'notes' => $this->request->getPost('notes'),
+					'permissions' => json_encode($this->request->getPost('sid'))
+				);
+				$this->userModel->updateUser($data, $id);
+				session()->setFlashdata('message', 'Data updated Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+			}	
+		}else{
+				if(!empty($this->request->getPost('email'))){		
+
+					$count = $this->userModel->getWhere(['email' => $this->request->getPost('email')])->getNumRows();
+					if(!empty($count)){
+						session()->setFlashdata('message', 'Email already exist!');
+						session()->setFlashdata('alert-class', 'alert-danger');
+						return redirect()->to('/users/add');
+					}else {
+						$data = array(
+							'name'  => $this->request->getPost('name'),
+							'email' => $this->request->getPost('email'),
+							'password' => md5($this->request->getPost('password')),
+							'address' => $this->request->getPost('address'),
+							'notes' => $this->request->getPost('notes'),
+							'uuid' => mt_rand(10000, 100000),
+							'status' => 0,
+							'permissions' => json_encode($this->request->getPost('sid'))
+						);
+						$this->userModel->saveUser($data);
+						session()->setFlashdata('message', 'Data entered Successfully!');
+						session()->setFlashdata('alert-class', 'alert-success');
+					}
+				}
 			}
         return redirect()->to('/users');
     }

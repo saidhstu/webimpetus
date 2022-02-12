@@ -2,7 +2,7 @@
     <div class="white_card_body ">
         <div class="QA_table ">
             <!-- table-responsive -->
-            <table id="example"  class="table tableDocument table-striped table-bordered">
+            <table id="example"  class="table table-listing-items tableDocument table-striped table-bordered">
                 <thead>
                     <tr>
                         
@@ -17,19 +17,18 @@
                 <tbody>                                        
                 
                 <?php foreach($contacts as $row):?>
-                <tr data-href="contacts/edit/<?= $row['id'];?>">
+                <tr data-link="contacts/edit/<?= $row['id'];?>">
                     
-                    <td class="f_s_12 f_w_400"><a href="contacts/edit/<?= $row['id'];?>"><?= $row['id'];?></a>
+                    <td class="f_s_12 f_w_400"><?= $row['id'];?>
                     </td>
-                    <td class="f_s_12 f_w_400"><a href="contacts/edit/<?= $row['id'];?>"><?= $row['first_name'];?> </a>
+                    <td class="f_s_12 f_w_400"><?= $row['first_name'];?>
                     </td>
-                    <td class="f_s_12 f_w_400 text_color_1 "><a href="contacts/edit/<?= $row['id'];?>"><?= $row['surname'];?></a>
+                    <td class="f_s_12 f_w_400 text_color_1 "><?= $row['surname'];?>
                     </td>
-                    <td class="f_s_12 f_w_400  "><a href="contacts/edit/<?= $row['id'];?>"> <?= $row['title'];?>
-                    </a>
+                    <td class="f_s_12 f_w_400  "><?= $row['title'];?>
                     </td>
                     <td class="f_s_12 f_w_400 text_color_1 ">
-                    <a href="contacts/edit/<?= $row['id'];?>"> <p class="pd10"> <?= $row['email'];?></p>   </a>
+                     <p class="pd10"> <?= $row['email'];?></p> 
                     </td>
                     <td class="f_s_12 f_w_400 text-right">
                         <div class="header_more_tool">

@@ -81,6 +81,7 @@
 </script>
 
 <script src="/assets/js/custom.js"></script>
+<script src="/assets/js/list.js"></script>
 <script src="/assets/js/edit.js"></script>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script--> 
 
@@ -160,7 +161,7 @@ if ($("#chk_manual").length > 0) {
 <!-- Include Bootstrap Datepicker -->
 
 <script>
-        // $('#publish_date').datepicker({ format: "dd/mm/yyyy" });
+        //$('#publish_date').datepicker({ format: "dd/mm/yyyy" });
     </script>
 <style>
 .custom-file{

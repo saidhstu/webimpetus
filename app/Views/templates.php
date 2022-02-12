@@ -54,7 +54,7 @@
                         <div class="white_card_body ">
                             <div class="QA_table ">
                                 <!-- table-responsive -->
-                                <table id="example"  class="table tableDocument table-bordered table-hover">
+                                <table id="example"  class="table table-listing-items tableDocument table-bordered table-hover">
                                     <thead>
                                         <tr>
                                            
@@ -71,7 +71,7 @@
                                     <tbody>                                        
                                   
                                     <?php foreach($content as $row):?>
-                                    <tr data-href="/blog/edit/<?= $row['id'];?>">
+                                    <tr data-link="/blog/edit/<?= $row['id'];?>">
                                        
                                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
                                         <td class="f_s_12 f_w_400"><?= $row['title'];?>

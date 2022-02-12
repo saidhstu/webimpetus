@@ -3,7 +3,7 @@
 <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
-        <table id="example"  class="table tableDocument table-striped table-bordered">
+        <table id="example"  class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
                     
@@ -18,19 +18,19 @@
             <tbody>                                        
             
             <?php foreach($categories as $row):?>
-            <tr data-href="categories/edit/<?= $row['id'];?>">
+            <tr data-link="categories/edit/<?= $row['id'];?>">
                 
-                <td class="f_s_12 f_w_400"><a href="categories/edit/<?= $row['id'];?>"><?= $row['id'];?></a>
+                <td class="f_s_12 f_w_400"><?= $row['id'];?>
                 </td>
-                <td class="f_s_12 f_w_400"><a href="categories/edit/<?= $row['id'];?>"><?= $row['uuid'];?> </a>
+                <td class="f_s_12 f_w_400"><?= $row['uuid'];?> 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><a href="categories/edit/<?= $row['id'];?>"><?= $row['name'];?></a>
+                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['name'];?>
                 </td>
-                <td class="f_s_12 f_w_400  "><a href="categories/edit/<?= $row['id'];?>">
+                <td class="f_s_12 f_w_400  ">
                 <?php if(!empty($row['image_logo'])) { ?>
                     <img src="<?= $row['image_logo']?>" width="200px">
                 <?php } ?>
-                </a>
+                
                 </td>
                 <td class="f_s_12 f_w_400 text_color_1 ">
                         <p class="pd10"> <?= $row['notes'];?></p>

@@ -3,7 +3,7 @@
 <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
-        <table id="example" cellpadding="5" class="table tableDocument table-striped table-bordered">
+        <table id="example" cellpadding="5" class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
                     
@@ -19,11 +19,11 @@
             <tbody>                                        
             
             <?php foreach($content as $row): ?>
-            <tr data-href="/secrets/edit/<?= $row['id'];?>">
+            <tr data-link="/secrets/edit/<?= $row['id'];?>">
                 
-                <td class="f_s_12 f_w_100"> <a href="/secrets/edit/<?= $row['id'];?>"><?= $row['id'];?> </a></td>
-                <td class="f_s_12 f_w_200"><a href="/secrets/edit/<?= $row['id'];?>"><?= $row['key_name'];?></a></td>
-                <td class="f_s_12 f_w_100"><a href="/secrets/edit/<?= $row['id'];?>"><?= $row['name'];?></a></td>
+                <td class="f_s_12 f_w_100"> <?= $row['id'];?> </td>
+                <td class="f_s_12 f_w_200"><?= $row['key_name'];?></td>
+                <td class="f_s_12 f_w_100"><?= $row['name'];?></td>
                 
                 <?php /* ?><td class="f_s_12 f_w_400 <!--?=$row['status']==0?'text_color_1':'text_color_2'?--> "><?=$row['status']==0?'XXXXXXXXX':$row['key_value']?>
                 </td>
@@ -31,11 +31,11 @@
                 <?php if(!empty($row['image_logo'])) { ?>
                     <img src="<?='data:image/jpeg;base64,'.$row['image_logo']?>" width="200px">
                 <?php } ?>
-                </a>
+                
                 </td> */ ?>
                                                         
                 <td class="f_s_12 f_w_400 text_color_1 ">
-                <a href="/secrets/edit/<?= $row['id'];?>"><p class="pd10"> <?= $row['created'];?></p></a>
+                <p class="pd10"> <?= $row['created'];?></p>
                 </td>
                 <?php if(!empty($_SESSION['role'])){ ?> <td class="f_s_12 f_w_400 text-right">
                     <div class="header_more_tool">
