@@ -50,10 +50,10 @@
 									
 									<label for="inputEmail4"><input type="radio" <?=@$enquiries->status==0?'checked':''?> value="0" class="form-control" id="status" name="status" placeholder=""> No</label>
 								</div>
-								<?php $json = json_decode(@$enquiries->custom_fields); ?>
+								<?php @$json = json_decode(@$enquiries->custom_fields); ?>
 								<div class="form-group col-md-12">
 									<label for="inputEmail4">Reference</label>
-									<input type="text" class="form-control" id="reference" name="reference" placeholder="" value="<?=$json->reference?>">
+									<input type="text" class="form-control" id="reference" name="reference" placeholder="" value="<?=@$json->reference?>">
 								</div>
 								
 								<div class="form-group col-md-12">
@@ -61,11 +61,11 @@
 									<select onchange=""  class="form-control" name="job_type" id="job_type">
 										<option value="">-- Select Job Type--</option>
 										
-										<option value="Temporary" <?=$json->job_type=='Temporary'?'selected':''?>>Temporary</option>
-										<option value="Permanent" <?=$json->job_type=='Permanent'?'selected':''?>>Permanent</option>
-										<option value="Contract" <?=$json->job_type=='Contract'?'selected':''?>>Contract</option>
-										<option value="Freelance" <?=$json->job_type=='Freelance'?'selected':''?>>Freelance</option>
-										<option value="Part time" <?=$json->job_type=='Part time'?'selected':''?>>Part time</option>
+										<option value="Temporary" <?=@$json->job_type=='Temporary'?'selected':''?>>Temporary</option>
+										<option value="Permanent" <?=@$json->job_type=='Permanent'?'selected':''?>>Permanent</option>
+										<option value="Contract" <?=@$json->job_type=='Contract'?'selected':''?>>Contract</option>
+										<option value="Freelance" <?=@$json->job_type=='Freelance'?'selected':''?>>Freelance</option>
+										<option value="Part time" <?=@$json->job_type=='Part time'?'selected':''?>>Part time</option>
 										
 									</select>
 								</div>
@@ -73,18 +73,18 @@
 								
 								<div class="form-group col-md-12">
 									<label for="inputEmail4">Salary*</label>
-									<input type="text" class="form-control" id="salary" name="salary" placeholder="" value="<?=$json->salary?>">
+									<input type="text" class="form-control" id="salary" name="salary" placeholder="" value="<?=@$json->salary?>">
 								</div>
 								
 								
 								<div class="form-group col-md-12">
 									<label for="inputEmail4">Employer</label>
-									<input type="text" class="form-control" id="employer" name="employer" placeholder="" value="<?=$json->employer?>">
+									<input type="text" class="form-control" id="employer" name="employer" placeholder="" value="<?=@$json->employer?>">
 								</div>
 								
 								<div class="form-group col-md-12">
 									<label for="inputEmail4">Location</label>
-									<input type="text" class="form-control" id="location" name="location" placeholder="" value="<?=isset($json->location)?$json->location:''?>">
+									<input type="text" class="form-control" id="location" name="location" placeholder="" value="<?=isset($json->location)?@$json->location:''?>">
 								</div>
 								
 								
@@ -93,9 +93,9 @@
 								</div>
 								<div class="form-group col-md-12">
 									
-									<label for="inputEmail4"><input type="radio" value="1" class="form-control" id="jobstatus" name="jobstatus" <?=$json->jobstatus==1?'checked':''?> placeholder=""> Vacant</label>
+									<label for="inputEmail4"><input type="radio" value="1" class="form-control" id="jobstatus" name="jobstatus" <?=@$json->jobstatus==1?'checked':''?> placeholder=""> Vacant</label>
 									
-									<label for="inputEmail4"><input type="radio" value="0" class="form-control" id="jobstatus" name="jobstatus" <?=$json->jobstatus==0?'checked':''?> placeholder=""> 	Filled</label>
+									<label for="inputEmail4"><input type="radio" value="0" class="form-control" id="jobstatus" name="jobstatus" <?=@$json->jobstatus==0?'checked':''?> placeholder=""> 	Filled</label>
 								</div>
 								
 								
