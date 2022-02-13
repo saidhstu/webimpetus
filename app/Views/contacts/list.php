@@ -23,11 +23,11 @@
                     </td>
                     <td class="f_s_12 f_w_400"><?= $row['first_name'];?>
                     </td>
-                    <td class="f_s_12 f_w_400 text_color_1 "><?= $row['surname'];?>
+                    <td class="f_s_12 f_w_400  "><?= $row['surname'];?>
                     </td>
                     <td class="f_s_12 f_w_400  "><?= $row['title'];?>
                     </td>
-                    <td class="f_s_12 f_w_400 text_color_1 ">
+                    <td class="f_s_12 f_w_400  ">
                      <p class="pd10"> <?= $row['email'];?></p> 
                     </td>
                     <td class="f_s_12 f_w_400 text-right">

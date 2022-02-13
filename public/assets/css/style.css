@@ -13606,3 +13606,7 @@ table.table-bordered.dataTable th {
   background-color: #007bff;
   color:#fff
 }
+
+ .table-listing-items tr{
+   cursor: pointer;
+ }

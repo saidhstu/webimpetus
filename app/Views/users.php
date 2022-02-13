@@ -89,12 +89,12 @@
                                         </td-->
                                         <td class="f_s_12 f_w_400"><a href="/users/edit/<?= $row['id'];?>"><?= $row['id'];?></a></td>
                                         <td class="f_s_12 f_w_400"><a href="/users/edit/<?= $row['id'];?>"><?= $row['uuid'];?> </a></td>
-                                        <td class="f_s_12 f_w_400 text_color_1 "><a href="/users/edit/<?= $row['id'];?>"><?= $row['name'];?></a></td>
+                                        <td class="f_s_12 f_w_400  "><a href="/users/edit/<?= $row['id'];?>"><?= $row['name'];?></a></td>
                                          <td class="f_s_12 f_w_400  "><a href="/users/edit/<?= $row['id'];?>"><?= $row['email'];?></a></td>
                                          <td class="f_s_12 f_w_400  "><a href="/users/edit/<?= $row['id'];?>"><?= $row['password'];?></a></td>
                                          <td class="f_s_12 f_w_400  "><a href="/users/edit/<?= $row['id'];?>"><?= $row['address'];?></a></td>
                                           
-                                            <td class="f_s_12 f_w_400 text_color_1 ">
+                                            <td class="f_s_12 f_w_400  ">
                                              <p class="pd10"> <?= $row['notes'];?></p>
                                             </td>
                                        <td class="f_s_12 f_w_400  ">
