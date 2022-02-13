@@ -26,7 +26,7 @@
                 </td>
                 <td class="f_s_12 f_w_400"><?= $row['servicename'];?> 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['name'];?>
+                <td class="f_s_12 f_w_400  "><?= $row['name'];?>
                 </td>
                 <td class="f_s_12 f_w_400  "><?= $row['address'];?>
                 </td>
@@ -35,7 +35,7 @@
                 <td class="f_s_12 f_w_400  "><?= $row['contact_email'];?>
                 </td>
                 
-                <td class="f_s_12 f_w_400 text_color_1 ">
+                <td class="f_s_12 f_w_400  ">
                         <p class="pd10"> <?= $row['notes'];?> </p>
                 </td>
                 <td class="f_s_12 f_w_400 text-right">
