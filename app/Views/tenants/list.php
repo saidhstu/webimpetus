@@ -20,7 +20,7 @@
             <tbody>                                        
             
                 <?php foreach($tenants as $row):?>
-            <tr  data-link="/secrets/edit/<?= $row['id'];?>">
+            <tr  data-link="/tenants/edit/<?= $row['id'];?>">
                 
                 <td class="f_s_12 f_w_400"><?= $row['id'];?>
                 </td>
