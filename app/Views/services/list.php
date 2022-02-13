@@ -30,14 +30,14 @@
                 </td>
                 <td class="f_s_12 f_w_400"><?= $row['uuid'];?> 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['name'];?>
+                <td class="f_s_12 f_w_400 "><?= $row['name'];?>
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['category'];?>
+                <td class="f_s_12 f_w_400  "><?= $row['category'];?>
                 </td>
                 
                 <td class="f_s_12 f_w_400"><?= $row['tenant'];?> 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['code'];?>
+                <td class="f_s_12 f_w_400  "><?= $row['code'];?>
                 </td>
                     <td class="f_s_12 f_w_400  ">
                     <?php if(!empty($row['image_logo'])) { ?>
@@ -51,11 +51,11 @@
                     <img src="<?=$row['image_brand'];?>" width="150px">
                 <?php } ?>
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 ">
+                <td class="f_s_12 f_w_400  ">
                         <p class="pd10"> <?= $row['notes'];?> </p>
                 </td>
                 
-                    <td class="f_s_12 f_w_400 text_color_1 "> <div class="">
+                    <td class="f_s_12 f_w_400  "> <div class="">
                         <label class="switch2">
                             <input type="checkbox" class="checkb" data-url="services/status" name="checkb[]" value="<?= $row['id'];?>" <?=($row['status']==1)?'checked':''?>  />
                             <span class="slider round"></span>

@@ -24,12 +24,15 @@ class Services extends Api
 		$this->template_model = new Template_model();
 		$this->meta_model = new Meta_model();
 		$this->Amazon_s3_model = new Amazon_s3_model();
+		$this->db = \Config\Database::connect();
 	}
     public function index()
     {        
         $data['services'] = $this->serviceModel->getRows();
 		$data['tableName'] = "services";
         $data['rawTblName'] = "service";
+		$menucode = $this->getMenuCode("/services");
+		$this->session->set("menucode", $menucode);
 		echo view('services/list',$data);
     }
 	 
@@ -276,6 +279,16 @@ public function delete($id)
 	}
 	
 	return redirect()->to('/services');
+}
+
+
+public function getMenuCode($value)
+{
+	$result = $this->db->table("menu")->getWhere([
+		"link" => $value
+	])->getRowArray();
+
+	return @$result['id'];
 }
 
 
