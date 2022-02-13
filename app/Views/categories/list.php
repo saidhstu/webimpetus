@@ -24,7 +24,7 @@
                 </td>
                 <td class="f_s_12 f_w_400"><?= $row['uuid'];?> 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 "><?= $row['name'];?>
+                <td class="f_s_12 f_w_400  "><?= $row['name'];?>
                 </td>
                 <td class="f_s_12 f_w_400  ">
                 <?php if(!empty($row['image_logo'])) { ?>
@@ -32,7 +32,7 @@
                 <?php } ?>
                 
                 </td>
-                <td class="f_s_12 f_w_400 text_color_1 ">
+                <td class="f_s_12 f_w_400  ">
                         <p class="pd10"> <?= $row['notes'];?></p>
                 </td>
                 <td class="f_s_12 f_w_400 text-right">

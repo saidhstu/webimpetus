@@ -24,7 +24,7 @@
                     </td>
                     <td class="f_s_12 f_w_400"><?= $row['company_name'];?>
                     </td>
-                    <td class="f_s_12 f_w_400 text_color_1 "><?= $row['acc_no'];?>
+                    <td class="f_s_12 f_w_400  "><?= $row['acc_no'];?>
                     </td>
                     <td class="f_s_12 f_w_400  ">
                     <?php if($row['status'] == 1) { 
@@ -33,7 +33,7 @@
                         echo  "Inactive";
                     } ?>
                     </td>
-                    <td class="f_s_12 f_w_400 text_color_1 ">
+                    <td class="f_s_12 f_w_400  ">
                     <p class="pd10"> <?= $row['email'];?></p>
                     </td>
                     <td class="f_s_12 f_w_400 text-right">

@@ -33,11 +33,11 @@
                 <?php } ?>
                 </a>
                 </td> */ ?>
-                <td class="f_s_12 f_w_400 text_color_1 ">
+                <td class="f_s_12 f_w_400  ">
                         <p class="pd10"> <?= date('Y-m-d H:i:s',$row['publish_date']);?></p>
                 </td>
                 
-                <td class="f_s_12 f_w_400 text_color_1 ">
+                <td class="f_s_12 f_w_400  ">
                         <p class="pd10"> <?= $row['created'];?></p>
                 </td>
                 <td class="f_s_12 f_w_400 text-right">
