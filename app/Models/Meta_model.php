@@ -59,6 +59,15 @@ class Meta_model extends Model
 			}
 		}else return;
 	}
+
+    public function getAllBusiness()
+    {
+        return $this->db->table("businesses")->get()->getResult();
+    }
+    public function getBusinessRow($id)
+    {
+        return $this->db->table("businesses")->getWhere(['id' => $id])->getRow();
+    }
 	
 	
 }

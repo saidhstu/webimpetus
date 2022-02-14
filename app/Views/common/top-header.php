@@ -21,6 +21,12 @@ window.location.href="/";
                     <div class="header_right d-flex justify-content-between align-items-center">
                         
                         <div class="profile_info">
+                            <?php echo @$_SESSION['uuid_business'];?>
+                        </div>
+                    </div>
+                    <div class="header_right d-flex justify-content-between align-items-center">
+                        
+                        <div class="profile_info">
                             <img src="/assets/img/client_img.png" alt="#">
                             <div class="profile_info_iner">
                                 <div class="profile_author_name">                                    

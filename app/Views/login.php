@@ -62,6 +62,16 @@
                                         <br/><br/>
                                         <form id="loginform" method="post" action="/home/login">
                                             <div class="form-group">
+                                                <select name="uuid_business_id" id="uuid_business_id" class="form-control">
+                                                 <option>--Please Select--</option>
+                                                 <?php foreach($uuid as $eachUuid):?>
+                                                    <option value="<?php echo $eachUuid->id?>"> <?php echo $eachUuid->name?></option>
+                                                
+                                                 <?php endforeach;?>
+                                                </select>
+                                               
+                                            </div>
+                                            <div class="form-group">
                                                 <input type="text" class="form-control" name="email" id="email" placeholder="Enter your email">
                                             </div>
                                             <div class="form-group">
@@ -100,7 +110,7 @@
 
 <!-- footer  -->
 <script src="/assets/js/jquery-3.4.1.min.js"></script>
-
+<script src="/assets/js/select2.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
@@ -130,6 +140,12 @@
     },
   })
 }
+$("#uuid_business_id").select2();
 </script>
+<style>
+.select2-container .select2-selection--single {
+    height: 42px;
+}
+</style>
 </body>
 </html>
