@@ -72,6 +72,8 @@
 		
 		
 		<?php } ?>
+
+		$(".dashboard-dropdown").select2();
 	} );
 	
 	setTimeout(function(){
