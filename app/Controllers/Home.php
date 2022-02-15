@@ -68,4 +68,10 @@ class Home extends BaseController
 		session()->setFlashdata('alert-class', 'alert-success');
 		return redirect()->to('/');
 	}
+
+	public function switchbusiness()
+	{
+		$bid = $this->request->getPost('bid');
+		session()->set('uuid_business', $bid);
+	}
 }

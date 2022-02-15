@@ -8,6 +8,7 @@ class Dashboard extends BaseController
 {
 	public function __construct()
 	{
+	  parent::__construct();
 	  $this->model = new Users_model();
 	  $this->meta_model = new Meta_model();
 	}
@@ -15,7 +16,7 @@ class Dashboard extends BaseController
     public function index()
     {
         $data['title'] = "Hello World from Codeigniter 4";
-        echo view('dashboard', $data);
+        return view('dashboard', $data);
     }
 	
 	

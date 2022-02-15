@@ -66,7 +66,12 @@ class Meta_model extends Model
     }
     public function getBusinessRow($id)
     {
-        return $this->db->table("businesses")->getWhere(['id' => $id])->getRow();
+        $data = $this->db->table("businesses")->getWhere(['id' => $id])->getRow();
+        if (empty($data)) {
+            $data = $this->db->table("businesses")->getWhere(['default_business' => 1])->getRow();
+        }
+
+        return $data;
     }
 	
 	

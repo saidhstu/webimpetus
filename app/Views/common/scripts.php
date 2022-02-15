@@ -28,10 +28,10 @@
 		if ($("#example").length > 0) {
 			$('#example').DataTable({
 				columnDefs:[{targets:1,className:"truncate"}],
-    createdRow: function(row){
-       var td = $(row).find(".truncate");
-       td.attr("title", td.html());
-  }
+				createdRow: function(row) {
+					var td = $(row).find(".truncate");
+					td.attr("title", td.html());
+				}
 			});
 		}
 		
@@ -73,7 +73,21 @@
 		
 		<?php } ?>
 
-		$(".dashboard-dropdown").select2();
+		$(".dashboard-dropdown").select2({width: '100%'});
+		$('#uuidBusinessIdSwitcher').change(function(){
+			var bid = $(this).val();
+			$.ajax({
+				url: baseURL + 'home/switchbusiness',
+				data: {bid: bid},
+				method: 'POST',
+			}).done(function(response){
+
+				location.reload();
+			}).fail(function(x,y,z){
+
+				console.log(x,y,z);
+			});
+		});
 	} );
 	
 	setTimeout(function(){

@@ -23,7 +23,7 @@ class Users extends CommonController
         $data['rawTblName'] = $this->rawTblName;
         $data['user'] = $this->userModel->getUser($id)->getRow();
 		$data['menu'] = $this->menu_model->getRows();
-        echo view('users/edit', $data);
+        return view('users/edit', $data);
     }
 	
     public function update()

@@ -23,4 +23,4 @@
     
 </head>
 <body class="crm_body_bg">   
-
+    <script>var baseURL = '<?php echo base_url() . '/'; ?>';</script>
