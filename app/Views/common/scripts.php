@@ -18,6 +18,8 @@
 		if ($(".js-example-basic-multiple").length > 0) {
     		$('.js-example-basic-multiple').select2();
 		}
+
+		$('.select2').select2();
 		
 });
 </script>
@@ -177,7 +179,7 @@ if ($("#chk_manual").length > 0) {
 <!-- Include Bootstrap Datepicker -->
 
 <script>
-        //$('#publish_date').datepicker({ format: "dd/mm/yyyy" });
+        // $('.datepicker').datepicker();
     </script>
 <style>
 .custom-file{
