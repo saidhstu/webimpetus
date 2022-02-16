@@ -29,8 +29,8 @@
                     </div>
 
                     <div class="form-group  col-md-6">
-                        <label for="inputEmail4">deadline_date</label>
-                        <input type="date" class="form-control  email" id="deadline_date" name="deadline_date" placeholder=""  value="<?= @$project->deadline_date ?>">
+                        <label for="inputEmail4">Deadline date</label>
+                        <input type="date" class="form-control" id="deadline_date" name="deadline_date" placeholder=""  value="<?= @$project->deadline_date ?>">
                     </div>
                     
                 </div>

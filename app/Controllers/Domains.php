@@ -48,6 +48,7 @@ class Domains extends CommonController
 			'notes' => $this->request->getPost('notes'),
 			'uuid' => $this->request->getPost('uuid'),
 			'sid' => $this->request->getPost('sid'),
+			'uuid_business_id' => session('uuid_business'),
 		);
 		
 		if($_FILES['file']['tmp_name']) {	
