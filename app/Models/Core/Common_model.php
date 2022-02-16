@@ -4,12 +4,19 @@ use CodeIgniter\Model;
 class Common_model extends Model
 {
     protected $table = '';
+    private $whereCond = array();
+    private $doesUuidBusinessIdFieldExists = false;
 
     function __construct()
     {
         parent::__construct();
         $this->session = session();
         $this->table = $this->getTableNameFromUri();
+        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
+
+            $this->whereCond['uuid_business_id'] = session('uuid_business');
+            $this->doesUuidBusinessIdFieldExists = true;
+        }
     }
 
 
@@ -23,11 +30,7 @@ class Common_model extends Model
 
     public function getRows($id = false)
     {
-        $whereCond = array();
-        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
-
-            $whereCond['uuid_business_id'] = session('uuid_business');
-        }
+        $whereCond = $this->whereCond;
 
         if ($id === false) {
 
@@ -60,7 +63,7 @@ class Common_model extends Model
 	public function insertOrUpdate($id = null, $data = null)
 	{
         unset($data["id"]);
-        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
+        if ($this->doesUuidBusinessIdFieldExists) {
 
             $data['uuid_business_id'] = session('uuid_business');
         }
@@ -92,11 +95,14 @@ class Common_model extends Model
 
     public function getUser($id = false)
     {
+        $whereCond = $this->whereCond;
         $builder = $this->db->table("users");
         if($id === false){
-            return $builder->where(['role!='=>1])->get()->getResultArray();
+            $whereCond = array_merge(['role!='=>1], $whereCond);
+            return $builder->where($whereCond)->get()->getResultArray();
         }else{
-            return $builder->getWhere(['id' => $id])->getRowArray();
+            $whereCond = array_merge(['id' => $id], $whereCond);
+            return $builder->getWhere($whereCond)->getRowArray();
         }   
     }
 

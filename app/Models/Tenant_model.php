@@ -4,24 +4,51 @@ use CodeIgniter\Model;
 class Tenant_model extends Model
 {
     protected $table = 'tenants';
+    private $whereCond = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
+
+            $this->whereCond[$this->table.'.uuid_business_id'] = session('uuid_business');
+        }
+    }
      
     public function getRows($id = false)
     {
-        if($id === false){
-            return $this->findAll();
-        }else{
-            return $this->getWhere(['id' => $id]);
+        $whereCond = $this->whereCond;
+
+        if ($id === false) {
+
+            if (empty($whereCond)) {
+
+                return $this->findAll();
+            } else {
+
+                return $this->getWhere($whereCond)->getResultArray();
+            }
+        } else {
+
+            $whereCond = array_merge(array('id' => $id), $whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	
 	public function getJoins()
     {
-			$this->join('tenants_services', 'tenants_services.tid = tenants.id', 'LEFT');
-			$this->join('services', 'tenants_services.sid = services.id', 'LEFT');
-			$this->groupBy('tenants.id');
-			$this->select('GROUP_CONCAT(services.name) as servicename');
-			$this->select('tenants.*');
-            return $this->findAll();         
+        $whereCond = $this->whereCond;
+        $this->join('tenants_services', 'tenants_services.tid = tenants.id', 'LEFT');
+        $this->join('services', 'tenants_services.sid = services.id', 'LEFT');
+        $this->groupBy('tenants.id');
+        $this->select('GROUP_CONCAT(services.name) as servicename');
+        $this->select('tenants.*');
+        if (!empty($whereCond)) {
+
+            $this->where($whereCond);
+        }
+
+        return $this->findAll();         
     }
 	
 	public function saveData($data)

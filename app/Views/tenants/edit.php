@@ -2,7 +2,7 @@
 <div class="white_card_body">
     <div class="card-body">
         
-        <form id="addcat" method="post" action="/tenants/update" enctype="multipart/form-data">
+        <form id="addcat" method="post" action="<?php echo $actionUrl; ?>" enctype="multipart/form-data">
             <div class="form-row">
 
                 <div class="form-group required col-md-4">

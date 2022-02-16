@@ -44,14 +44,19 @@ class Tenants extends CommonController
 					'contact_name' => $this->request->getPost('contact_name'),
 					'address' => $this->request->getPost('address'),
 					'notes' => $this->request->getPost('notes'),
-					'uuid' => $this->request->getPost('uuid')
+					'uuid' => $this->request->getPost('uuid'),
+					'uuid_business_id' => session('uuid_business'),
 					//'status' => 0,
 				);
 				$this->tenantModel->saveData($data); 
 				$tid = $this->tenantModel->getLastInserted(); //die;
 				if(!empty($this->request->getPost('sid'))){
 					foreach($this->request->getPost('sid') as $val){
-						$this->tservice_model->saveData(array('sid'=>$val,'tid'=>$tid));
+						$this->tservice_model->saveData(array(
+							'sid'=>$val,
+							'tid'=>$tid, 
+							'uuid_business_id' => session('uuid_business'),
+						));
 					}
 				}
 				session()->setFlashdata('message', 'Data entered Successfully!');
@@ -69,6 +74,7 @@ class Tenants extends CommonController
 		$data['users'] = $this->user_model->getUser();
 		$data['services'] = $this->service_model->getRows();
 		$data['tservices'] = array_column($this->tservice_model->getRows($id, 1),'sid');
+		$data['actionUrl'] = (empty($id)) ? '/tenants/save' : '/tenants/update';
 		echo view($this->table."/edit",$data);
     }
 	
@@ -96,7 +102,11 @@ class Tenants extends CommonController
 			$this->tservice_model->deleteData($id);
 			if(!empty($this->request->getPost('sid'))){
 					foreach($this->request->getPost('sid') as $val){
-						$this->tservice_model->saveData(array('sid'=>$val,'tid'=>$tid));
+						$this->tservice_model->saveData(array(
+							'sid'=>$val,
+							'tid'=>$tid,
+							'uuid_business_id' => session('uuid_business'),
+						));
 					}
 				}
 			session()->setFlashdata('message', 'Data updated Successfully!');
