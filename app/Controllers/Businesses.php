@@ -4,7 +4,8 @@ use App\Controllers\BaseController;
 use CodeIgniter\Controller;
 use App\Models\Secret_model;
 use App\Models\Service_model;
-use App\Controllers\Core\CommonController; 
+use App\Controllers\Core\CommonController;
+use App\Libraries\UUID;
 use App\Models\Core\Common_model;
  
 class Businesses extends CommonController
@@ -30,7 +31,8 @@ class Businesses extends CommonController
 		}
 		if($id < 1){
 
-			$data['uuid'] = uniqid();
+			$uuidNamespace = UUID::v4();
+			$data['uuid'] = UUID::v5($uuidNamespace, 'businesses');
 		}
 		$response = $this->model->insertOrUpdate($id, $data);
 		if(!$response){

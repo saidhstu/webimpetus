@@ -48,6 +48,7 @@ class BaseController extends Controller
 
     public function __construct()
 	{
+        helper(["global"]);
 	}
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)

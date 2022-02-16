@@ -23,10 +23,25 @@ class Common_model extends Model
 
     public function getRows($id = false)
     {
-        if($id === false){
-            return $this->findAll();
-        }else{
-            return $this->getWhere(['id' => $id]);
+        $whereCond = array();
+        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
+
+            $whereCond['uuid_business_id'] = session('uuid_business');
+        }
+
+        if ($id === false) {
+
+            if (empty($whereCond)) {
+
+                return $this->findAll();
+            } else {
+
+                return $this->getWhere($whereCond)->getResultArray();
+            }
+        } else {
+
+            $whereCond = array_merge(array('id' => $id), $whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	
@@ -45,7 +60,10 @@ class Common_model extends Model
 	public function insertOrUpdate($id = null, $data = null)
 	{
         unset($data["id"]);
+        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
 
+            $data['uuid_business_id'] = session('uuid_business');
+        }
         if(@$id){
             $query = $this->db->table($this->table)->update($data, array('id' => $id));
             if( $query){
@@ -78,7 +96,7 @@ class Common_model extends Model
         if($id === false){
             return $builder->where(['role!='=>1])->get()->getResultArray();
         }else{
-            return $builder->getWhere(['id' => $id])->get()->getRowArray();
+            return $builder->getWhere(['id' => $id])->getRowArray();
         }   
     }
 

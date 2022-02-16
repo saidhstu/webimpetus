@@ -3,7 +3,8 @@
 use CodeIgniter\Controller;
 use App\Models\Users_model;
 use App\Models\Menu_model;
-use App\Controllers\Core\CommonController; 
+use App\Controllers\Core\CommonController;
+use App\Libraries\UUID;
 
 class Users extends CommonController
 {
@@ -23,7 +24,7 @@ class Users extends CommonController
         $data['rawTblName'] = $this->rawTblName;
         $data['user'] = $this->userModel->getUser($id)->getRow();
 		$data['menu'] = $this->menu_model->getRows();
-        echo view('users/edit', $data);
+        return view('users/edit', $data);
     }
 	
     public function update()
@@ -57,13 +58,16 @@ class Users extends CommonController
 						session()->setFlashdata('alert-class', 'alert-danger');
 						return redirect()->to('/users/add');
 					}else {
+						$uuidNamespace = UUID::v4();
+						$uuid = UUID::v5($uuidNamespace, 'users');
 						$data = array(
 							'name'  => $this->request->getPost('name'),
 							'email' => $this->request->getPost('email'),
 							'password' => md5($this->request->getPost('password')),
 							'address' => $this->request->getPost('address'),
 							'notes' => $this->request->getPost('notes'),
-							'uuid' => mt_rand(10000, 100000),
+							'uuid' => $uuid,
+							'uuid_business_id' => session('uuid_business'),
 							'status' => 0,
 							'permissions' => json_encode($this->request->getPost('sid'))
 						);
