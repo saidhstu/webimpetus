@@ -4,21 +4,34 @@ use CodeIgniter\Model;
 class Users_model extends Model
 {
     protected $table = 'users';
+    private $whereCond = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
+
+            $this->whereCond['uuid_business_id'] = session('uuid_business');
+        }
+    }
      
     public function getUser($id = false)
     {
+        $whereCond = $this->whereCond;
         if($id === false){
-            return $this->where(['role!='=>1])->findAll();
+
+            $whereCond = array_merge(['role!='=>1], $whereCond);
+            return $this->where($whereCond)->findAll();
         }else{
-            return $this->getWhere(['id' => $id]);
+
+            $whereCond = array_merge(['id' => $id], $whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	
 	public function countEmail($email = ''){
-		$this->db->select('id');
-		$this->db->from('users');
-		$this->db->where(['email' => $email]);
-		return $num_results = $this->db->count_all_results();
+        $whereCond = $whereCond = array_merge(['email' => $email], $this->whereCond);
+		return $this->db->table($this->table)->select('id')->where($whereCond)->countAllResults();
 	}
 	
 	public function saveUser($data)
