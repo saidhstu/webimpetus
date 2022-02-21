@@ -23,7 +23,7 @@ window.location.href="/";
                         <div class="business-uuid-selector mr-3">
                             <select name="uuid_business_id" id="uuidBusinessIdSwitcher" class="form-control dashboard-dropdown">
                                 <?php foreach($business as $eachUuid) { ?>
-                                <option value="<?php echo $eachUuid['uuid']?>"<?php if($_SESSION['uuid_business'] == $eachUuid['uuid']) { echo "selected"; } ?>>  <?php echo $eachUuid['name']?></option>
+                                <option value="<?php echo $eachUuid['uuid']?>"<?php if(@$_SESSION['uuid_business'] == $eachUuid['uuid']) { echo "selected"; } ?>>  <?php echo $eachUuid['name']?></option>
                                 <?php } ?>
                             </select>
                         </div>

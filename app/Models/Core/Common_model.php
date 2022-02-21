@@ -121,6 +121,11 @@ class Common_model extends Model
 		$query = $this->db->table($tableName)->update($data, array('id' => $id));
 		return $query;
 	}
+    public function insertTableData( $data = null, $tableName)
+	{
+		$query = $this->db->table($tableName)->insert($data);
+        return $this->db->insertID();
+	}
     public function saveDataInTable($data, $tableName)
 	{
 		$query = $this->db->table($tableName)->insert($data);
@@ -149,5 +154,6 @@ class Common_model extends Model
 
         return @$result['id'];
 	}
+
 
 }

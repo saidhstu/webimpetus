@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class SalesInvoiceItems extends Migration
+class SalesInvoiceNotes extends Migration
 {
     public function up()
     {
@@ -15,31 +15,19 @@ class SalesInvoiceItems extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'description' => [
-                'type' => 'VARCHAR',
-                'constraint' => '255',
-                'null' => true,
-            ],
-            'rate' => [
-                'type' => 'DECIMAL',
-                'constraint' => '12,2',
-                'null' => true,
-            ],
             'sales_invoices_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
             ],
-            'hours' => [
+            'notes' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
+            'created_by' => [
                 'type' => 'INT',
-                'constraint' => 11,
+                'constraint' => '11',
                 'null' => true,
             ],
-            'amount' => [
-                'type' => 'DECIMAL',
-                'constraint' => '12,2',
-                'null' => true,
-            ],
-        
             'uuid' => [
                 'type' => 'VARCHAR',
                 'constraint' => '150',
@@ -53,11 +41,11 @@ class SalesInvoiceItems extends Migration
         ]);
     
         $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('sales_invoice_items');
+        $this->forge->createTable('sales_invoice_notes');
     }
 
     public function down()
     {
-        $this->forge->dropTable('sales_invoice_items');
+        $this->forge->dropTable('sales_invoice_notes');
     }
 }

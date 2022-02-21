@@ -20,6 +20,7 @@
 		}
 
 		$('.select2').select2();
+		$('.datepicker').datepicker();
 		
 });
 </script>
@@ -57,10 +58,10 @@
 				
 			});
 		}
-		$('table tbody tr td').not(":last-child").click(function(){
-			if($('table tbody tr').data('href').indexOf("enquiries") === -1)
-				window.location.href = $('table tbody tr').data('href')
-		})
+		// $('table tbody tr td').not(":last-child").click(function(){
+		// 	if($('table tbody tr').data('href').indexOf("enquiries") === -1)
+		// 		window.location.href = $('table tbody tr').data('href')
+		// })
 		
 		<?php if(empty($_SESSION['role'])){ ?>
 			/*$("table a").click(function(){
@@ -101,9 +102,9 @@
 <script src="/assets/js/custom.js"></script>
 <script src="/assets/js/list.js"></script>
 <script src="/assets/js/edit.js"></script>
-<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script--> 
 
     <script>
+	
 		// Add the following code if you want the name of the file appear on select
 		$(".custom-file-input").on("change", function() {
 		  var fileName = $(this).val().split("\\").pop();
@@ -179,7 +180,7 @@ if ($("#chk_manual").length > 0) {
 <!-- Include Bootstrap Datepicker -->
 
 <script>
-        // $('.datepicker').datepicker();
+        
     </script>
 <style>
 .custom-file{

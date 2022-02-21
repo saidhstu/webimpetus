@@ -168,11 +168,6 @@
 	</script>
 
 
-	<!-- Include Bootstrap Datepicker -->
-
-	<script>
-		// $('#publish_date').datepicker({ format: "dd/mm/yyyy" });
-	</script>
 	<style>
 	.custom-file{
 		margin:30px;
