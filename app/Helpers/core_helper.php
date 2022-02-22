@@ -6,7 +6,7 @@ function pre($data){
 function prd($data){
     echo "<pre>";print_r($data);die;
 }
-function render_date($time, $type=""){
+function render_date($time, $type="input"){
 
     if(empty($time)){
         return "";
@@ -14,6 +14,9 @@ function render_date($time, $type=""){
     if( $type == "date_time"){
 
         $date = date("d M Y H:i:s", $time);
+    }else if( $type == "input"){
+        $date = date("m/d/Y", $time);
+
     }else{
         $date = date("d M Y", $time);
 

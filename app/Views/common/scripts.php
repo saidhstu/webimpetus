@@ -2,9 +2,6 @@
 <!-- footer  -->
 <script src="/assets/js/jquery-3.4.1.min.js"></script>
 
-
-
-
 <script src="/assets/js/popper.min.js"></script>
 
 <!-- bootstarp js -->
@@ -12,6 +9,20 @@
 <!-- sidebar menu  -->
 <script src="/assets/js/metisMenu.js"></script>
 <script src="/assets/js/select2.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js" type="text/javascript"></script> -->
+
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/list.js"></script>
+<script src="/assets/js/edit.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
+<script src="/assets/ckeditor/ckeditor.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function() {
 
@@ -23,10 +34,7 @@
 		$('.datepicker').datepicker();
 		
 });
-</script>
-<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" type="text/javascript"></script>
 
-<script type="text/javascript">
     $(document).ready(function() {
 		if ($("#example").length > 0) {
 			$('#example').DataTable({
@@ -96,14 +104,7 @@
 	setTimeout(function(){
 		$('#example_length select').select2();
 	}, 300)
-	
-</script>
 
-<script src="/assets/js/custom.js"></script>
-<script src="/assets/js/list.js"></script>
-<script src="/assets/js/edit.js"></script>
-
-    <script>
 	
 		// Add the following code if you want the name of the file appear on select
 		$(".custom-file-input").on("change", function() {
@@ -112,9 +113,7 @@
 		});
 	</script>
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
- <script src="/assets/ckeditor/ckeditor.js"></script>
+
  
  <script>
    if ($("#addcat").length > 0) {
@@ -163,12 +162,7 @@ if ($("#chk_manual").length > 0) {
 	 
 	 var inc = sr++; $("#divfile").append('<div class="custom-file"><input type="file" name="file[]" class="custom-file-input filee" id="customFile'+inc+'"><label class="custom-file-label" for="customFile'+inc+'">Choose file</label></div>') });
 	
-	
-</script>
 
-
-
-<script type="text/javascript">
     CKEDITOR.replace( 'content' , {
     filebrowserBrowseUrl: '/assets/ckfinder/ckfinder.html',
     filebrowserUploadUrl: '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
@@ -177,11 +171,7 @@ if ($("#chk_manual").length > 0) {
 });
 </script>
 
-<!-- Include Bootstrap Datepicker -->
 
-<script>
-        
-    </script>
 <style>
 .custom-file{
 margin:30px;

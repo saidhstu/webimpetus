@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/assets/css/custom.css" />
     <link rel="stylesheet" href="/assets/css/select2.min.css" />
     
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
     
 </head>
 <body class="crm_body_bg">   
