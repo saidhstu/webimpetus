@@ -26,6 +26,7 @@ class Services extends Api
 		$this->Amazon_s3_model = new Amazon_s3_model();
 		$this->db = \Config\Database::connect();
 	}
+
     public function index()
     {        
         $data['services'] = $this->serviceModel->getRows();
@@ -66,6 +67,7 @@ class Services extends Api
 			//'varnish_config' => $this->request->getPost('varnish_config'),
 			'cid' => $this->request->getPost('cid'),
 			'tid' => $this->request->getPost('tid'),
+			'uuid_business_id' => $this->businessUuid,
 		);
 		
 		if($_FILES['file']['tmp_name']) {		
@@ -92,6 +94,7 @@ class Services extends Api
 			$address_data['key_name'] = $key_name[$key];
 			$address_data['key_value'] = $key_value[$key];
 			$address_data['status'] = 1;
+			$address_data['uuid_business_id'] = $this->businessUuid;
 
 		
 			$secret_id = $this->secret_model->saveOrUpdateData($id , $address_data);
@@ -99,6 +102,7 @@ class Services extends Api
 			if($secret_id > 0){
 				$dataRelated['secret_id'] = $secret_id;
 				$dataRelated['service_id'] = $id;
+				$dataRelated['uuid_business_id'] = $this->businessUuid;
 				$this->secret_model->saveSecretRelatedData($dataRelated);
 			}
 	

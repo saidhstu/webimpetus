@@ -12,12 +12,14 @@ class CommonController extends BaseController
 	protected $session;
 	protected $table;
 	protected $model;
+	protected $businessUuid;
 
 	function __construct()
     {
         parent::__construct();
         
 		$this->session = \Config\Services::session();
+		$this->businessUuid = $this->session->get('uuid_business');
 		$this->model = new Common_model();
 		$this->Amazon_s3_model = new Amazon_s3_model();
 		

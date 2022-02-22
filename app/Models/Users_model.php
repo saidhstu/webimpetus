@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 use CodeIgniter\Model;
- 
+use Exception;
+
 class Users_model extends Model
 {
     protected $table = 'users';

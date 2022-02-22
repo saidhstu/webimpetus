@@ -5,13 +5,20 @@ class Secret_model extends Model
 {
     protected $table = 'secrets';
 	protected $table2 = 'secrets_services';
+    protected $businessUuid;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->businessUuid = session('uuid_business');
+    }
      
     public function getRows($id = false)
     {
         if($id === false){
-            return $this->findAll();
+            return $this->where('uuid_business_id', $this->businessUuid)->findAll();
         }else{
-            return $this->getWhere(['id' => $id]);
+            return $this->getWhere(['id' => $id, 'uuid_business_id' => $this->businessUuid]);
         }   
     }
 	
@@ -74,7 +81,7 @@ class Secret_model extends Model
 		$this->join('secrets_services', 'secrets.id=secrets_services.secret_id', 'LEFT');			
 		$this->select('secrets.*');		
 			
-		return $this->where(['service_id' => $id])->get()->getResult('array');
+		return $this->where(['service_id' => $id, 'secrets.uuid_business_id' => $this->businessUuid])->get()->getResult('array');
     }
 	
 	public function deleteService($id)
@@ -98,7 +105,7 @@ class Secret_model extends Model
 		$this->select('secrets_services.*');
 		$this->select('secrets_default.*');
 		
-		return $this->where(['secrets_services.service_id' => $id])->get()->getResult('array');
+		return $this->where(['secrets_services.service_id' => $id, $this->table . '.uuid_business_id' => $this->businessUuid])->get()->getResult('array');
     }
 
     public function saveOrUpdateData($service_id, $data){
@@ -111,6 +118,7 @@ class Secret_model extends Model
         $builder->select('secrets.id');
         $builder->join('secrets_services', 'secrets.id=secrets_services.secret_id AND `secrets_services`.`service_id` = '.$service_id.'', 'LEFT');					
         $builder->where("secrets.key_name", $data["key_name"]);				
+        $builder->where("secrets.uuid_business_id", $this->businessUuid);				
         $records = $builder ->get()->getRowArray();	
         if( $records){
             $query = $this->db->table($this->table)->update($data, array('id' => $records["id"]));
@@ -122,11 +130,12 @@ class Secret_model extends Model
     }
 
     public function getAllSecrets(){
-        $builder = $this->db->table("secrets");
-        $builder->select('secrets.*,services.name');
-        $builder->join('secrets_services', 'secrets.id=secrets_services.secret_id', 'LEFT');			
-        $builder->join('services', 'services.id=secrets_services.service_id', 'LEFT');						
-        $records = $builder ->get()->getResultArray();		
+        $table = $this->table;
+        $this->select($table . '.*,services.name');
+        $this->join('secrets_services', $table.'.id=secrets_services.secret_id', 'LEFT');			
+        $this->join('services', 'services.id=secrets_services.service_id', 'LEFT');						
+        $this->where($table . '.uuid_business_id', $this->businessUuid);
+        $records = $this->get()->getResultArray();		
         return $records;
     }
 }
