@@ -27,12 +27,14 @@ function render_date($time, $type="input"){
 
 function getCurrency($key){
 
+    $key = $key-1;
     $list=["GBP", "USD", "EUR"];
 
     return $list[$key];
 }
 function getStatus($key){
 
+    $key = $key-1;
     $list=["Active", "Completed"];
 
     return $list[$key];
