@@ -25,6 +25,7 @@ class Services extends Api
 		$this->meta_model = new Meta_model();
 		$this->Amazon_s3_model = new Amazon_s3_model();
 		$this->db = \Config\Database::connect();
+		helper(["global"]);
 	}
 
     public function index()
@@ -34,7 +35,7 @@ class Services extends Api
         $data['rawTblName'] = "service";
 		$menucode = $this->getMenuCode("/services");
 		$this->session->set("menucode", $menucode);
-		// prd($data);
+		$data['is_add_permission'] = 1;
 		echo view('services/list',$data);
     }
 	 
