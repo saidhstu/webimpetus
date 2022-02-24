@@ -25,12 +25,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Start Date</label>
-                        <input type="date" class="form-control datepicker" id="start_date" name="start_date" placeholder=""  value="<?= @$project->start_date ?>">
+                        <input type="text" class="form-control datepicker" id="start_date" name="start_date" placeholder=""  value="<?= render_date(@$project->start_date) ?>">
                     </div>
 
                     <div class="form-group  col-md-6">
                         <label for="inputEmail4">Deadline date</label>
-                        <input type="date" class="form-control" id="deadline_date" name="deadline_date" placeholder=""  value="<?= @$project->deadline_date ?>">
+                        <input type="text" class="form-control datepicker" id="deadline_date" name="deadline_date" placeholder=""  value="<?= render_date(@$project->deadline_date) ?>">
                     </div>
                     
                 </div>

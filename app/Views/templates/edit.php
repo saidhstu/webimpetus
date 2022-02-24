@@ -6,23 +6,23 @@
             <form id="addcustomer" method="post" action=<?php echo "/".$tableName."/update";?> enctype="multipart/form-data">
                 <div class="form-row">
                   
-
+                    <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$template->id ?>" />
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Code</label>
-                        <input type="input" class="form-control required" id="code" name="code" placeholder=""  value="<?= @$sales_invoices->code ?>">
+                        <input type="input" class="form-control required" id="code" name="code" placeholder=""  value="<?= @$template->code ?>">
                     </div>
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Subject</label>
-                        <input type="input" class="form-control required" id="subject" name="subject" placeholder=""  value="<?= @$sales_invoices->subject ?>">
+                        <input type="input" class="form-control required" id="subject" name="subject" placeholder=""  value="<?= @$template->subject ?>">
                     </div>
                     <div class="form-group required col-md-6">
-                        <label for="inputEmail4">sales_invoices Content</label>
-                        <textarea class="form-control required" id="sales_invoices_content" name="sales_invoices_content" placeholder=""  value=""><?= @$sales_invoices->sales_invoices_content ?></textarea>
+                        <label for="inputEmail4">template Content</label>
+                        <textarea class="form-control required" id="template_content" name="template_content" placeholder=""  value=""><?= @$template->template_content ?></textarea>
                        
                     </div>
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Comment</label>
-                        <textarea row='40' col='40' class="form-control required" id="comment" name="comment" placeholder=""  value=""><?= @$sales_invoices->comment ?></textarea>
+                        <textarea row='40' col='40' class="form-control required" id="comment" name="comment" placeholder=""  value=""><?= @$template->comment ?></textarea>
                       
                     </div>
 

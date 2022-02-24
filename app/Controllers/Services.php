@@ -34,6 +34,7 @@ class Services extends Api
         $data['rawTblName'] = "service";
 		$menucode = $this->getMenuCode("/services");
 		$this->session->set("menucode", $menucode);
+		// prd($data);
 		echo view('services/list',$data);
     }
 	 

@@ -22,6 +22,62 @@ class ModifyUuidBusinessIdFieldTypeToVarcharInTenantsAndTenantsServicesTable ext
                 'null' => true,
             ),
         ));
+        $this->forge->modifyColumn('tenants', array(
+            'uuid_business_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ),
+        ));
+        $this->forge->modifyColumn('tenants_services', array(
+            'uuid_business_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ),
+        ));
+        $this->forge->modifyColumn('tenants', array(
+            'uuid_business_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ),
+        ));
+        $this->forge->modifyColumn('tenants_services', array(
+            'uuid_business_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ),
+        ));
+        $this->forge->modifyColumn('tenants', array(
+            'uuid_business_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ),
+        ));
+        $this->forge->modifyColumn('tenants_services', array(
+            'uuid_business_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ),
+        ));
+        $this->forge->modifyColumn('tenants', array(
+            'uuid_business_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ),
+        ));
+        $this->forge->modifyColumn('tenants_services', array(
+            'uuid_business_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ),
+        ));
     }
 
     public function down()

@@ -11,6 +11,7 @@ class Content_model extends Model
     public function __construct()
     {
         parent::__construct();
+		
         $this->businessUuid = session('uuid_business');
 		$this->whereCond['uuid_business_id'] = $this->businessUuid;
     }
@@ -64,6 +65,7 @@ class Content_model extends Model
 	
 	public function saveData($data)
     {
+		$data['uuid_business_id'] = $this->businessUuid;
         $query = $this->db->table($this->table)->insert($data);
         return $this->getLastInserted();
     }
@@ -102,7 +104,11 @@ class Content_model extends Model
 		}else {
 			$arr = ['code' => $string];
 		}
-		while ($this->db->table($this->table)->getWhere($arr)->getNumRows())
+		
+		$blogs = $this->db->table($this->table)->getWhere($arr)->getResultArray();
+		$totalBlog = count($blogs);
+		
+		while ($totalBlog--)
 		{  
 			if (!preg_match ('/-{1}[0-9]+$/', $string ))
 			$string .= '-' . ++$i;
@@ -120,6 +126,8 @@ class Content_model extends Model
 
 	public function saveDataInTable($data, $tableName)
 	{
+		$data = $this->whereCond;
+
 		$query = $this->db->table($tableName)->insert($data);
 		return $query;
 	}

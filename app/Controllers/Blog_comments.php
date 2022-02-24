@@ -7,7 +7,7 @@ use App\Models\Users_model;
 use App\Models\Cat_model;
 use App\Controllers\Core\CommonController; 
 ini_set('display_errors', 1);
-class Blog extends CommonController
+class Blog_comments extends CommonController
 {	
 	public function __construct()
 	{
@@ -18,16 +18,16 @@ class Blog extends CommonController
 	}
 	public function index()
 	{        
-		$data['content'] = $this->content_model->where(['type' => 2, "uuid_business_id" => $this->businessUuid])->findAll();
+		$data['content'] = $this->content_model->where(['type' => 3, "uuid_business_id" => $this->businessUuid])->findAll();
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
-		$data['menucode'] = 8;
+		$_SESSION["menucode"] = 9;
 		echo view($this->table."/list", $data);
 	}
 	
 	public function edit($id = 0)
 	{
-		$data['menucode'] = 8;
+		$_SESSION["menucode"] = 9;
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
 		$data['content'] = $this->content_model->getRows($id)->getRow();
@@ -54,7 +54,7 @@ class Blog extends CommonController
 			session()->setFlashdata('alert-class', 'alert-success');
 			
 		}
-		return redirect()->to('//blog/edit/'.$blogId);
+		return redirect()->to('//blog_comments/edit/'.$blogId);
 		
 	}
 	

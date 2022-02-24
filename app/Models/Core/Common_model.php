@@ -12,11 +12,15 @@ class Common_model extends Model
         parent::__construct();
         $this->session = session();
         $this->table = $this->getTableNameFromUri();
-        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
+        
+        if($this->db->tableExists($this->table)){
+            if ($this->db->fieldExists('uuid_business_id', $this->table)) {
 
             $this->whereCond['uuid_business_id'] = session('uuid_business');
             $this->doesUuidBusinessIdFieldExists = true;
         }
+        }
+        
     }
 
 

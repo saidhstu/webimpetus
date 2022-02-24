@@ -19,7 +19,9 @@ class CommonController extends BaseController
         parent::__construct();
         
 		$this->session = \Config\Services::session();
-		$this->businessUuid = $this->session->get('uuid_business');
+		$this->businessUuid = session('uuid_business');
+		$this->whereCond['uuid_business_id'] = $this->businessUuid;
+
 		$this->model = new Common_model();
 		$this->Amazon_s3_model = new Amazon_s3_model();
 		

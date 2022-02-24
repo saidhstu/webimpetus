@@ -112,34 +112,25 @@ class Enquiries extends CommonController
 			session()->setFlashdata('alert-class', 'alert-success');
 		}else {
 
-			if(!empty($this->request->getPost('title'))){
+		
+			// Set Session
+			session()->setFlashdata('message', 'Data entered Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+			
+			$bid = $this->enquries_model->saveData($data); 
+			
+			if(!empty($bid) && !empty($this->request->getPost('catid'))){
 				
-				if($this->request->getPost('title')) {
+				foreach($this->request->getPost('catid') as $val) {
+					$cat_data = [];
+					$cat_data['categoryid'] = $val;
+					$cat_data['contentid'] = $bid;
+					$cat_data['uuid_business_id'] = $this->businessUuid;
+					$this->cat_model->saveData2($cat_data);
 					
-					// Set Session
-					session()->setFlashdata('message', 'Data entered Successfully!');
-					session()->setFlashdata('alert-class', 'alert-success');
-					
-					$bid = $this->content_model->saveData($data); 
-					
-					if(!empty($bid) && !empty($this->request->getPost('catid'))){
-						
-						foreach($this->request->getPost('catid') as $val) {
-							$cat_data = [];
-							$cat_data['categoryid'] = $val;
-							$cat_data['contentid'] = $bid;
-							$cat_data['uuid_business_id'] = $this->businessUuid;
-							$this->cat_model->saveData2($cat_data);
-							
-						}
-					}
-					
-				}else{
-					   // Set Session
-					session()->setFlashdata('message', 'File not uploaded.');
-					session()->setFlashdata('alert-class', 'alert-danger');
 				}
 			}
+
 		}
 		return redirect()->to('/'.$this->table);
 	}
