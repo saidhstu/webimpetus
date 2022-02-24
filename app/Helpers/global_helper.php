@@ -55,3 +55,8 @@ function getUserInfo(){
 
     return $result;    
 }
+
+function readableFieldName($fieldName)
+{
+    return implode(' ', array_map('ucfirst', explode('_', $fieldName)));
+}
