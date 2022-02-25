@@ -16,6 +16,29 @@ class Timeslips extends CommonController
         $this->timeSlipsModel = new TimeslipsModel();
     }
 
+    public function index()
+    {        
+
+		$data['columns'] = $this->db->getFieldNames($this->table);
+		$data['fields'] = array_diff($data['columns'], $this->notAllowedFields);
+        $data[$this->table] = $this->timeSlipsModel->getRows();
+        foreach ($data[$this->table] as &$record) {
+            $record['slip_start_date'] = render_date($record['slip_start_date']);
+            $record['slip_end_date'] = render_date($record['slip_end_date']);
+        }
+        $data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+        $data['is_add_permission'] = 1;
+        $data['identifierKey'] = 'uuid';
+
+		$viewPath = "common/list";
+		if (file_exists( APPPATH . $this->table."/list")) {
+			$viewPath = $this->table."/list";
+		}
+
+        return view($viewPath, $data);
+    }
+
     public function edit($uuid = null)
     {
 		$data['tableName'] = $this->table;
@@ -66,5 +89,22 @@ class Timeslips extends CommonController
         session()->setFlashdata('alert-class', 'alert-success');
 
         return redirect()->to('/timeslips');
+    }
+
+    public function delete($uuid)
+    {
+        if(!empty($uuid)) {
+			$response = $this->timeSlipsModel->deleteData($uuid);		
+			if($response){
+				session()->setFlashdata('message', 'Data deleted Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+			}else{
+				session()->setFlashdata('message', 'Something wrong delete failed!');
+				session()->setFlashdata('alert-class', 'alert-danger');		
+			}
+
+		}
+		
+        return redirect()->to('/'.$this->table);
     }
 }
