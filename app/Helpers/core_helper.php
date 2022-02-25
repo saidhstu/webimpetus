@@ -8,7 +8,7 @@ function prd($data){
 }
 function render_date($time, $type="input"){
 
-    if(empty($time)){
+    if(is_null($time)){
         return "";
     }
     if( $type == "date_time"){

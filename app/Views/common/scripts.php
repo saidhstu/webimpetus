@@ -21,7 +21,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
 <script src="/assets/ckeditor/ckeditor.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" ></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -31,7 +33,17 @@
 		}
 
 		$('.select2').select2();
-		$('.datepicker').datepicker();
+		$('.datepicker').datepicker({
+			autoclose: true,
+			clearBtn: true,
+			todayHighlight: true,
+		});
+
+		$('.datetimepicker').datetimepicker();
+
+		$('.timepicker').datetimepicker({
+			format: 'hh:mm:ss a',
+		});
 		
 });
 
@@ -42,7 +54,8 @@
 				createdRow: function(row) {
 					var td = $(row).find(".truncate");
 					td.attr("title", td.html());
-				}
+				},
+				scrollX: true,
 			});
 		}
 		

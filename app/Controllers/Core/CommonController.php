@@ -9,16 +9,15 @@ use App\Models\Users_model;
  
 class CommonController extends BaseController
 {	
-	protected $session;
 	protected $table;
 	protected $model;
 	protected $businessUuid;
+	protected $notAllowedFields = array();
 
 	function __construct()
     {
         parent::__construct();
         
-		$this->session = \Config\Services::session();
 		$this->businessUuid = session('uuid_business');
 		$this->whereCond['uuid_business_id'] = $this->businessUuid;
 
@@ -31,6 +30,7 @@ class CommonController extends BaseController
 		$this->menucode = $this->getMenuCode("/".$this->table);
 
 		$this->session->set("menucode", $this->menucode);
+		$this->notAllowedFields = array('uuid_business_id');
 
 	}
     
@@ -45,12 +45,19 @@ class CommonController extends BaseController
     public function index()
     {        
 
+		$data['columns'] = $this->db->getFieldNames($this->table);
+		$data['fields'] = array_diff($data['columns'], $this->notAllowedFields);
         $data[$this->table] = $this->model->getRows();
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
 
-        echo view($this->table."/list",$data);
+		$viewPath = "common/list";
+		if (file_exists( APPPATH . $this->table."/list")) {
+			$viewPath = $this->table."/list";
+		}
+
+        return view($viewPath, $data);
     }
 	 
 	

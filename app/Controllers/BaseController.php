@@ -9,6 +9,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
 use CodeIgniter\Validation\Exceptions\ValidationException;
+use Config\Database;
 use Config\Services;
 
 
@@ -42,12 +43,19 @@ class BaseController extends Controller
      */
     protected $helpers = ["core"];
 
+    protected $db;
+
+    protected $session;
+    
     /**
      * Constructor.
      */
 
     public function __construct()
 	{
+        $this->db = Database::connect();
+
+        $this->session = \Config\Services::session();
         helper(["global"]);
 	}
 
@@ -57,8 +65,6 @@ class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
-
-        $this->session = \Config\Services::session();
     }
 	
 	public function getResponse(array $responseBody, int $code = ResponseInterface::HTTP_OK)
