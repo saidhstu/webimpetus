@@ -20,7 +20,7 @@ class Jobs extends CommonController
 	}
     public function index()
     {        
-        $data['content'] = $this->model->where(['type' => 4])->findAll();
+        $data['content'] = $this->model->where(['type' => 4, "uuid_business_id" => $this->businessUuid])->findAll();
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
 		$data['is_add_permission'] = 0;

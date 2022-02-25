@@ -23,7 +23,7 @@ class Secrets extends CommonController
 		$data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['content'] = $this->secretModel->getAllSecrets();
-        echo view('secrets/list',$data);
+        return view('secrets/list',$data);
     }
 	
 
@@ -36,7 +36,7 @@ class Secrets extends CommonController
 		$data['services'] = $this->service_model->getRows();
 		$data['sservices'] = array_column($this->secretModel->getServices($id),'service_id');
 
-        echo view('secrets/edit',$data);
+        return view('secrets/edit',$data);
     }
 	
     public function update()
@@ -52,7 +52,8 @@ class Secrets extends CommonController
 			if(strpos($this->request->getPost('key_value'), '********') === false){				
 				$data['key_value'] = $this->request->getPost('key_value');
 			}
-			
+			$businessUuid = $this->businessUuid;
+			$data['uuid_business_id'] = $businessUuid;
 			$id = $this->model->insertOrUpdate($id, $data);
 	
 			if($id){
@@ -61,7 +62,11 @@ class Secrets extends CommonController
 				$this->secretModel->deleteService($id);
 				if(!empty($this->request->getPost('sid'))){
 					foreach($this->request->getPost('sid') as $val){
-						$this->secretModel->serviceData(array('service_id'=>$val,'secret_id'=>$secret_id));
+						$this->secretModel->serviceData(array(
+							'service_id'=>$val,
+							'secret_id'=>$secret_id,
+							'uuid_business_id' => $businessUuid,
+						));
 					}
 				}	
 			}else{

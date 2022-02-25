@@ -4,7 +4,14 @@ use CodeIgniter\Model;
 class Service_model extends Model
 {
     protected $table = 'services';
+    protected $businessUuid;
      
+    public function __construct()
+    {
+        parent::__construct();
+        $this->businessUuid = session('uuid_business');
+    }
+
     public function getRows($id = false)
     {
         if($id === false){
@@ -13,9 +20,10 @@ class Service_model extends Model
 			$this->select('categories.name as category');			
 			$this->select('tenants.name as tenant');
 			$this->select('services.*');
+			$this->where([$this->table . '.uuid_business_id' => $this->businessUuid]);
             return $this->findAll();
         }else{
-            return $this->getWhere(['id' => $id]);
+            return $this->getWhere(['id' => $id, 'uuid_business_id' => $this->businessUuid]);
         }   
     }
 	
@@ -27,9 +35,10 @@ class Service_model extends Model
 			$this->select('categories.name as category');			
 			$this->select('tenants.name as tenant');
 			$this->select('services.*');
+            $this->where($this->table . '.uuid_business_id', $this->businessUuid);
             return $this->where('status', 1)->findAll();
         }else{
-            return $this->getWhere(['id' => $id,'status'=>1]);
+            return $this->getWhere(['id' => $id,'status'=>1, 'uuid_business_id' => $this->businessUuid]);
         }   
     }
 	

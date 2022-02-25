@@ -4,13 +4,28 @@ use CodeIgniter\Model;
 class Tenant_service_model extends Model
 {
     protected $table = 'tenants_services';
+    private $whereCond = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->db->fieldExists('uuid_business_id', $this->table)) {
+
+            $this->whereCond['uuid_business_id'] = session('uuid_business');
+        }
+    }
      
     public function getRows($id = false, $st =1)
     {
+        $whereCond = $this->whereCond;
         if($st === 1){
-            return $this->select('sid')->where(['tid'=>$id])->findAll();
+
+            $whereCond = array_merge(['tid'=>$id], $whereCond);
+            return $this->select('sid')->where($whereCond)->findAll();
         }else{
-            return $this->getWhere(['id' => $id]);
+
+            $whereCond = array_merge(['id' => $id], $whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	

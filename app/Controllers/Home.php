@@ -19,6 +19,7 @@ class Home extends BaseController
 		  return redirect()->to('/dashboard');
 	  }
 	  $data['logo'] = $this->meta_model->getWhere(['meta_key' => 'site_logo'])->getRow();
+	  $data['uuid'] = $this->meta_model->getAllBusiness();
         $data['title'] = "Hello World from Codeigniter 4";
         echo view('login', $data);
     }
@@ -33,14 +34,20 @@ class Home extends BaseController
 				//session()->setFlashdata('alert-class', 'alert-success');
 				$row = $this->model->getWhere(['email' => $this->request->getPost('email')])->getRow();
 				$logo = $this->meta_model->getWhere(['meta_key' => 'site_logo'])->getRow();
+				$uuid_business_id = $this->request->getPost('uuid_business_id');
+
+				$uuid_business = @$this->meta_model->getBusinessRow($uuid_business_id)->uuid;
+
 				$this->session->set('uemail',$row->email);
 				$this->session->set('uuid',$row->id);
 				$this->session->set('uname',$row->name);
 				$this->session->set('role',$row->role);
 				$this->session->set('logo',$logo->meta_value);	
+				$this->session->set('uuid_business_id',$uuid_business_id);	
+				$this->session->set('uuid_business',$uuid_business);	
 				$arr = json_decode($row->permissions);
 				$roww = $this->menu_model->getWherein($arr);
-				//echo '<pre>';print_r($roww); die;
+				// echo '<pre>';print_r($roww); die;
 				$this->session->set('permissions',$roww);
 				return redirect()->to('/dashboard');
 			}else {
@@ -60,5 +67,11 @@ class Home extends BaseController
 		session()->setFlashdata('message', 'Logged out successfully!');
 		session()->setFlashdata('alert-class', 'alert-success');
 		return redirect()->to('/');
+	}
+
+	public function switchbusiness()
+	{
+		$bid = $this->request->getPost('bid');
+		session()->set('uuid_business', $bid);
 	}
 }

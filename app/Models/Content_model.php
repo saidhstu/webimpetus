@@ -5,51 +5,67 @@ class Content_model extends Model
 {
     protected $table = 'content_list';
      
+	protected $businessUuid;
+	private $whereCond = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+		
+        $this->businessUuid = session('uuid_business');
+		$this->whereCond['uuid_business_id'] = $this->businessUuid;
+    }
+
     public function getRows($id = false)
     {
         if($id === false){
-            return $this->findAll();
+            return $this->where($this->whereCond)->findAll();
         }else{
-            return $this->getWhere(['id' => $id]);
+			$whereCond = array_merge(['id' => $id], $this->whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	
 	public function jobsbycat($cat = false, $limit=false, $offset=false)
     {
+		$whereCond = array_merge(['categories.Code'=>$cat,'content_list.type'=>4,'content_list.status'=>1], $this->whereCond);
         if($cat !== false && $limit!== false){
 			$this->join('content_category', 'content_category.contentid=content_list.id', 'LEFT');
             $this->join('categories', 'categories.ID = content_category.categoryid', 'LEFT');			
 			$this->select('content_list.*');
-            return $this->where(['categories.Code'=>$cat,'content_list.type'=>4,'content_list.status'=>1])->orderBy('content_list.id','desc')->findAll($limit,$offset);
+            return $this->where($whereCond)->orderBy('content_list.id','desc')->findAll($limit,$offset);
         }else{            
             $this->join('content_category', 'content_category.contentid=content_list.id', 'LEFT');
             $this->join('categories', 'categories.ID = content_category.categoryid', 'LEFT');			
 			$this->select('content_list.*');
-            return $this->getWhere(['categories.Code'=>$cat,'content_list.type'=>4,'content_list.status'=>1])->getNumRows();
+            return $this->getWhere($whereCond)->getNumRows();
         }   
     }
 	
 	public function blogposts($limit=false, $offset=false, $con=false)
     { 
 		if($limit!== false){	
+			$whereCond = array_merge(['content_list.type' => 2,'content_list.status'=>1], $this->whereCond);
 			$this->join('enquiries', 'content_list.id=enquiries.contentid and enquiries.type=3', 'LEFT');			
 			$this->select('content_list.*,COUNT(DISTINCT enquiries.id) AS cmt_count');
 			if($con!==false){
 				$this->where($con);
 			}
-            return $this->where(['content_list.type' => 2,'content_list.status'=>1])->orderBy('content_list.publish_date', 'desc')->groupBy('content_list.id')->findAll($limit,$offset);
+            return $this->where($whereCond)->orderBy('content_list.publish_date', 'desc')->groupBy('content_list.id')->findAll($limit,$offset);
 		} else {
+			$whereCond = array_merge(['type' => 2,'status'=>1], $this->whereCond);
             //$this->join('enquiries', 'enquiries.contentid = content_list.id', 'LEFT');			
 			//$this->select('content_list.id');
 			if($con!==false){
 				$this->where($con);
 			}
-            return $this->getWhere(['type' => 2,'status'=>1])->getNumRows();
+            return $this->getWhere($whereCond)->getNumRows();
         }   
     }
 	
 	public function saveData($data)
     {
+		$data['uuid_business_id'] = $this->businessUuid;
         $query = $this->db->table($this->table)->insert($data);
         return $this->getLastInserted();
     }
@@ -84,11 +100,15 @@ class Content_model extends Model
 		$string = preg_replace("/[$separator]+/u", "$separator", $string);
 		$i = 0;
 		if(!empty($id)){
-			$arr = ['code' => $string, 'id!='=>$id];
+			$arr = ['code' => $string, 'id!='=>$id, 'uuid_business_id' => $this->businessUuid];
 		}else {
 			$arr = ['code' => $string];
 		}
-		while ($this->db->table($this->table)->getWhere($arr)->getNumRows())
+		
+		$blogs = $this->db->table($this->table)->getWhere($arr)->getResultArray();
+		$totalBlog = count($blogs);
+		
+		while ($totalBlog--)
 		{  
 			if (!preg_match ('/-{1}[0-9]+$/', $string ))
 			$string .= '-' . ++$i;
@@ -106,6 +126,8 @@ class Content_model extends Model
 
 	public function saveDataInTable($data, $tableName)
 	{
+		$data = $this->whereCond;
+
 		$query = $this->db->table($tableName)->insert($data);
 		return $query;
 	}

@@ -1,4 +1,5 @@
 <?php
+$business = getAllBusiness();
 if(empty($_SESSION['uuid'])){?>
 <script>
 window.location.href="/";
@@ -17,9 +18,16 @@ window.location.href="/";
                     <div class="line_icon open_miniSide d-none d-lg-block">
                       <i class="ti-menu"></i>
                     </div>
-                    
                     <div class="header_right d-flex justify-content-between align-items-center">
                         
+                        <div class="business-uuid-selector mr-3">
+                            <select name="uuid_business_id" id="uuidBusinessIdSwitcher" class="form-control dashboard-dropdown">
+                                <?php foreach($business as $eachUuid) { ?>
+                                <option value="<?php echo $eachUuid['uuid']?>"<?php if(@$_SESSION['uuid_business'] == $eachUuid['uuid']) { echo "selected"; } ?>>  <?php echo $eachUuid['name']?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+
                         <div class="profile_info">
                             <img src="/assets/img/client_img.png" alt="#">
                             <div class="profile_info_iner">

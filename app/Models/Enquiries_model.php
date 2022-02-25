@@ -4,13 +4,23 @@ use CodeIgniter\Model;
 class Enquiries_model extends Model
 {
     protected $table = 'enquiries';
-     
+    protected $businessUuid;
+	private $whereCond = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->businessUuid = session('uuid_business');
+		$this->whereCond['uuid_business_id'] = $this->businessUuid;
+    }
+
     public function getRows($id = false)
     {
         if($id === false){
-            return $this->findAll();
+            return $this->where($this->whereCond)->findAll();
         }else{
-            return $this->getWhere(['id' => $id]);
+            $whereCond = array_merge(['id' => $id], $this->whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	

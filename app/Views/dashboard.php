@@ -48,7 +48,7 @@
 </section>
 <!-- main content part end -->
 
-<?php include('common/scripts.php'); ?>
+<?php require_once('common/scripts.php'); ?>
 
     <script>
 		// Add the following code if you want the name of the file appear on select

@@ -4,7 +4,6 @@ namespace App\Controllers;
 use App\Models\Gallery_model;
 use App\Models\Users_model;
 use App\Controllers\Core\CommonController; 
-use App\Models\Amazon_s3_model; 
 ini_set('display_errors', 1);
 
 class Gallery extends CommonController
@@ -14,7 +13,6 @@ class Gallery extends CommonController
 		parent::__construct();
 		$this->gallery_model = new Gallery_model();
 		$this->user_model = new Users_model();
-		$this->Amazon_s3_model = new Amazon_s3_model();
 		$this->table = 'media_list';
 		$this->gallery = 'gallery';
 	}
@@ -22,7 +20,7 @@ class Gallery extends CommonController
 	public function index()
 	{        
 
-		$data[$this->table] = $this->gallery_model->findAll();
+		$data[$this->table] = $this->gallery_model->where([ "uuid_business_id" => $this->businessUuid])->findAll();
 		$data['tableName'] = $this->gallery;
 		$data['rawTblName'] = "Image";
 		$data['is_add_permission'] = 1;
@@ -45,14 +43,8 @@ class Gallery extends CommonController
 		$data = array(
 			'code' => $this->request->getPost('code'),
 			'status' => $this->request->getPost('status'),
+			"uuid_business_id" => $this->businessUuid,
 		);
-
-		// if($_FILES['file']['tmp_name']) {	
-
-		// 	$imgData = $this->upload('file');
-		// 	$data['name'] = $imgData;
-
-		// }
 
 		$id = $this->request->getPost('id');
 

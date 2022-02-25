@@ -4,16 +4,27 @@ use CodeIgniter\Model;
 class Domain_model extends Model
 {
     protected $table = 'domains';
-     
+    private $whereCond = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->whereCond[$this->table.'.uuid_business_id'] = session('uuid_business');
+    }
+
     public function getRows($id = false)
     {
+        $whereCond = $this->whereCond;
         if($id === false){
 			$this->join('services', 'domains.sid = services.id', 'LEFT');
 			$this->select('services.name as sname');
 			$this->select('domains.*');
+            $this->where($whereCond);
             return $this->findAll();
         }else{
-            return $this->getWhere(['id' => $id]);
+            $whereCond = array_merge(['id' => $id], $whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	

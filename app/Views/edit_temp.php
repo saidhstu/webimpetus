@@ -247,8 +247,3 @@
 });
 </script>
 
-<!-- Include Bootstrap Datepicker -->
-
-<script>
-        $('#publish_date').datepicker({ format: "dd/mm/yyyy" });
-    </script>

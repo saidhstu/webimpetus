@@ -2,9 +2,6 @@
 <!-- footer  -->
 <script src="/assets/js/jquery-3.4.1.min.js"></script>
 
-
-
-
 <script src="/assets/js/popper.min.js"></script>
 
 <!-- bootstarp js -->
@@ -12,26 +9,53 @@
 <!-- sidebar menu  -->
 <script src="/assets/js/metisMenu.js"></script>
 <script src="/assets/js/select2.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js" type="text/javascript"></script> -->
+
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/list.js"></script>
+<script src="/assets/js/edit.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
+<script src="/assets/ckeditor/ckeditor.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" ></script>
+
 <script type="text/javascript">
     $(document).ready(function() {
 
 		if ($(".js-example-basic-multiple").length > 0) {
     		$('.js-example-basic-multiple').select2();
 		}
+
+		$('.select2').select2();
+		$('.datepicker').datepicker({
+			autoclose: true,
+			clearBtn: true,
+			todayHighlight: true,
+		});
+
+		$('.datetimepicker').datetimepicker();
+
+		$('.timepicker').datetimepicker({
+			format: 'hh:mm:ss a',
+		});
 		
 });
-</script>
-<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" type="text/javascript"></script>
 
-<script type="text/javascript">
     $(document).ready(function() {
 		if ($("#example").length > 0) {
 			$('#example').DataTable({
 				columnDefs:[{targets:1,className:"truncate"}],
-    createdRow: function(row){
-       var td = $(row).find(".truncate");
-       td.attr("title", td.html());
-  }
+				createdRow: function(row) {
+					var td = $(row).find(".truncate");
+					td.attr("title", td.html());
+				},
+				scrollX: true,
 			});
 		}
 		
@@ -55,10 +79,10 @@
 				
 			});
 		}
-		$('table tbody tr td').not(":last-child").click(function(){
-			if($('table tbody tr').data('href').indexOf("enquiries") === -1)
-				window.location.href = $('table tbody tr').data('href')
-		})
+		// $('table tbody tr td').not(":last-child").click(function(){
+		// 	if($('table tbody tr').data('href').indexOf("enquiries") === -1)
+		// 		window.location.href = $('table tbody tr').data('href')
+		// })
 		
 		<?php if(empty($_SESSION['role'])){ ?>
 			/*$("table a").click(function(){
@@ -72,20 +96,29 @@
 		
 		
 		<?php } ?>
+
+		$(".dashboard-dropdown").select2({width: '100%'});
+		$('#uuidBusinessIdSwitcher').change(function(){
+			var bid = $(this).val();
+			$.ajax({
+				url: baseURL + 'home/switchbusiness',
+				data: {bid: bid},
+				method: 'POST',
+			}).done(function(response){
+
+				location.reload();
+			}).fail(function(x,y,z){
+
+				console.log(x,y,z);
+			});
+		});
 	} );
 	
 	setTimeout(function(){
 		$('#example_length select').select2();
 	}, 300)
+
 	
-</script>
-
-<script src="/assets/js/custom.js"></script>
-<script src="/assets/js/list.js"></script>
-<script src="/assets/js/edit.js"></script>
-<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script--> 
-
-    <script>
 		// Add the following code if you want the name of the file appear on select
 		$(".custom-file-input").on("change", function() {
 		  var fileName = $(this).val().split("\\").pop();
@@ -93,9 +126,7 @@
 		});
 	</script>
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
- <script src="/assets/ckeditor/ckeditor.js"></script>
+
  
  <script>
    if ($("#addcat").length > 0) {
@@ -144,12 +175,7 @@ if ($("#chk_manual").length > 0) {
 	 
 	 var inc = sr++; $("#divfile").append('<div class="custom-file"><input type="file" name="file[]" class="custom-file-input filee" id="customFile'+inc+'"><label class="custom-file-label" for="customFile'+inc+'">Choose file</label></div>') });
 	
-	
-</script>
 
-
-
-<script type="text/javascript">
     CKEDITOR.replace( 'content' , {
     filebrowserBrowseUrl: '/assets/ckfinder/ckfinder.html',
     filebrowserUploadUrl: '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
@@ -158,11 +184,7 @@ if ($("#chk_manual").length > 0) {
 });
 </script>
 
-<!-- Include Bootstrap Datepicker -->
 
-<script>
-        //$('#publish_date').datepicker({ format: "dd/mm/yyyy" });
-    </script>
 <style>
 .custom-file{
 margin:30px;

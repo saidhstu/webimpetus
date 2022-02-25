@@ -4,12 +4,23 @@ use CodeIgniter\Model;
 class Common_model extends Model
 {
     protected $table = '';
+    private $whereCond = array();
+    private $doesUuidBusinessIdFieldExists = false;
 
     function __construct()
     {
         parent::__construct();
         $this->session = session();
         $this->table = $this->getTableNameFromUri();
+        
+        if($this->db->tableExists($this->table)){
+            if ($this->db->fieldExists('uuid_business_id', $this->table)) {
+
+            $this->whereCond['uuid_business_id'] = session('uuid_business');
+            $this->doesUuidBusinessIdFieldExists = true;
+        }
+        }
+        
     }
 
 
@@ -23,10 +34,21 @@ class Common_model extends Model
 
     public function getRows($id = false)
     {
-        if($id === false){
-            return $this->findAll();
-        }else{
-            return $this->getWhere(['id' => $id]);
+        $whereCond = $this->whereCond;
+
+        if ($id === false) {
+
+            if (empty($whereCond)) {
+
+                return $this->findAll();
+            } else {
+
+                return $this->getWhere($whereCond)->getResultArray();
+            }
+        } else {
+
+            $whereCond = array_merge(array('id' => $id), $whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	
@@ -45,7 +67,10 @@ class Common_model extends Model
 	public function insertOrUpdate($id = null, $data = null)
 	{
         unset($data["id"]);
+        if ($this->doesUuidBusinessIdFieldExists) {
 
+            $data['uuid_business_id'] = session('uuid_business');
+        }
         if(@$id){
             $query = $this->db->table($this->table)->update($data, array('id' => $id));
             if( $query){
@@ -74,11 +99,14 @@ class Common_model extends Model
 
     public function getUser($id = false)
     {
+        $whereCond = $this->whereCond;
         $builder = $this->db->table("users");
         if($id === false){
-            return $builder->where(['role!='=>1])->get()->getResultArray();
+            $whereCond = array_merge(['role!='=>1], $whereCond);
+            return $builder->where($whereCond)->get()->getResultArray();
         }else{
-            return $builder->getWhere(['id' => $id])->get()->getRowArray();
+            $whereCond = array_merge(['id' => $id], $whereCond);
+            return $builder->getWhere($whereCond)->getRowArray();
         }   
     }
 
@@ -96,6 +124,11 @@ class Common_model extends Model
 	{
 		$query = $this->db->table($tableName)->update($data, array('id' => $id));
 		return $query;
+	}
+    public function insertTableData( $data = null, $tableName)
+	{
+		$query = $this->db->table($tableName)->insert($data);
+        return $this->db->insertID();
 	}
     public function saveDataInTable($data, $tableName)
 	{
@@ -125,5 +158,6 @@ class Common_model extends Model
 
         return @$result['id'];
 	}
+
 
 }

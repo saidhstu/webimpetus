@@ -23,6 +23,7 @@ class Customers extends CommonController
         $builder = $this->db->table("contacts");
         $builder->select("id as contact_id,first_name,surname,email as contact_email");
         $builder->where("client_id", $id);
+        $builder->where("uuid_business_id", session('uuid_business'));
         $data["contacts"]  = $builder->get()->getResultArray();
         return  $data;
 
@@ -46,6 +47,7 @@ class Customers extends CommonController
         $data["notes"] = $post["notes"];
         $data["supplier"] = @$post["supplier"];
         $data["website"] = @$post["website"];
+        $data["uuid_business_id"] = session('uuid_business');
 
         $id= $post["id"];
 		$response = $this->model->insertOrUpdate($id, $data);
@@ -60,6 +62,7 @@ class Customers extends CommonController
                 $contact["client_id"] = $id;
                 $contact["surname"] = $post["surname"][$i];
                 $contact["email"] = $post["contact_email"][$i];
+                $contact["uuid_business_id"] = session('uuid_business');
                 $contactId =  @$post["contact_id"][$i];
                 if(strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"])>0) || strlen(trim($contact["email"])>0)){
                     $this->insertOrUpdate("contacts",$contactId, $contact);

@@ -5,19 +5,29 @@ class Cat_model extends Model
 {
     protected $table = 'categories';
 	protected $table2 = 'content_category';
-     
+    protected $businessUuid;
+	private $whereCond = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->businessUuid = session('uuid_business');
+		$this->whereCond['uuid_business_id'] = $this->businessUuid;
+    }
+
     public function getRows($id = false)
     {
         if($id === false){
-            return $this->findAll();
+            return $this->where($this->whereCond)->findAll();
         }else{
-            return $this->getWhere(['id' => $id]);
+            $whereCond = array_merge(['id' => $id], $this->whereCond);
+            return $this->getWhere($whereCond);
         }   
     }
 	
 	public function getCats($id = false)
     {
-		return $this->findAll();
+		return $this->where($this->whereCond)->findAll();
 	}
 	
 	public function deleteCatData($id)
@@ -28,7 +38,8 @@ class Cat_model extends Model
 	
 	public function getCatIds($id)
     {        
-        return $this->db->table($this->table2)->where(['contentid' => $id])->get()->getResult('array');
+        $whereCond = array_merge(['contentid' => $id], $this->whereCond);
+        return $this->db->table($this->table2)->where($whereCond)->get()->getResult('array');
     }
 	
 	public function saveData2($data)

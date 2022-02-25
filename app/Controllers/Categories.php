@@ -26,7 +26,8 @@ class Categories extends CommonController
 		$data = array(
 			'name'  => $this->request->getPost('name'),				
 			'notes' => $this->request->getPost('notes'),
-			'uuid' => $this->request->getPost('uuid')
+			'uuid' => $this->request->getPost('uuid'),
+			'uuid_business_id' => $this->session->get('uuid_business'),
 		);
 		
 

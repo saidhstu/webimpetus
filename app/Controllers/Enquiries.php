@@ -11,6 +11,7 @@ use App\Controllers\Core\CommonController;
  
 class Enquiries extends CommonController
 {	
+	protected $whereCond = array();
 	function __construct()
     {
         parent::__construct();
@@ -19,15 +20,16 @@ class Enquiries extends CommonController
 		$this->enquries_model = new Enquiries_model();
 		$this->user_model = new Users_model();
 		$this->cat_model = new Cat_model();
+		$this->whereCond['uuid_business_id'] = $this->businessUuid;
 	}
     public function index()
     {        
-        $data[$this->table] = $this->enquries_model->where(['type' => 1])->findAll();
+        $data[$this->table] = $this->enquries_model->where(['type' => 1, 'uuid_business_id' => $this->businessUuid])->findAll();
 		$data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
 
-        echo view($this->table."/list",$data);
+        return view($this->table."/list",$data);
     }
 
 	
@@ -47,7 +49,7 @@ class Enquiries extends CommonController
 		} , $array1);
 		$data['selected_cats'] = $arr;
 		
-		echo view($this->table."/edit", $data);
+		return view($this->table."/edit", $data);
 	}
 	
 	public function update()
@@ -66,6 +68,7 @@ class Enquiries extends CommonController
 			'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
 			'type' => ($this->request->getPost('type')?$this->request->getPost('type'):1),
 					//'image_logo' => $filepath
+			'uuid_business_id' => $this->businessUuid,
 		);
 		if(!empty($this->request->getPost('uuid'))){
 			$data['uuid'] = $this->request->getPost('uuid');
@@ -99,6 +102,7 @@ class Enquiries extends CommonController
 					$cat_data = [];
 					$cat_data['categoryid'] = $val;
 					$cat_data['contentid'] = $id;
+					$cat_data['uuid_business_id'] = $this->businessUuid;
 					$this->cat_model->saveData2($cat_data);					
 				}			
 				
@@ -108,33 +112,25 @@ class Enquiries extends CommonController
 			session()->setFlashdata('alert-class', 'alert-success');
 		}else {
 
-			if(!empty($this->request->getPost('title'))){
+		
+			// Set Session
+			session()->setFlashdata('message', 'Data entered Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+			
+			$bid = $this->enquries_model->saveData($data); 
+			
+			if(!empty($bid) && !empty($this->request->getPost('catid'))){
 				
-				if($this->request->getPost('title')) {
+				foreach($this->request->getPost('catid') as $val) {
+					$cat_data = [];
+					$cat_data['categoryid'] = $val;
+					$cat_data['contentid'] = $bid;
+					$cat_data['uuid_business_id'] = $this->businessUuid;
+					$this->cat_model->saveData2($cat_data);
 					
-					// Set Session
-					session()->setFlashdata('message', 'Data entered Successfully!');
-					session()->setFlashdata('alert-class', 'alert-success');
-					
-					$bid = $this->content_model->saveData($data); 
-					
-					if(!empty($bid) && !empty($this->request->getPost('catid'))){
-						
-						foreach($this->request->getPost('catid') as $val) {
-							$cat_data = [];
-							$cat_data['categoryid'] = $val;
-							$cat_data['contentid'] = $bid;
-							$this->cat_model->saveData2($cat_data);
-							
-						}
-					}
-					
-				}else{
-					   // Set Session
-					session()->setFlashdata('message', 'File not uploaded.');
-					session()->setFlashdata('alert-class', 'alert-danger');
 				}
 			}
+
 		}
 		return redirect()->to('/'.$this->table);
 	}
