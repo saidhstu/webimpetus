@@ -1,7 +1,7 @@
 <?php 
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController; 
-use App\Models\sales_invoice_model;
+use App\Models\Sales_invoice_model;
  ini_set("display errors", 1);
 class Sales_invoices extends CommonController
 {	
