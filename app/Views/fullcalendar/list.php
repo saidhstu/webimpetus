@@ -104,33 +104,78 @@ var new_event=new Array();
 
 function ValidateForm () {
 
-    if (document.frm_task.Task_ID.value=="") { 
-        __alertMessage('Please specify task name');
-        //alert('Please Specify Task Name'); 
-        document.frm_task.Task_ID.focus();
+    if (document.frm_task.task_name.value=="") { 
+        alert('Please Specify Task Name'); 
+        document.frm_task.task_name.focus();
         return false;
     }
-    if (document.frm_task.s_time.value=="") { 
-        __alertMessage('Please specify start time');
-        //alert('Please Specify Start Time'); 
-        document.frm_task.s_time.focus();
+    
+    if (document.frm_task.employee_name.value=="") { 
+        alert('Please specify employee name');
+        document.frm_task.employee_name.focus();
         return false;
     }
-    if (document.frm_task.e_time.value=="")
-    { 
-        __alertMessage('Please specify end time');
-        //alert('Please Specify End Time'); 
-        document.frm_task.e_time.focus();
+    if (document.frm_task.slip_timer_started.value=="") { 
+        alert('Please Specify Start Time'); 
+        document.frm_task.slip_timer_started.focus();
         return false;
     }
-    if (document.frm_task.slip_descr.value=="")
-    { 
-        __alertMessage('Please specify timeslip description');
-        //alert('Please Specify Timeslip Description'); 
-        document.frm_task.slip_descr.focus();
+
+    if (document.frm_task.slip_timer_end.value=="") { 
+        alert('Please Specify End Time'); 
+        document.frm_task.slip_timer_end.focus();
         return false;
     }
+    if (document.frm_task.slip_description.value=="")
+    {
+        alert('Please Specify Timeslip Description'); 
+        document.frm_task.slip_description.focus();
+        return false;
+    }
+
 	save();
+}
+
+function save() {
+
+    var date=$("#curr_date").val();
+    var s_time=$("#slip_timer_started").val();
+    var e_time=$("#slip_timer_end").val();
+    var task_id=$("#task_name").val();
+    var emp_id=$("#employee_name").val();
+    var descr=$("#slip_description").val();
+
+    $.ajax({
+        type: "GET",
+        url: baseURL + "timeslips/savecalenderevent",
+        data: {
+            date: date,
+            s_time: s_time,
+            e_time: e_time,
+            task_id: task_id,
+            emp_id: emp_id,
+            descr: descr,
+        },
+        dataType: "json",
+        cache: false,
+        method: 'POST',
+        success: function(response)
+        {
+            var new_arr=new Array();
+            new_arr['id'] = response.uuid;
+            new_arr['title'] = response.title;
+            new_arr['start'] = get_datetime(date, s_time);
+            new_arr['end'] = get_datetime(date, e_time);
+            new_arr['url'] = baseURL + 'timeslips/edit/'+response.uuid;
+            new_arr['allDay'] = false;
+            new_event.push(new_arr);
+            
+            $('#calendar').fullCalendar( 'removeEventSource', new_event );
+            $('#calendar').fullCalendar( 'addEventSource', new_event );
+            $(".new-event").fadeOut("fast");
+        }
+    });
+
 }
 
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];

@@ -111,4 +111,41 @@ class Timeslips extends CommonController
 		
         return redirect()->to('/'.$this->table);
     }
+
+    public function savecalenderevent()
+    {
+        $data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+        $uuid = UUID::v5(UUID::v4(), 'timeslips_event_saving_from_calendar');
+        $currentDate = $this->request->getPost('date');
+        $sTime = strtotime( $this->request->getPost('s_time') );
+        $eTime = strtotime( $this->request->getPost('e_time') );
+        $slipStartDate = strtotime( $currentDate . ' ' . $sTime );
+        $slipStartDate = $slipStartDate ? $slipStartDate : null;
+        $slipEndDate = strtotime( $currentDate . ' ' . $eTime );
+        $slipEndDate = $slipEndDate ? $slipEndDate : null;
+        $data = array(
+            'task_name' => $this->request->getPost('task_id'),
+            'employee_name' => $this->request->getPost('emp_id'),
+            'slip_start_date' => $sTime,
+            'slip_timer_started' => $this->request->getPost('slip_timer_started'),
+            'slip_end_date' => $slipEndDate,
+            'slip_timer_end' => $eTime,
+            'slip_description' => $this->request->getPost('descr'),
+            'uuid_business_id' => $this->session->get('uuid_business'),
+            'uuid' => $uuid,
+        );
+
+        $this->timeSlipsModel->saveByUuid($uuid, $data);
+
+        $currentDateMonth = render_date(strtotime($currentDate), "", "d-M");
+        $taskData = $this->db->table('tasks')->select('name')->getWhere(array('id' => $data['task_name'], 'uuid_business_id' => $this->businessUuid))->getFirstRow();
+        $employeeData = $this->db->table('employees')->select('CONCAT_WS(" ", saludation, first_name, surname) as name')->getWhere(array('id' => $data['employee_name'], 'uuid_business_id' => $this->businessUuid))->getFirstRow();
+        $title = "{" . $currentDateMonth . " " . $sTime . " - " . $currentDateMonth . " " . $eTime . "} " . $employeeData->name . ": ". $taskData->name;
+
+        return json_encode(array(
+                'uuid' => $uuid,
+                'title' => $title,
+        ));
+    }
 }
