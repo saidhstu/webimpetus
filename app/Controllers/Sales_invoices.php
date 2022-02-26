@@ -1,7 +1,7 @@
 <?php 
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController; 
-use App\Models\sales_invoice_model;
+use App\Models\Sales_invoice_model;
  ini_set("display errors", 1);
 class Sales_invoices extends CommonController
 {	
@@ -10,7 +10,7 @@ class Sales_invoices extends CommonController
     {
         parent::__construct();
 
-        $this->si_model = new sales_invoice_model();
+        $this->si_model = new Sales_invoice_model();
 
         $this->sales_invoice_items = "sales_invoice_items";
         $this->sales_invoice_notes = "sales_invoice_notes";
