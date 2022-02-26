@@ -26,6 +26,8 @@ class Fullcalendar extends CommonController
             $record['slip_end_date'] = render_date($record['slip_end_date']);
         }
         $data['tableName'] = $table;
+        $data["tasks"] = $this->timeSlipsModel->getTaskData();
+		$data["employees"] = $this->timeSlipsModel->getEmployeesData();
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
         $data['identifierKey'] = 'uuid';
