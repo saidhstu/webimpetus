@@ -57,4 +57,16 @@ function getTitleHour($time)
     $hour = @$splittedTime[0];
     return $hour . $meridianFirstletter;
 }
+
+function changeDateFormat($date)
+{
+    if (empty($date)) {
+        return $date;
+    }
+    
+    $splitted = explode('/', $date);
+    $m = $splitted[1];
+    unset($splitted[1]);
+    return $m . '/' . implode('/', $splitted);
+}
 ?>

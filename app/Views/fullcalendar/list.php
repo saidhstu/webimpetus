@@ -1,10 +1,11 @@
 <?php require_once (APPPATH.'Views/fullcalendar/list-title.php'); ?>
 <script>
 
+var calendar;
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    calendar = new FullCalendar.Calendar(calendarEl, {
         themeSystem: 'bootstrap',
         height: 'auto',
         expandRows: true,
@@ -22,17 +23,18 @@ document.addEventListener('DOMContentLoaded', function() {
         dayMaxEvents: true, // allow "more" link when too many events
         events: [
             <?php foreach ($timeslips as $eachSlip) {
-                $startDate = strtotime($eachSlip['slip_start_date']);
-                $endDate = strtotime($eachSlip['slip_end_date']);
+                $startDate = strtotime(trim($eachSlip['slip_start_date'] . ' ' . $eachSlip['slip_timer_started']));
+                $endDate = strtotime(trim($eachSlip['slip_end_date'] . ' ' . $eachSlip['slip_timer_end']));
                 $splitted = explode(" ", $eachSlip['slip_timer_started']);
                 $titleStartDateHour = getTitleHour($eachSlip['slip_timer_started']);
                 $titleEndDateHour = getTitleHour($eachSlip['slip_timer_end']);
                 echo "{
                     id: '" . $eachSlip['id'] . "',
                     title: '". "{" . render_date($startDate, "", "d-M") . " " . $titleStartDateHour . " - " . render_date($endDate, "", "d-M") . " " . $titleEndDateHour . "} " . $eachSlip['employee_name'] . ": ". $eachSlip['task_name'] ."',
-                    start: '" . render_date($startDate, "", "Y-m-d") . "',
-                    end: '" . render_date($endDate, "", "Y-m-d") . "',
+                    start: '" . render_date($startDate, "", "Y-m-d H:i:s") . "',
+                    end: '" . render_date($endDate, "", "Y-m-d H:i:s") . "',
                     url: '" . base_url('/' . $tableName . '/edit/' . $eachSlip['uuid']) . "',
+                    allDay: false,
                 },";
             } ?>
         ],
@@ -161,17 +163,19 @@ function save() {
         method: 'POST',
         success: function(response)
         {
-            var new_arr=new Array();
-            new_arr['id'] = response.uuid;
-            new_arr['title'] = response.title;
-            new_arr['start'] = get_datetime(date, s_time);
-            new_arr['end'] = get_datetime(date, e_time);
-            new_arr['url'] = baseURL + 'timeslips/edit/'+response.uuid;
-            new_arr['allDay'] = false;
-            new_event.push(new_arr);
+            var obj = {};
+            obj['id'] = response.uuid;
+            obj['title'] = response.title;
+            obj['start'] = response.start;
+            obj['end'] = response.end;
+            obj['url'] = baseURL + 'timeslips/edit/'+response.uuid;
+            obj['allDay'] = false;
+            console.log(obj);
             
-            $('#calendar').fullCalendar( 'removeEventSource', new_event );
-            $('#calendar').fullCalendar( 'addEventSource', new_event );
+            console.log(calendar);
+            calendar.addEvent(obj)
+            // $('#calendar').fullCalendar( 'removeEventSource', new_event );
+            // $('#calendar').fullCalendar( 'addEventSource', new_event );
             $(".new-event").fadeOut("fast");
         }
     });
