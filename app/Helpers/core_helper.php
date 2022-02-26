@@ -8,7 +8,7 @@ function prd($data){
 }
 function render_date($time, $type="input", $format=""){
 
-    if(is_null($time)){
+    if(strlen(trim(@$time)) === 0){
         return "";
     }
     if (!empty($format)) {
@@ -46,9 +46,9 @@ function getStatus($key){
 function getTitleHour($time)
 {
     $splitted = explode(" ", $time);
-    $meridianFirstletter = trim($splitted[1])[0];
+    $meridianFirstletter = @trim(@$splitted[1])[0];
     $splittedTime = array_filter(array_map('trim', explode(":", $splitted[0])), 'strlen');
-    $hour = $splittedTime[0];
+    $hour = @$splittedTime[0];
     return $hour . $meridianFirstletter;
 }
 ?>

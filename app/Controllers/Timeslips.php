@@ -59,13 +59,17 @@ class Timeslips extends CommonController
         if (empty($uuid)) {
             $uuidVal = UUID::v5(UUID::v4(), 'timeslips_saving');
         }
+        $slipStartDate = strtotime( $this->request->getPost('slip_start_date') );
+        $slipStartDate = $slipStartDate ? $slipStartDate : null;
+        $slipEndDate = strtotime( $this->request->getPost('slip_end_date') );
+        $slipEndDate = $slipEndDate ? $slipEndDate : null;
         $data = array(
             'task_name' => $this->request->getPost('task_name'),
             'week_no' => $this->request->getPost('week_no'),
             'employee_name' => $this->request->getPost('employee_name'),
-            'slip_start_date' => strtotime( $this->request->getPost('slip_start_date') ),
+            'slip_start_date' => $slipStartDate,
             'slip_timer_started' => $this->request->getPost('slip_timer_started'),
-            'slip_end_date' => strtotime( $this->request->getPost('slip_end_date') ),
+            'slip_end_date' => $slipEndDate,
             'slip_timer_end' => $this->request->getPost('slip_timer_end'),
             'break_time' => $this->request->getPost('break_time') === "on" ? 1: 0,
             'break_time_start' => $this->request->getPost('break_time_start'),
