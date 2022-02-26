@@ -39,4 +39,11 @@ function getStatus($key){
 
     return $list[$key];
 }
+
+function render_head_text($text){
+    $text = str_replace("_", " ", $text);
+    $text = ucwords($text);
+
+    return $text;
+}
 ?>

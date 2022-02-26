@@ -10,6 +10,8 @@ function getResultArray( $tableName, $where = array(), $returnArr = true){
     
     $db = \Config\Database::connect();
     $builder = $db->table($tableName);
+    
+    $query = $builder->where( "uuid_business_id", session('uuid_business') );
     if($where){
 
         $query = $builder->getWhere( $where );
@@ -54,6 +56,15 @@ function getUserInfo(){
     $result = $query->getRow();
 
     return $result;    
+}
+function findMaxFieldValue($tableName, $field){
+
+    $db = \Config\Database::connect();
+    $builder = $db->table($tableName);
+    $query = $builder->selectMax($field );
+    $order_number = $query->get()->getRowArray()['order_number'];
+
+    return $order_number + 1;    
 }
 
 function readableFieldName($fieldName)
