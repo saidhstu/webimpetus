@@ -7,6 +7,7 @@
 }
 </style>
 <link href='<?php echo base_url('assets/vendors/fullcalendar-5.10.2/lib/main.min.css') ?>' rel='stylesheet' />
+<link href='<?php echo base_url('assets/css/calendar.css') ?>' rel='stylesheet' />
 <script src='<?php echo base_url('assets/vendors/fullcalendar-5.10.2/lib/main.min.js') ?>'></script>
 
 <section class="main_content dashboard_part large_header_bg">
