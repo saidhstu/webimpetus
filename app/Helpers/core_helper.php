@@ -6,12 +6,15 @@ function pre($data){
 function prd($data){
     echo "<pre>";print_r($data);die;
 }
-function render_date($time, $type="input"){
+function render_date($time, $type="input", $format=""){
 
     if(is_null($time)){
         return "";
     }
-    if( $type == "date_time"){
+    if (!empty($format)) {
+
+        $date = date($format, $time);
+    } else if( $type == "date_time"){
 
         $date = date("d M Y H:i:s", $time);
     }else if( $type == "input"){
@@ -38,5 +41,14 @@ function getStatus($key){
     $list=["Active", "Completed"];
 
     return $list[$key];
+}
+
+function getTitleHour($time)
+{
+    $splitted = explode(" ", $time);
+    $meridianFirstletter = trim($splitted[1])[0];
+    $splittedTime = array_filter(array_map('trim', explode(":", $splitted[0])), 'strlen');
+    $hour = $splittedTime[0];
+    return $hour . $meridianFirstletter;
 }
 ?>
