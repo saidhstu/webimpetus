@@ -55,7 +55,16 @@ class Sales_invoices extends CommonController
 
         $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
-    //  prd($data);
+
+        if(empty($id)){
+            $data['invoice_number'] = findMaxFieldValue($this->sales_invoices, "invoice_number");
+
+            if(empty($data['invoice_number'])){
+                $data['invoice_number'] = 1001;
+            }else{
+                $data['invoice_number'] += 1;
+            }
+        }
      
 		$response = $this->model->insertOrUpdate($id, $data);
 		if(!$response){
@@ -130,6 +139,7 @@ class Sales_invoices extends CommonController
         $data['rate'] = $this->request->getPost('rate');
         $data['hours'] = $this->request->getPost('hours');
         $data['amount'] = $data['rate'] * $data['hours'];
+         $data['uuid_business_id'] = session('uuid_business');
 
 // echo $this->sales_invoice_items;die;
 
@@ -139,6 +149,7 @@ class Sales_invoices extends CommonController
             $response['status'] = true;
         }else{
 
+            $data['uuid_business_id'] = session('uuid_business');
             $data['sales_invoices_id'] = $mainTableId;
             $id = $this->model->insertTableData( $data, $this->sales_invoice_items);
 
