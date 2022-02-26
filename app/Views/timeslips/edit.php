@@ -168,7 +168,7 @@
                     <span class="redstar">*</span>
                 </div>
                 <div class="form-group col-md-4">
-                    <textarea id="slip_description" name="slip_description" class="form-control"><?php echo @$timeslips['slip_description']; ?>"</textarea>
+                    <textarea id="slip_description" name="slip_description" class="form-control"><?php echo @$timeslips['slip_description']; ?></textarea>
                 </div>
 
             </div>

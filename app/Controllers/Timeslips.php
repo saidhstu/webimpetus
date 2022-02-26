@@ -59,13 +59,17 @@ class Timeslips extends CommonController
         if (empty($uuid)) {
             $uuidVal = UUID::v5(UUID::v4(), 'timeslips_saving');
         }
+        $slipStartDate = strtotime( $this->request->getPost('slip_start_date') );
+        $slipStartDate = $slipStartDate ? $slipStartDate : null;
+        $slipEndDate = strtotime( $this->request->getPost('slip_end_date') );
+        $slipEndDate = $slipEndDate ? $slipEndDate : null;
         $data = array(
             'task_name' => $this->request->getPost('task_name'),
             'week_no' => $this->request->getPost('week_no'),
             'employee_name' => $this->request->getPost('employee_name'),
-            'slip_start_date' => strtotime( $this->request->getPost('slip_start_date') ),
+            'slip_start_date' => $slipStartDate,
             'slip_timer_started' => $this->request->getPost('slip_timer_started'),
-            'slip_end_date' => strtotime( $this->request->getPost('slip_end_date') ),
+            'slip_end_date' => $slipEndDate,
             'slip_timer_end' => $this->request->getPost('slip_timer_end'),
             'break_time' => $this->request->getPost('break_time') === "on" ? 1: 0,
             'break_time_start' => $this->request->getPost('break_time_start'),
@@ -106,5 +110,44 @@ class Timeslips extends CommonController
 		}
 		
         return redirect()->to('/'.$this->table);
+    }
+
+    public function savecalenderevent()
+    {
+        $data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+        $uuid = UUID::v5(UUID::v4(), 'timeslips_event_saving_from_calendar');
+        $currentDate = changeDateFormat($this->request->getPost('date'));
+        $sTime = $this->request->getPost('s_time');
+        $eTime = $this->request->getPost('e_time');
+        $slipStartDate = strtotime( $currentDate . ' ' . $sTime );
+        $slipStartDate = $slipStartDate ? $slipStartDate : null;
+        $slipEndDate = strtotime( $currentDate . ' ' . $eTime );
+        $slipEndDate = $slipEndDate ? $slipEndDate : null;
+        $data = array(
+            'task_name' => $this->request->getPost('task_id'),
+            'employee_name' => $this->request->getPost('emp_id'),
+            'slip_start_date' => $slipStartDate,
+            'slip_timer_started' => $sTime,
+            'slip_end_date' => $slipEndDate,
+            'slip_timer_end' => $eTime,
+            'slip_description' => $this->request->getPost('descr'),
+            'uuid_business_id' => $this->session->get('uuid_business'),
+            'uuid' => $uuid,
+        );
+
+        $this->timeSlipsModel->saveByUuid(null, $data);
+
+        $currentDateMonth = render_date(strtotime($currentDate), "", "d-M");
+        $taskData = $this->db->table('tasks')->select('name')->getWhere(array('id' => $data['task_name'], 'uuid_business_id' => $this->businessUuid))->getFirstRow();
+        $employeeData = $this->db->table('employees')->select('CONCAT_WS(" ", saludation, first_name, surname) as name')->getWhere(array('id' => $data['employee_name'], 'uuid_business_id' => $this->businessUuid))->getFirstRow();
+        $title = "{" . $currentDateMonth . " " . getTitleHour($sTime) . " - " . $currentDateMonth . " " . getTitleHour($eTime) . "} " . $employeeData->name . ": ". $taskData->name;
+
+        return json_encode(array(
+            'uuid' => $uuid,
+            'title' => $title,
+            'start' => render_date($slipStartDate, "", "Y-m-d H:i:s"),
+            'end' => render_date($slipEndDate, "", "Y-m-d H:i:s"),
+        ));
     }
 }

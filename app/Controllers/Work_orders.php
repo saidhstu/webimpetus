@@ -1,26 +1,26 @@
 <?php 
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController; 
-use App\Models\Sales_invoice_model;
+use App\Models\work_orders_model;
  ini_set("display errors", 1);
-class Sales_invoices extends CommonController
+class Work_orders extends CommonController
 {	
 	
     function __construct()
     {
         parent::__construct();
 
-        $this->si_model = new Sales_invoice_model();
+        $this->work_orders_model = new work_orders_model();
 
-        $this->sales_invoice_items = "sales_invoice_items";
-        $this->sales_invoice_notes = "sales_invoice_notes";
-        $this->sales_invoices = "sales_invoices";
+        $this->work_order_items = "work_order_items";
+        $this->work_order_notes = "work_order_notes";
+        $this->work_orders = "work_orders";
 	}
     
     public function index()
     {        
 
-        $data[$this->table] = $this->si_model->getInvoice();
+        $data[$this->table] = $this->work_orders_model->getOrder();
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
@@ -53,16 +53,15 @@ class Sales_invoices extends CommonController
 
 		$data = $this->request->getPost();
 
-        $data['due_date'] = strtotime($data['due_date']);
+        // $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
-
         if(empty($id)){
-            $data['invoice_number'] = findMaxFieldValue($this->sales_invoices, "invoice_number");
+            $data['order_number'] = findMaxFieldValue($this->work_orders, "order_number");
 
-            if(empty($data['invoice_number'])){
-                $data['invoice_number'] = 1001;
+            if(empty($data['order_number'])){
+                $data['order_number'] = 1001;
             }else{
-                $data['invoice_number'] += 1;
+                $data['order_number'] += 1;
             }
         }
      
@@ -82,7 +81,7 @@ class Sales_invoices extends CommonController
 
         if( $id > 0){
 
-            $this->model->deleteTableData( $this->sales_invoice_items, $id);
+            $this->model->deleteTableData( $this->work_order_items, $id);
             $response['status'] = true;
         }
 
@@ -95,11 +94,13 @@ class Sales_invoices extends CommonController
         $data['balance_due'] = $this->request->getPost('totalAmountWithTax');
         $data['total'] = $this->request->getPost('totalAmountWithTax');
         $data['total_due_with_tax'] = $this->request->getPost('totalAmountWithTax');
-        $data['total_hours'] = $this->request->getPost('totalHour');
+        $data['total_qty'] = $this->request->getPost('totalQty');
         $data['total_due'] = $this->request->getPost('totalAmount');
         $data['total_tax'] = $this->request->getPost('total_tax');
+        $data['discount'] = $this->request->getPost('discount');
+        $data['subtotal'] = $this->request->getPost('subtotal');
 
-        $res = $this->model->updateTableData($mainTableId, $data, $this->sales_invoices);
+        $res = $this->model->updateTableData($mainTableId, $data, $this->work_orders);
 
         $response['status'] = true;
         $response['msg'] = "Data updated successfully";
@@ -113,21 +114,21 @@ class Sales_invoices extends CommonController
 
         $id = $this->request->getPost('id');
         $data['notes'] = $this->request->getPost('notes');
-        $data['sales_invoices_id'] = $this->request->getPost('mainTableId');
+        $data['work_orderss_id'] = $this->request->getPost('mainTableId');
      
         if( $id > 0){
 
-            $res = $this->model->updateTableData($id, $data, $this->sales_invoice_notes);
+            $res = $this->model->updateTableData($id, $data, $this->work_orders_notes);
         }else{
 
             $data['created_by'] = $_SESSION['uuid'];
-            $id = $this->model->insertTableData($data, $this->sales_invoice_notes);
+            $id = $this->model->insertTableData($data, $this->work_orders_notes);
         }
 
         $response['name'] = getUserInfo()->name;
         $response['status'] = true;
         $response['msg'] = "Data updated successfully";
-        $response['data'] = getRowArray($this->sales_invoice_notes, ["id" => $id]);
+        $response['data'] = getRowArray($this->work_orders_notes, ["id" => $id]);
 
         echo json_encode($response);
     }
@@ -135,23 +136,30 @@ class Sales_invoices extends CommonController
 
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
+        $data['uuid_business_id'] = session('uuid_business');
         $data['description'] = $this->request->getPost('description');
         $data['rate'] = $this->request->getPost('rate');
-        $data['hours'] = $this->request->getPost('hours');
-        $data['amount'] = $data['rate'] * $data['hours'];
-         $data['uuid_business_id'] = session('uuid_business');
+        $data['qty'] = $this->request->getPost('qty');
+        $data['discount'] = $this->request->getPost('discount');
+        $data['amount'] = $data['rate'] * $data['qty'];
 
-// echo $this->sales_invoice_items;die;
+        if( $data['discount'] > 0){
+            $discount = ( $data['amount'] / 100 ) * $data['discount'];
+
+            $data['amount'] = $data['amount'] - $discount;
+        }
+        
+
+// echo $this->work_order_items;die;
 
         if( $id > 0){
 
-            $this->model->updateTableData($id, $data, $this->sales_invoice_items);
+            $this->model->updateTableData($id, $data, $this->work_order_items);
             $response['status'] = true;
         }else{
 
-            $data['uuid_business_id'] = session('uuid_business');
-            $data['sales_invoices_id'] = $mainTableId;
-            $id = $this->model->insertTableData( $data, $this->sales_invoice_items);
+            $data['work_orders_id'] = $mainTableId;
+            $id = $this->model->insertTableData( $data, $this->work_order_items);
 
             if( $id > 0){
                 $response['msg'] = "Data added successfully";
@@ -162,7 +170,7 @@ class Sales_invoices extends CommonController
             }
         }
 
-        $response['data'] = getRowArray( $this->sales_invoice_items, ["id" => $id]);
+        $response['data'] = getRowArray( $this->work_order_items, ["id" => $id]);
 
         echo json_encode($response);
 
@@ -171,7 +179,7 @@ class Sales_invoices extends CommonController
     public function deleteNote(){
 
         $id = $this->request->getPost('id');
-        $res = $this->model->deleteTableData($this->sales_invoice_notes, $id);
+        $res = $this->model->deleteTableData($this->work_orders_notes, $id);
 
         $response['id'] = $id;
         if($res){
