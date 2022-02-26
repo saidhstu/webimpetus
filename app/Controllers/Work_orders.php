@@ -57,10 +57,13 @@ class Work_orders extends CommonController
         $data['date'] = strtotime($data['date']);
         if(empty($id)){
             $data['order_number'] = findMaxFieldValue($this->work_orders, "order_number");
-        }else{
-            $data['order_number'] = 1001;
+
+            if(empty($data['order_number'])){
+                $data['order_number'] = 1001;
+            }else{
+                $data['order_number'] += 1;
+            }
         }
-    //  prd($data);
      
 		$response = $this->model->insertOrUpdate($id, $data);
 		if(!$response){
