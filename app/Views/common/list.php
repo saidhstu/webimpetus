@@ -14,7 +14,7 @@
             <tbody>                                        
             
                 <?php foreach(${$tableName} as $row) { ?>
-                    <tr  data-link="/<?php echo $tableName; ?>/edit/<?= $row['id'];?>">
+                    <tr  data-link="/<?php echo $tableName; ?>/edit/<?= $row[$identifierKey];?>">
 
                         <?php foreach ($fields as $field) { ?>
                         <td class="f_s_12 f_w_400"><?= $row[ $field ];?></td>
@@ -27,8 +27,8 @@
                                     </span>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                         
-                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/tenants/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
-                                        <a class="dropdown-item" href="/<?php echo $tableName; ?>/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/<?php echo $tableName; ?>/delete/<?= $row[ $identifierKey ];?>"> <i class="ti-trash"></i> Delete</a>
+                                        <a class="dropdown-item" href="/<?php echo $tableName; ?>/edit/<?= $row[ $identifierKey ];?>"> <i class="fas fa-edit"></i> Edit</a>
                                         
                                         
                                     </div>

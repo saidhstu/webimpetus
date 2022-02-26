@@ -51,9 +51,10 @@ class CommonController extends BaseController
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
+        $data['identifierKey'] = 'id';
 
 		$viewPath = "common/list";
-		if (file_exists( APPPATH . $this->table."/list")) {
+		if (file_exists( APPPATH . 'Views/' . $this->table."/list.php")) {
 			$viewPath = $this->table."/list";
 		}
 

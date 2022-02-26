@@ -16,6 +16,29 @@ class Timeslips extends CommonController
         $this->timeSlipsModel = new TimeslipsModel();
     }
 
+    public function index()
+    {        
+
+		$data['columns'] = $this->db->getFieldNames($this->table);
+		$data['fields'] = array_diff($data['columns'], $this->notAllowedFields);
+        $data[$this->table] = $this->timeSlipsModel->getRows();
+        foreach ($data[$this->table] as &$record) {
+            $record['slip_start_date'] = render_date($record['slip_start_date']);
+            $record['slip_end_date'] = render_date($record['slip_end_date']);
+        }
+        $data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+        $data['is_add_permission'] = 1;
+        $data['identifierKey'] = 'uuid';
+
+		$viewPath = "common/list";
+		if (file_exists( APPPATH . $this->table."/list")) {
+			$viewPath = $this->table."/list";
+		}
+
+        return view($viewPath, $data);
+    }
+
     public function edit($uuid = null)
     {
 		$data['tableName'] = $this->table;
@@ -36,13 +59,17 @@ class Timeslips extends CommonController
         if (empty($uuid)) {
             $uuidVal = UUID::v5(UUID::v4(), 'timeslips_saving');
         }
+        $slipStartDate = strtotime( $this->request->getPost('slip_start_date') );
+        $slipStartDate = $slipStartDate ? $slipStartDate : null;
+        $slipEndDate = strtotime( $this->request->getPost('slip_end_date') );
+        $slipEndDate = $slipEndDate ? $slipEndDate : null;
         $data = array(
             'task_name' => $this->request->getPost('task_name'),
             'week_no' => $this->request->getPost('week_no'),
             'employee_name' => $this->request->getPost('employee_name'),
-            'slip_start_date' => strtotime( $this->request->getPost('slip_start_date') ),
+            'slip_start_date' => $slipStartDate,
             'slip_timer_started' => $this->request->getPost('slip_timer_started'),
-            'slip_end_date' => strtotime( $this->request->getPost('slip_end_date') ),
+            'slip_end_date' => $slipEndDate,
             'slip_timer_end' => $this->request->getPost('slip_timer_end'),
             'break_time' => $this->request->getPost('break_time') === "on" ? 1: 0,
             'break_time_start' => $this->request->getPost('break_time_start'),
@@ -66,5 +93,22 @@ class Timeslips extends CommonController
         session()->setFlashdata('alert-class', 'alert-success');
 
         return redirect()->to('/timeslips');
+    }
+
+    public function delete($uuid)
+    {
+        if(!empty($uuid)) {
+			$response = $this->timeSlipsModel->deleteData($uuid);		
+			if($response){
+				session()->setFlashdata('message', 'Data deleted Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+			}else{
+				session()->setFlashdata('message', 'Something wrong delete failed!');
+				session()->setFlashdata('alert-class', 'alert-danger');		
+			}
+
+		}
+		
+        return redirect()->to('/'.$this->table);
     }
 }
