@@ -20,6 +20,24 @@ class Businesses extends CommonController
 	}
 
    
+	public function index()
+    {        
+
+		$data['columns'] = $this->db->getFieldNames($this->table);
+		$data['fields'] = array_diff($data['columns'], $this->notAllowedFields);
+        $data[$this->table] = getWithOutUuidResultArray("businesses");
+        $data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+        $data['is_add_permission'] = 1;
+        $data['identifierKey'] = 'id';
+
+		$viewPath = "common/list";
+		if (file_exists( APPPATH . 'Views/' . $this->table."/list.php")) {
+			$viewPath = $this->table."/list";
+		}
+
+        return view($viewPath, $data);
+    }
 	
     public function update()
     {        
