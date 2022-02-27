@@ -128,6 +128,7 @@ function calculationAmount( saveData = true){
     $("#total_due").val(totalAmount);
     
     var inv_tax_code =  $("#inv_tax_code").val();
+    var totalAmountWithTax = 0
     if(inv_tax_code == "UK"){
         var tax = ( totalAmount / 100) * 20;
         totalAmountWithTax = totalAmount + tax;
