@@ -14,7 +14,7 @@
                         <th scope="col">Total</th>
                         <th scope="col">Balance</th>
                         <th scope="col">Due Date</th>
-                        <th scope="col">Age(days)</th>
+                        <!-- <th scope="col">Age(days)</th> -->
                         <th scope="col">TAX CODE</th>
                         <th scope="col">Paid</th>
                         <th scope="col">Status</th>
@@ -36,8 +36,8 @@
                     <td class="f_s_12 f_w_400  "><?= $row['total'];?> </td>
                     <td class="f_s_12 f_w_400  "><?= $row['balance_due'];?> </td>
                     <td class="f_s_12 f_w_400  "><?= render_date($row['due_date']);?> </td>
-                    <td class="f_s_12 f_w_400  "><?= $row['date'];?> </td>
-                    <td class="f_s_12 f_w_400  "><?= $row['date'];?> </td>
+                    <!-- <td class="f_s_12 f_w_400  "><?= $row['inv_tax_code'];?> </td> -->
+                    <td class="f_s_12 f_w_400  "><?= $row['total_tax'].' ('.$row['inv_tax_code'].')';?> </td>
                     <td class="f_s_12 f_w_400  "><?= $row['total_paid'];?> </td>
                     <td class="f_s_12 f_w_400  "><?= $row['status'];?> </td>
 

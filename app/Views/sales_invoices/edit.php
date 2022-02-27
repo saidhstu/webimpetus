@@ -75,7 +75,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                             <label for="inputEmail4">Order By </label>
                                         </div>                               
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control" value="<?=@$sales_invoice->order_by?>" id="order_by" name="order_by" placeholder="">
+                                            <input type="text" autocomplete="off" class="form-control" value="<?=@$sales_invoice->order_by?>" id="order_by" name="order_by" placeholder="">
                                         </div>
                                     </div>
 
@@ -84,7 +84,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                             <label for="inputEmail4">Notes </label>
                                         </div>                               
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control" id="notes" name="notes" placeholder="" value="<?=@$sales_invoice->notes?>">
+                                            <input type="text" autocomplete="off" class="form-control" id="notes" name="notes" placeholder="" value="<?=@$sales_invoice->notes?>">
                                         </div>
                                     </div>
 
@@ -125,7 +125,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                         <label for="inputEmail4">Date*</label>
                                     </div>                               
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control datepicker" value="<?=render_date(@$sales_invoice->date)?>" id="date" name="date" placeholder="">
+                                        <input type="text" autocomplete="off" class="form-control datepicker" value="<?=render_date(@$sales_invoice->date)?>" id="date" name="date" placeholder="">
                                     </div>
                                 </div>
 
@@ -134,7 +134,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                         <label for="inputEmail4">Due Date*</label>
                                     </div>                               
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control datepicker" id="due_date" name="due_date" placeholder="" value="<?=render_date(@$sales_invoice->due_date)?>">
+                                        <input type="text" autocomplete="off" class="form-control datepicker" id="due_date" name="due_date" placeholder="" value="<?=render_date(@$sales_invoice->due_date)?>">
                                     </div>
                                 </div>
 
@@ -183,7 +183,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                         <label for="inputPassword4">Paid Date</label>
                                     </div>                               
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control datepicker" id="paid_date" name="paid_date" placeholder="" value="<?=render_date(@$sales_invoice->paid_date)?>">
+                                        <input type="text" autocomplete="off" class="form-control datepicker" id="paid_date" name="paid_date" placeholder="" value="<?=render_date(@$sales_invoice->paid_date)?>">
                                     </div>
                                 </div>
                             </div>
@@ -234,7 +234,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                                         
                                                         <td class="td_edit" data-th="Edit/Save"><span class="bt-content">
                                                             
-                                                            <a href="javascript:void(0)" class="editlink" title="Edit" style="">ss<i class="fa fa-pencil"></i></a>
+                                                            <a href="javascript:void(0)" class="editlink" title="Edit" style=""><i class="fa fa-edit"></i></a>
                                                             
                                                             <a href="javascript:void(0)" class="savelink" style="display:none" title="" aria-describedby="ui-tooltip-1"><i class="fa fa-save"></i></a>
                                                             
@@ -308,7 +308,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                             <div class="form-group col-md-6">
                                 <div class="form-group col-md-12">
                                     <label for="inputEmail4">Invoice Pin or Passcode(For Paying Online)</label>
-                                    <input type="input" class="form-control" id="payment_pin_or_passcode" name="payment_pin_or_passcode" placeholder="" value="<?=@$sales_invoice->payment_pin_or_passcode?>">
+                                    <input type="input" autocomplete="off" class="form-control" id="payment_pin_or_passcode" name="payment_pin_or_passcode" placeholder="" value="<?=@$sales_invoice->payment_pin_or_passcode?>">
                                 </div>
 
                                 <div class="form-group col-md-12">
@@ -345,7 +345,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                             <div class="form-group col-md-6">
                                 <div class="form-group col-md-12">
                                     <label for="inputEmail4">Customer ref or PO</label>
-                                    <input type="text" class="form-control" id="inv_customer_ref_po" name="inv_customer_ref_po" placeholder="" value="<?=@$sales_invoice->inv_customer_ref_po?>">
+                                    <input type="text" autocomplete="off" class="form-control" id="inv_customer_ref_po" name="inv_customer_ref_po" placeholder="" value="<?=@$sales_invoice->inv_customer_ref_po?>">
                                 </div>
 
                                 <div class="form-group col-md-12">
@@ -362,7 +362,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
 
                                 <div class="form-group col-md-12">
                                     <label for="inputPassword4">Base Currency Code</label>
-                                    <input type="text" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?=@$sales_invoice->base_currency_code?>">
+                                    <input type="text" autocomplete="off" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?=@$sales_invoice->base_currency_code?>">
 
                                 </div>
                                 <div class="form-group col-md-12">
