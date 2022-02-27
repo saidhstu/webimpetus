@@ -190,7 +190,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                         </div>
                         <div class="row">
 
-                            <div class="col-md-6"> 
+                            <div class="col-md-10"> 
                              
 
 
