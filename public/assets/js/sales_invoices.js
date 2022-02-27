@@ -48,6 +48,7 @@ $(document).on("click", ".savelink", function(){
     })
 });
 
+
 $(document).on("click", ".editlink", function(){
 
     var current = $(this);
@@ -97,6 +98,10 @@ $(document).on("click", ".removelink", function(){
         }
     })
 });
+
+$(document).on("change", "#inv_tax_code", function(){
+    calculationAmount()
+})
 
 function calculationAmount( saveData = true){
 
