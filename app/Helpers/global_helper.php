@@ -71,3 +71,25 @@ function readableFieldName($fieldName)
 {
     return implode(' ', array_map('ucfirst', explode('_', $fieldName)));
 }
+
+function getWithOutUuidResultArray( $tableName, $where = array(), $returnArr = true){
+    
+    $db = \Config\Database::connect();
+    $builder = $db->table($tableName);
+
+    if($where){
+
+        $query = $builder->getWhere( $where );
+    }else{
+
+        $query = $builder->get();
+    }
+
+    if($returnArr){
+        $result = $query->getResultArray();
+    }else{
+        $result = $query->getResult();
+    }
+
+    return $result;    
+}
