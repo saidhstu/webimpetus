@@ -2,8 +2,6 @@
 use App\Controllers\BaseController;
  
 use CodeIgniter\Controller;
-use App\Models\Secret_model;
-use App\Models\Service_model;
 use App\Controllers\Core\CommonController;
 use App\Libraries\UUID;
 use App\Models\Core\Common_model;
@@ -14,9 +12,6 @@ class Businesses extends CommonController
 	{
 		parent::__construct(); 
 
-		$this->secretModel = new Secret_model();
-		$this->service_model = new Service_model();
-		$this->model = new Common_model();
 	}
 
    
@@ -59,6 +54,18 @@ class Businesses extends CommonController
 		}
 
         return redirect()->to('/'.$this->table);
+    }
+
+	public function edit($id = 0)
+    {
+		$data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+		$data["users"] = $this->model->getUser();
+		$data[$this->rawTblName] = getRowArray($this->table, ['id' => $id]);
+		// if there any special cause we can overried this function and pass data to add or edit view
+		$data['additional_data'] = $this->getAdditionalData($id);
+
+        echo view($this->table."/edit",$data);
     }
 	
 
