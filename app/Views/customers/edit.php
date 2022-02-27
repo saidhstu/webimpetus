@@ -33,13 +33,23 @@ $contacts = $additional_data["contacts"];
                 </div>
                 <div class="form-check col-md-1">
                 </div>
-                <div class="form-check checkbox-section col-md-3">
+                <div class="form-check checkbox-section col-md-1">
                     <div class = "checkbox-label" >
 
                     <input class="form-check-input" type="checkbox" name="status" id="status"  <?php if(@$customer->status == "1"){echo 
                         "checked"; }?> value="<?php echo @$customer->status; ?>" >
                     <label class="form-check-label" for="flexCheckIndeterminate">
                         Inactive
+                    </label>
+                    </div>
+                </div>
+                <div class="form-check checkbox-section col-md-1">
+                    <div class = "checkbox-label" >
+
+                    <input class="form-check-input" name="supplier" id="supplier" value="<?php echo @$customer->supplier; ?>" type="checkbox" <?php if(@$customer->supplier == "1"){echo 
+                        "checked"; }?>>
+                    <label class="form-check-label" for="flexCheckIndeterminate">
+                        Supplier
                     </label>
                     </div>
                 </div>
@@ -100,16 +110,7 @@ $contacts = $additional_data["contacts"];
 
                 <div class="form-check col-md-1">
                 </div>
-                <div class="form-check checkbox-section col-md-3">
-                    <div class = "checkbox-label" >
-
-                    <input class="form-check-input" name="supplier" id="supplier" value="<?php echo @$customer->supplier; ?>" type="checkbox" <?php if(@$customer->supplier == "1"){echo 
-                        "checked"; }?>>
-                    <label class="form-check-label" for="flexCheckIndeterminate">
-                        Suppier
-                    </label>
-                    </div>
-                </div>
+               
             </div>
                 
                 <div class="form-group ">
