@@ -78,7 +78,10 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-info set-current-time">Set current time</button>
+                </div>
             </div>
 
             <div class="form-row">
@@ -110,7 +113,10 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-info set-current-time">Set current time</button>
+                </div>
             </div>
 
             <div class="form-row">
@@ -234,5 +240,65 @@
                 el.closest('.form-row').next().slideUp('slow');
             }
         });
+
+        $(".set-current-time").click(function() {
+            var el = $(this);
+            setCurrentTime(el, calculateTime)
+        });
     })
+
+    function setCurrentTime(el, callback)
+    {
+        var d = new Date();
+        var h = d.getHours();
+        h = h < 10 ? '0' + h : h;
+        var m = d.getMinutes();
+        m = m < 10 ? '0' + m : m;
+        var s = d.getSeconds();
+        s = s < 10 ? '0' + s : s;
+        var meridiem = h >= 12 ? "pm" : "am";
+        var time = h + ':' + m + ':' + s + ' ' + meridiem;
+        el.closest('.form-row').find('input.timepicker').val(time);
+        callback();
+    }
+
+    function calculateTime()
+    {
+        var startDate = $("#slip_start_date").val();
+        var startTime = $("#slip_timer_started").val();
+        var endDate = $("#slip_end_date").val();
+        var endTime = $("#slip_timer_end").val();
+
+        var startDateObj = Date.parse(startDate + ' ' + startTime);
+        var endDateObj = Date.parse(endDate + ' ' + endTime);
+        var diffInHours = roundUp((endDateObj - startDateObj) / 3600000, 2);
+        
+        $('#slip_hours').val(diffInHours);
+    }
+
+    var roundUp = function(num, precision) {
+        // Return '' if num is empty string
+        if (typeof num === 'string' && !num) return '';
+
+        // Remove exponential notation
+        num = toPlainString(num);
+
+        // Fixed round up
+        var result = +((+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision));
+
+        // Remove exponential notation (once again)
+        result = toPlainString(result);
+
+        return result;
+    };
+
+    var toPlainString = function(num) {
+        return ('' + num).replace(/(-?)(\d*)\.?(\d+)e([+-]\d+)/,
+            function(a, b, c, d, e) {
+                return e < 0
+                    ? b + '0.' + Array(1 - e - c.length).join(0) + c + d
+                    : b + c + d + Array(e - d.length + 1).join(0);
+            }
+        );
+    }
 </script>
