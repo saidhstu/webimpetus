@@ -78,3 +78,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+podPostStartExecCmd: "cd /var/www/html && php spark migrate"
