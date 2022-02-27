@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: '" . render_date($startDate, "", "Y-m-d H:i:s") . "',
                     end: '" . render_date($endDate, "", "Y-m-d H:i:s") . "',
                     url: '" . base_url('/' . $tableName . '/edit/' . $eachSlip['uuid']) . "',
-                    allDay: false,
+                    allDay: true,
                 },";
             } ?>
         ],
@@ -169,7 +169,7 @@ function save() {
             obj['start'] = response.start;
             obj['end'] = response.end;
             obj['url'] = baseURL + 'timeslips/edit/'+response.uuid;
-            obj['allDay'] = false;
+            obj['allDay'] = true;
             console.log(obj);
             
             console.log(calendar);
