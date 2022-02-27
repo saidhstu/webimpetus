@@ -195,7 +195,7 @@ if(isset($sales_invoice->id)){
                         </div>
                         <div class="row">
 
-                            <div class="col-md-6"> 
+                            <div class="col-md-10"> 
                              
 
 
