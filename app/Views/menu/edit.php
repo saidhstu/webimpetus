@@ -1,5 +1,5 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
-<?php $customers = getResultArray("customers"); ?>
+<?php  ?>
     <div class="white_card_body">
         <div class="card-body">
             
@@ -9,11 +9,11 @@
 
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Name</label>
-                        <input type="input" class="form-control required" id="name" name="name" placeholder=""  value="<?= @$menu->name ?>">
+                        <input type="input" class="form-control required" id="name" name="name" placeholder=""  value="<?= @$data->name ?>">
                     </div>
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Link</label>
-                        <input type="input" class="form-control required" id="link" name="link" placeholder=""  value="<?= @$menu->link ?>">
+                        <input type="input" class="form-control required" id="link" name="link" placeholder=""  value="<?= @$data->link ?>">
                     </div>
 
                 </div>
@@ -22,14 +22,14 @@
 
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Icon</label>
-                        <input type="input" class="form-control required" id="icon" name="icon" placeholder=""  value="<?= @$menu->icon ?>">
+                        <input type="input" class="form-control required" id="icon" name="icon" placeholder=""  value="<?= @$data->icon ?>">
                     </div>
                    
 
                 </div>
                     
                
-                <input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$menu->id ?>" />
+                <input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$data->id ?>" />
 
                 </div>
 
