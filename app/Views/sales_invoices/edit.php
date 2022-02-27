@@ -4,6 +4,11 @@ $customers = getResultArray("customers");
 $templates = getResultArray("templates");
 $items = getResultArray("sales_invoice_items", ["sales_invoices_id" => @$sales_invoice->id], false);
 $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_invoice->id], false);
+
+if(isset($sales_invoice->id)){
+
+    $is_tax_readonly = "disabled";
+}
 ?>
 <div class="white_card_body">
     <div class="card-body">
@@ -259,7 +264,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                 </div>
 
                                 <div class="row form-group hidden-xs" style="margin-bottom:5px;">
-                                    <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right;">+ Add a invoice item</button>
+                                    <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right; margin-left: 14px;">+ Add a invoice item</button>
                                 </div>
 
 
@@ -271,8 +276,11 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                     <label class="col-md-4 control-label">Tax Code</label>
                                     
                                     <div class="col-md-6">
-                                        <select id="inv_tax_code" name="inv_tax_code" class="form-control">	
-                                            <option value="UK" selected="">UK</option>
+                                        <select  id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown" <?php echo @$is_tax_readonly;?>>	
+                                            <option value="UK" <?=@$sales_invoice->status=='UK'?'selected':''?>>UK</option>
+                                            <option value="US" <?=@$sales_invoice->status=='US'?'selected':''?> >US</option>									 					
+                                            <option value="EU" <?=@$sales_invoice->status=='EU'?'selected':''?> >EU</option>									 					
+                                            <option value="Rest of the world" <?=@$sales_invoice->status=='Rest of the world'?'selected':''?> >Rest of the world</option>
                                         </select>                             
                                     </div>
                                 </div>
@@ -306,20 +314,25 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
 
 
                             <div class="form-group col-md-6">
-                                <div class="form-group col-md-12">
-                                    <label for="inputEmail4">Invoice Pin or Passcode(For Paying Online)</label>
+                                <div class="row form-group">
+                                    <label class="col-sm-4 control-label">Invoice Pin or Passcode(For Paying Online)</label>
+                                    <div class="col-sm-6">
                                     <input type="input" autocomplete="off" class="form-control" id="payment_pin_or_passcode" name="payment_pin_or_passcode" placeholder="" value="<?=@$sales_invoice->payment_pin_or_passcode?>">
                                 </div>
+                                </div>
 
-                                <div class="form-group col-md-12">
-                                    <label for="inputEmail4">Tax Rate</label>
+                                <div class="row form-group">
+                                    <label class="col-sm-4 control-label">Tax Rate</label>
+                                    <div class="col-sm-6">
                                     <input type="number" class="form-control" id="invoice_tax_rate" name="invoice_tax_rate" placeholder="" value="<?=@$sales_invoice->invoice_tax_rate?>">
+                                </div>
                                 </div>
 
 
 
-                                <div class="form-group col-md-12">
-                                    <label for="inputPassword4">Template</label>
+                                <div class="row form-group">
+                                    <label class="col-sm-4 control-label">Template</label>
+                                    <div class="col-sm-6">
                                     <select name="inv_template" id="inv_template" class="form-control dashboard-dropdown">
                                         <option value="">--Please Select--</option>
                                         <option value="TimeBilling" <?=@$sales_invoice->inv_template=='TimeBilling'?'selected':''?> >TimeBilling</option>
@@ -327,8 +340,10 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                         <option value="Day Rate" <?=@$sales_invoice->inv_template=='"Day Rate'?'selected':''?> >Day Rate</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <label for="inputPassword4">Print Template Code</label>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col-sm-4 control-label">Print Template Code</label>
+                                    <div class="col-sm-6">
                                     <select id="print_template_code" name="print_template_code" class="form-control required dashboard-dropdown">
                                         <option value="" selected="">--Please Selected--</option>
                                         <?php foreach($templates as $row):?>
@@ -336,20 +351,27 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                         <?php endforeach;?>
                                     </select> 
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <label for="inputPassword4">Internal Notes</label>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col-sm-4 control-label">Internal Notes</label>
+                                    <div class="col-sm-6">
                                     <textarea class="form-control" name="internal_notes"><?=@$sales_invoice->internal_notes?></textarea> 
+                                </div>
                                 </div>
 
                             </div>
                             <div class="form-group col-md-6">
-                                <div class="form-group col-md-12">
-                                    <label for="inputEmail4">Customer ref or PO</label>
+                                <div class="row form-group">
+                                    
+                                    <label class="col-sm-4 control-label">Customer ref or PO</label>
+                                    <div class="col-sm-6">
                                     <input type="text" autocomplete="off" class="form-control" id="inv_customer_ref_po" name="inv_customer_ref_po" placeholder="" value="<?=@$sales_invoice->inv_customer_ref_po?>">
                                 </div>
+                                </div>
 
-                                <div class="form-group col-md-12">
-                                    <label for="inputEmail4">Customer Currency Code</label>
+                                <div class="row form-group">
+                                <label class="col-sm-4 control-label">Customer Currency Code</label>
+                                <div class="col-sm-6">
                                     <select id="currency_code" name="currency_code" class="form-control dashboard-dropdown">
                                         <option value="">--Please Select--</option>
                                         <option value="AUD" <?=@$sales_invoice->currency_code=='AUD'?'selected':''?> >AUD</option>
@@ -359,16 +381,21 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                         <option value="USD" <?=@$sales_invoice->currency_code=='USD'?'selected':''?> >USD</option>
                                     </select>
                                 </div>
+                                </div>
 
-                                <div class="form-group col-md-12">
-                                    <label for="inputPassword4">Base Currency Code</label>
+                                <div class="row form-group">
+                                <label class="col-sm-4 control-label">Base Currency Code</label>
+                                <div class="col-sm-6">
                                     <input type="text" autocomplete="off" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?=@$sales_invoice->base_currency_code?>">
 
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <label for="inputPassword4">Exchange Customer Currency to Base Currency</label>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col-sm-4 control-label">Exchange Customer Currency to Base Currency</label>
+                                    <div class="col-sm-6">
                                     <input type="text" class="form-control" id="inv_exchange_rate" name="inv_exchange_rate" placeholder="" value="<?=@$sales_invoice->inv_exchange_rate?>">
 
+                                </div>
                                 </div>
                             </div>
 
@@ -418,7 +445,11 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
     </form>
 </div>
 </div>
-
+<style>
+    .row.form-group {
+    margin-top: 30px;
+}
+</style>
 <?php require_once (APPPATH.'Views/common/footer.php'); ?>
 <script src="/assets/js/sales_invoices.js"></script>
 <!-- main content part end -->

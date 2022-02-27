@@ -48,6 +48,7 @@ $(document).on("click", ".savelink", function(){
     })
 });
 
+
 $(document).on("click", ".editlink", function(){
 
     var current = $(this);
@@ -98,6 +99,10 @@ $(document).on("click", ".removelink", function(){
     })
 });
 
+$(document).on("change", "#inv_tax_code", function(){
+    calculationAmount()
+})
+
 function calculationAmount( saveData = true){
 
     var totalHour = 0;
@@ -123,6 +128,7 @@ function calculationAmount( saveData = true){
     $("#total_due").val(totalAmount);
     
     var inv_tax_code =  $("#inv_tax_code").val();
+    var totalAmountWithTax = 0
     if(inv_tax_code == "UK"){
         var tax = ( totalAmount / 100) * 20;
         totalAmountWithTax = totalAmount + tax;
