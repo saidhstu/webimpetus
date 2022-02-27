@@ -4,6 +4,11 @@ $customers = getResultArray("customers");
 $templates = getResultArray("templates");
 $items = getResultArray("sales_invoice_items", ["sales_invoices_id" => @$sales_invoice->id], false);
 $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_invoice->id], false);
+
+if(isset($sales_invoice->id)){
+
+    $is_tax_readonly = "disabled";
+}
 ?>
 <div class="white_card_body">
     <div class="card-body">
@@ -259,7 +264,7 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                 </div>
 
                                 <div class="row form-group hidden-xs" style="margin-bottom:5px;">
-                                    <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right;">+ Add a invoice item</button>
+                                    <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right; margin-left: 14px;">+ Add a invoice item</button>
                                 </div>
 
 
@@ -271,8 +276,11 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
                                     <label class="col-md-4 control-label">Tax Code</label>
                                     
                                     <div class="col-md-6">
-                                        <select id="inv_tax_code" name="inv_tax_code" class="form-control">	
-                                            <option value="UK" selected="">UK</option>
+                                        <select  id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown" <?php echo @$is_tax_readonly;?>>	
+                                            <option value="UK" <?=@$sales_invoice->status=='UK'?'selected':''?>>UK</option>
+                                            <option value="US" <?=@$sales_invoice->status=='US'?'selected':''?> >US</option>									 					
+                                            <option value="EU" <?=@$sales_invoice->status=='EU'?'selected':''?> >EU</option>									 					
+                                            <option value="Rest of the world" <?=@$sales_invoice->status=='Rest of the world'?'selected':''?> >Rest of the world</option>
                                         </select>                             
                                     </div>
                                 </div>
@@ -418,7 +426,11 @@ $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_i
     </form>
 </div>
 </div>
-
+<style>
+    .row.form-group {
+    margin-top: 30px;
+}
+</style>
 <?php require_once (APPPATH.'Views/common/footer.php'); ?>
 <script src="/assets/js/sales_invoices.js"></script>
 <!-- main content part end -->
