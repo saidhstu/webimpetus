@@ -21,9 +21,9 @@ body {
   font-family: "Mulish", sans-serif;
   padding: 0;
   margin: 0;
-  font-size: 20px;
+  font-size: 16px;
   position: relative;
-  background: #F6F7FB;
+  background: rgba(136,108,192,0.1);
 }
 
 @media (min-width: 1200px) {
@@ -1746,8 +1746,8 @@ td:focus, th:focus {
   line-height: 50px;
   padding: 10px 20px;
   border: 1px solid #F1F3F5;
-  color: #707070;
-  font-size: 14px;
+  color: #6e6e6e;
+  font-size: 16px;
   font-weight: 500;
   background-color: #fff;
   width: 100%;
@@ -1802,6 +1802,7 @@ td:focus, th:focus {
   width: 100%;
   display: block;
   margin-top: 20px;
+  text-transform: uppercase;
 }
 
 /* line 1325,  */
@@ -1875,7 +1876,7 @@ td:focus, th:focus {
 
 /* line 1386,  */
 p a {
-  color: #7e7172;
+  color: #563d7c;
 }
 
 /* line 1388,  */
@@ -2720,9 +2721,9 @@ p a:hover {
   border: 1px solid #563d7c;
   color: #fff;
   display: inline-block;
-  padding: 9px 25px;
+  padding: 13px 25px;
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   border-radius: 5px;
   white-space: nowrap;
@@ -13337,8 +13338,10 @@ a.pswp__share--download:hover {
 
 .loginModel{
   margin-top: 20%;
-
-
+  box-shadow: 0 0 2.1875rem 0 rgb(154 161 171 / 15%);
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
 }
  .footer_part_Login{
     text-align: center;
@@ -13569,7 +13572,9 @@ div.dataTables_wrapper div.dataTables_filter input {
 }
 
 .loginModel .large_logo img {
-  width: 90px !important;
+  max-width: 100%;
+  padding: 0px 90px;
+  width: auto !important;
 }
 
 .error {
@@ -13610,3 +13615,39 @@ table.table-bordered.dataTable th {
  .table-listing-items tr{
    cursor: pointer;
  }
+
+ .footer_iner p {
+    font-size: 16px;
+    color: #666;
+}
+
+/*login-form*/
+form#loginform .select2-container .select2-selection--single .select2-selection__rendered {
+    padding-left: 20px;
+}
+form#loginform span i {
+    position: absolute;
+    top: 48px;
+    right: 15px;
+    font-size: 16px;
+    color: #563d7c;
+}
+form#loginform .form-group {
+    position: relative;
+	margin-bottom: 24px;
+}
+#loginform label {
+    font-weight: 600;
+}
+#loginform input {
+    padding-right: 40px;
+    margin: 0;
+}
+#loginform input::placeholder {
+    color: #6e6e6e;
+	opacity: 1;
+}
+.footer_iner p a {
+    color: #563d7c;
+    font-weight: 600;
+}
