@@ -2,7 +2,7 @@
 <?php 
 $customers = getResultArray("customers");
 $templates = getResultArray("templates");
-$items = getResultArray("work_order_items", ["work_orders_id" => @$work_order->id], false);
+$items = getWithOutUuidResultArray("work_order_items", ["work_orders_id" => @$work_order->id], false);
 // $notes = getResultArray("work_order_notes", ["work_orders_id" => @$work_order->id], false);
 // pre($items);
 $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered","Completed","Proforma Invoice"];
