@@ -1,7 +1,7 @@
 <?php 
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController; 
-use App\Models\work_orders_model;
+use App\Models\Work_orders_model;
  ini_set("display errors", 1);
 class Work_orders extends CommonController
 {	
@@ -10,7 +10,7 @@ class Work_orders extends CommonController
     {
         parent::__construct();
 
-        $this->work_orders_model = new work_orders_model();
+        $this->work_orders_model = new Work_orders_model();
 
         $this->work_order_items = "work_order_items";
         $this->work_order_notes = "work_order_notes";
