@@ -62,8 +62,9 @@
                                         <br/><br/>
                                         <form id="loginform" method="post" action="/home/login">
                                             <div class="form-group">
+												<label>Service</label>
                                                 <select name="uuid_business_id" id="uuid_business_id" class="form-control">
-                                                 <option>--Please Select--</option>
+                                                 <option>Please Select</option>
                                                  <?php foreach($uuid as $eachUuid):?>
                                                     <option value="<?php echo $eachUuid->id?>"> <?php echo $eachUuid->name?></option>
                                                 
@@ -72,10 +73,14 @@
                                                
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="email" id="email" placeholder="Enter your email">
+												<label>Email</label>
+                                                <input type="text" class="form-control" name="email" id="email" placeholder="">
+                                                <span><i class="fa fa-user"></i></span>
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+												<label>Password</label>
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="">
+                                                <span><i class="fa fa-eye"></i></span>
                                             </div>
                                             <button type="submit" class="btn_1 full_width text-center">Log in</button>
                                             <!--div class="text-center">
