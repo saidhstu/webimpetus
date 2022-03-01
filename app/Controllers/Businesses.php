@@ -23,7 +23,12 @@ class Businesses extends CommonController
         $data[$this->table] = getWithOutUuidResultArray("businesses");
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
-        $data['is_add_permission'] = 1;
+		if($_SESSION['role'] > 0){
+
+			$data['is_add_permission'] = 1;
+		}else{
+			$data['is_add_permission'] = 0;
+		}
         $data['identifierKey'] = 'id';
 
 		$viewPath = "common/list";

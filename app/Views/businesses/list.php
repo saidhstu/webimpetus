@@ -17,8 +17,11 @@
             </thead>
             <tbody>                                        
             
-            <?php foreach($businesses as $row): ?>
-            <tr data-link=<?= "/".$tableName."/edit/".$row['id'];?>>
+            <?php foreach($businesses as $row):
+                if($_SESSION['role'] > 0){
+                    $url = "data-link=/".$tableName."/edit/".$row['id'];
+                } ?>
+            <tr <?= @$url;?>>
                 
                 <td class="f_s_12 f_w_100"> <?= $row['id'];?> </td>
                 <td class="f_s_12 f_w_200"><?= $row['name'];?></td>
