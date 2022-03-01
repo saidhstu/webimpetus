@@ -34,7 +34,16 @@ class Tasks extends CommonController
         $data['start_date'] = strtotime($data['start_date']);
         $data['end_date'] = strtotime($data['end_date']);
      
-        
+        if(empty($id)){
+            $data['task_id'] = findMaxFieldValue($this->table, "task_id");
+
+            if(empty($data['task_id'])){
+                $data['task_id'] = 1001;
+            }else{
+                $data['task_id'] += 1;
+            }
+        }
+
 		$response = $this->model->insertOrUpdate($id, $data);
 		if(!$response){
 			session()->setFlashdata('message', 'Something wrong!');
