@@ -7,6 +7,12 @@ class Projects_model extends Model
 {
     protected $table = 'projects';
      
+    public function __construct()
+    {
+        parent::__construct();
+		
+        $this->businessUuid = session('uuid_business');
+    }
     public function getRows($id = false)
     {
         if($id === false){
@@ -21,6 +27,8 @@ class Projects_model extends Model
         $builder = $this->db->table($this->table);
         $builder->select($this->table.".*, customers.company_name");
         $builder->join('customers', 'customers.id = '.$this->table.'.customers_id', 'left');
+        $builder->where($this->table.".uuid_business_id",  $this->businessUuid);
+
         return $builder->get()->getResultArray();
     }
 	
