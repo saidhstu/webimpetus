@@ -83,6 +83,8 @@
                                                 <span class="psswrdIcon">
                                                     <a href="#" onclick="myFunction()">
                                                         <i class="fa fa-eye"></i><i class="fa fa-eye-slash"></i></span></a>
+
+                                                <input type="hidden" class="form-control" id="redirectAfterLogin" name="redirectAfterLogin" placeholder="">
                                             </div>
                                             <button type="submit" class="btn_1 full_width text-center">Log in</button>
                                             <!--div class="text-center">
@@ -160,6 +162,12 @@
   })
 }
 $("#uuid_business_id").select2();
+
+
+
+let menu_current = localStorage.getItem("menu-current")
+console.log("menu_current",menu_current)
+document.getElementById("redirectAfterLogin").value = menu_current;
 </script>
 <style>
 .select2-container .select2-selection--single {
