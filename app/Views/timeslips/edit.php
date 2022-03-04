@@ -1,9 +1,9 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
 <div class="white_card_body">
     <div class="card-body">
-        
+
         <form id="addcat" method="post" action="<?php echo $actionUrl; ?>" enctype="multipart/form-data">
-            
+
             <div class="form-row">
 
                 <div class="form-group col-md-3">
@@ -14,7 +14,7 @@
                     <select id="task_name" name="task_name" class="form-control required dashboard-dropdown">
                         <option value="">--Selected--</option>
                         <?php foreach($tasks as $row) { ?>
-                        <option value="<?= $row['id'];?>" <?=($row['id']== @$timeslips['task_name'])?'selected':'' ?>><?= $row['name'];?></option>
+                            <option value="<?= $row['id'];?>" <?=($row['id']== @$timeslips['task_name'])?'selected':'' ?>><?= $row['name'];?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -27,7 +27,7 @@
                     <?php echo readableFieldName('week_no'); ?>
                 </div>
                 <div class="form-group col-md-4">
-                    <input id="week_no" name="week_no" class="form-control" value="<?php echo @$timeslips['week_no']; ?>">
+                    <input id="week_no" readonly name="week_no" class="form-control" value="<?php  if( empty($timeslips['week_no']) ){echo date("W");}else{echo $timeslips['week_no'];}; ?>">
                 </div>
 
             </div>
@@ -41,7 +41,7 @@
                     <select id="employee_name" name="employee_name" class="form-control required dashboard-dropdown">
                         <option value="">--Selected--</option>
                         <?php foreach($employees as $row) { ?>
-                        <option value="<?= $row['id'];?>" <?=($row['id']== @$timeslips['employee_name'])?'selected':'' ?>><?= $row['name'];?></option>
+                            <option value="<?= $row['id'];?>" <?=($row['id']== @$timeslips['employee_name'])?'selected':'' ?>><?= $row['name'];?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -216,7 +216,7 @@
                 </div>
 
             </div>
-            
+
             <div class="form-row">
                 <div class="col-md-3"></div>
                 <div class="col-md-4">
@@ -229,7 +229,7 @@
 </div>
 
 
- <?php require_once (APPPATH.'Views/common/footer.php'); ?>
+<?php require_once (APPPATH.'Views/common/footer.php'); ?>
 <script>
     $(function(){
         $("#break_time").change(function(){
@@ -272,7 +272,7 @@
         var startDateObj = Date.parse(startDate + ' ' + startTime);
         var endDateObj = Date.parse(endDate + ' ' + endTime);
         var diffInHours = roundUp((endDateObj - startDateObj) / 3600000, 2);
-        
+
         $('#slip_hours').val(diffInHours);
     }
 
@@ -296,9 +296,9 @@
         return ('' + num).replace(/(-?)(\d*)\.?(\d+)e([+-]\d+)/,
             function(a, b, c, d, e) {
                 return e < 0
-                    ? b + '0.' + Array(1 - e - c.length).join(0) + c + d
-                    : b + c + d + Array(e - d.length + 1).join(0);
+                ? b + '0.' + Array(1 - e - c.length).join(0) + c + d
+                : b + c + d + Array(e - d.length + 1).join(0);
             }
-        );
+            );
     }
 </script>
