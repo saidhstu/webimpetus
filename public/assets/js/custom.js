@@ -5,12 +5,52 @@
 $("#sidebar_menu").metisMenu();
 // metisMenu 
 $("#admin_profile_active").metisMenu();
-	
+
+
+// console.log($(".sidebar").hasClass("mini_sidebar"))
+
+// if($(".sidebar").hasClass("mini_sidebar")){
+//     localStorage.setItem("menu-class","close")
+// }
+// else{
+//     localStorage.setItem("menu-class","open")
+// }
+// const pathname = window.location.pathname
+// console.log("pathname",pathname)
+// const vsl =$( `a[href*="${pathname}"]` );
+// console.log(vsl.hasClass('active'))
+
+
+
+let menu_current = localStorage.getItem("menu-current")
+localStorage.setItem("menu-current",window.location.pathname)
+
+
+let menu_status = localStorage.getItem("menu-class")
+if(menu_status == "open"){
+    $(".sidebar").removeClass("mini_sidebar");
+    $(".main_content").removeClass("full_main_content");
+}
+else{
+    $(".sidebar").addClass("mini_sidebar");  
+    $(".main_content").addClass("full_main_content"); 
+       
+}
+
 $(".open_miniSide").click(function () {
     $(".sidebar").toggleClass("mini_sidebar");
+    if($(".sidebar").hasClass("mini_sidebar")){
+        localStorage.setItem("menu-class","close")
+    }
+    else{
+        localStorage.setItem("menu-class","open")
+    }
     $(".main_content ").toggleClass("full_main_content");
     $(".footer_part ").toggleClass("full_footer");
   });
+
+
+
 $(window).on('scroll', function () {
 	var scroll = $(window).scrollTop();
 	if (scroll < 400) {
@@ -27,6 +67,7 @@ $('#back-top a').on("click", function () {
     }, 1000);
     return false;
   });
+
 
 
 

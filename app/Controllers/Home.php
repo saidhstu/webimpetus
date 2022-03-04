@@ -49,7 +49,10 @@ class Home extends BaseController
 				$roww = $this->menu_model->getWherein($arr);
 				// echo '<pre>';print_r($roww); die;
 				$this->session->set('permissions',$roww);
-				return redirect()->to('/dashboard');
+
+
+				// return redirect()->to('/dashboard');
+				return redirect()->to($this->request->getPost('redirectAfterLogin'));
 			}else {
 				session()->setFlashdata('message', 'Wrong email or password!');
 				session()->setFlashdata('alert-class', 'alert-danger');

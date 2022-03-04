@@ -1,9 +1,10 @@
  <!-- sidebar  -->
-<nav class="sidebar">
+<nav class="sidebar mini_sidebar">
     <div class="logo d-flex justify-content-between">
         <?php if(!empty($_SESSION['logo'])) { ?>
         <a class="large_logo" href="/"><img src="<?='data:image/jpeg;base64,'.$_SESSION['logo']?>" alt=""></a>
-        <a class="small_logo" href="/"><img src="<?='data:image/jpeg;base64,'.$_SESSION['logo']?>" alt=""></a>
+        <!--<a class="small_logo" href="/"><img src="<?='data:image/jpeg;base64,'.$_SESSION['logo']?>" alt=""></a>-->
+		<a class="small_logo" href="/"><img src="/assets/img/smallLogo.png" alt=""></a>
 		<?php } ?>
         <div class="sidebar_close_icon d-lg-none">
             <i class="ti-close"></i>

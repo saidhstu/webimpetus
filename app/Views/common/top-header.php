@@ -35,10 +35,10 @@ window.location.href="/";
                                     <h5><?=!empty($_SESSION['uname'])?$_SESSION['uname']:''?></h5>
                                 </div>
                                 <div class="profile_info_details">
-                                     <span><?=!empty($_SESSION['uemail'])?$_SESSION['uemail']:''?></span>
-                                    <a href="/dashboard/chgpwd">Change Password</a>
-                                    <a href="/dashboard/settings">Settings</a>
-                                    <a href="/home/logout">Log Out </a>
+                                     <span><i class="fa fa-envelope"></i><?=!empty($_SESSION['uemail'])?$_SESSION['uemail']:''?></span>
+                                    <a href="/dashboard/chgpwd"><i class="fa fa-eye"></i>Change Password</a>
+                                    <a href="/dashboard/settings"><i class="fa fa-cog"></i>Settings</a>
+                                    <a href="/home/logout"><i class="fa fa-sign-out-alt"></i>Log Out </a>
                                 </div>
                             </div>
                         </div>
