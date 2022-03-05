@@ -17,9 +17,9 @@
                         </div>
                     </div>
 
-                    <div class="row form-group ">
+                    <div class="row form-group required ">
                         <div class="col-md-4">
-                            <label for="inputEmail4">Client* </label>
+                            <label for="inputEmail4">Client </label>
                         </div>                               
                         <div class="col-md-6">
                             <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
@@ -31,26 +31,26 @@
                         </div>
                     </div>
 
-                    <div class="row form-group ">
+                    <div class="row form-group required">
                         <div class="col-md-4">
-                            <label for="inputEmail4">Start Date*</label>
+                            <label for="inputEmail4">Start Date</label>
                         </div>                               
                         <div class="col-md-6">
                             <input type="text" autocomplete="off" class="form-control required datepicker" value="<?=render_date(@$purchase_order->start_date)?>" id="start_date" name="start_date" placeholder="">
                         </div>
                     </div>
 
-                    <div class="row form-group ">
+                    <div class="row form-group required">
                         <div class="col-md-4">
-                            <label for="inputEmail4">End Date*</label>
+                            <label for="inputEmail4">End Date</label>
                         </div>                               
                         <div class="col-md-6">
                             <input type="text" autocomplete="off" class="form-control required datepicker" value="<?=render_date(@$purchase_order->end_date)?>" id="end_date" name="end_date" placeholder="">
                         </div>
                     </div>
 
-                    <div class="row form-group">
-                        <label class="col-md-4 control-label">Tax Code*</label>
+                    <div class="row form-group required">
+                        <label class="col-md-4 control-label">Tax Code</label>
 
                         <div class="col-md-6">
                             <select  id="tax_code" name="tax_code" class="form-control required dashboard-dropdown" >>	
@@ -134,9 +134,9 @@
 
                 <div class="col-md-6">
 
-                    <div class="row form-group ">
+                    <div class="row form-group required">
                         <div class="col-md-4">
-                            <label for="inputEmail4">Approved By* </label>
+                            <label for="inputEmail4">Approved By </label>
                         </div>                               
                         <div class="col-md-6">
                             <select id="approved_by" name="approved_by" class="form-control required dashboard-dropdown">
@@ -148,12 +148,12 @@
                         </div>
                     </div>
 
-                    <div class="row form-group ">
+                    <div class="row form-group required">
                         <div class="col-md-4">
-                            <label for="inputPassword4">Project Code* </label>
+                            <label for="inputPassword4">Project Code </label>
                         </div>                               
                         <div class="col-md-6">
-                            <select name="project_code" id="project_code" class="form-control required">
+                            <select name="project_code" id="project_code" class="form-control required dashboard-dropdown">
                                 <option value="">--Please Select--</option>
                                 <option value="4D" <?=@$purchase_order->project_code=='4D'?'selected':''?> >4D</option>
                                 <option value="CatBase" <?=@$purchase_order->project_code=='CatBase'?'selected':''?> > CatBase</option>
