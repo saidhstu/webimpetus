@@ -6,7 +6,7 @@ use App\Models\Content_model;
 use App\Models\Users_model;
 use App\Models\Cat_model;
 use App\Controllers\Core\CommonController; 
-ini_set('display_errors', 1);
+
 class Blog_comments extends CommonController
 {	
 	public function __construct()

@@ -9,6 +9,7 @@ use App\Models\Secret_model;
 use App\Models\Template_model;
 use App\Models\Meta_model;
 use App\Models\Amazon_s3_model;
+use App\Models\Core\Common_model;
 
 class Services extends Api
 {	
@@ -26,6 +27,9 @@ class Services extends Api
 		$this->Amazon_s3_model = new Amazon_s3_model();
 		$this->db = \Config\Database::connect();
 		helper(["global"]);
+
+		$this->common_model = new Common_model();
+	  	$this->common_model->getMenuCode("/services");
 	}
 
     public function index()

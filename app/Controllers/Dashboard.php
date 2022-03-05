@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Users_model;
 use App\Models\Meta_model;
+use App\Models\Core\Common_model;
 class Dashboard extends BaseController
 {
 	public function __construct()
@@ -11,6 +12,8 @@ class Dashboard extends BaseController
 	  parent::__construct();
 	  $this->model = new Users_model();
 	  $this->meta_model = new Meta_model();
+	  $this->common_model = new Common_model();
+	  $this->common_model->getMenuCode("/dashboard");
 	}
 	
     public function index()

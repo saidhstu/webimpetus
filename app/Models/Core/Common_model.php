@@ -156,6 +156,13 @@ class Common_model extends Model
             "link" => $value
         ])->getRowArray();
 
+        $maxOrder = findMaxFieldValue("menu", "sort_order");
+
+        if($result['id'] > 0){
+
+            $this->updateTableData( $result['id'], ["sort_order" => $maxOrder + 1], "menu");
+        }
+
         return @$result['id'];
 	}
 
