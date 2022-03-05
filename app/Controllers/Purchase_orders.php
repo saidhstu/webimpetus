@@ -64,13 +64,13 @@ public function update()
         }
     }
 
-    if($data['purchase_order_inactive'] == "on"){
+    if(isset($data['purchase_order_inactive']) &&  $data['purchase_order_inactive'] == "on"){
         $data['purchase_order_inactive'] = 1;
     }else{
         $data['purchase_order_inactive'] = 0;
     }
 
-    if($data['vat_charge'] == "on"){
+    if( isset($data['vat_charge']) && $data['vat_charge'] == "on"){
         $data['vat_charge'] = 1;
     }else{
         $data['vat_charge'] = 0;
