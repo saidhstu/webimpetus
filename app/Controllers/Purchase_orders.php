@@ -53,6 +53,8 @@ public function update()
 
     $data['start_date'] = strtotime($data['start_date']);
     $data['end_date'] = strtotime($data['end_date']);
+    $data['payment_due_on'] = strtotime($data['payment_due_on']);
+    $data['payment_made_date'] = strtotime($data['payment_made_date']);
 
     if(empty($id)){
         $data['purchase_order_no'] = findMaxFieldValue($this->table, "purchase_order_no");

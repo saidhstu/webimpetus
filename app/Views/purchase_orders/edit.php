@@ -67,7 +67,15 @@
                             <label for="inputEmail4">Currency Code</label>
                         </div>
                         <div class="col-md-6">
-                            <input  type="text" class="form-control" value="<?=@$purchase_order->currency_code?>" id="currency_code" name="currency_code" placeholder="">
+                            
+                            <select id="currency_code" name="currency_code" class="form-control dashboard-dropdown">
+                                <option value="">--Please Select--</option>
+                                <option value="AUD" <?=@$purchase_order->currency_code=='AUD'?'selected':''?> >AUD</option>
+                                <option value="EUR" <?=@$purchase_order->currency_code=='EUR'?'selected':''?> >EUR</option>
+                                <option value="GBP" <?=@$purchase_order->currency_code=='GBP'?'selected':''?> >GBP</option>
+                                <option value="INR" <?=@$purchase_order->currency_code=='INR'?'selected':''?> >INR</option>
+                                <option value="USD" <?=@$purchase_order->currency_code=='USD'?'selected':''?> >USD</option>
+                            </select>
                         </div>
                     </div>
 
@@ -179,7 +187,7 @@
                             <label for="inputEmail4">Supplier Vat Number</label>
                         </div>                               
                         <div class="col-md-6">
-                            <input type="text" autocomplete="off" class="form-control " id="supplier_vat_no" name="supplier_vat_no" placeholder="" value="<?=render_date(@$purchase_order->supplier_vat_no)?>">
+                            <input type="text" autocomplete="off" class="form-control " id="supplier_vat_no" name="supplier_vat_no" placeholder="" value="<?= @$purchase_order->supplier_vat_no?>">
                         </div>
                     </div>
 
