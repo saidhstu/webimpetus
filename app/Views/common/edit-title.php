@@ -28,4 +28,11 @@
 
         <div class="col-lg-12">
             <div class="white_card card_height_100 mb_30">
-                       
+
+            <?php  if(session()->has('message')){ ?>
+
+            <div class="alert <?= session()->getFlashdata('alert-class') ?>">
+            <?= session()->getFlashdata('message') ?>
+            </div>
+            <?php } ?>
+                                
