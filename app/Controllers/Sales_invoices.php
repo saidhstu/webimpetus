@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controllers; 
-use App\Controllers\Core\CommonController; 
+use App\Controllers\Core\CommonController;
+use App\Models\Core\Common_model;
 use App\Models\Sales_invoice_model;
  ini_set("display errors", 1);
 class Sales_invoices extends CommonController
@@ -184,6 +185,14 @@ class Sales_invoices extends CommonController
         }
         
 
+        echo json_encode($response);
+    }
+
+    public function loadBillToData()
+    {
+        $clientId = $this->request->getPost('clientId');
+        $commonModel = new Common_model();
+        $response = $commonModel->loadBillToData($clientId);
         echo json_encode($response);
     }
 }

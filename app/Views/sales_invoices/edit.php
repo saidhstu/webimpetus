@@ -465,4 +465,5 @@ if(isset($sales_invoice->id)){
         }
     });
     
+    $(document).on("change", "#client_id", fillupBillToAddress);
 </script>

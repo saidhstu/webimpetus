@@ -26,6 +26,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" ></script>
 
 <script type="text/javascript">
+	var moduleName = '<?php echo @$tableName; ?>';
     $(document).ready(function() {
 
 		if ($(".js-example-basic-multiple").length > 0) {
@@ -182,6 +183,27 @@ if ($("#chk_manual").length > 0) {
     filebrowserWindowWidth: '900',
     filebrowserWindowHeight: '700'
 });
+
+function fillupBillToAddress(e)
+{
+	var clientId = e.target.value;
+	$.ajax({
+		url: baseUrl + '/' + moduleName + '/loadBillToData',
+		data: {clientId: clientId},
+		dataType: 'JSON',
+		method: 'POST',
+	}).done(function(response){
+
+		if (response.status) {
+
+			$('textarea[name="bill_to"]').val(response.value);
+		}
+	}).fail(function(x,y,z){
+
+		console.log(x,y,z);
+		alert(y + ': ' + z);
+	})
+}
 </script>
 
 

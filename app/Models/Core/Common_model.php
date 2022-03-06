@@ -158,7 +158,7 @@ class Common_model extends Model
 
         $maxOrder = findMaxFieldValue("menu", "sort_order");
 
-        if($result['id'] > 0){
+        if(!empty($result['id'])){
 
             $this->updateTableData( $result['id'], ["sort_order" => $maxOrder + 1], "menu");
         }
@@ -166,5 +166,31 @@ class Common_model extends Model
         return @$result['id'];
 	}
 
+    public function loadBillToData($clientId)
+    {
+        $customersData = $this->db->table('customers')->getWhere(array('id' => $clientId))->getRowArray();
+        if (!empty($customersData)) {
 
+            $billData = array();
+            $billData[] = trim($customersData['address1']);
+            $billData[] = trim($customersData['address2']);
+            $billData[] = implode(', ', array_filter(array(
+                trim($customersData['postal_code']),
+                trim($customersData['city']),
+            ), 'strlen'));
+            $billData[] = trim($customersData['country']);
+            $billData = array_filter($billData, 'strlen');
+            $billDataStr = implode("\n", $billData);
+    
+            return array(
+                'status' => 1,
+                'value' => $billDataStr,
+            );
+        }
+
+        return array(
+            'status' => 1,
+            'value' => '',
+        );
+    }
 }
