@@ -220,7 +220,7 @@ if(isset($sales_invoice->id)){
                                                 <?php foreach( $items as $eachItems){?>
                                                     <tr class="item-row" id="<?= $eachItems->id?>">
                                                         <td class="item-id" data-th="Item"><span class="bt-content"><div class="delete-wpr"><span class="item_id"><?= $eachItems->id?></span>
-                                                            <input class="item_uuid" type="hidden" value="2CC01FC9B65546F5A33B88BB72D0B32F">
+                                                            <input name="item_id[]" type="hidden" value="<?= $eachItems->id?>">
                                                         </div></span></td>
                                                         <td data-th="Description"><span class="bt-content">
                                                             <span class="s_description" style="display: inline;"><?= $eachItems->description?></span>

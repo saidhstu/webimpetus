@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController;
+use App\Libraries\UUID;
 use App\Models\Core\Common_model;
 use App\Models\Sales_invoice_model;
 use stdClass;
@@ -8,7 +9,8 @@ use stdClass;
  ini_set("display errors", 1);
 class Sales_invoices extends CommonController
 {	
-	
+	private $si_model;
+
     function __construct()
     {
         parent::__construct();
@@ -74,6 +76,8 @@ class Sales_invoices extends CommonController
         $id = $this->request->getPost('id');
 
 		$data = $this->request->getPost();
+        $itemIds = $data['item_id'];
+        unset($data['item_id']);
 
         $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
@@ -92,7 +96,16 @@ class Sales_invoices extends CommonController
 		if(!$response){
 			session()->setFlashdata('message', 'Something wrong!');
 			session()->setFlashdata('alert-class', 'alert-danger');	
-		}
+		} else {
+
+            $id = $response;
+            foreach ($itemIds as $itemId) {
+
+                $this->db->table($this->sales_invoice_items)->where('id', $itemId)->update(array(
+                    'sales_invoices_id' => $id,
+                ));
+            }
+        }
 
         return redirect()->to('/'.$this->table);
     }
@@ -173,6 +186,7 @@ class Sales_invoices extends CommonController
 
             $data['uuid_business_id'] = session('uuid_business');
             $data['sales_invoices_id'] = $mainTableId;
+            $data['uuid'] = UUID::v5(UUID::v4(), 'sales_invoice_items');
             $id = $this->model->insertTableData( $data, $this->sales_invoice_items);
 
             if( $id > 0){
