@@ -57,4 +57,11 @@ class Documents extends CommonController
 
         return redirect()->to('/'.$this->table);
     }
+
+    public function getfile()
+    {
+        $rowId = $this->request->getPost('rowid');
+        $data = $this->db->table($this->table)->select('file')->getWhere(array('id' => $rowId))->getRowArray();
+        echo json_encode(array('file' => @$data['file']));
+    }
 }
