@@ -13835,13 +13835,43 @@ form#loginform .form-group {
   border-left: 1px solid #ddd!important;
 }
 .fc-col-header th {
-    background: #f1f1f1;
-    padding: 12px;
+    background: #f1f1f1!important;
+    padding: 12px!important;
     /* color: #fff; */
     color: #464366!important;
 }
 
 .table-bordered td {
-    padding: 0px;
-    line-height: 30px;
+    padding: 0px!important;
+    line-height: 30px!important;
+}
+.fc-timegrid.fc-timeGridWeek-view.fc-view {
+    overflow-y: scroll;
+    height: 718px!important;
+}
+.fc-timegrid.fc-timeGridDay-view.fc-view {
+    overflow-y: scroll;
+    height: 713px!important;
+}
+
+
+.fc-timegrid.fc-timeGridWeek-view.fc-view::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+}
+.fc-timegrid.fc-timeGridWeek-view.fc-view::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #d5d5d5;
+}
+
+
+.fc-timegrid.fc-timeGridDay-view.fc-view::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 10px;
+  background-color: #d5d5d5;
+}
+.fc-timegrid.fc-timeGridDay-view.fc-view::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #f2f2f2;
 }
