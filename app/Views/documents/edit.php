@@ -20,10 +20,12 @@
                         </div>
                     </div>
 
-                    <div class="row form-group ">
-                        <embed src="https://drive.google.com/viewerng/viewer?embedded=true&url=<?= @$document->file?>" width="700" height="500">
-
-                    </div><br><br>
+                    <?php if (strlen(trim(@$document->file)) > 0) { ?>
+                        <div class="row form-group ">
+                            <embed src="https://drive.google.com/viewerng/viewer?embedded=true&url=<?= @$document->file?>" width="700" height="500">
+    
+                        </div><br><br>
+                    <?php } ?>
                     <div class="row form-group ">
                         <div class="col-md-4">
                     
