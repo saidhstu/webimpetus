@@ -13806,3 +13806,42 @@ form#loginform .form-group {
     width: 40px;
     height: 40px;
 }
+
+.fc-toolbar-chunk .btn.btn-primary {
+    line-height: normal;
+    box-shadow: inherit;
+    background: #fff!important;
+    color: #464366!important;
+    border: 1px solid #f1f1f1!important;
+    font-size: 14px;
+    height: 42px;
+    padding: 10px 14px!important;
+}
+
+
+.fc-toolbar-chunk .btn-primary.active {
+    background: #ff004e!important;
+    color: #fff!important;
+    border: 1px solid #f1f1f1!important;
+    box-shadow: inherit!important;
+}
+
+.fc-prev-button.btn.btn-primary {
+    background: #f1f1f1!important;
+}
+
+.fc-next-button.btn.btn-primary {
+  background: #f1f1f1!important;
+  border-left: 1px solid #ddd!important;
+}
+.fc-col-header th {
+    background: #f1f1f1;
+    padding: 12px;
+    /* color: #fff; */
+    color: #464366!important;
+}
+
+.table-bordered td {
+    padding: 0px;
+    line-height: 30px;
+}
