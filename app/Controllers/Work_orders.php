@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController;
+use App\Libraries\UUID;
 use App\Models\Core\Common_model;
 use App\Models\Work_orders_model;
 use stdClass;
@@ -191,6 +192,7 @@ class Work_orders extends CommonController
         }else{
 
             $data['work_orders_id'] = $mainTableId;
+            $data['uuid'] = UUID::v5(UUID::v4(), 'work_order_items');
             $id = $this->model->insertTableData( $data, $this->work_order_items);
 
             if( $id > 0){
