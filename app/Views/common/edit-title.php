@@ -18,7 +18,7 @@
                     </ol>
                 </div>
                 <div class="page_title_right">
-                    <a href="/<?php echo $tableName; ?>" class="btn btn-primary"><i class="fa fa-table"></i> <?php echo render_head_text($tableName);?>  List</a>
+                    <a href="/<?php echo $tableName; ?>" class="btn btn-primary"><i class="fa fa-table"></i> <?php echo render_head_text($tableName);?></a>
                 </div>
                 
             </div>

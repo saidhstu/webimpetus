@@ -12773,12 +12773,11 @@ a.pswp__share--download:hover {
     border-radius: 8px 8px 0px 0px;
 }
 #nav-tabContent {
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     border-top: none;
     padding: 30px 20px!important;
     margin-bottom: 30px;
 }
-
 /* line 382, /scss/_predefine.scss */
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
   background: #ff004e;
@@ -13864,4 +13863,8 @@ form#loginform .form-group {
 }
 .tab-content .row.form-group {
     margin-top: 0px;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #444!important;
 }
