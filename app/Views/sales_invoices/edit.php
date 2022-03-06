@@ -466,4 +466,5 @@ if(isset($sales_invoice->id)){
     });
     
     $(document).on("change", "#client_id", fillupBillToAddress);
+    $(document).on("change", "#terms", calculateDueDate);
 </script>

@@ -193,4 +193,27 @@ class Common_model extends Model
             'value' => '',
         );
     }
+
+    public function calculateDueDate($term, $currentDate)
+    {
+        if (!empty($term)) {
+
+            $dayToBeDued = (int) filter_var($term, FILTER_SANITIZE_NUMBER_INT);
+            if (!empty($dayToBeDued)) {
+
+                $dueDateStamp = strtotime("+" . $dayToBeDued . " day", strtotime($currentDate));
+                $value = date('m/d/Y', $dueDateStamp);
+
+                return array(
+                    'status' => 1,
+                    'value' => $value,
+                );
+            }
+        }
+
+        return array(
+            'status' => 1,
+            'value' => '',
+        );
+    }
 }

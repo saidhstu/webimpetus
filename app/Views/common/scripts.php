@@ -204,6 +204,28 @@ function fillupBillToAddress(e)
 		alert(y + ': ' + z);
 	})
 }
+
+function calculateDueDate(e)
+{
+	var term = e.target.value;
+	var currentDate = $('#date.datepicker').val();
+	$.ajax({
+		url: baseUrl + '/' + moduleName + '/calculateDueDate',
+		data: {term: term, currentDate: currentDate},
+		dataType: 'JSON',
+		method: 'POST',
+	}).done(function(response){
+
+		if (response.status) {
+
+			$('#due_date').datepicker('setDate', response.value);
+		}
+	}).fail(function(x,y,z){
+
+		console.log(x,y,z);
+		alert(y + ': ' + z);
+	})
+}
 </script>
 
 

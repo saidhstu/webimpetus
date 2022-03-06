@@ -3,6 +3,8 @@ namespace App\Controllers;
 use App\Controllers\Core\CommonController;
 use App\Models\Core\Common_model;
 use App\Models\Sales_invoice_model;
+use stdClass;
+
  ini_set("display errors", 1);
 class Sales_invoices extends CommonController
 {	
@@ -47,6 +49,25 @@ class Sales_invoices extends CommonController
     //     return  $data;
 
     // }
+
+    public function edit($id = 0)
+    {
+		$data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+		$data["users"] = $this->model->getUser();
+		$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
+        if (empty($id)) {
+            if (empty($data[$this->rawTblName])) {
+                $data[$this->rawTblName] = new stdClass();
+            }
+            $data[$this->rawTblName]->date = time();
+            $data[$this->rawTblName]->status = 'Invoiced';
+        }
+		// if there any special cause we can overried this function and pass data to add or edit view
+		$data['additional_data'] = $this->getAdditionalData($id);
+
+        echo view($this->table."/edit",$data);
+    }
 
     public function update()
     {        
@@ -193,6 +214,15 @@ class Sales_invoices extends CommonController
         $clientId = $this->request->getPost('clientId');
         $commonModel = new Common_model();
         $response = $commonModel->loadBillToData($clientId);
+        echo json_encode($response);
+    }
+
+    public function calculateDueDate()
+    {
+        $term = $this->request->getPost('term');
+        $currentDate = $this->request->getPost('currentDate');
+        $commonModel = new Common_model();
+        $response = $commonModel->calculateDueDate($term, $currentDate);
         echo json_encode($response);
     }
 }
