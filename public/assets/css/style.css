@@ -1981,7 +1981,10 @@ p a:hover {
 
 /* line 1468,  */
 .card_height_100 {
-  height: calc(100% - 30px);
+  //height: calc(100%);
+}
+.white_card_body form {
+    margin-block-end: 0;
 }
 
 /* line 1471,  */
@@ -5663,7 +5666,7 @@ body::-webkit-scrollbar {
 
 /* line 45, /scss/_dashboard_part.scss */
 .white_card .white_card_header {
-  padding: 22px 30px;
+    padding: 25px 25px 0px 25px;
 }
 
 /* line 53, /scss/_dashboard_part.scss */
@@ -7675,7 +7678,7 @@ canvas#highlights {
 .dataTables_paginate a {
   width: 32px;
   height: 32px;
-  background: #FFFFFF !important;
+  background: #ff004e!important;
   border-radius: 3px !important;
   text-align: center !important;
   line-height: 32px;
@@ -7683,6 +7686,11 @@ canvas#highlights {
   margin: 0 !important;
   margin: 0 5px !important;
   border: 1px solid #dee2e6;
+  color: #000!important;
+  cursor: pointer!important;
+}
+div.dataTables_wrapper div.dataTables_info {
+    padding-top: 1.85em!important;
 }
 
 /* line 40,*/
@@ -7695,20 +7703,15 @@ canvas#highlights {
 
 /* line 46,*/
 .dataTables_paginate a:hover {
-  background: #ff004e !important;
-  box-shadow: 0px 5px 10px rgba(59, 118, 239, 0.3);
-  border: 0 !important;
-  color: #fff !important;
-  cursor: pointer;
-}
-
-/* line 51,*/
-.dataTables_paginate a:hover i {
-  color: #fff !important;
+    background: #15132b!important;
+    box-shadow: 0px 5px 10px rgba(59, 118, 239, 0.3);
+    border: 0 !important;
+    color: #fff !important;
+    cursor: pointer;
 }
 
 div.dataTables_wrapper div.dataTables_paginate {
-  margin-top: -35px !important;
+  margin-top: -30px;
 }
 
 /* line 55,*/
@@ -7721,7 +7724,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 /* line 62,*/
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
   cursor: default;
-  color: #fff !important;
+  color: #fff!important;
   border: 0;
 }
 
@@ -7736,10 +7739,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 /* line 74,*/
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-  color: #fff !important;
-  border: 1px solid #ff004e;
-  background-color: #007bff !important;
-  box-shadow: 0px 5px 10px rgba(136, 79, 251, 0.04) !important;
+    color: #fff !important;
+    border: 1px solid #ff004e;
+    background-color: #444!important;
+    box-shadow: 0px 5px 10px rgba(136, 79, 251, 0.04) !important;
 }
 
 /* line 80,*/
@@ -13867,4 +13870,13 @@ form#loginform .form-group {
 
 .nav-tabs {
     border-bottom: 1px solid #444!important;
+}
+.card-body {
+    padding: 0!important;
+}
+.white_card .white_card_body {
+    padding: 25px;
+}
+.pr_10{
+  padding-right: 10px;
 }
