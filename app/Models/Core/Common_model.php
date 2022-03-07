@@ -160,7 +160,7 @@ class Common_model extends Model
 
         if($result['id'] > 0){
 
-            $this->updateTableData( $result['id'], ["sort_order" => $maxOrder + 1], "menu");
+            $this->updateTableData( $result['id'], ["sort_order" => $result['sort_order'] + 1], "menu");
         }
 
         return @$result['id'];
