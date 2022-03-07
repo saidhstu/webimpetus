@@ -5668,7 +5668,7 @@ body::-webkit-scrollbar {
 
 /* line 53, /scss/_dashboard_part.scss */
 .white_card .white_card_body {
-   padding: 5px 30px 25px 30px;
+   /* padding: 5px 30px 25px 30px; */
 }
 
 /* line 57, /scss/_dashboard_part.scss */
@@ -12763,15 +12763,21 @@ a.pswp__share--download:hover {
 .nav.nav-tabs .nav-item.show:focus,
 .nav.nav-tabs .nav-item.show.active,
 .nav.nav-tabs .nav-link:focus,
-.nav.nav-tabs .nav-item.show:focus, .nav.nav-tabs .nav-item.show.active, .nav.nav-tabs .nav-link:focus, .nav.nav-tabs .nav-link.active {
+.nav.nav-tabs .nav-item.show:focus, .nav.nav-tabs .nav-item.show.active, .nav.nav-tabs .nav-link:focus, .nav.nav-tabs .nav-item.show:focus, .nav.nav-tabs .nav-item.show.active, .nav.nav-tabs .nav-link:focus, .nav.nav-tabs .nav-link.active {
     color: #15132b;
     background-color: transparent;
     border-color: transparent;
     font-weight: bold;
-    /* border-bottom: 4px solid #ff004e; */
-    border-radius: 0px;
+    background: #ff004e;
+    color: #fff;
+    border-radius: 8px 8px 0px 0px;
 }
-
+#nav-tabContent {
+    border: 1px solid #444;
+    border-top: none;
+    padding: 30px 20px!important;
+    margin-bottom: 30px;
+}
 /* line 382, /scss/_predefine.scss */
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
   background: #ff004e;
@@ -13779,30 +13785,86 @@ form#loginform .form-group {
     margin: 0px!important;
 }
 
-.nav-item.nav-link {
-    position: relative;
-}
-
-.nav-item.nav-link::before {
-    position: absolute;
-    content: "";
-    background: red;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 4px;
-    left: 0;
-    bottom: 0;
-    opacity: 0;
-}
-.nav-item.nav-link.active::before{
-  opacity: 1;
-
-}
 .change .btn {
     margin-top: 29px;
     line-height: 0px;
     border-radius: 50%;
     width: 40px;
     height: 40px;
+}
+
+.fc-toolbar-chunk .btn.btn-primary {
+    line-height: normal;
+    box-shadow: inherit;
+    background: #fff!important;
+    color: #464366!important;
+    border: 1px solid #f1f1f1!important;
+    font-size: 14px;
+    height: 42px;
+    padding: 10px 14px!important;
+}
+
+
+.fc-toolbar-chunk .btn-primary.active {
+    background: #ff004e!important;
+    color: #fff!important;
+    border: 1px solid #f1f1f1!important;
+    box-shadow: inherit!important;
+}
+
+.fc-prev-button.btn.btn-primary {
+    background: #f1f1f1!important;
+}
+
+.fc-next-button.btn.btn-primary {
+  background: #f1f1f1!important;
+  border-left: 1px solid #ddd!important;
+}
+.fc-col-header th {
+    background: #f1f1f1!important;
+    padding: 12px!important;
+    /* color: #fff; */
+    color: #464366!important;
+}
+
+.table-bordered td {
+    padding: 0px!important;
+    line-height: 30px!important;
+}
+.fc-timegrid.fc-timeGridWeek-view.fc-view {
+    overflow-y: scroll;
+    height: 718px!important;
+}
+.fc-timegrid.fc-timeGridDay-view.fc-view {
+    overflow-y: scroll;
+    height: 713px!important;
+}
+
+
+.fc-timegrid.fc-timeGridWeek-view.fc-view::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+}
+.fc-timegrid.fc-timeGridWeek-view.fc-view::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #d5d5d5;
+}
+
+
+.fc-timegrid.fc-timeGridDay-view.fc-view::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+}
+.fc-timegrid.fc-timeGridDay-view.fc-view::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #d5d5d5;
+}
+.tab-content .row.form-group {
+    margin-top: 0px;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #444!important;
 }

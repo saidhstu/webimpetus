@@ -20,7 +20,7 @@
                 <?php foreach($documents as $row):?>
                 <tr data-link=<?= "/".$tableName."/edit/".$row['id'];?> >
 
-                    <td class="f_s_12 f_w_400 open-file" ><?= $row['file'];?></td>
+                    <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?= basename($row['file']);?></td>
                     <td class="f_s_12 f_w_400"><?= $row['company_name'];?></td>
                     <td class="f_s_12 f_w_400"><?= render_date(strtotime($row['created_at']));?></td>
                     <td class="f_s_12 f_w_400"><?= render_date(strtotime($row['modified_at']));?></td>
@@ -77,20 +77,27 @@ $(document).on("click", ".open-file", function(e){
 
     e.preventDefault();
 
-    var filePath = $(this).text();
+    var el = $(this);
+    var rowid = el.data('id');
 
     $.ajax({
-            url: baseUrl + "/documents/renderFile",
-            data:{ totalAmount:totalAmount, mainTableId:mainTableId, totalHour:totalHour, totalAmountWithTax:totalAmountWithTax, total_tax  :tax},
-            method:'post',
-            success:function(res){
-     
-    
-            }
-        })
-    var html = '<embed src="https://drive.google.com/viewerng/viewer?embedded=true&url='+filePath+'" width="700" height="500">';
+            url: baseURL + "/documents/getfile",
+            data:{ rowid:rowid },
+            method: 'POST',
+            dataType: "JSON",
+    }).done(function(response){
+        var html = '';
+        if (response.file.length > 0) {
 
-    $(this).closest('tr').find('.preview-file').text(html);
+            html = '<embed src="https://drive.google.com/viewerng/viewer?embedded=true&url='+ response.file +'" width="512" height="500">';
+        }
+
+        $('.preview-file').html('');
+        setTimeout(function(){
+            el.closest('tr').find('.preview-file').html(html);
+        }, 500);
+    });
+
 
 })
   

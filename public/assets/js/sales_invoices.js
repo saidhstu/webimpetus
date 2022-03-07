@@ -19,6 +19,8 @@ $(document).on("click", ".savelink", function(){
             if(obj.status){
 
                 current.closest(".item-row").attr("id", obj.data.id);
+                current.closest(".item-row").find("[name='item_id[]']").val(obj.data.id);
+                current.closest(".item-row").attr("id", obj.data.id);
                 current.closest(".item-row").find(".item_id").text(obj.data.id);
                 current.closest(".item-row").find(".s_description").text(obj.data.description);
                 current.closest(".item-row").find(".s_description").show();
@@ -157,7 +159,7 @@ function calculationAmount( saveData = true){
 
 }
 $(document).on("click", "#addrow", function(){
-   var html =  '<tr class="item-row"><td class="item-id"><span class="item_id"></span><input class="item_uuid" type="hidden"></td><td><span class="s_description" style="display:none"></span><textarea class="description form-control"></textarea></td><td><span class="s_rate" style="display:none"></span><input type="text" class="rate num form-control" value="0" style="width:50px"></td><td><span class="s_hours" style="display:none"></span><input type="text" class="hours num form-control" value="0" style="width:50px"></td><td><span class="price">0</span></td><td><a href="javascript:void(0)" class="editlink" style="display:none " title="Edit"><i class="fa fa-edit"></i></a><a href="javascript:void(0)" class="savelink" title="Save"><i class="fa fa-save"></i></a></td><td><a href="javascript:void(0)" class="removelink" style="display:none" title="Remove"><i class="fa fa-trash"></i></a><a href="javascript:void(0)" class="cancellink" title="Cancel"><i class="fa fa-remove"></i></a></td></tr>';
+   var html =  '<tr class="item-row"><td class="item-id"><span class="item_id"></span><input name="item_id[]" type="hidden"></td><td><span class="s_description" style="display:none"></span><textarea class="description form-control"></textarea></td><td><span class="s_rate" style="display:none"></span><input type="text" class="rate num form-control" value="0" style="width:50px"></td><td><span class="s_hours" style="display:none"></span><input type="text" class="hours num form-control" value="0" style="width:50px"></td><td><span class="price">0</span></td><td><a href="javascript:void(0)" class="editlink" style="display:none " title="Edit"><i class="fa fa-edit"></i></a><a href="javascript:void(0)" class="savelink" title="Save"><i class="fa fa-save"></i></a></td><td><a href="javascript:void(0)" class="removelink" style="display:none" title="Remove"><i class="fa fa-trash"></i></a><a href="javascript:void(0)" class="cancellink" title="Cancel"><i class="fa fa-remove"></i></a></td></tr>';
 
    $('#table-breakpoint tr:last').after(html);
 
