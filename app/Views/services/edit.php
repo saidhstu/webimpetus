@@ -73,9 +73,22 @@
                                         <img class="img-rounded" src="<?= @$service->image_logo;?>" width="100px">
                                         <a href="/services/rmimg/image_logo/<?=@$service->id ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     <?php } ?>
-                                    <div class="custom-file">
-                                        <input type="file" name="file" class="custom-file-input" id="file">
-                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <div class="uplogInrDiv">
+                                        <input type="file" name="file" class="form-control fileUpload  form-control-lg" id="file">
+                                        <div class="uploadBlkInr">
+                                            <div class="uplogImg">
+                                              <img src="/assets/img/fileupload.png" />
+                                            </div>
+                                            <div class="uploadFileCnt">
+                                              <p>
+                                                <a href="#">Upload a file </a> file chosen or drag
+                                                and drop
+                                              </p>
+                                              <p>
+                                                <span>Video, PNG, JPG, GIF up to 10MB</span>
+                                              </p>
+                                            </div>
+                                        </div>
                                     </div>
                            
                                 </div>
@@ -85,9 +98,22 @@
                                         <img src="<?= @$service->image_brand;?>" width="100px">
                                         <a href="/services/rmimg/image_brand/<?=@$service->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     <?php } ?>
-                                    <div class="custom-file">
+                                    <div class="uplogInrDiv">
                                         <input type="file" name="file2" class="custom-file-input" id="file2">
-                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                        <div class="uploadBlkInr">
+                                            <div class="uplogImg">
+                                              <img src="/assets/img/fileupload.png" />
+                                            </div>
+                                            <div class="uploadFileCnt">
+                                              <p>
+                                                <a href="#">Upload a file </a> file chosen or drag
+                                                and drop
+                                              </p>
+                                              <p>
+                                                <span>Video, PNG, JPG, GIF up to 10MB</span>
+                                              </p>
+                                            </div>
+                                        </div>
                                     </div>
                            
                                 </div>
