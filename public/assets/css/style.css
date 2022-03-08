@@ -4228,7 +4228,7 @@ table.dataTable {
 /* line 574, /scss/_header.scss */
 #calendar {
   width: 100%;
-  height: 800px;
+  //height: 800px;
 }
 
 /* line 580, /scss/_header.scss */
@@ -13792,7 +13792,9 @@ form#loginform .form-group {
     line-height: 0px;
     border-radius: 50%;
     width: 40px;
-    height: 40px;
+    max-height: 40px!important;
+    height: 40px!important;
+    line-height: 20px!important;
 }
 
 .fc-toolbar-chunk .btn.btn-primary {
@@ -13835,11 +13837,11 @@ form#loginform .form-group {
 }
 .fc-timegrid.fc-timeGridWeek-view.fc-view {
     overflow-y: scroll;
-    height: 718px!important;
+    //height: 718px!important;
 }
 .fc-timegrid.fc-timeGridDay-view.fc-view {
     overflow-y: scroll;
-    height: 713px!important;
+    //height: 713px!important;
 }
 
 
@@ -13878,4 +13880,38 @@ form#loginform .form-group {
 }
 .pr_10{
   padding-right: 10px;
+}
+
+.uploadBlkInr {
+    text-align: center;
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    padding: 50px;
+    pointer-events: none;
+}
+
+.uploadFileCnt {
+    padding-top: 10px;
+}
+
+.uploadFileCnt p {font-size: 20px;}
+
+.uploadFileCnt p span {font-size: 15px;}
+
+.uplogInrDiv {
+    position: relative;
+    cursor: pointer;
+}
+
+.uplogInrDiv [type=file] {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    content: "";
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
 }
