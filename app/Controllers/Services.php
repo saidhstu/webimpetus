@@ -30,6 +30,8 @@ class Services extends Api
 
 		$this->common_model = new Common_model();
 	  	$this->common_model->getMenuCode("/services");
+		$this->businessUuid = session('uuid_business');
+		$this->whereCond['uuid_business_id'] = $this->businessUuid;
 	}
 
     public function index()
