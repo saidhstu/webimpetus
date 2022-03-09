@@ -74,7 +74,7 @@ class Work_orders extends CommonController
         $id = $this->request->getPost('id');
 
 		$data = $this->request->getPost();
-        $itemIds = $data['item_id'];
+        $itemIds = @$data['item_id'];
         unset($data['item_id']);
 
         // $data['due_date'] = strtotime($data['due_date']);
