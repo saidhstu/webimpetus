@@ -96,7 +96,7 @@ class Work_orders extends CommonController
 		} else {
 
             $id = $response;
-            if(itemIds){
+            if($itemIds){
                 foreach ($itemIds as $itemId) {
 
                     $this->db->table($this->work_order_items)->where('id', $itemId)->update(array(
