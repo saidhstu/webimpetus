@@ -96,12 +96,15 @@ class Work_orders extends CommonController
 		} else {
 
             $id = $response;
-            foreach ($itemIds as $itemId) {
+            if(itemIds){
+                foreach ($itemIds as $itemId) {
 
-                $this->db->table($this->work_order_items)->where('id', $itemId)->update(array(
-                    'work_orders_id' => $id,
-                ));
+                    $this->db->table($this->work_order_items)->where('id', $itemId)->update(array(
+                        'work_orders_id' => $id,
+                    ));
+                }
             }
+           
         }
 
         return redirect()->to('/'.$this->table);
