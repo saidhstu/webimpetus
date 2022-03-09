@@ -76,7 +76,7 @@ class Sales_invoices extends CommonController
         $id = $this->request->getPost('id');
 
 		$data = $this->request->getPost();
-        $itemIds = $data['item_id'];
+        $itemIds = @$data['item_id'];
         unset($data['item_id']);
 
         $data['due_date'] = strtotime($data['due_date']);
@@ -99,12 +99,15 @@ class Sales_invoices extends CommonController
 		} else {
 
             $id = $response;
-            foreach ($itemIds as $itemId) {
+            if($itemIds){
+                foreach ($itemIds as $itemId) {
 
-                $this->db->table($this->sales_invoice_items)->where('id', $itemId)->update(array(
-                    'sales_invoices_id' => $id,
-                ));
+                    $this->db->table($this->sales_invoice_items)->where('id', $itemId)->update(array(
+                        'sales_invoices_id' => $id,
+                    ));
+                }
             }
+           
         }
 
         return redirect()->to('/'.$this->table);
