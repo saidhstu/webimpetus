@@ -32,26 +32,16 @@
             $menucode = 1;
         }
         // prd($menu);
-		foreach($menu as $val) { ?>
+		foreach($menu as $val) { 
+
+            if(@$menucode == $val['id']){
+                $activeIcon =  $val['icon'];
+            }
+        ?>
 			<li><a href="<?php echo $val['link']; ?>" class="<?php if(@$menucode == $val['id'])echo "active";?>"><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>		
 		
 		<?php } }  
         $_SESSION["menucode"] = 0;?>
-       <?php /* <li><a href="/categories" class=""><i class="fa fa-table"></i> <span>Categories</span></a></li>
-         <li><a href="/users" class=""><i class="fa fa-users"></i> <span>Users</span></a></li>
-        <li><a href="/tenants" class=""><i class="fa fa-building"></i> <span>Tenants</span></a></li>
-        
-        <li><a href="/services" class=""><i class="fa fa-wrench"></i> <span>Services</span></a></li>
-        <li><a href="/domains" class=""><i class="fa fa-globe"></i> <span>Domains</span></a></li>
-		
-		<li><a href="/webpages" class=""><i class="fa fa-table"></i> <span>Web Pages</span></a></li>
-		<li><a href="/blog" class=""><i class="fa fa-wrench"></i> <span>Blog</span></a></li>
-		<li><a href="/blog/blogcomments" class=""><i class="fa fa-globe"></i> <span>Blog Comments</span></a></li>
-        <li><a href="/jobs" class=""><i class="fa fa-users"></i> <span>Job Vacancies</span></a></li>
-        <li><a href="/jobapps" class=""><i class="fa fa-building"></i> <span>Job Applications</span></a></li>        
-		<li><a href="/gallery" class=""><i class="fa fa-globe"></i> <span>Image Gallery</span></a></li>
-		<li><a href="/blocks" class=""><i class="fa fa-globe"></i> <span>Blocks</span></a></li>
-		<li><a href="/enquiries" class=""><i class="fa fa-globe"></i> <span>Enquiries</span></a></li> */ ?>
     </ul>
 </nav>
 

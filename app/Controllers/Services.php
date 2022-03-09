@@ -32,6 +32,9 @@ class Services extends Api
 	  	$this->common_model->getMenuCode("/services");
 		$this->businessUuid = session('uuid_business');
 		$this->whereCond['uuid_business_id'] = $this->businessUuid;
+		$menucode = $this->getMenuCode("/services");
+		$this->session->set("menucode", $menucode);
+
 	}
 
     public function index()
@@ -39,13 +42,10 @@ class Services extends Api
         $data['services'] = $this->serviceModel->getRows();
 		$data['tableName'] = "services";
         $data['rawTblName'] = "service";
-		$menucode = $this->getMenuCode("/services");
-		$this->session->set("menucode", $menucode);
 		$data['is_add_permission'] = 1;
 		echo view('services/list',$data);
     }
 	 
-
 	public function edit($id=0)
     {        
 		$data['tableName'] = "services";

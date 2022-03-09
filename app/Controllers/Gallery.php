@@ -15,6 +15,8 @@ class Gallery extends CommonController
 		$this->user_model = new Users_model();
 		$this->table = 'media_list';
 		$this->gallery = 'gallery';
+		$menucode = $this->getMenuCode("/gallery");
+		$this->session->set("menucode", $menucode);
 	}
 
 	public function index()
@@ -27,6 +29,15 @@ class Gallery extends CommonController
 
 		echo view($this->table."/list",$data);
 	}
+
+	public function getMenuCode($value)
+{
+	$result = $this->db->table("menu")->getWhere([
+		"link" => $value
+	])->getRowArray();
+
+	return @$result['id'];
+}
 
 	public function edit($id = 0)
 	{
