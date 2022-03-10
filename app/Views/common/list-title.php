@@ -1,7 +1,7 @@
 <?php require_once (APPPATH.'Views/common/header.php'); ?>
 <!-- main content part here -->
 <?php require_once (APPPATH.'Views/common/sidebar.php'); ?>
-<section class="main_content dashboard_part large_header_bg">
+<section class="main_content dashboard_part large_header_bg full_main_content">
     <?php require_once (APPPATH.'Views/common/top-header.php'); ?>
       <div class="main_content_iner overly_inner ">
         <div class="container-fluid p-0 ">

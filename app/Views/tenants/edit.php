@@ -26,24 +26,25 @@
                 </div>
 
 
-                <div class="form-group required col-md-6">
+                <div class="form-group required col-md-4">
                     <label for="inputEmail4">Name</label>
                     <input type="text" class="form-control required" id="name" name="name" placeholder="" value="<?=@$tenant->name ?>">
                   </div>
                   <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$tenant->id ?>" />
-                <div class="form-group  required col-md-6">
-                    <label for="inputPassword4">Address</label>
-                    <input type="address" class="form-control required" id="address" name="address" placeholder=""  value="<?=@$tenant->address ?>">
-                </div>
+             
                 
             </div>
             
             <div class="form-row">
-                  <div class="form-group required col-md-6">
+                   <div class="form-group  required col-md-4">
+                    <label for="inputPassword4">Address</label>
+                    <input type="address" class="form-control required" id="address" name="address" placeholder=""  value="<?=@$tenant->address ?>">
+                </div>
+                  <div class="form-group required col-md-4">
                     <label for="inputPassword4">Contact Name</label>
                     <input type="text" class="form-control required" id="contact_name" name="contact_name" placeholder=""  value="<?=@$tenant->contact_name ?>">
                 </div>
-                <div class="form-group required col-md-6">
+                <div class="form-group required col-md-4">
                     <label for="inputAddress">Contact Email</label>
                     <input type="email" class="form-control required email" id="contact_email" name="contact_email" placeholder=""  value="<?=@$tenant->contact_email ?>">                                       
                 </div>

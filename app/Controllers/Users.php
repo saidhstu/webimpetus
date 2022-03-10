@@ -56,7 +56,7 @@ class Users extends CommonController
 					if(!empty($count)){
 						session()->setFlashdata('message', 'Email already exist!');
 						session()->setFlashdata('alert-class', 'alert-danger');
-						return redirect()->to('/users/add');
+						return redirect()->to('/users/edit');
 					}else {
 						$uuidNamespace = UUID::v4();
 						$uuid = UUID::v5($uuidNamespace, 'users');

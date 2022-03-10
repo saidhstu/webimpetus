@@ -89,16 +89,17 @@ if(isset($sales_invoice->id)){
                                             <label for="inputEmail4">Notes </label>
                                         </div>                               
                                         <div class="col-md-6">
-                                            <input type="text" autocomplete="off" class="form-control" id="notes" name="notes" placeholder="" value="<?=@$sales_invoice->notes?>">
+
+                                            <textarea autocomplete="off" class="form-control" name="notes"><?=@$sales_invoice->notes?></textarea> 
                                         </div>
                                     </div>
 
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4">Project Code </label>
+                                            <label for="inputPassword4">Project Code* </label>
                                         </div>                               
                                         <div class="col-md-6">
-                                            <select name="project_code" id="project_code" class="form-control">
+                                            <select name="project_code" id="project_code" class=" required form-control">
                                                 <option value="">--Please Select--</option>
                                                 <option value="4D" <?=@$sales_invoice->project_code=='4D'?'selected':''?> >4D</option>
                                                 <option value="CatBase" <?=@$sales_invoice->project_code=='CatBase'?'selected':''?> > CatBase</option>
@@ -125,7 +126,7 @@ if(isset($sales_invoice->id)){
 
                                 <div class="col-md-6">
 
-                                 <div class="row form-group ">
+                                   <div class="row form-group ">
                                     <div class="col-md-4">
                                         <label for="inputEmail4">Date*</label>
                                     </div>                               
@@ -196,7 +197,7 @@ if(isset($sales_invoice->id)){
                         <div class="row">
 
                             <div class="col-md-10"> 
-                             
+
 
 
 
@@ -219,7 +220,7 @@ if(isset($sales_invoice->id)){
                                                 <?php foreach( $items as $eachItems){?>
                                                     <tr class="item-row" id="<?= $eachItems->id?>">
                                                         <td class="item-id" data-th="Item"><span class="bt-content"><div class="delete-wpr"><span class="item_id"><?= $eachItems->id?></span>
-                                                            <input class="item_uuid" type="hidden" value="2CC01FC9B65546F5A33B88BB72D0B32F">
+                                                            <input name="item_id[]" type="hidden" value="<?= $eachItems->id?>">
                                                         </div></span></td>
                                                         <td data-th="Description"><span class="bt-content">
                                                             <span class="s_description" style="display: inline;"><?= $eachItems->description?></span>
@@ -238,7 +239,7 @@ if(isset($sales_invoice->id)){
                                                         </span></td>
                                                         
                                                         <td class="td_edit" data-th="Edit/Save"><span class="bt-content">
-                                                            
+
                                                             <a href="javascript:void(0)" class="editlink" title="Edit" style=""><i class="fa fa-edit"></i></a>
                                                             
                                                             <a href="javascript:void(0)" class="savelink" style="display:none" title="" aria-describedby="ui-tooltip-1"><i class="fa fa-save"></i></a>
@@ -317,15 +318,15 @@ if(isset($sales_invoice->id)){
                                 <div class="row form-group">
                                     <label class="col-sm-4 control-label">Invoice Pin or Passcode(For Paying Online)</label>
                                     <div class="col-sm-6">
-                                    <input type="input" autocomplete="off" class="form-control" id="payment_pin_or_passcode" name="payment_pin_or_passcode" placeholder="" value="<?=@$sales_invoice->payment_pin_or_passcode?>">
-                                </div>
+                                        <input type="input" autocomplete="off" class="form-control" id="payment_pin_or_passcode" name="payment_pin_or_passcode" placeholder="" value="<?=@$sales_invoice->payment_pin_or_passcode?>">
+                                    </div>
                                 </div>
 
                                 <div class="row form-group">
                                     <label class="col-sm-4 control-label">Tax Rate</label>
                                     <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="invoice_tax_rate" name="invoice_tax_rate" placeholder="" value="<?=@$sales_invoice->invoice_tax_rate?>">
-                                </div>
+                                        <input type="number" class="form-control" id="invoice_tax_rate" name="invoice_tax_rate" placeholder="" value="<?=@$sales_invoice->invoice_tax_rate?>">
+                                    </div>
                                 </div>
 
 
@@ -333,69 +334,69 @@ if(isset($sales_invoice->id)){
                                 <div class="row form-group">
                                     <label class="col-sm-4 control-label">Template</label>
                                     <div class="col-sm-6">
-                                    <select name="inv_template" id="inv_template" class="form-control dashboard-dropdown">
-                                        <option value="">--Please Select--</option>
-                                        <option value="TimeBilling" <?=@$sales_invoice->inv_template=='TimeBilling'?'selected':''?> >TimeBilling</option>
-                                        <option value="Monthly Contract" <?=@$sales_invoice->inv_template=='Monthly Contract'?'selected':''?> >Monthly Contract</option>
-                                        <option value="Day Rate" <?=@$sales_invoice->inv_template=='"Day Rate'?'selected':''?> >Day Rate</option>
-                                    </select>
-                                </div>
+                                        <select name="inv_template" id="inv_template" class="form-control dashboard-dropdown">
+                                            <option value="">--Please Select--</option>
+                                            <option value="TimeBilling" <?=@$sales_invoice->inv_template=='TimeBilling'?'selected':''?> >TimeBilling</option>
+                                            <option value="Monthly Contract" <?=@$sales_invoice->inv_template=='Monthly Contract'?'selected':''?> >Monthly Contract</option>
+                                            <option value="Day Rate" <?=@$sales_invoice->inv_template=='"Day Rate'?'selected':''?> >Day Rate</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="row form-group">
                                     <label class="col-sm-4 control-label">Print Template Code</label>
                                     <div class="col-sm-6">
-                                    <select id="print_template_code" name="print_template_code" class="form-control required dashboard-dropdown">
-                                        <option value="" selected="">--Please Selected--</option>
-                                        <?php foreach($templates as $row):?>
-                                            <option value="<?= $row['id'];?>" <?php if($row['id'] == @$sales_invoice->print_template_code){ echo "selected"; }?>><?= $row['code'];?></option>
-                                        <?php endforeach;?>
-                                    </select> 
-                                </div>
+                                        <select id="print_template_code" name="print_template_code" class="form-control  dashboard-dropdown">
+                                            <option value="" selected="">--Please Selected--</option>
+                                            <?php foreach($templates as $row):?>
+                                                <option value="<?= $row['id'];?>" <?php if($row['id'] == @$sales_invoice->print_template_code){ echo "selected"; }?>><?= $row['code'];?></option>
+                                            <?php endforeach;?>
+                                        </select> 
+                                    </div>
                                 </div>
                                 <div class="row form-group">
                                     <label class="col-sm-4 control-label">Internal Notes</label>
                                     <div class="col-sm-6">
-                                    <textarea class="form-control" name="internal_notes"><?=@$sales_invoice->internal_notes?></textarea> 
-                                </div>
+                                        <textarea class="form-control" name="internal_notes"><?=@$sales_invoice->internal_notes?></textarea> 
+                                    </div>
                                 </div>
 
                             </div>
                             <div class="form-group col-md-6">
                                 <div class="row form-group">
-                                    
+
                                     <label class="col-sm-4 control-label">Customer ref or PO</label>
                                     <div class="col-sm-6">
-                                    <input type="text" autocomplete="off" class="form-control" id="inv_customer_ref_po" name="inv_customer_ref_po" placeholder="" value="<?=@$sales_invoice->inv_customer_ref_po?>">
-                                </div>
-                                </div>
-
-                                <div class="row form-group">
-                                <label class="col-sm-4 control-label">Customer Currency Code</label>
-                                <div class="col-sm-6">
-                                    <select id="currency_code" name="currency_code" class="form-control dashboard-dropdown">
-                                        <option value="">--Please Select--</option>
-                                        <option value="AUD" <?=@$sales_invoice->currency_code=='AUD'?'selected':''?> >AUD</option>
-                                        <option value="EUR" <?=@$sales_invoice->currency_code=='EUR'?'selected':''?> >EUR</option>
-                                        <option value="GBP" <?=@$sales_invoice->currency_code=='GBP'?'selected':''?> >GBP</option>
-                                        <option value="INR" <?=@$sales_invoice->currency_code=='INR'?'selected':''?> >INR</option>
-                                        <option value="USD" <?=@$sales_invoice->currency_code=='USD'?'selected':''?> >USD</option>
-                                    </select>
-                                </div>
+                                        <input type="text" autocomplete="off" class="form-control" id="inv_customer_ref_po" name="inv_customer_ref_po" placeholder="" value="<?=@$sales_invoice->inv_customer_ref_po?>">
+                                    </div>
                                 </div>
 
                                 <div class="row form-group">
-                                <label class="col-sm-4 control-label">Base Currency Code</label>
-                                <div class="col-sm-6">
-                                    <input type="text" autocomplete="off" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?=@$sales_invoice->base_currency_code?>">
-
+                                    <label class="col-sm-4 control-label">Customer Currency Code</label>
+                                    <div class="col-sm-6">
+                                        <select id="currency_code" name="currency_code" class="form-control dashboard-dropdown">
+                                            <option value="">--Please Select--</option>
+                                            <option value="AUD" <?=@$sales_invoice->currency_code=='AUD'?'selected':''?> >AUD</option>
+                                            <option value="EUR" <?=@$sales_invoice->currency_code=='EUR'?'selected':''?> >EUR</option>
+                                            <option value="GBP" <?=@$sales_invoice->currency_code=='GBP'?'selected':''?> >GBP</option>
+                                            <option value="INR" <?=@$sales_invoice->currency_code=='INR'?'selected':''?> >INR</option>
+                                            <option value="USD" <?=@$sales_invoice->currency_code=='USD'?'selected':''?> >USD</option>
+                                        </select>
+                                    </div>
                                 </div>
+
+                                <div class="row form-group">
+                                    <label class="col-sm-4 control-label">Base Currency Code</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" autocomplete="off" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?=@$sales_invoice->base_currency_code?>">
+
+                                    </div>
                                 </div>
                                 <div class="row form-group">
                                     <label class="col-sm-4 control-label">Exchange Customer Currency to Base Currency</label>
                                     <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="inv_exchange_rate" name="inv_exchange_rate" placeholder="" value="<?=@$sales_invoice->inv_exchange_rate?>">
+                                        <input type="text" class="form-control" id="inv_exchange_rate" name="inv_exchange_rate" placeholder="" value="<?=@$sales_invoice->inv_exchange_rate?>">
 
-                                </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -446,7 +447,7 @@ if(isset($sales_invoice->id)){
 </div>
 </div>
 <style>
-    .row.form-group {
+.row.form-group {
     margin-top: 30px;
 }
 </style>
@@ -464,4 +465,6 @@ if(isset($sales_invoice->id)){
         }
     });
     
+    $(document).on("change", "#client_id", fillupBillToAddress);
+    $(document).on("change", "#terms", calculateDueDate);
 </script>

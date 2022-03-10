@@ -42,6 +42,13 @@ class Menu extends CommonController
 
         echo view($this->table."/edit",$data);
     }
+
+    public function update_order()
+    { 
+
+        $data['sort_order'] = 0;
+        $this->db->table("menu")->update($data, array('id >' => 0));
+    }
     
    
 }

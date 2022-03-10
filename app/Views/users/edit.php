@@ -5,27 +5,22 @@
 
         <form action="/users/update" method="post"  id="userform">
             <div class="form-row">
-                <div class="form-group required  col-md-6">
+                <div class="form-group required  col-md-4">
                     <label for="inputEmail4">Name</label>
                     <input type="text" class="form-control required" name="name" placeholder="" value="<?=@$user->name ?>" />
                 </div>
                 <input type="hidden" class="form-control " name="id" placeholder="" value="<?=@$user->id ?>" />
-                <div class="form-group required col-md-6">
+                <div class="form-group required col-md-4">
                     <label for="inputPassword4">Email</label>
                     <input type="email" class="form-control required" name="email" placeholder=""  value="<?=@$user->email ?>">
                 </div>
+                <div class="form-group col-md-4">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" name="address" placeholder=""  value="<?=@$user->address ?>">
+                </div>
                 
             </div>
-            
             <div class="form-row">
-  
-                <div class="form-group col-md-6">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" name="address" placeholder=""  value="<?=@$user->address ?>">                                       
-                </div>
-            </div>
-
-                <div class="form-row">
                     <div class="form-group col-md-12">
                     <label for="inputPassword4">Notes</label>
                     <textarea class="form-control" name="notes"><?=@$user->notes ?></textarea> 
@@ -52,24 +47,23 @@
         </form>
         
         
-        <h3 class="f_s_25 f_w_700 dark_text mr_30" >Change Password </h3>
+        <h3 class="f_s_25 f_w_700 dark_text mr_30 mt_30" >Change Password </h3>
         
         <form action="/users/savepwd" method="post" id="chngpwd">
 
             <div class="form-row">
-                <div class="form-group  col-md-12">
+                <div class="form-group  col-md-6">
                     <label for="inputPassword4">New Password</label>
                     <input type="password" id="npassword" class="form-control" name="npassword" placeholder="">
                 </div>                                        
                 <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$user->id ?>" />
-            </div>
-
-            <div class="form-row">
-                    <div class="form-group  npasswordcol-md-12">
+                <div class="form-group  npassword col-md-6">
                     <label for="inputPassword4">Confirm Password</label>
                     <input type="password" class="form-control" name="cpassword" placeholder="">
-                </div>                                        
+                </div> 
             </div>
+
+           
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

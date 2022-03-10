@@ -7,6 +7,14 @@ class Work_orders_model extends Model
 {
     protected $work_orders = 'work_orders';
      
+    protected $businessUuid;
+     
+    public function __construct()
+    {
+        parent::__construct();
+        $this->businessUuid = session('uuid_business');
+    }
+
     public function getRows($id = false)
     {
         if($id === false){
@@ -21,6 +29,7 @@ class Work_orders_model extends Model
         $builder = $this->db->table($this->work_orders. " as sa");
         $builder->select("sa.*, customers.company_name");
         $builder->join('customers', 'customers.id = sa.client_id', 'left');
+        $builder->where('sa.uuid_business_id', session("uuid_business"));
         return $builder->get()->getResultArray();
     }
 	

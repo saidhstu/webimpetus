@@ -15,9 +15,9 @@
                         <label for="inputEmail4">Subject</label>
                         <input type="input" class="form-control required" id="subject" name="subject" placeholder=""  value="<?= @$template->subject ?>">
                     </div>
-                    <div class="form-group required col-md-6">
+                    <div class="form-group required col-md-12">
                         <label for="inputEmail4">template Content</label>
-                        <textarea class="form-control required" id="template_content" name="template_content" placeholder=""  value=""><?= @$template->template_content ?></textarea>
+                        <textarea class="form-control required" id="template_content" name="template_content" placeholder="" rows="12"column="20" value=""><?= @$template->template_content ?></textarea>
                        
                     </div>
                     <div class="form-group required col-md-6">

@@ -156,8 +156,64 @@ class Common_model extends Model
             "link" => $value
         ])->getRowArray();
 
+        $maxOrder = findMaxFieldValue("menu", "sort_order");
+
+        if(!empty($result['id'])){
+
+            $this->updateTableData( $result['id'], ["sort_order" => $result['sort_order'] + 1], "menu");
+        }
+
         return @$result['id'];
 	}
 
+    public function loadBillToData($clientId)
+    {
+        $customersData = $this->db->table('customers')->getWhere(array('id' => $clientId))->getRowArray();
+        if (!empty($customersData)) {
 
+            $billData = array();
+            $billData[] = trim($customersData['address1']);
+            $billData[] = trim($customersData['address2']);
+            $billData[] = implode(', ', array_filter(array(
+                trim($customersData['postal_code']),
+                trim($customersData['city']),
+            ), 'strlen'));
+            $billData[] = trim($customersData['country']);
+            $billData = array_filter($billData, 'strlen');
+            $billDataStr = implode("\n", $billData);
+    
+            return array(
+                'status' => 1,
+                'value' => $billDataStr,
+            );
+        }
+
+        return array(
+            'status' => 1,
+            'value' => '',
+        );
+    }
+
+    public function calculateDueDate($term, $currentDate)
+    {
+        if (!empty($term)) {
+
+            $dayToBeDued = (int) filter_var($term, FILTER_SANITIZE_NUMBER_INT);
+            if (!empty($dayToBeDued)) {
+
+                $dueDateStamp = strtotime("+" . $dayToBeDued . " day", strtotime($currentDate));
+                $value = date('m/d/Y', $dueDateStamp);
+
+                return array(
+                    'status' => 1,
+                    'value' => $value,
+                );
+            }
+        }
+
+        return array(
+            'status' => 1,
+            'value' => '',
+        );
+    }
 }

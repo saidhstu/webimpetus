@@ -4,7 +4,7 @@
 
 <?php include('common/sidebar.php'); ?>
 
-<section class="main_content dashboard_part large_header_bg">
+<section class="main_content dashboard_part large_header_bg full_main_content">
        <?php include('common/top-header.php'); ?> 
   <div class="main_content_iner overly_inner ">
         <div class="container-fluid p-0 ">

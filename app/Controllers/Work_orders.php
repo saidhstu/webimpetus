@@ -1,7 +1,11 @@
 <?php 
 namespace App\Controllers; 
-use App\Controllers\Core\CommonController; 
-use App\Models\work_orders_model;
+use App\Controllers\Core\CommonController;
+use App\Libraries\UUID;
+use App\Models\Core\Common_model;
+use App\Models\Work_orders_model;
+use stdClass;
+
  ini_set("display errors", 1);
 class Work_orders extends CommonController
 {	
@@ -10,7 +14,7 @@ class Work_orders extends CommonController
     {
         parent::__construct();
 
-        $this->work_orders_model = new work_orders_model();
+        $this->work_orders_model = new Work_orders_model();
 
         $this->work_order_items = "work_order_items";
         $this->work_order_notes = "work_order_notes";
@@ -47,11 +51,31 @@ class Work_orders extends CommonController
 
     // }
 
+    public function edit($id = 0)
+    {
+		$data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+		$data["users"] = $this->model->getUser();
+		$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
+        if (empty($id)) {
+            if (empty($data[$this->rawTblName])) {
+                $data[$this->rawTblName] = new stdClass();
+            }
+            $data[$this->rawTblName]->date = time();
+        }
+		// if there any special cause we can overried this function and pass data to add or edit view
+		$data['additional_data'] = $this->getAdditionalData($id);
+
+        echo view($this->table."/edit",$data);
+    }
+
     public function update()
     {        
         $id = $this->request->getPost('id');
 
 		$data = $this->request->getPost();
+        $itemIds = @$data['item_id'];
+        unset($data['item_id']);
 
         // $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
@@ -69,7 +93,19 @@ class Work_orders extends CommonController
 		if(!$response){
 			session()->setFlashdata('message', 'Something wrong!');
 			session()->setFlashdata('alert-class', 'alert-danger');	
-		}
+		} else {
+
+            $id = $response;
+            if($itemIds){
+                foreach ($itemIds as $itemId) {
+
+                    $this->db->table($this->work_order_items)->where('id', $itemId)->update(array(
+                        'work_orders_id' => $id,
+                    ));
+                }
+            }
+           
+        }
 
         return redirect()->to('/'.$this->table);
     }
@@ -159,6 +195,7 @@ class Work_orders extends CommonController
         }else{
 
             $data['work_orders_id'] = $mainTableId;
+            $data['uuid'] = UUID::v5(UUID::v4(), 'work_order_items');
             $id = $this->model->insertTableData( $data, $this->work_order_items);
 
             if( $id > 0){
@@ -192,6 +229,14 @@ class Work_orders extends CommonController
         }
         
 
+        echo json_encode($response);
+    }
+
+    public function loadBillToData()
+    {
+        $clientId = $this->request->getPost('clientId');
+        $commonModel = new Common_model();
+        $response = $commonModel->loadBillToData($clientId);
         echo json_encode($response);
     }
 }

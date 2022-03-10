@@ -2,7 +2,7 @@
 <?php 
 $customers = getResultArray("customers");
 $templates = getResultArray("templates");
-$items = getResultArray("work_order_items", ["work_orders_id" => @$work_order->id], false);
+$items = getWithOutUuidResultArray("work_order_items", ["work_orders_id" => @$work_order->id], false);
 // $notes = getResultArray("work_order_notes", ["work_orders_id" => @$work_order->id], false);
 // pre($items);
 $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered","Completed","Proforma Invoice"];
@@ -82,6 +82,7 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
 
                                    
 
+                                    
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
                                         <label for="inputPassword4">Print Template Code</label>
@@ -94,6 +95,33 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
                                             <?php endforeach;?>
                                         </select> 
                                     </div>
+                                    </div>
+
+
+                                    <div class="row form-group ">
+                                        <div class="col-md-4">
+                                            <label for="inputPassword4">Project Code </label>
+                                        </div>                               
+                                        <div class="col-md-6">
+                                            <select name="project_code" id="project_code" class="form-control">
+                                                <option value="">--Please Select--</option>
+                                                <option value="4D" <?=@$work_order->project_code=='4D'?'selected':''?> >4D</option>
+                                                <option value="CatBase" <?=@$work_order->project_code=='CatBase'?'selected':''?> > CatBase</option>
+                                                <option value="Cloud Consultancy" <?=@$work_order->project_code=='Cloud Consultancy'?'selected':''?> > Cloud Consultancy</option>
+                                                <option value="Cloud Native Engineering" <?=@$work_order->project_code=='Cloud Native Engineering'?'selected':''?> > Cloud Native Engineering</option>
+                                                <option value="Database" <?=@$work_order->project_code=='Database'?'selected':''?> > Database</option>
+                                                <option value="Domains" <?=@$work_order->project_code=='Domains'?'selected':''?> > Domains</option>
+                                                <option value="IMG2D" <?=@$work_order->project_code=='IMG2D'?'selected':''?> > IMG2D</option>
+                                                <option value="IT Consulting" <?=@$work_order->project_code=='IT Consulting'?'selected':''?> > IT Consulting</option>
+                                                <option value="Jobshout" <?=@$work_order->project_code=='Jobshout'?'selected':''?> > Jobshout</option>
+                                                <option value="Mobile App" <?=@$work_order->project_code=='Mobile App'?'selected':''?> > Mobile App</option>
+                                                <option value="Mobile Friendly Website" <?=@$work_order->project_code=='Mobile Friendly Website'?'selected':''?> > Mobile Friendly Website</option>
+                                                <option value="Nginx" <?=@$work_order->project_code=='Nginx'?'selected':''?> > Nginx</option>
+                                                <option value="Time-Based" <?=@$work_order->project_code=='Time-Based'?'selected':''?> > Time-Based</option>
+                                                <option value="TIZO" <?=@$work_order->project_code=='TIZO'?'selected':''?> > TIZO</option>
+                                                <option value="WEBSITE" <?=@$work_order->project_code=='WEBSITE'?'selected':''?> > WEBSITE</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -179,7 +207,7 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
                                                 <?php foreach( $items as $eachItems){?>
                                                     <tr class="item-row" id="<?= $eachItems->id?>">
                                                         <td class="item-id" data-th="Item"><span class="bt-content"><div class="delete-wpr"><span class="item_id"><?= $eachItems->id?></span>
-                                                            <input class="item_uuid" type="hidden" value="2CC01FC9B65546F5A33B88BB72D0B32F">
+                                                            <input name="item_id[]" type="hidden" value="<?= $eachItems->id?>">
                                                         </div></span></td>
                                                         <td data-th="Description"><span class="bt-content">
                                                             <span class="s_description" style="display: inline;"><?= $eachItems->description?></span>
@@ -388,5 +416,6 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
             $(this).val(1);
         }
     });
-    
+
+    $(document).on("change", "#client_id", fillupBillToAddress);
 </script>

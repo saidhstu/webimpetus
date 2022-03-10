@@ -18,7 +18,7 @@
                     </ol>
                 </div>
                 <div class="page_title_right">
-                    <a href="/<?php echo $tableName; ?>" class="btn btn-primary"><i class="fa fa-table"></i> <?php echo render_head_text($tableName);?>  List</a>
+                    <a href="/<?php echo $tableName; ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php echo render_head_text($tableName);?></a>
                 </div>
                 
             </div>
@@ -28,4 +28,11 @@
 
         <div class="col-lg-12">
             <div class="white_card card_height_100 mb_30">
-                       
+
+            <?php  if(session()->has('message')){ ?>
+
+            <div class="alert <?= session()->getFlashdata('alert-class') ?>">
+            <?= session()->getFlashdata('message') ?>
+            </div>
+            <?php } ?>
+                                

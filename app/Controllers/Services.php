@@ -9,6 +9,7 @@ use App\Models\Secret_model;
 use App\Models\Template_model;
 use App\Models\Meta_model;
 use App\Models\Amazon_s3_model;
+use App\Models\Core\Common_model;
 
 class Services extends Api
 {	
@@ -26,6 +27,14 @@ class Services extends Api
 		$this->Amazon_s3_model = new Amazon_s3_model();
 		$this->db = \Config\Database::connect();
 		helper(["global"]);
+
+		$this->common_model = new Common_model();
+	  	$this->common_model->getMenuCode("/services");
+		$this->businessUuid = session('uuid_business');
+		$this->whereCond['uuid_business_id'] = $this->businessUuid;
+		$menucode = $this->getMenuCode("/services");
+		$this->session->set("menucode", $menucode);
+
 	}
 
     public function index()
@@ -33,13 +42,10 @@ class Services extends Api
         $data['services'] = $this->serviceModel->getRows();
 		$data['tableName'] = "services";
         $data['rawTblName'] = "service";
-		$menucode = $this->getMenuCode("/services");
-		$this->session->set("menucode", $menucode);
 		$data['is_add_permission'] = 1;
 		echo view('services/list',$data);
     }
 	 
-
 	public function edit($id=0)
     {        
 		$data['tableName'] = "services";

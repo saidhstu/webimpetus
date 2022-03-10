@@ -62,8 +62,9 @@
                                         <br/><br/>
                                         <form id="loginform" method="post" action="/home/login">
                                             <div class="form-group">
+												<label>Service</label>
                                                 <select name="uuid_business_id" id="uuid_business_id" class="form-control">
-                                                 <option>--Please Select--</option>
+                                                 <option>Please Select</option>
                                                  <?php foreach($uuid as $eachUuid):?>
                                                     <option value="<?php echo $eachUuid->id?>"> <?php echo $eachUuid->name?></option>
                                                 
@@ -72,10 +73,18 @@
                                                
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="email" id="email" placeholder="Enter your email">
+												<label>Email</label>
+                                                <input type="text" class="form-control" name="email" id="email" placeholder="">
+                                                <span><i class="fa fa-user"></i></span>
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+												<label>Password</label>
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="">
+                                                <span class="psswrdIcon">
+                                                    <a href="#" onclick="myFunction()">
+                                                        <i class="fa fa-eye"></i><i class="fa fa-eye-slash"></i></span></a>
+
+                                                <input type="hidden" class="form-control" id="redirectAfterLogin" name="redirectAfterLogin" placeholder="">
                                             </div>
                                             <button type="submit" class="btn_1 full_width text-center">Log in</button>
                                             <!--div class="text-center">
@@ -114,6 +123,18 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
+<script type="text/javascript">
+    function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+     $('.psswrdIcon').addClass('changeIcon');
+  } else {
+    x.type = "password";
+    $('.psswrdIcon').removeClass('changeIcon');
+  }
+}
+</script>
  <script>
    if ($("#loginform").length > 0) {
       $("#loginform").validate({
@@ -141,6 +162,12 @@
   })
 }
 $("#uuid_business_id").select2();
+
+
+
+let menu_current = localStorage.getItem("menu-current")
+console.log("menu_current",menu_current)
+document.getElementById("redirectAfterLogin").value = menu_current;
 </script>
 <style>
 .select2-container .select2-selection--single {
