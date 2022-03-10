@@ -9,7 +9,6 @@
                     
                     <th scope="col">Id</th>
                     <th scope="col">name</th>
-                    <th scope="col">UUID</th>
                     
                     <th scope="col">created at</th>
                     <?php if(!empty($_SESSION['role'])){ ?><th scope="col" width="50">Action</th><?php } ?>
@@ -22,7 +21,6 @@
                 
                 <td class="f_s_12 f_w_100"> <?= $row['id'];?> </td>
                 <td class="f_s_12 f_w_200"><?= $row['name'];?></td>
-                <td class="f_s_12 f_w_200"><?= $row['uuid'];?></td>
                 <td class="f_s_12 f_w_100"><?= $row['created_at'];?></td>
 
                 <?php if(!empty($_SESSION['role'])){ ?> <td class="f_s_12 f_w_400 text-right">
