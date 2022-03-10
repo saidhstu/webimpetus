@@ -8,7 +8,6 @@
                 <tr>
                     
                     <th scope="col">Id</th>
-                    <th scope="col">UUID</th>
                     <th scope="col">Service</th>
                     <th scope="col">Name</th>
                     <th scope="col">Logo</th>
@@ -23,9 +22,8 @@
             <?php foreach($domains as $row):?> 
             <tr data-link="/domains/edit/<?= $row['id'];?>">
                 
-                    <td class="f_s_12 f_w_400"><a ><?= $row['id'];?>
+                <td class="f_s_12 f_w_400"><?= $row['id'];?>
                 </td>
-                <td class="f_s_12 f_w_400"><?= $row['uuid'];?> 
                 
                 <td class="f_s_12 f_w_400"><?= $row['sname'];?>
                 

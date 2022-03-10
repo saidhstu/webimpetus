@@ -10,7 +10,6 @@
                         <input type="checkbox" class="check_all" onclick="set_check_all(this);">
                     </th-->
                     <th scope="col">Id</th>
-                    <th scope="col">UUID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Address</th>
@@ -29,7 +28,6 @@
                     <input type="checkbox" class="check_all" onclick="set_check_all(this);">
                 </td-->
                 <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
-                <td class="f_s_12 f_w_400"><?= $row['uuid'];?> </td>
                 <td class="f_s_12 f_w_400  "><?= $row['name'];?></td>
                     <td class="f_s_12 f_w_400  "><?= $row['email'];?></td>
                     <td class="f_s_12 f_w_400  "><?= $row['address'];?></td>
