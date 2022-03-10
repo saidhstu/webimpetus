@@ -7675,7 +7675,16 @@ canvas#highlights {
   margin-top: 0;
   margin-top: 30px;
 }
-
+.dataTables_scrollBody {
+    min-height: 90px;
+}
+.dataTables_scrollBody .header_more_tool .dropdown .dropdown-menu {
+    top: -3px !important;
+    border-radius: 5px;
+    left: -40px!important;
+    width: 120px!important;
+    min-width: 120px;
+}
 /* line 30,*/
 .dataTables_paginate a {
   width: 32px;
