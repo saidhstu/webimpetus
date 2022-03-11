@@ -63,9 +63,10 @@
 									<input type="text" class="form-control" id="code" name="code" placeholder="" readonly="readonly" value="<?=@$content->code?>" onchange="format_manual_code('Code')">
 									<span class="help-block">URL (SEO friendly)</span><br>
 
-									<span class="help-block">
+									<div class="mt_10"><span class="help-block ">
 										<input type="checkbox" name="chk_manual" id="chk_manual">
 									I want to manually enter code</span>
+									</div>
 
 
 								</div>
@@ -109,9 +110,22 @@
 								<div class="form-group col-md-12" id="divfile">
 
 									<label for="inputAddress">Upload</label>
-									<div class="custom-file">
+									<div class="uplogInrDiv">
 										<input type="file" name="file[]" class="custom-file-input filee" id="customFile">
-										<label class="custom-file-label" for="customFile">Choose file</label>
+										<div class="uploadBlkInr">
+                                            <div class="uplogImg">
+                                              <img src="/assets/img/fileupload.png" />
+                                            </div>
+                                            <div class="uploadFileCnt">
+                                              <p>
+                                                <a href="#">Upload a file </a> file chosen or drag
+                                                and drop
+                                              </p>
+                                              <p>
+                                                <span>Video, PNG, JPG, GIF up to 10MB</span>
+                                              </p>
+                                            </div>
+                        				</div>
 									</div>
 
 
