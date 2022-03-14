@@ -10,12 +10,25 @@
 <script src="/assets/js/metisMenu.js"></script>
 <script src="/assets/js/select2.min.js"></script>
 
+
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js" type="text/javascript"></script> -->
 
 <script src="/assets/js/custom.js"></script>
 <script src="/assets/js/list.js"></script>
 <script src="/assets/js/edit.js"></script>
+<script src="vendors/chartlist/Chart.min.js"></script>
+<script src="js/chart.min.js"></script>
+<script src="/assets/vendors/chartjs/roundedBar.min.js"></script>
+<script src="/assets/vendors/am_chart/amcharts.js"></script>
+<!-- apex chrat  -->
+<script src="/assets/vendors/apex_chart/apex-chart2.js"></script>
+<script src="/assets/vendors/apex_chart/apex_dashboard.js"></script>
+<script src="/assets/vendors/chart_am/core.js"></script>
+<script src="/assets/vendors/chart_am/charts.js"></script>
+<script src="/assets/vendors/chart_am/animated.js"></script>
+<script src="/assets/vendors/chart_am/kelly.js"></script>
+<script src="/assets/vendors/chart_am/chart-custom.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
@@ -24,6 +37,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" ></script>
+
 
 <script type="text/javascript">
     $(document).ready(function() {
