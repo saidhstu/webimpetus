@@ -8,7 +8,6 @@
                 <tr>
                     
                     <th scope="col">Id</th>
-                    <th scope="col">UUID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Category</th>     
                     <th scope="col">Tenant</th> 											
@@ -27,8 +26,6 @@
             <?php foreach($services as $row):?>  
             <tr data-link="/services/edit/<?= $row['id'];?>">                                     
                 <td class="f_s_12 f_w_400"><?= $row['id'];?>
-                </td>
-                <td class="f_s_12 f_w_400"><?= $row['uuid'];?> 
                 </td>
                 <td class="f_s_12 f_w_400 "><?= $row['name'];?>
                 </td>

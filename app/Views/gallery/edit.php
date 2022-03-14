@@ -1,4 +1,4 @@
-<?php require_once (APPPATH.'Views/common/list-title.php'); ?>
+<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
 <div class="white_card_body">
     <div class="card-body">
 
@@ -15,10 +15,22 @@
                         <img src="<?=@$content->name?>" width="140px">
                     <?php } ?>
                     <label for="inputAddress">Upload Image</label>
-                    <div class="custom-file">
-
+                    <div class="uplogInrDiv">
                         <input type="file" name="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <div class="uploadBlkInr">
+                            <div class="uplogImg">
+                              <img src="/assets/img/fileupload.png" />
+                            </div>
+                            <div class="uploadFileCnt">
+                              <p>
+                                <a href="#">Upload a file </a> file chosen or drag
+                                and drop
+                              </p>
+                              <p>
+                                <span>Video, PNG, JPG, GIF up to 10MB</span>
+                              </p>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

@@ -21,9 +21,9 @@
                 <tr data-link=<?= "/".$tableName."/edit/".$row['id'];?> >
 
                     <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?= basename($row['file']);?></td>
-                    <td class="f_s_12 f_w_400"><?= $row['company_name'];?></td>
-                    <td class="f_s_12 f_w_400"><?= render_date(strtotime($row['created_at']));?></td>
-                    <td class="f_s_12 f_w_400"><?= render_date(strtotime($row['modified_at']));?></td>
+                    <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?= $row['company_name'];?></td>
+                    <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?= render_date(strtotime($row['created_at']));?></td>
+                    <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?= render_date(strtotime($row['modified_at']));?></td>
 
 
 
@@ -62,11 +62,8 @@
 
 $('.table-listing-items  tr  td').on('click' , function(e) {
 	  
-    
-     
-      if($(this).is(':nth-last-child(2)') ){
-      }else{
-        e.preventDefault();
+      var dataClickable = $(this).parent().attr('data-link');
+      if($(this).is(':last-child') || $(this).is(':first-child')){
       }
           
   });
@@ -79,7 +76,7 @@ $(document).on("click", ".open-file", function(e){
     var rowid = el.data('id');
 
     $.ajax({
-            url: baseURL + "/documents/getfile",
+            url: baseURL + "documents/getfile",
             data:{ rowid:rowid },
             method: 'POST',
             dataType: "JSON",
@@ -87,7 +84,7 @@ $(document).on("click", ".open-file", function(e){
         var html = '';
         if (response.file.length > 0) {
 
-            html = '<embed src="https://drive.google.com/viewerng/viewer?embedded=true&url='+ response.file +'" width="512" height="500">';
+            html = '<iframe  src="https://docs.google.com/gview?embedded=true&url='+ response.file +'" width="512" height="500"> </iframe>';
         }
 
         $('.preview-file').html('');

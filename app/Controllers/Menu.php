@@ -37,7 +37,7 @@ class Menu extends CommonController
         $data['rawTblName'] = $this->table;
 		$data["users"] = $this->model->getUser();
 		$data["data"] = getRowArray($this->table, ['id' => $id]);
-		// if there any special cause we can overried this function and pass data to add or edit view
+		// if there any spe+cial cause we can overried this function and pass data to add or edit view
 		$data['additional_data'] = $this->getAdditionalData($id);
 
         echo view($this->table."/edit",$data);

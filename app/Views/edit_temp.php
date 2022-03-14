@@ -121,28 +121,35 @@
                                        
                                     </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                        <div class="form-row">
-					   
-					     <div class="form-group col-md-12">
-                                           <label for="inputAddress">Upload</label>
-										   
-										   <?php if(!empty($content->custom_assets)) { ?>
-                                            <img class="img-rounded" src="<?= 'data:image/jpeg;base64,'.$content->custom_assets;?>" width="100px">
-                                            <a href="/templates/rmimg/<?=$content->id ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
-										<?php } ?>
-										
-										
-                                            <div class="custom-file">
-                                            <input type="file" name="file" class="custom-file-input" id="customFile">
-                                            <label class="custom-file-label" for="customFile">Choose file</label>
-                                            </div>
-                                        
-                                        </div>										
-									
-                                       
-                                    </div>
-                    </div>
+                        <div class="form-group col-md-12">
+                               <label for="inputAddress">Upload</label>
+    						   
+    						   <?php if(!empty($content->custom_assets)) { ?>
+                                <img class="img-rounded" src="<?= 'data:image/jpeg;base64,'.$content->custom_assets;?>" width="100px">
+                                <a href="/templates/rmimg/<?=$content->id ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+    						<?php } ?>		
+                            <div class="uplogInrDiv">
+                                <input type="file" name="file" class="custom-file-input" id="customFile">
+                                <div class="uploadBlkInr">
+                                   <div class="uplogImg">
+                                     <img src="/assets/img/fileupload.png" />
+                                   </div>
+                                   <div class="uploadFileCnt">
+                                     <p>
+                                       <a href="#">Upload a file </a> file chosen or drag
+                                       and drop
+                                     </p>
+                                     <p>
+                                       <span>Video, PNG, JPG, GIF up to 10MB</span>
+                                     </p>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>										
+					</div>
+                </div>
                     <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                       <div class="form-row">
 									<div class="form-group col-md-12">

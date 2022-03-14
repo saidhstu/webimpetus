@@ -173,5 +173,26 @@ $("#sidebar_menu >li a").filter(function() {
           fileName ? $label.addClass('has-file').find('.js-fileName1').html(fileName) : $label.removeClass('has-file').html(labelVal);
        });
     });
-
+	
+	//add class in radio buttons
+	window.onload = function() {
+	  $('[type="radio"]').addClass('radioInput');
+	  $('[type="radio"]').parent().addClass('radioLabel');
+	  $('[type="radio"]').parent().parent().addClass('radioGroup');
+	  $('[type="radio"]:checked').parent().addClass('radioCheckedLabel');
+	};
+	
+	$('input:radio').change(function(){
+		$('.radioInput').parent().removeClass('radioCheckedLabel');
+		
+		if($('.radioInput').is(":checked")) {
+			$(this).parent().addClass('radioCheckedLabel');
+		} else {
+			//$(this).parent().removeClass('radioCheckedLabel');
+		}
+	});
+	
 }(jQuery));
+
+
+
