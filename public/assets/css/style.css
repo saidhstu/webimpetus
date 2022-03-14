@@ -14024,8 +14024,8 @@ color: rgb(255, 79, 79)
        background-color: #fff2cc !important;
     border-color: #fbda7a;
 }
-.user_crm_wrapper .col-lg-3:nth-child(6n+4) .fa{
-color: rgb(39, 194, 0);
+.user_crm_wrapper .col-lg-3:nth-child(6n+4) .fa {
+    color: #f7c637;
 }
 
 .user_crm_wrapper .col-lg-3:nth-child(6n+5) .dashboard-card{
@@ -14505,4 +14505,8 @@ p.dashTitle {
     font-size: 20px;
     color: #444;
     font-weight: bold;
+}
+
+#calendar tbody {
+    height: calc(100vh - 380px);
 }
