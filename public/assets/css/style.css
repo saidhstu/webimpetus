@@ -14508,5 +14508,5 @@ p.dashTitle {
 }
 
 #calendar tbody {
-    height: 100vh;
+    height: calc(100vh - 380px);
 }
