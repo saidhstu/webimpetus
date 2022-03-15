@@ -6,40 +6,761 @@
 
 <section class="main_content dashboard_part large_header_bg full_main_content">
        <?php include('common/top-header.php'); ?> 
-  <div class="main_content_iner overly_inner ">
+   <div class="main_content_iner overly_inner ">
         <div class="container-fluid p-0 ">
             <!-- page title  -->
             <div class="row">
                 <div class="col-12">
                     <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
                         <div class="page_title_left d-flex align-items-center">
-                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >Dashboard </h3>
+                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >Dashboard</h3>
                             <ol class="breadcrumb page_bradcam mb-0">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item active">Analytic</li>
                             </ol>
                         </div>
-                        
-                      
+                        <div class="page_title_right">
+                            <div class="page_date_button d-flex align-items-center"> 
+                                <img src="/img/icon/calender_icon.svg" alt="">
+                                August 1, 2020 - August 31, 2020
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row ">
-
-                <div class="col-lg-12">
-                    <div class="white_card card_height_100 mb_30">
-                       
-                        <div class="white_card_body">
-                            <div class="card-body">
-                               <h4>Welcome to dashboard</h4>
+            <div class="row">
+                <div class="col-xl-12 ">
+                  <div class="white_card mb_30 user_crm_wrapper">
+                        <div class="row ">
+                            <div class="col-lg-3">
+                                <div class="dashboard-card">
+                                     <a href="javascript:void(0)">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="col">
+                                            <div class="dashContent">
+                                                <h4 class="dashCount">400</h4>
+                                                <p class="dashTitle">Users</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="dashBrdIcon">
+                                           <i class="fa fa-users"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                    
                                 </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                    <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">20</h4>
+                                                    <p class="dashTitle">Work Order</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-file-export" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                     <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">35</h4>
+                                                    <p class="dashTitle">Sales Invoice</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto ">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-money-check-alt"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card  ">
+                                     <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">40</h4>
+                                                    <p class="dashTitle">Purchase Orders </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-file-contract" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                     <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">10</h4>
+                                                    <p class="dashTitle">Employees</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-address-card" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card  ">
+                                    <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">485</h4>
+                                                    <p class="dashTitle">Tasks </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-tasks" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                    <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">020</h4>
+                                                    <p class="dashTitle">Enquiries  </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-envelope-open-text" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                    <a href="javascript:void(0)">
+                                       <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">078</h4>
+                                                    <p class="dashTitle">Projects </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa fa-list" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                    <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">400</h4>
+                                                    <p class="dashTitle">Contact</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                               <i class="fa fa-address-book"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                    <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">17</h4>
+                                                    <p class="dashTitle">Tenants </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-building" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                    <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">35</h4>
+                                                    <p class="dashTitle">Categories </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto ">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-indent" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="dashboard-card ">
+                                    <a href="javascript:void(0)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="col">
+                                                <div class="dashContent">
+                                                    <h4 class="dashCount">405</h4>
+                                                    <p class="dashTitle">Job Application</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="dashBrdIcon">
+                                                    <i class="fa fa-list-alt" ></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-              
-
-             
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="create_report_btn text-center mb_30">
+                        <a href="#" class="btn_1 radius_btn  text-center" style="padding:15px 20px;">View More</a>
+                    </div>
+                </div>
+            </div>        
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="white_card c mb_30">
+                        <div class="white_card_header">
+                            <div class="row align-items-center">
+                                <div class="col-lg-4">
+                                    <div class="main-title">
+                                        <h3 class="m-0">New Users</h3>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 d-flex justify-content-end">
+                                    <select class="select2 col-md-5" >
+                                        <option value="1">Show by All</option>
+                                        <option value="1">Show by A</option>
+                                        <option value="1">Show by B</option>
+                                    </select>
+                                </div>
+                            </div>
+                         
+                        </div>
+                        <div class="white_card_body ">
+                            <div class="single_user_pil d-flex align-items-center justify-content-between">
+                                <div class="user_pils_thumb d-flex align-items-center">
+                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
+                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
+                                </div>
+                                <div class="user_info">
+                                    Customer
+                                </div>
+                                <div class="action_btns d-flex">
+                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
+                                </div>
+                            </div>
+                            <div class="single_user_pil admin_bg d-flex align-items-center justify-content-between">
+                                <div class="user_pils_thumb d-flex align-items-center">
+                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
+                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
+                                </div>
+                                <div class="user_info">
+                                    Admin
+                                </div>
+                                <div class="action_btns d-flex">
+                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
+                                </div>
+                            </div>
+                            <div class="single_user_pil d-flex align-items-center justify-content-between">
+                                <div class="user_pils_thumb d-flex align-items-center">
+                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
+                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
+                                </div>
+                                <div class="user_info">
+                                    Customer
+                                </div>
+                                <div class="action_btns d-flex">
+                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
+                                </div>
+                            </div>
+                            <div class="single_user_pil d-flex align-items-center justify-content-between">
+                                <div class="user_pils_thumb d-flex align-items-center">
+                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
+                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
+                                </div>
+                                <div class="user_info">
+                                    Customer
+                                </div>
+                                <div class="action_btns d-flex">
+                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
+                                </div>
+                            </div>
+                            <div class="single_user_pil d-flex align-items-center justify-content-between mb-0">
+                                <div class="user_pils_thumb d-flex align-items-center">
+                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
+                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
+                                </div>
+                                <div class="user_info">
+                                    Customer
+                                </div>
+                                <div class="action_btns d-flex">
+                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="white_card  mb_30">
+                        <div class="white_card_header">
+                            <div class="box_header m-0">
+                                <div class="main-title">
+                                    <h3 class="m-0">Sales of the last week</h3>
+                                </div>
+                                <div class="header_more_tool dropInr">
+                                    <div class="dropdown">
+                                        <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                          <i class="ti-more-alt"></i>
+                                        </span>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white_card_body">
+                            <div id="chart-currently"></div>
+                            <div class="monthly_plan_wraper">
+                                <div class="single_plan d-flex align-items-center justify-content-between">
+                                    <div class="plan_left d-flex align-items-center">
+                                        <div class="thumb">
+                                            <img src="img/icon2/7.svg" alt="">
+                                        </div>
+                                        <div>
+                                            <h5>Most Sales</h5>
+                                            <span>Authors with the best sales</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single_plan d-flex align-items-center justify-content-between">
+                                    <div class="plan_left d-flex align-items-center">
+                                        <div class="thumb">
+                                            <img src="img/icon2/6.svg" alt="">
+                                        </div>
+                                        <div>
+                                            <h5>Total sales lead</h5>
+                                            <span>40% increased on week-to-week reports</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single_plan d-flex align-items-center justify-content-between">
+                                    <div class="plan_left d-flex align-items-center">
+                                        <div class="thumb">
+                                            <img src="img/icon2/5.svg" alt="">
+                                        </div>
+                                        <div>
+                                            <h5>Average Bestseller</h5>
+                                            <span>Pitstop Email Marketing</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="white_card  mb_30 overflow_hidden">
+                        <div class="white_card_header">
+                            <div class="box_header m-0">
+                                <div class="main-title">
+                                    <h3 class="m-0">Sales Details</h3>
+                                </div>
+                                <div class="header_more_tool dropInr">
+                                    <div class="dropdown">
+                                        <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                          <i class="ti-more-alt"></i>
+                                        </span>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white_card_body pb-0">
+                            <div class="Sales_Details_plan">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="single_plan d-flex align-items-center justify-content-between">
+                                            <div class="plan_left d-flex align-items-center">
+                                                <div class="thumb">
+                                                    <img src="img/icon2/3.svg" alt="">
+                                                </div>
+                                                <div>
+                                                    <h5>$2,034</h5>
+                                                    <span>Author Sales</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="single_plan d-flex align-items-center justify-content-between">
+                                            <div class="plan_left d-flex align-items-center">
+                                                <div class="thumb">
+                                                    <img src="img/icon2/2.svg" alt="">
+                                                </div>
+                                                <div>
+                                                    <h5>$5.8M</h5>
+                                                    <span>All Time Sales</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart_wrap overflow_hidden">
+                            <div id="chart4"></div>
+                        </div>
+                    </div>
+                </div>
                
+             
+                <div class="col-lg-4">
+                    <div class="white_card  mb_20 ">
+                        <div class="white_card_header">
+                            <div class="box_header m-0">
+                                <div class="main-title">
+                                    <h3 class="m-0">Employees Detail</h3>
+                                </div>
+                                <div class="header_more_tool dropInr">
+                                    <div class="dropdown">
+                                        <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                          <i class="ti-more-alt"></i>
+                                        </span>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white_card_body QA_section">
+                            <div class="QA_table ">
+                                <!-- table-responsive -->
+                                <table class="table lms_table_active2 p-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">First Name</th>
+                                            <th scope="col">Title </th>
+                                            <th scope="col">Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="customer d-flex align-items-center">
+                                                  
+                                                    <span class="f_s_12 f_w_600 color_text_5" >13</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Pankaj Joshi</td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Admin</td>
+                                            <td class="f_s_12 f_w_400 text-center"><a href="#" class="text_color_1">pankaj@gmail.com</a></td>
+                                        </tr>
+                                     <tr>
+                                            <td>
+                                                <div class="customer d-flex align-items-center">
+                                                  
+                                                    <span class="f_s_12 f_w_600 color_text_5" >13</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Pankaj Joshi</td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Admin</td>
+                                            <td class="f_s_12 f_w_400 text-center"><a href="#" class="text_color_1">pankaj@gmail.com</a></td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <div class="customer d-flex align-items-center">
+                                                  
+                                                    <span class="f_s_12 f_w_600 color_text_5" >13</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Pankaj Joshi</td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Admin</td>
+                                            <td class="f_s_12 f_w_400 text-center"><a href="#" class="text_color_1">pankaj@gmail.com</a></td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <div class="customer d-flex align-items-center">
+                                                  
+                                                    <span class="f_s_12 f_w_600 color_text_5" >13</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Pankaj Joshi</td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Admin</td>
+                                            <td class="f_s_12 f_w_400 text-center"><a href="#" class="text_color_1">pankaj@gmail.com</a></td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <div class="customer d-flex align-items-center">
+                                                  
+                                                    <span class="f_s_12 f_w_600 color_text_5" >13</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Pankaj Joshi</td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Admin</td>
+                                            <td class="f_s_12 f_w_400 text-center"><a href="#" class="text_color_1">pankaj@gmail.com</a></td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <div class="customer d-flex align-items-center">
+                                                  
+                                                    <span class="f_s_12 f_w_600 color_text_5" >13</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Pankaj Joshi</td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Admin</td>
+                                            <td class="f_s_12 f_w_400 text-center"><a href="#" class="text_color_1">pankaj@gmail.com</a></td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <div class="customer d-flex align-items-center">
+                                                  
+                                                    <span class="f_s_12 f_w_600 color_text_5" >13</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Pankaj Joshi</td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Admin</td>
+                                            <td class="f_s_12 f_w_400 text-center"><a href="#" class="text_color_1">pankaj@gmail.com</a></td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <div class="customer d-flex align-items-center">
+                                                  
+                                                    <span class="f_s_12 f_w_600 color_text_5" >13</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Pankaj Joshi</td>
+                                            <td class="f_s_12 f_w_400 color_text_6">Admin</td>
+                                            <td class="f_s_12 f_w_400 text-center"><a href="#" class="text_color_1">pankaj@gmail.com</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="white_card  mb_30">
+                        <div class="white_card_header">
+                            <div class="box_header m-0">
+                                <div class="main-title">
+                                    <h3 class="m-0">Recent activity</h3>
+                                </div>
+                                <div class="header_more_tool dropInr">
+                                    <div class="dropdown">
+                                        <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                          <i class="ti-more-alt"></i>
+                                        </span>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white_card_body">
+                            <div class="Activity_timeline">
+                                <ul>
+                                    <li>
+                                        <div class="activity_bell"></div>
+                                        <div class="timeLine_inner d-flex align-items-center">
+                                            <div class="activity_wrap">
+                                                <h6>5 min ago</h6>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="activity_bell "></div>
+                                        <div class="timeLine_inner d-flex align-items-center">
+                                            <div class="activity_wrap">
+                                                <h6>5 min ago</h6>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="activity_bell bell_lite"></div>
+                                        <div class="timeLine_inner d-flex align-items-center">
+                                            <div class="activity_wrap">
+                                                <h6>5 min ago</h6>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="activity_bell bell_lite"></div>
+                                        <div class="timeLine_inner d-flex align-items-center">
+                                            <div class="activity_wrap">
+                                                <h6>5 min ago</h6>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="white_card mb_30">
+                        <div class="white_card_header">
+                            <div class="box_header m-0">
+                                <div class="main-title">
+                                    <h3 class="m-0">Member request
+                                        to mail.</h3>
+                                </div>
+                                <div class="header_more_tool dropInr">
+                                    <div class="dropdown">
+                                        <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                          <i class="ti-more-alt"></i>
+                                        </span>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white_card_body">
+                            <div class="thumb mb_30">
+                                <img src="/img/table.svg" alt="" class="img-fluid">
+                            </div>
+                            <div class="common_form">
+                                <form action="#">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="common_input mb_15">
+                                                <input type="text" placeholder="First Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="common_input mb_15">
+                                                <input type="text" placeholder="Last Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="common_input mb_15">
+                                                <input type="text" placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <select class="select2 col-md-2 " >
+                                                <option value="1">Role</option>
+                                                <option value="1">Role 1</option>
+                                                <option value="1">Role2</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="create_report_btn mt_30">
+                                                <a href="#" class="btn_1 radius_btn d-block text-center">Send the invitation link</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
             </div>
         </div>
     </div>
