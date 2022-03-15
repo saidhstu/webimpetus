@@ -24,7 +24,7 @@ class Gallery extends CommonController
 
 		$data[$this->table] = $this->gallery_model->where([ "uuid_business_id" => $this->businessUuid])->findAll();
 		$data['tableName'] = $this->gallery;
-		$data['rawTblName'] = "Image";
+		$data['rawTblName'] = "Galary";
 		$data['is_add_permission'] = 1;
 
 		echo view($this->table."/list",$data);
@@ -41,7 +41,7 @@ class Gallery extends CommonController
 
 	public function edit($id = 0)
 	{
-		$data['rawTblName'] = "Image";
+		$data['rawTblName'] = "Galary";
 		$data['tableName'] = $this->gallery;
 		$data[$this->table] = $this->gallery_model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();

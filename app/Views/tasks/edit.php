@@ -2,6 +2,8 @@
 <?php 
 $projects = getResultArray("projects");
 $customers = getResultArray("customers");
+$contacts = getResultArray("contacts");
+$employees = getResultArray("employees");
  ?>
     <div class="white_card_body">
         <div class="card-body">
@@ -11,47 +13,65 @@ $customers = getResultArray("customers");
                 <div class="row">
 
                     <div class=" col-md-6">
-                    <!-- <?php if(isset($task->id))echo "readonly"?> -->
-                    <div class="form-group ">
-                        <label for="inputEmail4">Task ID <span class="required"></span></label>
-                        <input readonly autocomplete="off" type="input" class="form-control " id="task_id" name="task_id" placeholder=""  value="<?= @$task->task_id ?>">
-                    </div>
-                    <div class="form-group   ">
-                        <label for="inputEmail4">Task Name <span class="required">*</span></label>
-                        <input autocomplete="off" type="input" class="form-control required" id="name" name="name" placeholder=""  value="<?= @$task->name ?>">
-                    </div>
+                        <div class="form-group   ">
+                            <label for="inputEmail4">Project Name <span class="required">*</span></label>
+                            <select id="projects_id" name="projects_id" class="form-control required dashboard-dropdown">
+                                <option value="" selected="">--Selected--</option>
+                                <?php foreach($projects as $row):?>
+                                <option customer_id="<?= $row['customers_id'];?>" value="<?= $row['id'];?>" <?php if($row['id'] == @$task->projects_id){ echo "selected"; }?>><?= $row['name'];?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                        <div class="form-group   ">
+                            <label for="inputEmail4">Customer Name <span class="required">*</span></label>
+                            <select id="customers_id" name="customers_id" class="form-control required dashboard-dropdown">
+                                <option value="" selected="">--Selected--</option>
+                                <?php foreach($customers as $row):?>
+                                <option value="<?= $row['id'];?>" <?php if($row['id'] == @$task->customers_id){ echo "selected"; }?>><?= $row['company_name'];?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                        <div class="form-group   ">
+                            <label for="inputEmail4">Client Name <span class="required">*</span></label>
+                            <select id="contacts_id" name="contacts_id" class="form-control required dashboard-dropdown">
+                                <option value="" selected="">--Selected--</option>
+                                <?php foreach($contacts as $row):?>
+                                <option value="<?= $row['id'];?>" <?php if($row['id'] == @$task->contacts_id){ echo "selected"; }?>><?= $row['first_name'];?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputEmail4">Task ID <span class="required"></span></label>
+                            <input readonly autocomplete="off" type="input" class="form-control " id="task_id" name="task_id" placeholder=""  value="<?= @$task->task_id ?>">
+                        </div>
+                        <div class="form-group   ">
+                            <label for="inputEmail4">Task Name <span class="required">*</span></label>
+                            <input autocomplete="off" type="input" class="form-control required" id="name" name="name" placeholder=""  value="<?= @$task->name ?>">
+                        </div>
 
-                    <div class="form-group   ">
-                        <label for="inputEmail4">Reported By <span class="required">*</span></label>
-                        <select id="reported_by" name="reported_by" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
-                            <?php foreach($customers as $row):?>
-                            <option value="<?= $row['id'];?>" <?php if($row['id'] == @$task->reported_by){ echo "selected"; }?>><?= $row['company_name'];?></option>
-                            <?php endforeach;?>
-                        </select>
-                    </div>
+                        <div class="form-group   ">
+                            <label for="inputEmail4">Reported By <span class="required">*</span></label>
+                            <select id="reported_by" name="reported_by" class="form-control required dashboard-dropdown">
+                                <option value="" selected="">--Selected--</option>
+                                <?php foreach($employees as $row):?>
+                                <option value="<?= $row['id'];?>" <?php if($row['id'] == @$task->reported_by){ echo "selected"; }?>><?= $row['first_name'];?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                        
                     
-                    <div class="form-group   ">
-                        <label for="inputEmail4">Project Name <span class="required">*</span></label>
-                        <select id="projects_id" name="projects_id" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
-                            <?php foreach($projects as $row):?>
-                            <option value="<?= $row['id'];?>" <?php if($row['id'] == @$task->projects_id){ echo "selected"; }?>><?= $row['name'];?></option>
-                            <?php endforeach;?>
-                        </select>
-                    </div>
 
-                    
+                        
 
-               
-                    <div class="form-group  ">
-                        <label for="inputEmail4">Task Start Date</label>
-                        <input type="text" class="form-control datepicker" id="start_date" name="start_date" placeholder=""  value="<?= render_date(@$task->start_date) ?>">
-                    </div>
-                    <div class="form-group  ">
-                        <label for="inputEmail4">Task End Date</label>
-                        <input type="text" class="form-control datepicker" id="end_date" name="end_date" placeholder=""  value="<?= render_date(@$task->end_date) ?>">
-                    </div>
+                
+                        <div class="form-group  ">
+                            <label for="inputEmail4">Task Start Date</label>
+                            <input type="text" class="form-control datepicker" id="start_date" name="start_date" placeholder=""  value="<?= render_date(@$task->start_date) ?>">
+                        </div>
+                        <div class="form-group  ">
+                            <label for="inputEmail4">Task End Date</label>
+                            <input type="text" class="form-control datepicker" id="end_date" name="end_date" placeholder=""  value="<?= render_date(@$task->end_date) ?>">
+                        </div>
 
                     </div>
                     <div class="form-group col-md-6">
@@ -112,6 +132,13 @@ $customers = getResultArray("customers");
 <!-- main content part end -->
 
 <script>
+$(document).on("change", "#projects_id", function(){
+
+    var customerId = $('option:selected', this).attr('customer_id');
+    $("#customers_id").val(customerId);
+    $("#customers_id").select2();
+    // console.log(option)
+})
 $(document).on("click", ".form-check-input", function(){
     if($(this).prop("checked") == false){
         $(this).val(0);

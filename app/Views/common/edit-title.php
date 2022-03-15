@@ -13,7 +13,7 @@
                 <div class="page_title_left d-flex align-items-center">
                     <h3 class="f_s_25 f_w_700 dark_text mr_30" ><?php echo render_head_text($tableName);?> </h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
                         <li class="breadcrumb-item active"><a href="/<?php echo $tableName; ?>"><?php echo render_head_text($tableName);?> </a></li>
                     </ol>
                 </div>
