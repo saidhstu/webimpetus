@@ -30,6 +30,10 @@
                         <label for="inputEmail4">Vat Number</label>
                         <input type="text" class="form-control " id="title" name="vat_number" placeholder=""  value="<?=@$businesse->vat_number?>">
                     </div>
+                    <div class="form-group  col-md-12">
+                        <label for="inputEmail4">No Of Shares</label>
+                        <input type="text" class="form-control " id="title" name="no_of_shares" placeholder=""  value="<?=@$businesse->no_of_shares?>">
+                    </div>
                    
                     
                     
