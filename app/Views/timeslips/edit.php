@@ -204,7 +204,7 @@
             <div class="form-row">
 
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('billing_status'); ?>
+                    <?php echo readableFieldName('Charge Code'); ?>
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="billing_status" name="billing_status" class="form-control dashboard-dropdown">

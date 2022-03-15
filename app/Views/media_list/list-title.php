@@ -14,7 +14,7 @@
                     <h3 class="f_s_25 f_w_700 dark_text mr_30" ><?php echo ucfirst($tableName); ?> </h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="/<?php echo $tableName; ?>"><?php echo ucfirst($rawTblName); ?> List </a></li>
+                        <li class="breadcrumb-item active"><a href="/<?php echo $tableName; ?>"><?php echo ucfirst($rawTblName); ?>  </a></li>
                     </ol>
                 </div>
                 <div class="page_title_right">
@@ -47,7 +47,7 @@
         <div class="white_card_header">
             <div class="box_header m-0">
                 <div class="main-title">
-                    <h3 class="m-0"><?php echo ucfirst($tableName); ?> List</h3>
+                    <h3 class="m-0"><?php echo ucfirst($tableName); ?> </h3>
                 </div>   
             </div>
         </div>

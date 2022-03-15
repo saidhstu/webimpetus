@@ -1,18 +1,26 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
-<?php $customers = $additional_data["customers"]; ?>
+<?php 
+    $customers = $additional_data["customers"]; 
+    $businesses = getWithOutUuidResultArray("businesses");
+   
+?>
     <div class="white_card_body">
         <div class="card-body">
             
             <form id="addcustomer" method="post" action=<?php echo "/".$tableName."/update";?> enctype="multipart/form-data">
                 <div class="form-row">
                     <div class="form-group required col-md-6">
-                        <label for="inputEmail4">Client Name</label>
-                        <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
-                            <?php foreach($customers as $row):?>
-                            <option value="<?= $row['id'];?>" <?php if($row['id'] == @$employee->client_id){ echo "selected"; }?>><?= $row['company_name'];?></option>
+                        <label for="inputEmail4">Businesses Pop</label>
+                        <select id="businesses" name="businesses[]" multiple class="form-control select2">                                            
+                            <?php 
+                            
+                            $arr = json_decode(@$employee->businesses);
+                            foreach($businesses as $row):?>
+                            <option value="<?= $row['id'];?>" <?php  if($arr) echo 
+                            in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
                             <?php endforeach;?>
                         </select>
+                      
                     </div>
 
                     <div class="form-group required col-md-6">

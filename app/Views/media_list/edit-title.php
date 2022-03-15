@@ -13,12 +13,12 @@
                 <div class="page_title_left d-flex align-items-center">
                     <h3 class="f_s_25 f_w_700 dark_text mr_30" ><?php echo ucfirst($tableName);?> </h3>
                     <ol class="breadcrumb page_bradcam mb-0">
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
                         <li class="breadcrumb-item active"><a href="/<?php echo $tableName; ?>"><?php echo ucfirst($rawTblName);?> </a></li>
                     </ol>
                 </div>
                 <div class="page_title_right">
-                    <a href="/<?php echo $tableName; ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php echo ucfirst($rawTblName);?>  List</a>
+                    <a href="/<?php echo $tableName; ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php echo ucfirst($rawTblName);?>  </a>
                 </div>
                 
             </div>
