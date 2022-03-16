@@ -1,4 +1,12 @@
-<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
+<?php require_once (APPPATH.'Views/common/edit-title.php'); 
+
+if(empty(@$timeslips['slip_start_date'])){
+    $startDate = time();
+}else{
+    $startDate = @$timeslips['slip_start_date'];
+}
+
+?>
 <div class="white_card_body">
     <div class="card-body">
 
@@ -56,7 +64,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <div class="input-group">
-                        <input type="text" id="slip_start_date" name="slip_start_date" class="form-control required datepicker" value="<?php echo render_date(@$timeslips['slip_start_date']); ?>">
+                        <input type="text" id="slip_start_date" name="slip_start_date" class="form-control required datepicker" value="<?php  echo render_date($startDate); ?>">
                         <span class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                         </span>
