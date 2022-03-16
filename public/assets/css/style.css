@@ -13991,56 +13991,56 @@ form#loginform .form-group {
     height: 100%;
 }
 .dashboard-card {
-    padding: 20px;
+    padding: 20px 10px;
     border-radius: 10px;
     margin-bottom: 20px;
     border: 1px solid;
 }
-.user_crm_wrapper .col-lg-3:nth-child(6n+1) .dashboard-card{
+.user_crm_wrapper > div > div:nth-child(6n+1) .dashboard-card{
     background-color: #e8f7ff !important;
     border-color: #c4dbe7
 }
-.user_crm_wrapper .col-lg-3:nth-child(6n+1) .fa{
+.user_crm_wrapper > div > div:nth-child(6n+1) .fa{
 color: #00aaff;
 }
 
-.user_crm_wrapper .col-lg-3:nth-child(6n+2) .dashboard-card{
+.user_crm_wrapper > div > div:nth-child(6n+2) .dashboard-card{
         background-color: lavender;
     border-color: #bebefb;
 }
-.user_crm_wrapper .col-lg-3:nth-child(6n+2) .fa{
+.user_crm_wrapper > div > div:nth-child(6n+2) .fa{
 color: #7373fd;
 }
 
-.user_crm_wrapper .col-lg-3:nth-child(6n+3) .dashboard-card{
+.user_crm_wrapper > div > div:nth-child(6n+3) .dashboard-card{
     background-color: #ffe5e5 !important;
     border-color: #fda6a6;
 }
-.user_crm_wrapper .col-lg-3:nth-child(6n+3) .fa{
+.user_crm_wrapper > div > div:nth-child(6n+3) .fa{
 color: rgb(255, 79, 79)
 }
 
-.user_crm_wrapper .col-lg-3:nth-child(6n+4) .dashboard-card{
+.user_crm_wrapper > div > div:nth-child(6n+4) .dashboard-card{
        background-color: #fff2cc !important;
     border-color: #fbda7a;
 }
-.user_crm_wrapper .col-lg-3:nth-child(6n+4) .fa {
+.user_crm_wrapper > div > div:nth-child(6n+4) .fa {
     color: #f7c637;
 }
 
-.user_crm_wrapper .col-lg-3:nth-child(6n+5) .dashboard-card{
+.user_crm_wrapper > div > div:nth-child(6n+5) .dashboard-card{
       background-color: #f1f1f1;
     border-color: #bbb8b8;
 }
-.user_crm_wrapper .col-lg-3:nth-child(6n+5) .fa{
+.user_crm_wrapper > div > div:nth-child(6n+5) .fa{
 color: #444;
 }
 
-.user_crm_wrapper .col-lg-3:nth-child(6n+6) .dashboard-card{
+.user_crm_wrapper > div > div:nth-child(6n+6) .dashboard-card{
     background-color: #cfeffe!important;
     border-color: #81d5fc;
 }
-.user_crm_wrapper .col-lg-3:nth-child(6n+6) .fa{
+.user_crm_wrapper > div > div:nth-child(6n+6) .fa{
 color: #52c4f9;
 }
 
@@ -14509,4 +14509,153 @@ p.dashTitle {
 
 #calendar tbody {
     height: calc(100vh - 380px);
+}
+
+
+@media (min-width: 2200px) {
+.dsbrdIconsRow .col-xxl-2 {
+    -ms-flex: 0 0 16.666667%;
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+}
+}
+
+
+/*date-picker*/
+.datepicker-days td.day {
+    padding: 15px!important;
+}
+
+.datepicker-days th.prev {
+
+    color: #ffffff !important;
+    padding: 4px!important;
+}
+
+.datepicker-days td {
+    padding: 15px!important;
+}
+
+
+.datepicker-days th.next {
+    background: #ff004e;
+    color: #fff;
+    padding: 4px!important;
+}
+.datepicker-days th.dow {
+    margin-top: 15px!important;
+    margin-bottom: 30px!important;
+}
+.datepicker table tr td.today, .datepicker table tr td.today.disabled, .datepicker table tr td.today.disabled:hover, .datepicker table tr td.today:hover {
+    background-color: transparent!important;
+    background-image: inherit!important;
+    color: #000;
+    border: 2px solid #ff004e!important;
+}
+
+.datepicker-days .active.day {
+    background: transparent!important;
+    border-radius: 0px!important;
+    border: 2px solid #ff004e!important;
+    color: #000!important;
+}
+
+.datepicker-days thead th {
+    background: #ff004e!important;
+    border-radius: 0!important;
+    color: #fff;
+}
+
+.datepicker-days tfoot th {
+    background: #d5d5d5!important;
+    border-radius: 0!important;
+}
+
+.datepicker-dropdown:after {
+    border-bottom: 6px solid #ff004e!important;
+}
+.datepicker.dropdown-menu {
+ 
+    background-color: #fff;
+    font-size: 13px;
+    line-height: 20px;
+    border: none;
+    box-shadow: 0px 0px 1px rgb(48 49 51 / 5%), 0px 16px 24px rgb(48 49 51 / 10%);
+    padding: 0;
+    border-radius: 8px;
+    border:inherit!important;
+}
+.datepicker td, .datepicker th {
+    width: 30px!important;
+    height: 40px!important;
+    border-radius: 4px;
+}
+.btn-info {
+    color: #fff;
+    background-color: #ff004e!important;
+    border-color: #ff004e!important;
+}
+
+
+.form-group .bootstrap-datetimepicker-widget table td {
+    height: 34px;
+    line-height: 34px;
+    width: 34px;
+}
+
+.form-group .bootstrap-datetimepicker-widget a[data-action] {
+    background: #ff004e;
+}
+.form-group .bootstrap-datetimepicker-widget table td span {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+}
+.form-group .bootstrap-datetimepicker-widget table td span:hover {
+    background: transparent;
+}
+.form-group .bootstrap-datetimepicker-widget table td span.glyphicon.glyphicon-chevron-up,
+.form-group .bootstrap-datetimepicker-widget table td span.glyphicon.glyphicon-chevron-down {
+  height: 4px;
+}
+.form-group .bootstrap-datetimepicker-widget span.glyphicon.glyphicon-chevron-up::before,
+.form-group .bootstrap-datetimepicker-widget span.glyphicon.glyphicon-chevron-up::after {
+    background: #fff;
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 2px;
+}
+
+.form-group .bootstrap-datetimepicker-widget span.glyphicon.glyphicon-chevron-up::before {
+    transform: rotate(-45deg);
+    margin-left: -9px;
+}
+
+.form-group .bootstrap-datetimepicker-widget span.glyphicon.glyphicon-chevron-up::after {
+    transform: rotate(45deg);
+    margin-left: -3px;
+}
+
+.form-group .bootstrap-datetimepicker-widget span.glyphicon.glyphicon-chevron-down::before,
+.form-group .bootstrap-datetimepicker-widget span.glyphicon.glyphicon-chevron-down::after {
+    background: #fff;
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 2px;
+}
+
+.form-group .bootstrap-datetimepicker-widget span.glyphicon.glyphicon-chevron-down::before {
+    transform: rotate(-135deg);
+    margin-left: -9px;
+}
+
+.form-group .bootstrap-datetimepicker-widget span.glyphicon.glyphicon-chevron-down::after {
+    transform: rotate(135deg);
+    margin-left: -3px;
+}
+
+.form-group .bootstrap-datetimepicker-widget .btn-primary {
+    line-height: 18px;
 }

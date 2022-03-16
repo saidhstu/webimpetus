@@ -30,9 +30,9 @@
             </div>
             <div class="row">
                 <div class="col-xl-12 ">
-                  <div class="white_card mb_30 user_crm_wrapper">
-                        <div class="row ">
-                            <div class="col-lg-3">
+                  <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
+                        <div class="row">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card">
                                      <a href="javascript:void(0)">
                                     <div class="d-flex align-items-center justify-content-between">
@@ -52,7 +52,7 @@
                                     
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                     <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -71,7 +71,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                      <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -90,7 +90,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card  ">
                                      <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -109,7 +109,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                      <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -128,7 +128,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card  ">
                                     <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -147,7 +147,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                     <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -166,7 +166,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                     <a href="javascript:void(0)">
                                        <div class="d-flex align-items-center justify-content-between">
@@ -185,7 +185,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                     <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -205,7 +205,7 @@
                                     
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                     <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -224,7 +224,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                     <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -243,7 +243,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card ">
                                     <a href="javascript:void(0)">
                                         <div class="d-flex align-items-center justify-content-between">
