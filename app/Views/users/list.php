@@ -67,4 +67,21 @@
     </div>
 </div>
 
-<?php require_once (APPPATH.'Views/common/footer.php'); ?>
+<?php require_once (APPPATH.'Views/users/footer.php'); ?>
+
+<script>
+    $('.table-listing-items  tr  td').on('click' , function(e) {
+	 
+     
+        var dataClickable = $(this).parent().attr('data-link');
+        if( $(this).is(':last-child') || $(this).is(':nth-last-child(2)')){
+
+        }else{
+            if(dataClickable && dataClickable.length > 0){
+                 
+                window.location = dataClickable;
+              }
+        }
+            
+    });
+</script>
