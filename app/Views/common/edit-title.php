@@ -35,4 +35,19 @@
             <?= session()->getFlashdata('message') ?>
             </div>
             <?php } ?>
+
+            <!-- BEGIN LOGIN -->
+<div id="ajax_loader" style="position: fixed;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.25);
+    height: 100%;
+    width: 100%;
+    z-index: 99999;display: none;">
+	<img style="position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -16px;
+    margin-top: -16px;
+    z-index: 9999999;" alt="" src="/assets/img/ajax-loader.gif"?>>
+</div>
                                 

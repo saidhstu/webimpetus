@@ -69,11 +69,14 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputAddress">Logo Upload</label>
-                                    <?php if(!empty(@$service->image_logo)) { ?>
-                                        <img class="img-rounded" src="<?= @$service->image_logo;?>" width="100px">
-                                        <a href="/services/rmimg/image_logo/<?=@$service->id ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
-                                    <?php } ?>
-                                    <div class="uplogInrDiv">
+                                       
+                                    <span class="all-media-image-files">
+                                        <?php if(!empty(@$service->image_logo)) { ?>
+                                            <img class="img-rounded" src="<?= @$service->image_logo;?>" width="100px">
+                                            <a href="/services/rmimg/image_logo/<?=@$service->id ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        <?php } ?>
+                                    </span>
+                                    <div class="uplogInrDiv" id="drop_file_doc_zone">
                                         <input type="file" name="file" class="form-control fileUpload  form-control-lg" id="file">
                                         <div class="uploadBlkInr">
                                             <div class="uplogImg">
@@ -90,6 +93,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                   
                            
                                 </div>
                                 <div class="form-group col-md-6">
@@ -98,7 +102,8 @@
                                         <img src="<?= @$service->image_brand;?>" width="100px">
                                         <a href="/services/rmimg/image_brand/<?=@$service->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     <?php } ?>
-                                    <div class="uplogInrDiv">
+                                    <div class="uplogInrDiv ">
+                                 
                                         <input type="file" name="file2" class="custom-file-input" id="file2">
                                         <div class="uploadBlkInr">
                                             <div class="uplogImg">
@@ -114,7 +119,7 @@
                                               </p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
                            
                                 </div>
                             </div>
@@ -298,6 +303,96 @@
 
 <script type="text/javascript">
     
+
+
+    var id = "<?=@$service->id ?>";
+   
+$(document).on('drop', '#drop_file_doc_zone', function(e){
+    // $("#ajax_load").show();
+        if(e.originalEvent.dataTransfer){
+            if(e.originalEvent.dataTransfer.files.length) {
+                e.preventDefault();
+                e.stopPropagation();
+                var i = 0;
+                while ( i < e.originalEvent.dataTransfer.files.length ){
+                    newUploadDocFiles(e.originalEvent.dataTransfer.files[i], id);
+                    i++;
+                }
+            }   
+        }
+    }
+);
+
+$(document).on("click", "#drop_file_doc_zone", function() {
+    $(".fileUpload").trigger("click");
+});
+        
+$(document).on("change", ".file-upload", function() {
+
+    for (var count = 0; count < $(this)[0].files.length; count++) {
+
+        newUploadDocFiles($(this)[0].files[count], id);
+    }
+
+});
+
+
+
+function newUploadDocFiles(fileobj, id) {
+
+    $("#ajax_load").hide();
+
+    var form = new FormData();
+
+    form.append("file", fileobj);
+    form.append("mainTable", class_name);
+    form.append("id", id);
+
+        $.ajax({
+        url: '/services/uploadMediaFiles',
+        type: 'post',
+        dataType: 'json',
+        maxNumberOfFiles: 1,
+        autoUpload: false,
+        success: function(result) {
+
+            $("#ajax_load").hide();
+            if (result.status == '1') {
+                $(".all-media-image-files").html(result.file_path);
+            } else {
+                toastr.error(result.msg);
+            }
+         },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#ajax_load").hide();
+           console.log(textStatus, errorThrown);
+        },
+        data: form,
+        cache: false,
+        contentType: false,
+        processData: false
+       
+      
+    });
+
+ 
+
+}
+
+function progressHandlingFunctionDoc(e) {
+    $(".bts_progress_bar_block").show();
+    $(".progress_bar_block").show();
+
+    if (e.lengthComputable) {
+
+        var percentComplete = Math.round(e.loaded * 100 / e.total);
+
+        $('.progress-bar').text(percentComplete.toString() + '%');
+        $('.progress-bar').css("width", percentComplete.toString() + '%');
+
+    }
+}
+
     $('#DeployService').on('click', function () {
         var Status = $(this).val();
         $.ajax({
@@ -379,4 +474,9 @@
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings("#file2").addClass("selected").html(fileName);
     });
+
+    $("#delete_image_logo").on("click", function(e){
+        e.preventDefault();
+        $(".all-media-image-files").html("");
+    })
 </script>

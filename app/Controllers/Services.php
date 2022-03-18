@@ -75,14 +75,21 @@ class Services extends Api
 			//'varnish_config' => $this->request->getPost('varnish_config'),
 			'cid' => $this->request->getPost('cid'),
 			'tid' => $this->request->getPost('tid'),
+			
 			'uuid_business_id' => $this->businessUuid,
 		);
 		
-		if($_FILES['file']['tmp_name']) {		
-			//echo '<pre>';print_r($_FILES['file']); die;	
-			$response = $this->Amazon_s3_model->doUpload("file", "service-logo");													
-			$data['image_logo'] = $response['filePath'];
-		 }
+		$image_logo = $this->request->getPost('image_logo');
+		if(strlen($image_logo) > 0){
+
+			$data['image_logo'] = $this->request->getPost('image_logo');
+		}
+
+		// if($_FILES['file']['tmp_name']) {		
+		// 	//echo '<pre>';print_r($_FILES['file']); die;	
+		// 	$response = $this->Amazon_s3_model->doUpload("file", "service-logo");													
+		// 	$data['image_logo'] = $response['filePath'];
+		//  }
 		 
 		 if($_FILES['file2']['tmp_name']) {		
 			//echo '<pre>';print_r($_FILES['file']); die;		
@@ -303,5 +310,31 @@ public function getMenuCode($value)
 	return @$result['id'];
 }
 
+
+public function uploadMediaFiles(){
+
+	// echo "ok";
+
+	$response = $this->Amazon_s3_model->doUpload("file", "service-logo");													
+			
+	
+
+
+	if ($response["status"]) {
+
+		$id = 0;
+		$file_path = $response['filePath'];
+		$status = 1;
+		$file_views = view("services/uploadedFileView", array("file_path" => $file_path, "id" => $id));
+		$msg = "success";
+
+	} else {
+		$status = 0;
+		$file_views = '';
+		$msg = "error";
+	}
+	
+	echo json_encode(array("status" => $status, "file_path" => $file_views, "msg" => $msg));
+}
 
 }

@@ -14,6 +14,7 @@
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js" type="text/javascript"></script> -->
 
+
 <script src="/assets/js/custom.js"></script>
 <script src="/assets/js/list.js"></script>
 <script src="/assets/js/edit.js"></script>
@@ -40,6 +41,10 @@
 
 
 <script type="text/javascript">
+
+	var baseUrl = "<?php echo base_url();?>";
+	var class_name = "<?php echo @$tableName; ?>";
+	var ajaxBaseUrl = baseUrl + class_name ;
 	var moduleName = '<?php echo @$tableName; ?>';
     $(document).ready(function() {
 
