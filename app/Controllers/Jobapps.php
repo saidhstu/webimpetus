@@ -20,7 +20,7 @@ class Jobapps extends CommonController
         $data['content'] = $this->model->where(['type' => 2, "uuid_business_id" => $this->businessUuid])->findAll();
         $data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
-		$data['is_add_permission'] = 0;
+		$data['is_add_permission'] = 1;
 		echo view($this->table."/list", $data);
     }
 	

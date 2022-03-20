@@ -14659,3 +14659,7 @@ p.dashTitle {
 .form-group .bootstrap-datetimepicker-widget .btn-primary {
     line-height: 18px;
 }
+
+.ti-plus{
+  font-weight: 600;
+}
