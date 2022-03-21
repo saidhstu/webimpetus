@@ -32,19 +32,20 @@
                 <div class="col-xl-12 ">
                   <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
                         <div class="row">
+                            <?php foreach( $tableList as $table => $eachInfo){?>
                             <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card">
                                      <a href="javascript:void(0)">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div class="col">
                                             <div class="dashContent">
-                                                <h4 class="dashCount">400</h4>
-                                                <p class="dashTitle">Users</p>
+                                                <h4 class="dashCount"><?=@$eachInfo['total']?></h4>
+                                                <p class="dashTitle"><?=@$eachInfo['menu']['name']?></p>
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <div class="dashBrdIcon">
-                                           <i class="fa fa-users"></i>
+                                           <i class="<?=@$eachInfo['menu']['icon']?>"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -52,216 +53,8 @@
                                     
                                 </div>
                             </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                    <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">20</h4>
-                                                    <p class="dashTitle">Work Order</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-file-export" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                     <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">35</h4>
-                                                    <p class="dashTitle">Sales Invoice</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto ">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-money-check-alt"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card  ">
-                                     <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">40</h4>
-                                                    <p class="dashTitle">Purchase Orders </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-file-contract" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                     <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">10</h4>
-                                                    <p class="dashTitle">Employees</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-address-card" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card  ">
-                                    <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">485</h4>
-                                                    <p class="dashTitle">Tasks </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-tasks" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                    <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">020</h4>
-                                                    <p class="dashTitle">Enquiries  </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-envelope-open-text" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                    <a href="javascript:void(0)">
-                                       <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">078</h4>
-                                                    <p class="dashTitle">Projects </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa fa-list" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                    <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">400</h4>
-                                                    <p class="dashTitle">Contact</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                               <i class="fa fa-address-book"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                    <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">17</h4>
-                                                    <p class="dashTitle">Tenants </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-building" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                    <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">35</h4>
-                                                    <p class="dashTitle">Categories </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto ">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-indent" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card ">
-                                    <a href="javascript:void(0)">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <div class="dashContent">
-                                                    <h4 class="dashCount">405</h4>
-                                                    <p class="dashTitle">Job Application</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="dashBrdIcon">
-                                                    <i class="fa fa-list-alt" ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+                            <?php } ?>
+                            
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,9 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
-<?php $customers = getResultArray("customers"); ?>
+<?php 
+
+$customers = getResultArray("customers", ["supplier" => 1]);
+
+?>
 <div class="white_card_body">
     <div class="card-body">
 
