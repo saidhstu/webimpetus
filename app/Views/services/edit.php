@@ -323,9 +323,9 @@ $(document).on('drop', '#drop_file_doc_zone', function(e){
     }
 );
 
-$(document).on("click", "#drop_file_doc_zone", function() {
-    $(".fileUpload").trigger("click");
-});
+// $(document).on("click", "#drop_file_doc_zone", function() {
+//     $(".fileUpload").trigger("click");
+// });
         
 $(document).on("change", ".file-upload", function() {
 
