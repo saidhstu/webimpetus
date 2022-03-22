@@ -47,11 +47,13 @@ class Businesses extends CommonController
 		if(isset($data['default_business'])){
 			$data['default_business'] = 1;
 		}
+		$data['business_contacts'] = json_encode(@$data['business_contacts']);
 		if($id < 1){
 
 			$uuidNamespace = UUID::v4();
 			$data['uuid'] = UUID::v5($uuidNamespace, 'businesses');
 		}
+		// prd($data);
 		$response = $this->model->insertOrUpdate($id, $data);
 		if(!$response){
 			session()->setFlashdata('message', 'Something wrong!');

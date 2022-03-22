@@ -1,4 +1,8 @@
-<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
+<?php require_once (APPPATH.'Views/common/edit-title.php');
+
+$businessContacts = getResultArray("business_contacts");
+
+?>
                        
 <div class="white_card_body">
     <div class="card-body">
@@ -7,9 +11,13 @@
             <div class="form-row">
             
                
-                <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$businesse->id ?>" />
+            <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$businesse->id ?>" />
 
                 <div class=" col-md-6">
+                    <div class="form-group  col-md-12">
+                        <label for="inputEmail4">Business No</label>
+                        <input type="text" disabled="disabled" class="form-control"  value="<?=@$businesse->uuid_business_id ?>" />
+                    </div>
                     <div class="form-group required col-md-12">
                         <label for="inputEmail4">Name</label>
                         <input type="text" class="form-control required" id="title" name="name" placeholder=""  value="<?=@$businesse->name?>">
@@ -59,6 +67,25 @@
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Telephone No</label>
                         <input type="text" class="form-control " id="telephone_no" name="telephone_no" placeholder=""  value="<?=@$businesse->telephone_no?>">
+                    </div>
+                    <div class="form-group  col-md-12">
+                        <label for="inputEmail4">Trading As</label>
+                        <input type="text" class="form-control " id="trading_as" name="trading_as" placeholder=""  value="<?=@$businesse->trading_as?>">
+                    </div>
+                    <div class="form-group  col-md-12">
+                        <label for="inputEmail4">Business Contact</label>
+                        <select id="business_contacts" name="business_contacts[]" multiple class="form-control select2">                                            
+                            <?php 
+                            
+                            $arr = json_decode(@$businesse->business_contacts);
+                           
+                            foreach($businessContacts as $row):?>
+                            <option value="<?= $row['id'];?>" <?php  if($arr){ echo  in_array($row['id'],$arr)?'selected="selected"':'';}?>>
+                            <?= $row['surname']; ?>
+                            </option>
+                            <?php endforeach;?>
+                        </select>
+                      
                     </div>
                     <div class="form-group col-md-12">
                    <br><span class="help-block">Default Business</span><br>
