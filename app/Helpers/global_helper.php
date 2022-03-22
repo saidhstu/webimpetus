@@ -99,3 +99,21 @@ function getWithOutUuidResultArray( $tableName, $where = array(), $returnArr = t
 
     return $result;    
 }
+
+function totalRows( $tableName, $where = array(), $returnArr = true){
+    
+    $db = \Config\Database::connect();
+    $builder = $db->table($tableName);
+    $builder->selectCount("id");
+    $builder->where( "uuid_business_id", session('uuid_business') );
+
+    if($where){
+
+        $builder->getWhere( $where );
+    }else{
+
+        $builder->get();
+    }
+
+    return $builder->countAll();
+}

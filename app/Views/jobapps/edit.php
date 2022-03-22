@@ -4,11 +4,11 @@
 <div class="white_card_body">
 	<div class="card-body">
 
-		<form id="addcat" method="post" action="/jobs/update" enctype="multipart/form-data">
+		<form id="addcat" method="post" action="/jobapps/update" enctype="multipart/form-data">
 
 			<input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$content->id ?>" />
 
-			<input type="hidden" class="form-control" name="type" placeholder="" value="4" />
+			<input type="hidden" class="form-control" name="type" placeholder="" value="2" />
 
 			<div class="row">
 				<div class="col-xs-12 col-md-12">

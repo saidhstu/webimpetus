@@ -6,7 +6,7 @@
         </div>
     </div>
     
-<?php require_once (APPPATH.'Views/common/scripts.php'); ?>
+<?php require_once (APPPATH.'Views/users/scripts.php'); ?>
 <!-- footer part -->
 <div class="footer_part">
     <div class="container-fluid">

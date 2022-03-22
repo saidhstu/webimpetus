@@ -14,11 +14,11 @@
                     <h3 class="f_s_25 f_w_700 dark_text mr_30" ><?php echo render_head_text($tableName);?> </h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="/<?php echo $tableName; ?>"><?php echo render_head_text($tableName);?> </a></li>
+                        <li class="breadcrumb-item active"><a href="/<?php echo strtolower($tableName); ?>"><?php echo render_head_text($tableName);?> </a></li>
                     </ol>
                 </div>
                 <div class="page_title_right">
-                    <a href="/<?php echo $tableName; ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php echo render_head_text($tableName);?></a>
+                    <a href="/<?php echo strtolower($tableName); ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php echo render_head_text($tableName);?></a>
                 </div>
                 
             </div>

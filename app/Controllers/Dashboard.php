@@ -19,6 +19,70 @@ class Dashboard extends BaseController
     public function index()
     {
         $data['title'] = "Hello World from Codeigniter 4";
+
+		$allMenu = getWithOutUuidResultArray("menu");
+		$menuList = [];
+		foreach( $allMenu as $eachMenu){
+
+			$menu = [];
+			$menu['name'] = $eachMenu['name'];
+			$menu['table'] = str_replace("/", "", $eachMenu['link']);
+			$menu['icon'] =  $eachMenu['icon'];
+
+			$menuList[$menu['table']] = $menu;
+
+		}
+
+		$table = "users";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "work_orders";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "sales_invoices";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "purchase_orders";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "employees";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "tasks";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "users";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "projects";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "contacts";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "tenants";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "categories";
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$table = "jobapps";
+		$tableInfo[$table]['total'] = totalRows("content_list", ["type" => 2]);
+		$tableInfo[$table]['menu'] = $menuList[$table];
+		
+		$data['tableList'] = $tableInfo;
+		// prd($data);
         return view('dashboard', $data);
     }
 	

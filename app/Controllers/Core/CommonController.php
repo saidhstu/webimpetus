@@ -30,7 +30,7 @@ class CommonController extends BaseController
 		$this->menucode = $this->getMenuCode("/".$this->table);
 
 		$this->session->set("menucode", $this->menucode);
-		$this->notAllowedFields = array('uuid_business_id');
+		$this->notAllowedFields = array('uuid_business_id',"uuid");
 
 	}
     

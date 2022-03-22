@@ -24,7 +24,7 @@ class Enquiries extends CommonController
 	}
     public function index()
     {        
-        $data[$this->table] = $this->enquries_model->where(['type' => 1, 'uuid_business_id' => $this->businessUuid])->findAll();
+        $data[$this->table] = $this->enquries_model->where([ 'uuid_business_id' => $this->businessUuid])->findAll();
 		$data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
@@ -50,89 +50,6 @@ class Enquiries extends CommonController
 		$data['selected_cats'] = $arr;
 		
 		return view($this->table."/edit", $data);
-	}
-	
-	public function update()
-	{        
-		$id = $this->request->getPost('id');
-
-		$data = array(
-			'title'  => $this->request->getPost('title'),				
-			'sub_title' => $this->request->getPost('sub_title'),
-			'content' => $this->request->getPost('content'),
-			'code' => $this->request->getPost('code')?$this->content_model->format_uri($this->request->getPost('code'),'-',@$id):$this->content_model->format_uri($this->request->getPost('title'),'-',@$id),
-			'meta_keywords' => $this->request->getPost('meta_keywords'),
-			'meta_title' => $this->request->getPost('meta_title'),
-			'meta_description' => $this->request->getPost('meta_description'),
-			'status' => $this->request->getPost('status'),
-			'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
-			'type' => ($this->request->getPost('type')?$this->request->getPost('type'):1),
-					//'image_logo' => $filepath
-			'uuid_business_id' => $this->businessUuid,
-		);
-		if(!empty($this->request->getPost('uuid'))){
-			$data['uuid'] = $this->request->getPost('uuid');
-		}
-		
-		
-
-		
-		if(!empty($id)){
-			$row = $this->model->getRows($id)->getRow();
-			
-			$filearr = ($row->custom_assets!="")?json_decode($row->custom_assets):[];
-			$count = !empty($filearr)?count($filearr):0;
-			if(!empty($_FILES['file'])) {	
-				foreach($_FILES['file']['tmp_name'] as $key=>$v) {	
-					if($_FILES['file']['tmp_name'][$key]){
-						$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name'][$key]));
-						$filearr[$count] = $imgData;
-						$count++;
-					}							
-				}
-				$data['custom_assets'] = json_encode($filearr);
-				
-			}
-
-			$this->content_model->updateData($id, $data);
-			
-			if(!empty($id) && !empty($this->request->getPost('catid'))){
-				$this->cat_model->deleteCatData($id);		
-				foreach($this->request->getPost('catid') as $val) {
-					$cat_data = [];
-					$cat_data['categoryid'] = $val;
-					$cat_data['contentid'] = $id;
-					$cat_data['uuid_business_id'] = $this->businessUuid;
-					$this->cat_model->saveData2($cat_data);					
-				}			
-				
-			}
-			
-			session()->setFlashdata('message', 'Data updated Successfully!');
-			session()->setFlashdata('alert-class', 'alert-success');
-		}else {
-
-		
-			// Set Session
-			session()->setFlashdata('message', 'Data entered Successfully!');
-			session()->setFlashdata('alert-class', 'alert-success');
-			
-			$bid = $this->enquries_model->saveData($data); 
-			
-			if(!empty($bid) && !empty($this->request->getPost('catid'))){
-				
-				foreach($this->request->getPost('catid') as $val) {
-					$cat_data = [];
-					$cat_data['categoryid'] = $val;
-					$cat_data['contentid'] = $bid;
-					$cat_data['uuid_business_id'] = $this->businessUuid;
-					$this->cat_model->saveData2($cat_data);
-					
-				}
-			}
-
-		}
-		return redirect()->to('/'.$this->table);
 	}
 	
 }
