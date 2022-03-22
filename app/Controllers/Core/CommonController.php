@@ -186,4 +186,26 @@ class CommonController extends BaseController
 	}
 
 
+	public function uploadMediaFiles(){
+
+		$folder = $this->request->getPost("mainTable");
+
+		$response = $this->Amazon_s3_model->doUpload("file", $folder);													
+				
+		if ($response["status"]) {
+	
+			$id = 0;
+			$file_path = $response['filePath'];
+			$status = 1;
+			$file_views = view($this->table."/uploadedFileView", array("file_path" => $file_path, "id" => $id));
+			$msg = "success";
+	
+		} else {
+			$status = 0;
+			$file_views = '';
+			$msg = "error";
+		}
+		
+		echo json_encode(array("status" => $status, "file_path" => $file_views, "msg" => $msg));
+	}
 }

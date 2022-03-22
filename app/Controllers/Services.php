@@ -313,13 +313,8 @@ public function getMenuCode($value)
 
 public function uploadMediaFiles(){
 
-	// echo "ok";
-
 	$response = $this->Amazon_s3_model->doUpload("file", "service-logo");													
 			
-	
-
-
 	if ($response["status"]) {
 
 		$id = 0;

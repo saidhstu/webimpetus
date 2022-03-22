@@ -126,7 +126,6 @@ class Content_model extends Model
 
 	public function saveDataInTable($data, $tableName)
 	{
-		$data = $this->whereCond;
 
 		$query = $this->db->table($tableName)->insert($data);
 		return $query;
