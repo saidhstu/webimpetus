@@ -31,7 +31,7 @@ class Employees extends CommonController
         if(strlen($data['password']) > 0){
             $data['password'] = md5($data['password']);
         }
-        $data['businesses'] = json_encode($data['businesses']);
+        $data['businesses'] = json_encode(@$data['businesses']);
 		$response = $this->model->insertOrUpdate($id, $data);
 		if(!$response){
 			session()->setFlashdata('message', 'Something wrong!');
