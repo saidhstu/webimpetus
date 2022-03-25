@@ -5,6 +5,11 @@ if(empty(@$timeslips['slip_start_date'])){
 }else{
     $startDate = @$timeslips['slip_start_date'];
 }
+if(empty(@$timeslips['slip_timer_started'])){
+    $slip_timer_started = date("H:i:s", time());
+}else{
+    $slip_timer_started = @$timeslips['slip_timer_started'];
+}
 
 ?>
 <div class="white_card_body">
@@ -80,7 +85,7 @@ if(empty(@$timeslips['slip_start_date'])){
                 </div>
                 <div class="form-group col-md-4">
                     <div class="input-group">
-                        <input id="slip_timer_started" name="slip_timer_started" class="form-control timepicker" value="<?php echo @$timeslips['slip_timer_started']; ?>">
+                        <input id="slip_timer_started" name="slip_timer_started" class="form-control timepicker" value="<?php echo @$slip_timer_started; ?>">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-clock"></i></span>
                         </div>

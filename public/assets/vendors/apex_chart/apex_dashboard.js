@@ -40,7 +40,7 @@ var options = {
             }
         }
     },
-    colors:  ["#9767FD" ,"#E5ECFF" ],
+    colors:  ["#ff004e" ,"#E5ECFF" ],
     stroke: {
         lineCap: "round",
     },
