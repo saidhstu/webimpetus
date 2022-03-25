@@ -6,7 +6,8 @@ use App\Models\Core\Common_model;
 use App\Models\Amazon_s3_model;
 
 use App\Models\Users_model;
- 
+use PHPUnit\Framework\Constraint\FileExists;
+
 class CommonController extends BaseController
 {	
 	protected $table;
@@ -198,6 +199,12 @@ class CommonController extends BaseController
 			$file_path = $response['filePath'];
 			$status = 1;
 			$file_views = view($this->table."/uploadedFileView", array("file_path" => $file_path, "id" => $id));
+			// if(file_exists("View/".$this->table."/uploadedFileView.php")){
+			// 	$file_views = view($this->table."/uploadedFileView", array("file_path" => $file_path, "id" => $id));
+			// }else{
+
+			// 	$file_views = view("common/uploadedFileView", array("file_path" => $file_path, "id" => $id));
+			// }
 			$msg = "success";
 	
 		} else {

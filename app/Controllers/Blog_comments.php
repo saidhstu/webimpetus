@@ -81,28 +81,22 @@ class Blog_comments extends CommonController
 		}
 		
 	
+		$files = $this->request->getPost("file");
 
 		
 		if(!empty($id)){
 			$row = $this->content_model->getRows($id)->getRow();
 			
-			$filearr = ($row->custom_assets!="")?json_decode($row->custom_assets):[];
-			$count = !empty($filearr)?count($filearr):0;
-			
-			if(!empty($_FILES['file'])) {	
-				foreach($_FILES['file']['tmp_name'] as $key=>$v) {	
-					if($_FILES['file']['tmp_name'][$key]){
+			foreach($files as $key => $filePath) {	
 
-						$response = $this->Amazon_s3_model->doUploadMultiple("file", "blog-images", $_FILES['file']['tmp_name'][$key], $_FILES['file']['name'][$key]);	
+				$blog_images = [];
+				$blog_images['uuid_business_id'] =  session('uuid_business');
+				$blog_images['image'] = $filePath;				
+				$blog_images['blog_id'] = $id;
 
-						$blog_images['image'] = $response["filePath"];				
-						$blog_images['blog_id'] = $id;
-
-						$this->content_model->saveDataInTable($blog_images, "blog_images"); 
-					}							
-				}
-				
+				$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
 			}
+
 
 			$this->content_model->updateData($id, $data);
 			
@@ -133,23 +127,17 @@ class Blog_comments extends CommonController
 					$bid = $this->content_model->saveData($data); 
 					
 					if($bid){
-						$filearr = [];
-					
-						if(!empty($_FILES['file'])) {	
-							foreach($_FILES['file']['tmp_name'] as $key=>$v) {	
-								if($_FILES['file']['tmp_name'][$key]){
 
-									$response = $this->Amazon_s3_model->doUploadMultiple("file", "blog-images", $_FILES['file']['tmp_name'][$key], $_FILES['file']['name'][$key]);	
+						foreach($files as $key => $filePath) {	
 
-									$blog_images['image'] = $response["filePath"];				
-									$blog_images['blog_id'] = $bid;
-									
-									$this->content_model->saveDataInTable($blog_images, "blog_images"); 			
-								}							
-							}
-							
-							
+							$blog_images = [];
+							$blog_images['uuid_business_id'] =  session('uuid_business');
+							$blog_images['image'] = $filePath;				
+							$blog_images['blog_id'] = $bid;
+			
+							$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
 						}
+			
 					}
 					if(!empty($bid) && !empty($this->request->getPost('catid'))){
 						
