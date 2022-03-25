@@ -56,25 +56,26 @@ class Webpages extends CommonController
 			//'image_logo' => $filepath
 		);
 
+		$files = $this->request->getPost("file");
+
 		if(!empty($id)){
 			
 			$row = $this->content_model->getRows($id)->getRow();
 	 
 			$filearr = ($row->custom_assets!="")?json_decode($row->custom_assets):[];
 			$count = !empty($filearr)?count($filearr):0;
-			if(!empty($_FILES['file'])) {	
-				foreach($_FILES['file']['tmp_name'] as $key=>$v) {	
-					if($_FILES['file']['tmp_name'][$key]){
-						$response = $this->Amazon_s3_model->doUploadMultiple("file", "blog-images", $_FILES['file']['tmp_name'][$key], $_FILES['file']['name'][$key]);	
+			
 
-						$images['image'] = $response["filePath"];				
-						$images['webpage_id'] = $id;
+			foreach($files as $key => $filePath) {	
 
-						$this->content_model->saveDataInTable($images  , "webpage_images");
-					}							
-				}
-				
+				$blog_images = [];
+				$blog_images['uuid_business_id'] =  session('uuid_business');
+				$blog_images['image'] = $filePath;				
+				$blog_images['webpage_id'] = $id;
+
+				$this->content_model->saveDataInTable($blog_images, "webpage_images"); 						
 			}
+
 			$this->content_model->updateData($id, $data);
 			
 			session()->setFlashdata('message', 'Data updated Successfully!');
@@ -83,20 +84,14 @@ class Webpages extends CommonController
 
 			$id = $this->content_model->saveData($data);
 
-			$filearr = [];
-			if(!empty($_FILES['file'])) {	
-				foreach($_FILES['file']['tmp_name'] as $key=>$v) {	
-					if($_FILES['file']['tmp_name'][$key]){
-						
-						$response = $this->Amazon_s3_model->doUploadMultiple("file", "blog-images", $_FILES['file']['tmp_name'][$key], $_FILES['file']['name'][$key]);	
+			foreach($files as $key => $filePath) {	
 
-						$images['image'] = $response["filePath"];				
-						$images['webpage_id'] = $id;
+				$blog_images = [];
+				$blog_images['uuid_business_id'] =  session('uuid_business');
+				$blog_images['image'] = $filePath;				
+				$blog_images['webpage_id'] = $id;
 
-						$this->content_model->saveDataInTable($images  , "webpage_images"); 				
-					}							
-				}
-				
+				$this->content_model->saveDataInTable($blog_images, "webpage_images"); 						
 			}
 				
 			
