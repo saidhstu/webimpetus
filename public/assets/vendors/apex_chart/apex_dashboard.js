@@ -201,7 +201,7 @@ var options = {
             }
         }
     },
-    colors:  ["#9767FD" ,"#E5ECFF" ],
+    colors:  ["#ff004e" ,"#ff004e" ],
     markers: {
         colors:  ["#9767FD" ,"#E5ECFF" ],
         strokeColor: ["#9767FD" ,"#E5ECFF" ],
