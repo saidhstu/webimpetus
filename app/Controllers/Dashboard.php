@@ -38,148 +38,148 @@ class Dashboard extends BaseController
 
 		$table = "users";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "work_orders";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 	
 		
 		$table = "sales_invoices";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "purchase_orders";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "employees";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "tasks";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "users";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "projects";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "contacts";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "tenants";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "categories";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "jobapps";
 		$tableInfo[$table]['total'] = totalRows("content_list", ["type" => 2]);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 		
 		$table = "services";
 		$tableInfo[$table]['total'] = totalRows($table);
-		$tableInfo[$table]['menu'] = $menuList[$table];
+		$tableInfo[$table]['menu'] = @$menuList[$table];
 		$tableInfo[$table]['url'] = "/".$table;
 
 		// $table = "businesses";
 		// $moreInfo[$table]['total'] = totalRows($table);
-		// $moreInfo[$table]['menu'] = $menuList[$table];
+		// $moreInfo[$table]['menu'] = @$menuList[$table];
 		// $moreInfo[$table]['url'] = "/".$table;
 
 		$table = "purchase_invoices";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "blog";
 		$moreInfo[$table]['total'] = totalRows("content_list", ['type' => 2]);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "jobs";
 		$moreInfo[$table]['total'] = totalRows("content_list",['type' => 4]);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "timeslips";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "documents";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "business_contacts";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "webpages";
 		$moreInfo[$table]['total'] = totalRows("content_list",['type' => 1]);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "customers";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "blocks";
 		$moreInfo[$table]['total'] = totalRows('blocks_list');
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "enquiries";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "gallery";
 		$moreInfo[$table]['total'] = totalRows('media_list');
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "blog_comments";
 		$moreInfo[$table]['total'] = totalRows('content_list', ['type' => 3]);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "secrets";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "domains";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$table = "templates";
 		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = $menuList[$table];
+		$moreInfo[$table]['menu'] = @$menuList[$table];
 		$moreInfo[$table]['url'] = "/".$table;
 
 		$data['tableList'] = $tableInfo;
