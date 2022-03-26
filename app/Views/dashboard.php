@@ -35,7 +35,38 @@
                             <?php foreach( $tableList as $table => $eachInfo){?>
                             <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                 <div class="dashboard-card">
-                                     <a href="javascript:void(0)">
+                                     <a href="<?php echo @$eachInfo['url'];?>">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="col">
+                                            <div class="dashContent">
+                                                <h4 class="dashCount"><?=@$eachInfo['total']?></h4>
+                                                <p class="dashTitle"><?=@$eachInfo['menu']['name']?></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="dashBrdIcon">
+                                           <i class="<?=@$eachInfo['menu']['icon']?>"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                    
+                                </div>
+                            </div>
+                            <?php } ?>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="view_more_list" style="display:none">
+                <div class="col-xl-12 ">
+                  <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
+                        <div class="row">
+                            <?php foreach( $allList as $table => $eachInfo){?>
+                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
+                                <div class="dashboard-card">
+                                     <a href="<?php echo @$eachInfo['url'];?>">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div class="col">
                                             <div class="dashContent">
@@ -62,7 +93,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="create_report_btn text-center mb_30">
-                        <a href="#" class="btn_1 radius_btn  text-center" style="padding:15px 20px;">View More</a>
+                        <a href="#" class="btn_1 radius_btn  text-center view_more" style="padding:15px 20px;">View More</a>
                     </div>
                 </div>
             </div>        
@@ -76,83 +107,33 @@
                                         <h3 class="m-0">New Users</h3>
                                     </div>
                                 </div>
-                                <div class="col-lg-8 d-flex justify-content-end">
+                                <!-- <div class="col-lg-8 d-flex justify-content-end">
                                     <select class="select2 col-md-5" >
                                         <option value="1">Show by All</option>
                                         <option value="1">Show by A</option>
                                         <option value="1">Show by B</option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                          
                         </div>
-                        <div class="white_card_body ">
-                            <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                <div class="user_pils_thumb d-flex align-items-center">
-                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
-                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                </div>
-                                <div class="user_info">
-                                    Customer
-                                </div>
-                                <div class="action_btns d-flex">
-                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                </div>
-                            </div>
-                            <div class="single_user_pil admin_bg d-flex align-items-center justify-content-between">
-                                <div class="user_pils_thumb d-flex align-items-center">
-                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
-                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                </div>
-                                <div class="user_info">
-                                    Admin
-                                </div>
-                                <div class="action_btns d-flex">
-                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
+                        <?php foreach($recent_users as $users){?>
+                            <div class="white_card_body ">
+                                <div class="single_user_pil d-flex align-items-center justify-content-between">
+                                    <div class="user_pils_thumb d-flex align-items-center">
+                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
+                                        <span class="f_s_14 f_w_400 text_color_11"><?php echo $users->name?></span>
+                                    </div>
+                                    <div class="user_info">
+                                    <?php echo $users->email;?>
+                                    </div>
+                                    <div class="action_btns d-flex">
+                                        <a href="/users/edit/<?php echo $users->id;?>" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                                    
+                                    </div>
                                 </div>
                             </div>
-                            <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                <div class="user_pils_thumb d-flex align-items-center">
-                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
-                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                </div>
-                                <div class="user_info">
-                                    Customer
-                                </div>
-                                <div class="action_btns d-flex">
-                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                </div>
-                            </div>
-                            <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                <div class="user_pils_thumb d-flex align-items-center">
-                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
-                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                </div>
-                                <div class="user_info">
-                                    Customer
-                                </div>
-                                <div class="action_btns d-flex">
-                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                </div>
-                            </div>
-                            <div class="single_user_pil d-flex align-items-center justify-content-between mb-0">
-                                <div class="user_pils_thumb d-flex align-items-center">
-                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
-                                    <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                </div>
-                                <div class="user_info">
-                                    Customer
-                                </div>
-                                <div class="action_btns d-flex">
-                                    <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                    <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                </div>
-                            </div>
-                        </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="col-xl-4">
@@ -565,6 +546,10 @@
 <?php require_once('common/scripts.php'); ?>
 
     <script>
+
+        $(".view_more").click( function(){
+            $("#view_more_list").show();
+        })
 		// Add the following code if you want the name of the file appear on select
 		$(".custom-file-input").on("change", function() {
 		  var fileName = $(this).val().split("\\").pop();
@@ -597,3 +582,9 @@
   })
 }
 </script>
+
+<style>
+.white_card .white_card_body {
+    padding: 10px !important;
+}
+</style>
