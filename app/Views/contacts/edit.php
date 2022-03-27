@@ -85,9 +85,9 @@ $customers = getResultArray("customers");
                             <label for="inputEmail4">Contact Type</label>
                             <select id="contact_type" name="contact_type" class="form-control dashboard-dropdown">
                                 <option value="" selected="">--Selected--</option>
-                                <?php foreach(@$contact_type as $key => $value):?>
+                                <?php if(is_array($contact_type)){ foreach(@$contact_type as $key => $value):?>
                                 <option value="<?= $value;?>" <?php if($value == @$contact->contact_type){ echo "selected"; }?>><?= $value;?></option>
-                                <?php endforeach;?>
+                                <?php endforeach; }?>
                         </select>
                     </div>
                     <div class="form-group col-md-1">
