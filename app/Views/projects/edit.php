@@ -17,7 +17,7 @@
 
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Project Name</label>
-                        <input type="input" class="form-control required" id="name" name="name" placeholder=""  value="<?= @$project->name ?>">
+                        <input type="input" autocomplete="off" class="form-control required" id="name" name="name" placeholder=""  value="<?= @$project->name ?>">
                     </div>
 
                 </div>
@@ -25,12 +25,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Start Date</label>
-                        <input type="text" class="form-control datepicker" id="start_date" name="start_date" placeholder=""  value="<?= render_date(@$project->start_date) ?>">
+                        <input autocomplete="off" type="text" class="form-control datepicker" id="start_date" name="start_date" placeholder=""  value="<?= render_date(@$project->start_date) ?>">
                     </div>
 
                     <div class="form-group  col-md-6">
                         <label for="inputEmail4">Deadline date</label>
-                        <input type="text" class="form-control datepicker" id="deadline_date" name="deadline_date" placeholder=""  value="<?= render_date(@$project->deadline_date) ?>">
+                        <input autocomplete="off" type="text" class="form-control datepicker" id="deadline_date" name="deadline_date" placeholder=""  value="<?= render_date(@$project->deadline_date) ?>">
                     </div>
                     
                 </div>

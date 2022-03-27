@@ -66,15 +66,18 @@ class Webpages extends CommonController
 			$count = !empty($filearr)?count($filearr):0;
 			
 
-			foreach($files as $key => $filePath) {	
+			if(is_array($files)){
+				foreach($files as $key => $filePath) {	
 
-				$blog_images = [];
-				$blog_images['uuid_business_id'] =  session('uuid_business');
-				$blog_images['image'] = $filePath;				
-				$blog_images['webpage_id'] = $id;
+					$blog_images = [];
+					$blog_images['uuid_business_id'] =  session('uuid_business');
+					$blog_images['image'] = $filePath;				
+					$blog_images['webpage_id'] = $id;
 
-				$this->content_model->saveDataInTable($blog_images, "webpage_images"); 						
+					$this->content_model->saveDataInTable($blog_images, "webpage_images"); 						
+				}
 			}
+			
 
 			$this->content_model->updateData($id, $data);
 			
@@ -84,14 +87,16 @@ class Webpages extends CommonController
 
 			$id = $this->content_model->saveData($data);
 
-			foreach($files as $key => $filePath) {	
+			if(is_array($files)){
+				foreach($files as $key => $filePath) {	
 
-				$blog_images = [];
-				$blog_images['uuid_business_id'] =  session('uuid_business');
-				$blog_images['image'] = $filePath;				
-				$blog_images['webpage_id'] = $id;
+					$blog_images = [];
+					$blog_images['uuid_business_id'] =  session('uuid_business');
+					$blog_images['image'] = $filePath;				
+					$blog_images['webpage_id'] = $id;
 
-				$this->content_model->saveDataInTable($blog_images, "webpage_images"); 						
+					$this->content_model->saveDataInTable($blog_images, "webpage_images"); 						
+				}
 			}
 				
 			

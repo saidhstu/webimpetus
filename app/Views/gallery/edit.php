@@ -58,7 +58,7 @@
 <?php require_once (APPPATH.'Views/common/footer.php'); ?>
 <script>
 
-   alert(5)
+
 
    var id = "<?=@$content->id ?>";
    

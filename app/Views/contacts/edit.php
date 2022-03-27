@@ -2,8 +2,8 @@
 <?php 
 
 $contact_type = json_decode(@getRowArray("blocks_list", ["code" => "contact_types_list_json" ])->text);
-
-$customers = $additional_data["customers"]; ?>
+$customers = getResultArray("customers");
+ ?>
     <div class="white_card_body">
         <div class="card-body">
             
@@ -21,7 +21,7 @@ $customers = $additional_data["customers"]; ?>
 
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">First Name</label>
-                        <input type="text" class="form-control required" id="first_name" name="first_name" placeholder=""  value="<?= @$contact->first_name ?>">
+                        <input type="text" autocomplete="off" autocomplete="off" autocomplete="off" class="form-control required" id="first_name" name="first_name" placeholder=""  value="<?= @$contact->first_name ?>">
                     </div>
 
                 </div>
@@ -29,24 +29,24 @@ $customers = $additional_data["customers"]; ?>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Surname</label>
-                        <input type="text" class="form-control" id="surname" name="surname" placeholder=""  value="<?= @$contact->surname ?>">
+                        <input type="text" autocomplete="off" autocomplete="off" class="form-control" id="surname" name="surname" placeholder=""  value="<?= @$contact->surname ?>">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder=""  value="<?= @$contact->title ?>">
+                        <input type="text" autocomplete="off" autocomplete="off" class="form-control" id="title" name="title" placeholder=""  value="<?= @$contact->title ?>">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4"> Salutation</label>
-                        <input type="text" class="form-control" id="saludation" name="saludation" placeholder=""  value="<?= @$contact->saludation ?>">
+                        <input type="text" autocomplete="off" class="form-control" id="saludation" name="saludation" placeholder=""  value="<?= @$contact->saludation ?>">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">News Letter Status</label>
-                        <input type="text" class="form-control" id="news_letter_status" name="news_letter_status" placeholder=""  value="<?= @$contact->news_letter_status ?>">
+                        <input type="text" autocomplete="off" class="form-control" id="news_letter_status" name="news_letter_status" placeholder=""  value="<?= @$contact->news_letter_status ?>">
                     </div>
                 </div>
                 <input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$contact->id ?>" />
@@ -54,7 +54,7 @@ $customers = $additional_data["customers"]; ?>
                 <div class="form-row">
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Email</label>
-                        <input type="text" class="form-control required email" id="email" name="email" placeholder=""  value="<?= @$contact->email ?>">
+                        <input type="text" autocomplete="off" class="form-control required email" id="email" name="email" placeholder=""  value="<?= @$contact->email ?>">
                     </div>
 
                     <div class="form-group col-md-6">
@@ -66,26 +66,26 @@ $customers = $additional_data["customers"]; ?>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Direct Phone</label>
-                        <input type="text" class="form-control" id="direct_phone" name="direct_phone" placeholder=""  value="<?= @$contact->direct_phone ?>">
+                        <input type="text" autocomplete="off" class="form-control" id="direct_phone" name="direct_phone" placeholder=""  value="<?= @$contact->direct_phone ?>">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Mobile</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder=""  value="<?= @$contact->mobile ?>">
+                        <input type="text" autocomplete="off" class="form-control" id="mobile" name="mobile" placeholder=""  value="<?= @$contact->mobile ?>">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="inputEmail4">Direct Fax</label>
-                        <input type="text" class="form-control" id="direct_fax" name="direct_fax" placeholder=""  value="<?= @$contact->direct_fax ?>">
+                        <input type="text" autocomplete="off" class="form-control" id="direct_fax" name="direct_fax" placeholder=""  value="<?= @$contact->direct_fax ?>">
                     </div>
 
                        
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Contact Type</label>
-                            <select id="contact_type" name="contact_type" class="form-control required dashboard-dropdown">
+                            <select id="contact_type" name="contact_type" class="form-control dashboard-dropdown">
                                 <option value="" selected="">--Selected--</option>
-                                <?php foreach($contact_type as $key => $value):?>
+                                <?php foreach(@$contact_type as $key => $value):?>
                                 <option value="<?= $value;?>" <?php if($value == @$contact->contact_type){ echo "selected"; }?>><?= $value;?></option>
                                 <?php endforeach;?>
                         </select>

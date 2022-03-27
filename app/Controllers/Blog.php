@@ -33,7 +33,12 @@ class Blog extends CommonController
 		$data['content'] = $this->content_model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
 		$data['cats'] = $this->cat_model->getRows();
-		$data['images'] = $this->model->getDataWhere("blog_images", $id, "blog_id");
+
+		$data['images'] = [];
+		if( $id> 0 ){
+
+			$data['images'] = $this->model->getDataWhere("blog_images", $id, "blog_id");
+		}
 		
 		$array1 = $this->cat_model->getCatIds($id);
 		
@@ -86,20 +91,19 @@ class Blog extends CommonController
 		if(!empty($id)){
 
 			$row = $this->content_model->getRows($id)->getRow();
-			
-			$filearr = ($row->custom_assets!="")?json_decode($row->custom_assets):[];
-			$count = !empty($filearr)?count($filearr):0;
-			
 
-			foreach($files as $key => $filePath) {	
+			if(is_array($files)){
+				foreach(@$files as $key => $filePath) {	
 
-				$blog_images = [];
-				$blog_images['uuid_business_id'] =  session('uuid_business');
-				$blog_images['image'] = $filePath;				
-				$blog_images['blog_id'] = $id;
+					$blog_images = [];
+					$blog_images['uuid_business_id'] =  session('uuid_business');
+					$blog_images['image'] = $filePath;				
+					$blog_images['blog_id'] = $id;
 
-				$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
+					$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
+				}
 			}
+			
 
 			$this->content_model->updateData($id, $data);
 			
@@ -130,15 +134,16 @@ class Blog extends CommonController
 					$bid = $this->content_model->saveData($data); 
 					
 					if($bid){
-						$filearr = [];
+						if(is_array($files)){
 					
-						foreach($files as $key => $filePath) {	
+							foreach($files as $key => $filePath) {	
 
-							$blog_images['uuid_business_id'] =  session('uuid_business');
-							$blog_images['image'] = $filePath;				
-							$blog_images['blog_id'] = $id;
-			
-							$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
+								$blog_images['uuid_business_id'] =  session('uuid_business');
+								$blog_images['image'] = $filePath;				
+								$blog_images['blog_id'] = $id;
+				
+								$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
+							}
 						}
 							
 					}

@@ -16,31 +16,31 @@ $businessContacts = getResultArray("business_contacts");
                 <div class=" col-md-6">
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Business No</label>
-                        <input type="text" disabled="disabled" class="form-control"  value="<?=@$businesse->uuid_business_id ?>" />
+                        <input autocomplete="off" type="text" disabled="disabled" class="form-control"  value="<?=@$businesse->uuid_business_id ?>" />
                     </div>
                     <div class="form-group required col-md-12">
                         <label for="inputEmail4">Name</label>
-                        <input type="text" class="form-control required" id="title" name="name" placeholder=""  value="<?=@$businesse->name?>">
+                        <input autocomplete="off" type="text" class="form-control required" id="title" name="name" placeholder=""  value="<?=@$businesse->name?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Email</label>
-                        <input type="text" class="form-control " id="title" name="email" placeholder=""  value="<?=@$businesse->email?>">
+                        <input autocomplete="off" type="text" class="form-control " id="title" name="email" placeholder=""  value="<?=@$businesse->email?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Company Address</label>
-                        <input type="text" class="form-control " id="title" name="company_address" placeholder=""  value="<?=@$businesse->company_address?>">
+                        <input autocomplete="off" type="text" class="form-control " id="title" name="company_address" placeholder=""  value="<?=@$businesse->company_address?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Company Number</label>
-                        <input type="text" class="form-control " id="title" name="company_number" placeholder=""  value="<?=@$businesse->company_number?>">
+                        <input autocomplete="off" type="text" class="form-control " id="title" name="company_number" placeholder=""  value="<?=@$businesse->company_number?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Vat Number</label>
-                        <input type="text" class="form-control " id="title" name="vat_number" placeholder=""  value="<?=@$businesse->vat_number?>">
+                        <input autocomplete="off" type="text" class="form-control " id="title" name="vat_number" placeholder=""  value="<?=@$businesse->vat_number?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">No Of Shares</label>
-                        <input type="text" class="form-control " id="title" name="no_of_shares" placeholder=""  value="<?=@$businesse->no_of_shares?>">
+                        <input autocomplete="off" type="text" class="form-control " id="title" name="no_of_shares" placeholder=""  value="<?=@$businesse->no_of_shares?>">
                     </div>
                    
                     
@@ -52,25 +52,25 @@ $businessContacts = getResultArray("business_contacts");
                    
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Web Site</label>
-                        <input type="text" class="form-control " id="title" name="web_site" placeholder=""  value="<?=@$businesse->web_site?>">
+                        <input autocomplete="off" type="text" class="form-control " id="title" name="web_site" placeholder=""  value="<?=@$businesse->web_site?>">
                     </div>
                    
                   
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Payment Page Url</label>
-                        <input type="text" class="form-control " id="payment_page_url" name="payment_page_url" placeholder=""  value="<?=@$businesse->payment_page_url?>">
+                        <input autocomplete="off" type="text" class="form-control " id="payment_page_url" name="payment_page_url" placeholder=""  value="<?=@$businesse->payment_page_url?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Country Code</label>
-                        <input type="text" class="form-control " id="country_code" name="country_code" placeholder=""  value="<?=@$businesse->country_code?>">
+                        <input autocomplete="off" type="text" class="form-control " id="country_code" name="country_code" placeholder=""  value="<?=@$businesse->country_code?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Telephone No</label>
-                        <input type="text" class="form-control " id="telephone_no" name="telephone_no" placeholder=""  value="<?=@$businesse->telephone_no?>">
+                        <input autocomplete="off" type="text" class="form-control " id="telephone_no" name="telephone_no" placeholder=""  value="<?=@$businesse->telephone_no?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Trading As</label>
-                        <input type="text" class="form-control " id="trading_as" name="trading_as" placeholder=""  value="<?=@$businesse->trading_as?>">
+                        <input autocomplete="off" type="text" class="form-control " id="trading_as" name="trading_as" placeholder=""  value="<?=@$businesse->trading_as?>">
                     </div>
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Business Contact</label>

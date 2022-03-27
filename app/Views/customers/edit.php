@@ -22,14 +22,14 @@ $contacts = $additional_data["contacts"];
             <div class="form-row">
                 <div class="form-group required col-md-4">
                     <label for="selectCustomer">Company Name</label>
-                    <input type="text" class="form-control required" id="company_name" name="company_name" placeholder=""  value="<?= @$customer->company_name ?>">
+                    <input autocomplete="off" type="text" class="form-control required" id="company_name" name="company_name" placeholder=""  value="<?= @$customer->company_name ?>">
                 </div>
 
                   
 
                 <div class="form-group required col-md-4">
                     <label for="inputEmail4">Account No</label>
-                    <input type="text" class="form-control required" id="acc_no" name="acc_no" placeholder=""  value="<?= @$customer->acc_no ?>">
+                    <input autocomplete="off" type="text" class="form-control required" id="acc_no" name="acc_no" placeholder=""  value="<?= @$customer->acc_no ?>">
                 </div>
                 <div class="form-check col-md-1">
                 </div>
@@ -58,54 +58,54 @@ $contacts = $additional_data["contacts"];
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4"> Contact First Name</label>
-                    <input type="text" class="form-control" id="company_name" name="contact_firstname" placeholder=""  value="<?= @$customer->contact_firstname ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="company_name" name="contact_firstname" placeholder=""  value="<?= @$customer->contact_firstname ?>">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Contact Last Name</label>
-                    <input type="text" class="form-control" id="contact_lastname" name="contact_lastname" placeholder=""  value="<?= @$customer->contact_lastname ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="contact_lastname" name="contact_lastname" placeholder=""  value="<?= @$customer->contact_lastname ?>">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4"> Address 1</label>
-                    <input type="text" class="form-control" id="address1" name="address1" placeholder=""  value="<?= @$customer->address1 ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="address1" name="address1" placeholder=""  value="<?= @$customer->address1 ?>">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Address 2</label>
-                    <input type="text" class="form-control" id="address2" name="address2" placeholder=""  value="<?= @$customer->address2 ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="address2" name="address2" placeholder=""  value="<?= @$customer->address2 ?>">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">City</label>
-                    <input type="text" class="form-control" id="city" name="city" placeholder=""  value="<?= @$customer->city ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="city" name="city" placeholder=""  value="<?= @$customer->city ?>">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Country</label>
-                    <input type="text" class="form-control" id="country" name="country" placeholder=""  value="<?= @$customer->country ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="country" name="country" placeholder=""  value="<?= @$customer->country ?>">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4"> Postal Code</label>
-                    <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder=""  value="<?= @$customer->postal_code ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="postal_code" name="postal_code" placeholder=""  value="<?= @$customer->postal_code ?>">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Phone</label>
-                    <input type="text" class="form-control" id="phone" name="phone" placeholder=""  value="<?= @$customer->phone ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="phone" name="phone" placeholder=""  value="<?= @$customer->phone ?>">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Website</label>
-                    <input type="text" class="form-control" id="website" name="website" placeholder=""  value="<?= @$customer->website ?>">
+                    <input autocomplete="off" type="text" class="form-control" id="website" name="website" placeholder=""  value="<?= @$customer->website ?>">
                 </div>
 
                 <div class="form-check col-md-1">
@@ -115,7 +115,7 @@ $contacts = $additional_data["contacts"];
                 
                 <div class="form-group ">
                     <label for="inputEmail4">Email</label>
-                    <input type="text" class="form-control email" id="email" name="email" placeholder=""  value="<?= @$customer->email ?>">
+                    <input autocomplete="off" type="text" class="form-control email" id="email" name="email" placeholder=""  value="<?= @$customer->email ?>">
                 </div>
                 <input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$customer->id ?>" />
 
@@ -142,18 +142,18 @@ $contacts = $additional_data["contacts"];
                     for($jak_i=0; $jak_i<count($contacts); $jak_i++){
                         $new_id = $jak_i + 1;
                 ?>
-                <div class="form-row col-md-12" id="office_address_<?php echo $new_id; ?>">
+                <div class="form-row col-md-12 each-row" id="  office_address_<?php echo $new_id; ?>">
                     <div class="form-group col-md-3">
                         <label for="inputEmail4">First Name</label>
-                        <input type="text" class="form-control" id="first_name<?php echo $new_id; ?>" name="first_name[]" placeholder="" value="<?=$contacts[$jak_i]['first_name'] ?>">
+                        <input autocomplete="off" type="text" class="form-control" id="first_name<?php echo $new_id; ?>" name="first_name[]" placeholder="" value="<?=$contacts[$jak_i]['first_name'] ?>">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputEmail4">Surname</label>
-                        <input type="text" class="form-control" id="surname<?php echo $new_id; ?>" name="surname[]" placeholder="" value="<?=$contacts[$jak_i]['surname'] ?>">
+                        <input autocomplete="off" type="text" class="form-control" id="surname<?php echo $new_id; ?>" name="surname[]" placeholder="" value="<?=$contacts[$jak_i]['surname'] ?>">
                     </div>
                     <div class="form-group col-md-5">
                         <label for="inputEmail4">Surname</label>
-                        <input type="text" class="form-control" id="contact_email<?php echo $new_id; ?>" name="contact_email[]" placeholder="" value="<?=$contacts[$jak_i]['contact_email'] ?>">
+                        <input autocomplete="off" type="text" class="form-control" id="contact_email<?php echo $new_id; ?>" name="contact_email[]" placeholder="" value="<?=$contacts[$jak_i]['contact_email'] ?>">
                     </div>
                     <input type="hidden" value="<?=$contacts[$jak_i]['contact_id'] ?>" id="contact_id" name="contact_id[]">
                     <?php
@@ -185,15 +185,15 @@ $contacts = $additional_data["contacts"];
                 <div class="form-row" id="office_address_1">
                     <div class="form-group col-md-3">
                         <label for="inputEmail4">First Name</label>
-                        <input type="text" class="form-control" id="first_name_1" name="first_name[]" placeholder="" value="">
+                        <input autocomplete="off" type="text" class="form-control" id="first_name_1" name="first_name[]" placeholder="" value="">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputEmail4">Surname</label>
-                        <input type="text" class="form-control" id="surname" name="surname[]" placeholder="" value="">
+                        <input autocomplete="off" type="text" class="form-control" id="surname" name="surname[]" placeholder="" value="">
                     </div>
                     <div class="form-group col-md-5">
                         <label for="inputEmail4">Email</label>
-                        <input type="text" class="form-control" id="contact_email_1" name="contact_email[]" placeholder="" value="">
+                        <input autocomplete="off" type="text" class="form-control" id="contact_email_1" name="contact_email[]" placeholder="" value="">
                     </div>
                     <div class="form-group col-md-1 change">
                         <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
@@ -273,10 +273,32 @@ $('.add').click(function(e){ //click event on add more fields button having clas
     }
     
     $('.deleteaddress').on("click", function(e){ //user click on remove text links
-        e.preventDefault(); 
+        
         $(this).parent().parent().remove();
         x--;
     })
 });   
 });
+$('.deleteaddress').on("click", function(e){ //user click on remove text links
+    
+    var current = $(this);
+    var customerId = current.closest(".each-row").find("#contact_id").val();
+    $.ajax({
+        url: baseUrl + "/customers/deleteCustomer",
+        data:{ customerId: customerId},
+        method:'post',
+        success:function(res){
+            console.log(res)
+            current.parent().parent().remove();
+
+        }
+    })
+   
+    x--;
+})
+
+
+
+
+
 </script>

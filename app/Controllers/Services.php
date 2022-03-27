@@ -55,7 +55,7 @@ class Services extends Api
 		$data['category'] = $this->cmodel->getRows();
 		$data['users'] = $this->user_model->getUser();
 		$data['secret_services'] = $this->secret_model->getSecrets($id);
-        
+      
 		
         echo view('services/edit', $data);
     }
@@ -80,22 +80,16 @@ class Services extends Api
 		);
 		
 		$image_logo = $this->request->getPost('image_logo');
+		$brand_logo = $this->request->getPost('brand_logo');
 		if(strlen($image_logo) > 0){
 
 			$data['image_logo'] = $this->request->getPost('image_logo');
 		}
+		if(strlen($brand_logo) > 0){
 
-		// if($_FILES['file']['tmp_name']) {		
-		// 	//echo '<pre>';print_r($_FILES['file']); die;	
-		// 	$response = $this->Amazon_s3_model->doUpload("file", "service-logo");													
-		// 	$data['image_logo'] = $response['filePath'];
-		//  }
-		 
-		 if($_FILES['file2']['tmp_name']) {		
-			//echo '<pre>';print_r($_FILES['file']); die;		
-			$response = $this->Amazon_s3_model->doUpload("file2", "service-brand");															
-			$data['image_brand'] =  $response['filePath'];
-		 }
+			$data['image_brand'] = $this->request->getPost('brand_logo');
+		}
+
 		 
         $id = $this->serviceModel->insertOrUpdate("services", $id,$data);
 		
@@ -331,5 +325,39 @@ public function uploadMediaFiles(){
 	
 	echo json_encode(array("status" => $status, "file_path" => $file_views, "msg" => $msg));
 }
+
+public function deleteRow(){
+
+	$id = $this->request->getPost("id");
+
+	$res = $this->common_model->deleteTableData("secrets", $id);
+	echo $this->db->getlastQuery();
+	echo json_encode($res);
+}
+
+public function uploadMediaFiles2(){
+
+	$folder = $this->request->getPost("mainTable");
+
+	$response = $this->Amazon_s3_model->doUpload("file", $folder);													
+			
+	if ($response["status"]) {
+
+		$file_path = $response['filePath'];
+		$status = 1;
+		$file_views = '<input type="hidden" value="'.$file_path.'" name="brand_logo">
+		<img class="img-rounded" src="'.$file_path.'" width="100px">
+		<a href="" id="delete_image_logo2" class="btn btn-danger"><i class="fa fa-trash"></i></a>';
+		$msg = "success";
+
+	} else {
+		$status = 0;
+		$file_views = '';
+		$msg = "error";
+	}
+	
+	echo json_encode(array("status" => $status, "file_path" => $file_views, "msg" => $msg));
+}
+
 
 }

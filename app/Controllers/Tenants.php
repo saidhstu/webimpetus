@@ -36,7 +36,7 @@ class Tenants extends CommonController
 			if(!empty($count)){
 				session()->setFlashdata('message', 'Email already exist!');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/tenants/add');
+				return redirect()->to('/tenants/edit');
 			}else {
 				$data = array(
 					'name'  => $this->request->getPost('name'),

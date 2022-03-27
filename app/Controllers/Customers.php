@@ -1,10 +1,9 @@
 <?php 
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController; 
-use App\Models\Users_model;
 use App\Models\Core\Common_model;
 
-
+ini_set("display_errors", 1);
  
 class Customers extends CommonController
 {	
@@ -13,6 +12,7 @@ class Customers extends CommonController
     {
         parent::__construct();
         $this->db = \Config\Database::connect();
+       
 
 	}
 
@@ -55,6 +55,9 @@ class Customers extends CommonController
 			session()->setFlashdata('message', 'Something wrong!');
 			session()->setFlashdata('alert-class', 'alert-danger');	
 		}else{
+            if(empty($id)){
+                $id = $response;
+            }
             $i = 0;
             foreach($post["first_name"] as $firstName){
 
@@ -103,5 +106,14 @@ class Customers extends CommonController
 	
 		return false;
 	}
+
+    public function deleteCustomer(){
+
+        $customerId = $this->request->getPost("customerId");
+
+        $res = $this->model->deleteTableData("contacts", $customerId);
+       
+        return $res;
+    }
 
 }

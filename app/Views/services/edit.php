@@ -16,7 +16,7 @@
                             <div class="form-row">
                                 <div class="form-group required col-md-6">
                                     <label for="inputEmail4">Name</label>
-                                    <input type="text" class="form-control required" id="name" name="name" placeholder=""  value="<?=@$service->name ?>">
+                                    <input autocomplete="off" autocomplete="off" type="text" class="form-control required" id="name" name="name" placeholder=""  value="<?=@$service->name ?>">
                                     
                                     <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$service->id ?>" />
                                 </div>
@@ -58,7 +58,7 @@
                             <div class="form-row">
                                 <div class="form-group required col-md-6">
                                     <label for="inputPassword4">Code</label>
-                                    <input type="text" class="form-control required" id="code" name="code" placeholder=""  value="<?=@$service->code ?>">
+                                    <input autocomplete="off" autocomplete="off" type="text" class="form-control required" id="code" name="code" placeholder=""  value="<?=@$service->code ?>">
                                 </div>
                                     <div class="form-group required col-md-6">
                                     <label for="inputPassword4">Notes</label>
@@ -98,13 +98,15 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputAddress">Brand Upload</label>
+                                    <span class="all-media-image-files2">
                                     <?php if(!empty(@$service->image_brand)) { ?>
                                         <img src="<?= @$service->image_brand;?>" width="100px">
                                         <a href="/services/rmimg/image_brand/<?=@$service->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     <?php } ?>
-                                    <div class="uplogInrDiv ">
+                                    </span>
+                                    <div class="uplogInrDiv " id="drop_file_doc_zone2">
                                  
-                                        <input type="file" name="file2" class="custom-file-input" id="file2">
+                                        <input type="file" name="file2" class="fileUpload2" id="file2">
                                         <div class="uploadBlkInr">
                                             <div class="uplogImg">
                                               <img src="/assets/img/fileupload.png" />
@@ -137,11 +139,11 @@
                                 <div class="form-row col-md-12">
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail4">Secret Key</label>
-                                        <input type="text" class="form-control" id="default_key_name_<?php echo $new_id; ?>" name="default_key_name[]" readonly placeholder="" value="<?=$defaultSecret[$jak_i]['secrets_default_key'] ?>">
+                                        <input autocomplete="off" autocomplete="off" type="text" class="form-control" id="default_key_name_<?php echo $new_id; ?>" name="default_key_name[]" readonly placeholder="" value="<?=$defaultSecret[$jak_i]['secrets_default_key'] ?>">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail4">Secret Value</label>
-                                        <input type="text" class="form-control" id="default_key_value_<?php echo $new_id; ?>" name="default_key_value[]" placeholder="" value="<?=$default_secrets_services[$jak_i]['secrets_default_value'] ?>">
+                                        <input autocomplete="off" type="text" class="form-control" id="default_key_value_<?php echo $new_id; ?>" name="default_key_value[]" placeholder="" value="<?=$default_secrets_services[$jak_i]['secrets_default_value'] ?>">
                                     </div>
                                 </div>
                                 <?php
@@ -160,23 +162,23 @@
                                 <div class="form-row col-md-12" id="office_address_<?php echo $new_id; ?>">
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail4">Secret Key</label>
-                                        <input type="text" class="form-control" id="key_name_<?php echo $new_id; ?>" name="key_name[]" placeholder="" value="<?=$secret_services[$jak_i]['key_name'] ?>">
+                                        <input autocomplete="off" type="text" class="form-control" id="key_name_<?php echo $new_id; ?>" name="key_name[]" placeholder="" value="<?=$secret_services[$jak_i]['key_name'] ?>">
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="inputEmail4">Secret Value</label>
-                                        <input type="text" class="form-control" id="key_value_<?php echo $new_id; ?>" name="key_value[]" placeholder="" value="<?=$secret_services[$jak_i]['key_value'] ?>">
+                                        <input autocomplete="off" type="text" class="form-control" id="key_value_<?php echo $new_id; ?>" name="key_value[]" placeholder="" value="<?=$secret_services[$jak_i]['key_value'] ?>">
                                     </div>
                                     <?php
                                         if($jak_i == 0){
                                     ?>
                                         <div class="form-group col-md-1 change">
-                                            <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+                                            <button class="btn btn-primary bootstrap-touchspin-up add " type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
                                         </div>
                                     <?php
                                         }else{
                                     ?>
                                         <div class="form-group col-md-1 change">
-                                            <button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>
+                                            <button class="btn btn-info bootstrap-touchspin-up deleteaddress" data-id="<?=$secret_services[$jak_i]['id'] ?>" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>
                                         </div>
                                     <?php
                                         }
@@ -195,11 +197,11 @@
                                 <div class="form-row" id="office_address_1">
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail4">Secret Key</label>
-                                        <input type="text" class="form-control" id="key_name_1" name="key_name[]" placeholder="" value="">
+                                        <input autocomplete="off" type="text" class="form-control" id="key_name_1" name="key_name[]" placeholder="" value="">
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="inputEmail4">Secret Value</label>
-                                        <input type="text" class="form-control" id="key_value_1" name="key_value[]" placeholder="" value="">
+                                        <input autocomplete="off" type="text" class="form-control" id="key_value_1" name="key_value[]" placeholder="" value="">
                                     </div>
                                     <div class="form-group col-md-1 change">
                                         <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
@@ -222,11 +224,11 @@
             <!-- <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">nginx config</label>
-                    <textarea type="text" class="form-control" id="nginx_config" name="nginx_config" placeholder=""  value=""><?=@$service->nginx_config ?></textarea>
+                    <textarea autocomplete="off" type="text" class="form-control" id="nginx_config" name="nginx_config" placeholder=""  value=""><?=@$service->nginx_config ?></textarea>
                 </div>
                     <div class="form-group col-md-6">
                     <label for="inputPassword4">varnish config</label>
-                    <textarea type="text" class="form-control" id="varnish_config" name="varnish_config" placeholder=""  value=""><?=@$service->varnish_config ?></textarea>
+                    <textarea autocomplete="off" type="text" class="form-control" id="varnish_config" name="varnish_config" placeholder=""  value=""><?=@$service->varnish_config ?></textarea>
                 </div>                                      
             </div>                                    
             ---> 
@@ -305,7 +307,7 @@
     
 
 
-    var id = "<?=@$service->id ?>";
+var id = "<?=@$service->id ?>";
    
 $(document).on('drop', '#drop_file_doc_zone', function(e){
     // $("#ajax_load").show();
@@ -322,12 +324,8 @@ $(document).on('drop', '#drop_file_doc_zone', function(e){
         }
     }
 );
-
-// $(document).on("click", "#drop_file_doc_zone", function() {
-//     $(".fileUpload").trigger("click");
-// });
         
-$(document).on("change", ".file-upload", function() {
+$(document).on("change", ".fileUpload", function() {
 
     for (var count = 0; count < $(this)[0].files.length; count++) {
 
@@ -379,18 +377,72 @@ function newUploadDocFiles(fileobj, id) {
 
 }
 
-function progressHandlingFunctionDoc(e) {
-    $(".bts_progress_bar_block").show();
-    $(".progress_bar_block").show();
-
-    if (e.lengthComputable) {
-
-        var percentComplete = Math.round(e.loaded * 100 / e.total);
-
-        $('.progress-bar').text(percentComplete.toString() + '%');
-        $('.progress-bar').css("width", percentComplete.toString() + '%');
-
+$(document).on('drop', '#drop_file_doc_zone2', function(e){
+    // $("#ajax_load").show();
+        if(e.originalEvent.dataTransfer){
+            if(e.originalEvent.dataTransfer.files.length) {
+                e.preventDefault();
+                e.stopPropagation();
+                var i = 0;
+                while ( i < e.originalEvent.dataTransfer.files.length ){
+                    newUploadDocFiles2(e.originalEvent.dataTransfer.files[i], id);
+                    i++;
+                }
+            }   
+        }
     }
+);
+        
+$(document).on("change", ".fileUpload2", function() {
+
+    for (var count = 0; count < $(this)[0].files.length; count++) {
+
+        newUploadDocFiles2($(this)[0].files[count], id);
+    }
+
+});
+
+
+
+function newUploadDocFiles2(fileobj, id) {
+
+    $("#ajax_load").hide();
+
+    var form = new FormData();
+
+    form.append("file", fileobj);
+    form.append("mainTable", class_name);
+    form.append("id", id);
+
+        $.ajax({
+        url: '/services/uploadMediaFiles2',
+        type: 'post',
+        dataType: 'json',
+        maxNumberOfFiles: 1,
+        autoUpload: false,
+        success: function(result) {
+
+            $("#ajax_load").hide();
+            if (result.status == '1') {
+                $(".all-media-image-files2").html(result.file_path);
+            } else {
+                toastr.error(result.msg);
+            }
+         },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#ajax_load").hide();
+           console.log(textStatus, errorThrown);
+        },
+        data: form,
+        cache: false,
+        contentType: false,
+        processData: false
+       
+      
+    });
+
+ 
+
 }
 
     $('#DeployService').on('click', function () {
@@ -441,11 +493,11 @@ function progressHandlingFunctionDoc(e) {
 				
 				$('.addresscontainer').append('<div class="form-row col-md-12" id="office_address_'+x+'"><div class="form-group col-md-6">'+
 												'<label for="inputSecretKey">Secret Key</label>'+
-												'<input type="text" class="form-control" id="key_name_'+x+'" name="key_name[]" placeholder="" value="">'+
+												'<input autocomplete="off" type="text" class="form-control" id="key_name_'+x+'" name="key_name[]" placeholder="" value="">'+
 											'</div>'+
 											'<div class="form-group col-md-5">'+
 												'<label for="inputSecretValue">Secret Value</label>'+
-												'<input type="text" class="form-control" id="key_value_'+x+'" name="key_value[]" placeholder="" value="">'+
+												'<input autocomplete="off" type="text" class="form-control" id="key_value_'+x+'" name="key_value[]" placeholder="" value="">'+
 											'</div>'+
 											'<div class="form-group col-md-1 change">'+
 												'<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>'+
@@ -463,6 +515,22 @@ function progressHandlingFunctionDoc(e) {
 		});   
 	});
 
+    $('.deleteaddress').on("click", function(e){ //user click on remove text links
+    
+        var current = $(this);
+        var serviceId = current.attr("data-id");
+        $.ajax({
+            url: baseUrl + "/services/deleteRow",
+            data:{ id: serviceId},
+            method:'post',
+            success:function(res){
+                console.log(res)
+                current.parent().parent().remove();
+
+            }
+        })
+
+})
     
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function() {
@@ -476,6 +544,10 @@ function progressHandlingFunctionDoc(e) {
     });
 
     $("#delete_image_logo").on("click", function(e){
+        e.preventDefault();
+        $(".all-media-image-files").html("");
+    })
+    $("#delete_image_logo2").on("click", function(e){
         e.preventDefault();
         $(".all-media-image-files").html("");
     })
