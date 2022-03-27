@@ -1,5 +1,9 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
-<?php $customers = $additional_data["customers"]; ?>
+<?php 
+
+$contact_type = json_decode(@getRowArray("blocks_list", ["code" => "contact_types_list_json" ])->text);
+
+$customers = $additional_data["customers"]; ?>
     <div class="white_card_body">
         <div class="card-body">
             
@@ -71,13 +75,24 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label for="inputEmail4">Direct Fax</label>
                         <input type="text" class="form-control" id="direct_fax" name="direct_fax" placeholder=""  value="<?= @$contact->direct_fax ?>">
                     </div>
 
-                    <div class="form-check col-md-1">
+                       
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">Contact Type</label>
+                            <select id="contact_type" name="contact_type" class="form-control required dashboard-dropdown">
+                                <option value="" selected="">--Selected--</option>
+                                <?php foreach($contact_type as $key => $value):?>
+                                <option value="<?= $value;?>" <?php if($value == @$contact->contact_type){ echo "selected"; }?>><?= $value;?></option>
+                                <?php endforeach;?>
+                        </select>
                     </div>
+                    <div class="form-group col-md-1">
+                    </div>
+                 
                     <div class="form-check checkbox-section col-md-3">
                         <div class = "checkbox-label" >
 
