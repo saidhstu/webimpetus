@@ -93,16 +93,20 @@ class Blog_comments extends CommonController
 		if(!empty($id)){
 			$row = $this->content_model->getRows($id)->getRow();
 			
-			foreach($files as $key => $filePath) {	
+			if(is_array($files)){
 
-				$blog_images = [];
-				$blog_images['uuid_business_id'] =  session('uuid_business');
-				$blog_images['image'] = $filePath;				
-				$blog_images['blog_id'] = $id;
+				foreach($files as $key => $filePath) {	
 
-				$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
+					$blog_images = [];
+					$blog_images['uuid_business_id'] =  session('uuid_business');
+					$blog_images['image'] = $filePath;				
+					$blog_images['blog_id'] = $id;
+
+					$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
+				}
+
 			}
-
+			
 
 			$this->content_model->updateData($id, $data);
 			
@@ -134,14 +138,16 @@ class Blog_comments extends CommonController
 					
 					if($bid){
 
-						foreach($files as $key => $filePath) {	
+						if(is_array($files)){
+							foreach($files as $key => $filePath) {	
 
-							$blog_images = [];
-							$blog_images['uuid_business_id'] =  session('uuid_business');
-							$blog_images['image'] = $filePath;				
-							$blog_images['blog_id'] = $bid;
-			
-							$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
+								$blog_images = [];
+								$blog_images['uuid_business_id'] =  session('uuid_business');
+								$blog_images['image'] = $filePath;				
+								$blog_images['blog_id'] = $bid;
+				
+								$this->content_model->saveDataInTable($blog_images, "blog_images"); 						
+							}
 						}
 			
 					}
