@@ -33,7 +33,13 @@ class Blog_comments extends CommonController
 		$data['content'] = $this->content_model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
 		$data['cats'] = $this->cat_model->getRows();
-		$data['images'] = $this->model->getDataWhere("blog_images", $id, "blog_id");
+		
+		if($id > 0 ){
+
+			$data['images'] = $this->model->getDataWhere("blog_images", $id, "blog_id");
+		}else{
+			$data['images'] = [];
+		}
 		
 		$array1 = $this->cat_model->getCatIds($id);
 		
