@@ -120,7 +120,7 @@ var options = {
         curve: 'smooth',
         show: true,
         width: 3,
-        colors:  ["#9767FD" ,"#E5ECFF" ],
+        colors:  ["#ff004e" ,"#E5ECFF" ],
     },
     xaxis: {
         categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
@@ -142,7 +142,7 @@ var options = {
             show: false,
             position: 'front',
             stroke: {
-                color:["#9767FD" ,"#E5ECFF" ],
+                color:["#ff004e" ,"#E5ECFF" ],
                 width: 1,
                 dashArray: 3
             }
@@ -203,8 +203,8 @@ var options = {
     },
     colors:  ["#ff004e" ,"#ff004e" ],
     markers: {
-        colors:  ["#9767FD" ,"#E5ECFF" ],
-        strokeColor: ["#9767FD" ,"#E5ECFF" ],
+        colors:  ["#ff004e" ,"#E5ECFF" ],
+        strokeColor: ["#ff004e" ,"#E5ECFF" ],
         strokeWidth: 3
     }
 };

@@ -122,7 +122,7 @@
                                 <div class="single_user_pil d-flex align-items-center justify-content-between">
                                     <div class="user_pils_thumb d-flex align-items-center">
                                         <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11"><?php echo $users->name?></span>
+                                        <span class="f_s_14 f_w_400 text_color_red"><?php echo $users->name?></span>
                                     </div>
                                     <div class="user_info">
                                     <?php echo $users->email;?>
@@ -549,6 +549,7 @@
 
         $(".view_more").click( function(){
             $("#view_more_list").show();
+            $(".view_more").hide();
         })
 		// Add the following code if you want the name of the file appear on select
 		$(".custom-file-input").on("change", function() {
