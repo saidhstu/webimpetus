@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class AddNewTablePurchaseOrders extends Migration
+class AddNewTablePurchaseOrders1 extends Migration
 {
     public function up()
     {
@@ -165,7 +165,12 @@ class AddNewTablePurchaseOrders extends Migration
         ]);
     
         $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('purchase_orders');
+        $db = \Config\Database::connect();
+        $isExists = $db->tableExists( 'purchase_orders');
+        if(!$isExists){
+
+            $this->forge->createTable('purchase_orders');
+        }
     }
 
     public function down()

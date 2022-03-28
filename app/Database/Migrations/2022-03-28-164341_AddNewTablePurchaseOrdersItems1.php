@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class AddNewTablePurchaseOrdersItems extends Migration
+class AddNewTablePurchaseOrdersItems1 extends Migration
 {
     public function up(){
         $this->forge->addField([
@@ -58,7 +58,13 @@ class AddNewTablePurchaseOrdersItems extends Migration
         ]);
 
         $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('purchase_order_items');
+
+        $db = \Config\Database::connect();
+        $isExists = $db->tableExists( 'purchase_order_items');
+        if(!$isExists){
+
+            $this->forge->createTable('purchase_order_items');
+        }
     }
 
     public function down()
