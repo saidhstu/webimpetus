@@ -9,7 +9,7 @@
                         <th scope="col">Id</th>
                         <th scope="col">Invoice No</th>
                         <th scope="col">Invoice Date</th>
-                        <th scope="col">Client</th>
+                        <th scope="col">Supplier</th>
                         <th scope="col">Project</th>
                         <th scope="col">Total</th>
                         <th scope="col">Balance</th>
