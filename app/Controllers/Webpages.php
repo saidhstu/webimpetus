@@ -34,7 +34,12 @@ class Webpages extends CommonController
 		$data['rawTblName'] = $this->rawTblName;
 		$data['webpage'] = $this->content_model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
-		$data['images'] = $this->model->getDataWhere("webpage_images", $id, "webpage_id");
+		if( $id > 0 ){
+
+			$data['images'] = $this->model->getDataWhere("webpage_images", $id, "webpage_id");
+		}else{
+			$data['images'] = [];
+		}
 
 		echo view($this->table."/edit", $data);
 	}

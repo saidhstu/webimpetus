@@ -7,7 +7,7 @@
 
                 <div class="form-group required col-md-4">
                     <label for="inputState">Choose User</label>
-                    <select id="uuid" name="uuid" class="form-control required">
+                    <select id="uuid" name="uuid" class="form-control required dashboard-dropdown">
                         <option value="" selected="">--Selected--</option>
                       <?php foreach($users as $row):?>
                         <option value="<?= $row['uuid'];?>" <?=($row['uuid']== @$tenant->uuid)?'selected':'' ?>><?= $row['name'];?></option>
