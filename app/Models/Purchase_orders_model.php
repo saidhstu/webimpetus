@@ -5,14 +5,16 @@ use CodeIgniter\Model;
  
 class Purchase_orders_model extends Model
 {
-    protected $table = 'purchase_orders';
+    protected $purchase_orders = 'purchase_orders';
+     
+    protected $businessUuid;
      
     public function __construct()
     {
         parent::__construct();
-		
         $this->businessUuid = session('uuid_business');
     }
+
     public function getRows($id = false)
     {
         if($id === false){
@@ -22,13 +24,12 @@ class Purchase_orders_model extends Model
         }   
     }
 	
-	public function getList()
+	public function getOrder()
     {
-        $builder = $this->db->table($this->table);
-        $builder->select($this->table.".*, customers.company_name");
-        $builder->join('customers', 'customers.id = '.$this->table.'.client_id', 'left');
-        $builder->where($this->table.".uuid_business_id",  $this->businessUuid);
-
+        $builder = $this->db->table($this->purchase_orders. " as sa");
+        $builder->select("sa.*, customers.company_name");
+        $builder->join('customers', 'customers.id = sa.client_id', 'left');
+        $builder->where('sa.uuid_business_id', session("uuid_business"));
         return $builder->get()->getResultArray();
     }
 	
