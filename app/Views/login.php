@@ -108,7 +108,7 @@
         <div class="row">
             <div class="col-lg-12">
                <div class="footer_iner text-center">
-                  <p>2021 © Tenthmatrix - Designed by <a href="#"> <i class="ti-heart"></i> </a><a href="#"> Balinder Walia</a></p>
+               <p>2022 © Workstation - Powered by <a href="https://WebImpetus.com/"> <i class="ti-heart"></i> </a><a href="https://WebImpetus.com/"> WebImpetus v1</a></p>
                 </div>
             </div>
         </div>
