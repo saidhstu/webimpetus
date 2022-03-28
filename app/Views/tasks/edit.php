@@ -32,7 +32,7 @@ $employees = getResultArray("employees");
                             </select>
                         </div>
                         <div class="form-group  required col-md-12">
-                            <label for="inputEmail4">Client Name </label>
+                            <label for="inputEmail4">Contacts </label>
                             <select id="contacts_id" name="contacts_id" class="form-control required dashboard-dropdown">
                                 <option value="" selected="">--Selected--</option>
                                 <?php foreach($contacts as $row):?>

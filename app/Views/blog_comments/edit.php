@@ -102,7 +102,7 @@
 						   <?php foreach($images as $image){
 							  if(!empty(@$image)) { ?>
 						   <img class="img-rounded" src="<?= $image['image'];?>" width="100px">
-						   <a href="/blog/rmimg/<?=@$image['id'].'/'.@$content->id; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
+						   <a href="/blog_comments/rmimg/<?=@$image['id'].'/'.@$content->id; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
 						   <?php 
 							  } 
 							  
@@ -250,16 +250,7 @@
 
 </script>
 <style>
-<script>
-		// Add the following code if you want the name of the file appear on select
-		$(".custom-file-input").on("change", function() {
-			var fileName = $(this).val().split("\\").pop();
-			$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-		});
-	</script>
-
-
-	<style>
-	.custom-file{
-		margin:30px;
-	}</style>
+.custom-file{
+	margin:30px;
+}
+</style>
