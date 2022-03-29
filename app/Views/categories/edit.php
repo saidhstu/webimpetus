@@ -25,25 +25,27 @@
                     <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$category->id ?>" />
                     <div class="form-group col-md-12">
                         <label for="inputAddress">Upload</label>
+                        <span class="all-media-image-files">
                         <?php if(!empty(@$category->image_logo)) { ?>
                         <img src="<?= @$category->image_logo;?>" width="150px">
                         <a href="/categories/deleteImage/<?=@$category->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                     <?php } ?>
-                        <div class="uplogInrDiv">
-                        <input type="file" name="file" class="custom-file-input" id="customFile">
+                        </span>
+                        <div class="uplogInrDiv" id="drop_file_doc_zone">
+                        <input type="file" name="file" class="fileUpload" id="customFile">
                         <div class="uploadBlkInr">
-                                            <div class="uplogImg">
-                                              <img src="/assets/img/fileupload.png" />
-                                            </div>
-                                            <div class="uploadFileCnt">
-                                              <p>
-                                                <a href="#">Upload a file </a> file chosen or drag
-                                                and drop
-                                              </p>
-                                              <p>
-                                                <span>Video, PNG, JPG, GIF up to 10MB</span>
-                                              </p>
-                                            </div>
+                            <div class="uplogImg">
+                                <img src="/assets/img/fileupload.png" />
+                            </div>
+                            <div class="uploadFileCnt">
+                                <p>
+                                <a href="#">Upload a file </a> file chosen or drag
+                                and drop
+                                </p>
+                                <p>
+                                <span>Video, PNG, JPG, GIF up to 10MB</span>
+                                </p>
+                            </div>
                         </div>
                         </div>
                     
@@ -70,10 +72,78 @@
 <!-- main content part end -->
 
 <script>
-    // Add the following code if you want the name of the file appear on select
-    $(".custom-file-input").on("change", function() {
-        var fileName = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-    });
+  
+  var id = "<?=@$category->id ?>";
+  $(document).on('drop', '#drop_file_doc_zone', function(e){
+   
+   // $("#ajax_load").show();
+   console.log(e.originalEvent.dataTransfer);
+       if(e.originalEvent.dataTransfer){
+           if(e.originalEvent.dataTransfer.files.length) {
+               e.preventDefault();
+               e.stopPropagation();
+               var i = 0;
+               while ( i < e.originalEvent.dataTransfer.files.length ){
+                   newUploadDocFiles(e.originalEvent.dataTransfer.files[i], id);
+                   i++;
+               }
+           }   
+       }
+   }
+);
+
+       
+$(document).on("change", ".fileUpload", function() {
+
+   for (var count = 0; count < $(this)[0].files.length; count++) {
+
+       newUploadDocFiles($(this)[0].files[count], id);
+   }
+
+});
+
+
+
+function newUploadDocFiles(fileobj, id) {
+
+   $("#ajax_load").hide();
+
+   var form = new FormData();
+
+   form.append("file", fileobj);
+   form.append("mainTable", class_name);
+   form.append("id", id);
+
+    $.ajax({
+        url: '/categories/uploadMediaFiles',
+        type: 'post',
+        dataType: 'json',
+        maxNumberOfFiles: 1,
+        autoUpload: false,
+        success: function(result) {
+
+            $("#ajax_load").hide();
+            if (result.status == '1') {
+                $(".all-media-image-files").html(result.file_path);
+            } else {
+                toastr.error(result.msg);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#ajax_load").hide();
+            console.log(textStatus, errorThrown);
+        },
+        data: form,
+        cache: false,
+        contentType: false,
+        processData: false
+   });
+
+}
+
+   $("#delete_file").on("click", function(e){
+      e.preventDefault();
+      $(".all-media-image-files").html("");
+   })
 </script>
 	

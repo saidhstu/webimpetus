@@ -149,7 +149,7 @@
 								<div class="form-group col-md-12">
 									<label for="inputState">Publish Date</label>
 
-									<input id="publish_date" class="form-control" name="publish_date" width="250" type="datetime-local"  value="<?=@$webpage->publish_date?>" />
+									<input id="publish_date" class="form-control" name="publish_date" width="250" type="datepicker"  value="<?=@$webpage->publish_date?>" />
 
 								</div>
 							</div>

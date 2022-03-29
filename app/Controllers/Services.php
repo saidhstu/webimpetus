@@ -359,5 +359,15 @@ public function uploadMediaFiles2(){
 	echo json_encode(array("status" => $status, "file_path" => $file_views, "msg" => $msg));
 }
 
+public function status()
+{  
+	if(!empty($id = $this->request->getPost('id'))){
+		$data = array(            
+			'status' => $this->request->getPost('status')
+        );
+        $this->common_model->updateTableData( $id, $data, "services");
+	}
+	echo '1';
+}
 
 }

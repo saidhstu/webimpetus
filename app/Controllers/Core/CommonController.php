@@ -198,13 +198,15 @@ class CommonController extends BaseController
 			$id = 0;
 			$file_path = $response['filePath'];
 			$status = 1;
-			$file_views = view($this->table."/uploadedFileView", array("file_path" => $file_path, "id" => $id));
-			// if(file_exists("View/".$this->table."/uploadedFileView.php")){
-			// 	$file_views = view($this->table."/uploadedFileView", array("file_path" => $file_path, "id" => $id));
-			// }else{
+			
 
-			// 	$file_views = view("common/uploadedFileView", array("file_path" => $file_path, "id" => $id));
-			// }
+			if(file_exists(APPPATH."Views/".$this->table."/uploadedFileView.php")){
+				
+				$file_views = view($this->table."/uploadedFileView", array("file_path" => $file_path, "id" => $id));
+			}else{
+
+				$file_views = view("common/uploadedFileView", array("file_path" => $file_path, "id" => $id));
+			}
 			$msg = "success";
 	
 		} else {

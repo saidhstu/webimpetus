@@ -31,9 +31,9 @@
                 <td class="f_s_12 f_w_400  "><?= $row['name'];?>
                 </td>
                 <td class="f_s_12 f_w_400  ">
-                    <?php if(!empty($row['image_logo'])) { //header('Content-type: image/jpeg'); ?>
-                    <img src="<?= $row['image_logo']?>" width="200px">
-                <?php } ?>
+                    <?php if(!empty($row['image_logo'])) { 
+                        echo render_image($row['image_logo']);
+                    } ?>
                 </td>
                 <td class="f_s_12 f_w_400  ">
                         <p class="pd10"> <?= $row['notes'];?> </p>

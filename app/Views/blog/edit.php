@@ -115,7 +115,7 @@
                         </div>
                         <div class="form-group col-md-12">
                            <label for="inputState">Choose Category</label>
-                           <select id="catid" name="catid[]" multiple class="form-control js-example-basic-multiple">
+                           <select id="catid" name="catid[]" multiple class="form-control select2">
                               <?php foreach($cats as $row):?>
                               <option value="<?= $row['id'];?>" <?=in_array($row['id'],$selected_cats)?'selected':''?>><?= $row['name'];?></option>
                               <?php endforeach;?>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="form-group col-md-12">
                            <label for="inputState">Publish Date</label>
-                           <input id="publish_date" class="form-control" name="publish_date" width="250" type="datetime-local"  value="<?=render_date(@$content->publish_date)?>" />
+                           <input id="publish_date" class="form-control" name="publish_date" width="250" type="datepicker"  value="<?=render_date(@$content->publish_date)?>" />
                         </div>
                      </div>
                   </div>

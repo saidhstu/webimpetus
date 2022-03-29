@@ -51,12 +51,11 @@ class Domains extends CommonController
 			'uuid_business_id' => session('uuid_business'),
 		);
 		
-		if($_FILES['file']['tmp_name']) {	
-				$response = $this->Amazon_s3_model->doUpload("file", "domain-file");	
-				$imageProperties = getimageSize($_FILES['file']['tmp_name']);
-				$data['image_logo'] = $response["filePath"];;
-				$data['image_type'] = $imageProperties['mime'];
-			}
+		$file = $this->request->getPost('file');
+		if(strlen($file) > 0){
+			$data['image_logo'] = $file;
+		}
+
 
 			$response = $this->model->insertOrUpdate($id, $data);
 			if(!$response){

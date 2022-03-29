@@ -47,7 +47,7 @@ class Blog_comments extends CommonController
 			return $value['categoryid'];
 		} , $array1);
 		$data['selected_cats'] = $arr;
-		
+		// prd($data);
 		echo view($this->table."/edit", $data);
 	}
 	
@@ -116,6 +116,8 @@ class Blog_comments extends CommonController
 					$cat_data = [];
 					$cat_data['categoryid'] = $val;
 					$cat_data['contentid'] = $id;
+					$cat_data['uuid_business_id'] =  session('uuid_business');
+
 					$this->cat_model->saveData2($cat_data);					
 				}			
 				
@@ -157,6 +159,8 @@ class Blog_comments extends CommonController
 							$cat_data = [];
 							$cat_data['categoryid'] = $val;
 							$cat_data['contentid'] = $bid;
+							$cat_data['uuid_business_id'] =  session('uuid_business');
+
 							$this->cat_model->saveData2($cat_data);
 							
 						}

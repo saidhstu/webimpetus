@@ -77,4 +77,11 @@ function changeDateFormat($date)
     unset($splitted[1]);
     return $m . '/' . implode('/', $splitted);
 }
+
+function render_image($path, $width = 70, $height = 50){
+
+    $img = '<img src="'.$path.'" width="'.$width.'" height="'.$height.'">';
+
+    return $img;
+}
 ?>

@@ -31,16 +31,16 @@ class Categories extends CommonController
 		);
 		
 
-		if($_FILES['file']['tmp_name']) {				
-			$response = $this->Amazon_s3_model->doUpload("file", "category-file");							
-			$data['image_logo'] = $response["filePath"];
-			}
+		$file = $this->request->getPost('file');
+		if(strlen($file) > 0){
+			$data['image_logo'] = $file;
+		}
 
-			$response = $this->model->insertOrUpdate($id, $data);
-			if(!$response){
-			session()->setFlashdata('message', 'Something wrong!');
-			session()->setFlashdata('alert-class', 'alert-danger');		
-			}
+		$response = $this->model->insertOrUpdate($id, $data);
+		if(!$response){
+		session()->setFlashdata('message', 'Something wrong!');
+		session()->setFlashdata('alert-class', 'alert-danger');		
+		}
 
 
 		return redirect()->to('/'.$this->table);

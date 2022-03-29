@@ -22,8 +22,9 @@
 
                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
                         <td class="f_s_12 f_w_400"><?= trim($row['code']);?></td>
-                        <td class="f_s_12 f_w_400"><?php if(!empty($row['name'])) { ?>
-                            <img src="<?=$row['name']?>" width="140px"> <?php } ?>
+                        <td class="f_s_12 f_w_400"><?php if(!empty($row['name'])) { 
+                            echo render_image($row['name']); 
+                            } ?>
                         </td>
                         <td class="f_s_12 f_w_400 <?=$row['status']==0?'text_color_1':'text_color_2'?> ">
                             <?=$row['status']==0?'inactive':'active'?>

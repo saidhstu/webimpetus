@@ -146,7 +146,7 @@
 
 								<div class="form-group col-md-12">
 									<label for="inputState">Choose Category</label>
-									<select id="catid" name="catid[]" multiple class="form-control js-example-basic-multiple">                                            
+									<select id="catid" name="catid[]" multiple class="form-control select2 ">                                            
 										<?php foreach($cats as $row):?>
 											<option value="<?= $row['id'];?>" <?=in_array($row['id'],$selected_cats)?'selected':''?>><?= $row['name'];?></option>
 										<?php endforeach;?>
