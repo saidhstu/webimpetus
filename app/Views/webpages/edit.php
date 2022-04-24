@@ -1,6 +1,9 @@
 
 
-<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
+<?php require_once (APPPATH.'Views/common/edit-title.php');
+
+$blocks_list = getResultArray("blocks_list", ["webpages_id" => $webpage->id]);
+?>
 
 <div class="white_card_body">
 	<div class="card-body">
@@ -17,6 +20,7 @@
 							<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Search Optimisation</a>
 							<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Pictures</a>
 							<a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Page Setup</a>					  
+							<a class="nav-item nav-link" id="nav-blocks-tab" data-toggle="tab" href="#nav-blocks" role="tab" aria-controls="nav-blocks" aria-selected="false">Blocks</a>					  
 
 						</div>
 					</nav>
@@ -154,6 +158,81 @@
 								</div>
 							</div>
 						</div>
+						<div class="tab-pane fade" id="nav-blocks" role="tabpanel" aria-labelledby="nav-blocks-tab">
+						<?php
+							if(count($blocks_list) > 0){
+							?>
+							<div class="form-row addresscontainer">
+								<?php
+									for($jak_i=0; $jak_i<count($blocks_list); $jak_i++){
+										$new_id = $jak_i + 1;
+								?>
+								<div class="form-row col-md-12 each-row" id="  office_address_<?php echo $new_id; ?>">
+									<div class="form-group col-md-3">
+										<label for="inputEmail4">Code</label>
+										<input autocomplete="off" type="text" class="form-control" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?=$blocks_list[$jak_i]['code'] ?>">
+									</div>
+									<div class="form-group col-md-3">
+										<label for="inputEmail4">Title</label>
+										<input autocomplete="off" type="text" class="form-control" id="blocks_title<?php echo $new_id; ?>" name="blocks_title[]" placeholder="" value="<?=$blocks_list[$jak_i]['title'] ?>">
+									</div>
+									<div class="form-group col-md-5">
+										<label for="inputEmail4">Text</label>
+										<input autocomplete="off" type="text" class="form-control" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" placeholder="" value="<?=$blocks_list[$jak_i]['text'] ?>">
+									</div>
+									<input type="hidden" value="<?=$blocks_list[$jak_i]['id'] ?>" id="blocks_id" name="blocks_id[]">
+									<?php
+										if($jak_i == 0){
+									?>
+										<div class="form-group col-md-1 change">
+											<button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">+</button>
+										</div>
+									<?php
+										}else{
+									?>
+										<div class="form-group col-md-1 change">
+											<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
+										</div>
+									<?php
+										}
+									?>
+								</div>
+								<?php
+									}
+								?>
+							</div>
+							
+							<input type="hidden" value="<?php echo count($blocks_list); ?>" id="total_blocks" name="total_blocks" />
+							
+							<?php
+								}else{
+							?>
+								<div class="form-row" id="office_address_1">
+									<div class="form-group col-md-3">
+										<label for="inputEmail4">Code</label>
+										<input autocomplete="off" type="text" class="form-control" id="first_name_1" name="blocks_code[]" placeholder="" value="">
+									</div>
+									<div class="form-group col-md-3">
+										<label for="inputEmail4">Title</label>
+										<input autocomplete="off" type="text" class="form-control" id="surname" name="blocks_title[]" placeholder="" value="">
+									</div>
+									<div class="form-group col-md-5">
+										<label for="inputEmail4">Text</label>
+										<input autocomplete="off" type="text" class="form-control" id="contact_email_1" name="blocks_text[]" placeholder="" value="">
+									</div>
+									<div class="form-group col-md-1 change">
+										<button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+									</div>
+								</div>
+								<input type="hidden" value="0" id="contact_id" name="contact_id">
+								<div class="form-row addresscontainer">
+								
+								</div>
+								<input type="hidden" value="1" id="total_blocks" name="total_blocks">
+							<?php
+								}
+							?>
+						</div>
 					</div>
 
 				</div>
@@ -254,3 +333,61 @@ var id = "<?=@$webpage->id ?>";
 	.custom-file{
 		margin:30px;
 	}</style>
+
+
+
+
+<script>
+$(document).ready(function() {
+
+var max_fields_limit = 10; //set limit for maximum input fields
+var x = $('#total_contacts').val(); //initialize counter for text box
+$('.add').click(function(e){ //click event on add more fields button having class add_more_button
+  
+        
+        $('.addresscontainer').append('<div class="form-row col-md-12" id="office_address_'+x+'"><div class="form-group col-md-3">'+
+            '<label for="inputSecretKey">Code</label>'+
+            '<input type="text" class="form-control" id="blocks_code'+x+'" name="blocks_code[]" placeholder="" value="">'+
+        '</div>'+
+        '<div class="form-group col-md-3">'+
+            '<label for="inputSecretValue">Title</label>'+
+            '<input type="text" class="form-control" id="blocks_title'+x+'" name="blocks_title[]" placeholder="" value="">'+
+        '</div>'+
+        '<div class="form-group col-md-5">'+
+            '<label for="inputSecretValue">Text</label>'+
+            '<input type="text" class="form-control" id="blocks_text'+x+'" name="blocks_text[]" placeholder="" value="">'+
+        '</div> <input type="hidden" value="0" id="blocks_id" name="blocks_id[]">'+
+        '<div class="form-group col-md-1 change">'+
+            '<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>'+
+        '</div></div>'
+        );
+        
+        
+    
+    
+    $('.deleteaddress').on("click", function(e){ //user click on remove text links
+        
+        $(this).parent().parent().remove();
+        x--;
+    })
+});   
+});
+$('.deleteaddress').on("click", function(e){ //user click on remove text links
+    
+    var current = $(this);
+    var blocks_id = current.closest(".each-row").find("#blocks_id").val();
+    $.ajax({
+        url: baseUrl + "/webpages/deleteBlocks",
+        data:{ blocks_id: blocks_id},
+        method:'post',
+        success:function(res){
+            console.log(res)
+            current.parent().parent().remove();
+
+        }
+    })
+   
+    x--;
+})
+
+</script>

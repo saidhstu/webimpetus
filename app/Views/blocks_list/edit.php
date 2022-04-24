@@ -13,11 +13,16 @@
                     <input type="text" class="form-control" id="title" name="code" placeholder=""  value="<?=@$blocks->code?>">
                     <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$blocks->id ?>" />
                 </div>
+                <div class="form-group col-md-12">
+                    <label for="inputEmail4">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder=""  value="<?=@$blocks->ctitlede?>">
+                </div>
 
                 <div class="form-group col-md-12">
                     <label for="inputPassword4">Text</label>
                     <textarea class="form-control" name="text" style="width:100%!important;height:250px" ><?=@$blocks->text?></textarea> 
                 </div>
+               
 
                 <div class="form-group col-md-12">
                     <label for="inputEmail4">Status</label>

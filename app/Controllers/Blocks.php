@@ -42,6 +42,7 @@ class Blocks extends CommonController
     {        
 		$data = array(
 			'code' => $this->request->getPost('code'),
+			'title' => $this->request->getPost('title'),
 			'status' => $this->request->getPost('status'),
 			'text' => $this->request->getPost('text'),
 			"uuid_business_id" => $this->businessUuid,
@@ -61,6 +62,8 @@ class Blocks extends CommonController
 			session()->setFlashdata('message', 'Data entered Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');	   
 		}
+
+		
         return redirect()->to('/'.$this->rawTblName);
     }	
 

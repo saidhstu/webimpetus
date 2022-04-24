@@ -10,6 +10,7 @@
 
                     <th scope="col">Id</th>
                     <th scope="col">Code</th>
+                    <th scope="col">Title</th>
 
                     <th scope="col">status</th>
 
@@ -24,6 +25,7 @@
 
                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
                         <td class="f_s_12 f_w_400"><?= $row['code'];?>
+                        <td class="f_s_12 f_w_400"><?= $row['title'];?>
 
                         <td class="f_s_12 f_w_400 <?=$row['status']==0?'text_color_1':'text_color_2'?> "><?=$row['status']==0?'inactive':'active'?>
                     </td>

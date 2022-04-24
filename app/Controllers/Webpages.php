@@ -108,8 +108,56 @@ class Webpages extends CommonController
 			session()->setFlashdata('message', 'Data entered Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		}
+
+		if( $id > 0){
+			$i = 0;
+			$post = $this->request->getPost();
+            foreach($post["blocks_code"] as $code){
+
+                $blocks["code"] = $code;
+                $blocks["webpages_id"] = $id;
+                $blocks["text"] = $post["blocks_text"][$i];
+                $blocks["title"] = $post["blocks_title"][$i];
+                $blocks["uuid_business_id"] = session('uuid_business');
+                $blocks_id =  @$post["blocks_id"][$i];
+                if(strlen(trim($code)) > 0 || strlen(trim($blocks["text"])>0) || strlen(trim($blocks["title"])>0)){
+                    $this->insertOrUpdate("blocks_list",$blocks_id, $blocks);
+                }
+
+				$i++;
+            }
+		}
         return redirect()->to('/'.$this->table);
     }
+
+
+	public function insertOrUpdate($table, $id = null, $data = null)
+	{
+        unset($data["id"]);
+
+        if(@$id>0){
+           
+            $builder = $this->db->table($table);
+            $builder->where('id', $id);
+            $result = $builder->update($data);
+
+            if( $result){
+                session()->setFlashdata('message', 'Data updated Successfully!');
+                session()->setFlashdata('alert-class', 'alert-success');
+                return $id;
+            }
+        }else{
+            $query = $this->db->table($table)->insert($data);
+            if($query){
+                session()->setFlashdata('message', 'Data updated Successfully!');
+                session()->setFlashdata('alert-class', 'alert-success');
+                return $this->db->insertID();
+            }
+
+        }
+	
+		return false;
+	}
 
 	public function rmimg($id, $rowId)
 	{
@@ -123,6 +171,16 @@ class Webpages extends CommonController
 		return redirect()->to('//'.$this->table.'/edit/'.$rowId);
 		
 	}
+
+	public function deleteBlocks(){
+
+        $blocks_id = $this->request->getPost("blocks_id");
+
+        $res = $this->model->deleteTableData("blocks_list", $blocks_id);
+       
+        return $res;
+    }
+
 
 	
 }
