@@ -81,4 +81,4 @@ affinity: {}
 
 podPostStartExecCmd: "cd /var/www/html && php spark migrate"
 
-JWT_TOKEN_KEY: "workstationTest2022"
+jwtTokenSecret: "workstationTest2022"
