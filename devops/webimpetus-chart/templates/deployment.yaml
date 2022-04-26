@@ -38,6 +38,8 @@ spec:
           env:
           - name: TENANT_KEY
             value: {{ .Values.TENANT_KEY }}
+	  - name: JWT_SECRET_KEY
+            value: {{ .Values.JWT_SECRET_KEY }}		
           ports:
             - name: http
               containerPort: 80
