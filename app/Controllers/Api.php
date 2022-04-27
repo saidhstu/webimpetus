@@ -150,18 +150,31 @@ class Api extends BaseController
 		if( $webpages ){
 			$webPageList = [];
 			$blockList = [];
+			// limit web block 
+			$cnt=0;
 			foreach($blocks as $eachBlock){
 
 				if( $eachBlock->webpages_id > 0){
 
 					$blockList[$eachBlock->webpages_id][] = $eachBlock;
+					if($cnt>100)
+					{
+						break;
+					}
+					$cnt++;
 				}
 			}
-			
+			// limit web pages 
+			$cnt=0;
 			foreach($webpages as $key => $eachPage){
 
 				$webPageList[$key] = $eachPage;
 				$webPageList[$key]->blockList = @$blockList[$eachPage->id];
+				if($cnt>100)
+				{
+					break;
+				}
+				$cnt++;
 				
 			}
 			
