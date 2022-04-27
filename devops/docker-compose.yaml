@@ -29,7 +29,7 @@ services:
   webimpetus-openresty-php7:
     depends_on:
       - mariadb-docker
-    image: jackcunningham/webimpetus-ci4:latest
+    image: localuser/webimpetus-ci4:latest
     ports:
       - '8084:80'
     restart: always
