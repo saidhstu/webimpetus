@@ -143,39 +143,28 @@ class Api extends BaseController
 
 	public function webpages($uuid=false){
 
-		
-		$webpages = $this->cmodel->get()->getResult();
+		$where = "field is  NOT NULL";
 		$blocks = $this->bmodel->get()->getResult();
+		$webpageIdArr=[];
+		$blockList = [];
+		foreach($blocks as $eachBlock){
+
+			if( $eachBlock->webpages_id > 0){
+				$webpageIdArr[$eachBlock->webpages_id]=$eachBlock->webpages_id;
+				$blockList[$eachBlock->webpages_id][] = $eachBlock;
+			}
+		}
+		$webpages = $this->cmodel->whereIn('webpages_id', $webpageIdArr)->get()->getResult();
+		
 
 		if( $webpages ){
 			$webPageList = [];
-			$blockList = [];
-			// limit web block 
-			$cnt=0;
-			foreach($blocks as $eachBlock){
-
-				if( $eachBlock->webpages_id > 0){
-
-					$blockList[$eachBlock->webpages_id][] = $eachBlock;
-					if($cnt>100)
-					{
-						break;
-					}
-					$cnt++;
-				}
-			}
-			// limit web pages 
-			$cnt=0;
 			foreach($webpages as $key => $eachPage){
 
 				$webPageList[$key] = $eachPage;
 				$webPageList[$key]->blockList = @$blockList[$eachPage->id];
-				if($cnt>100)
-				{
-					break;
-				}
-				$cnt++;
 				
+
 			}
 			
 			$data['data'] = $webPageList;
