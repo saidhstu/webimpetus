@@ -5,13 +5,13 @@
 
 set -x
 
-cp /Users/jack/Downloads/webimpetus.sql /Users/jack/www/webimpetus/devops/init/01.sql
-cp /Users/jack/Downloads/webimpetus.env /Users/jack/www/webimpetus/env
+cp ~/webimpetus.sql devops/init/01.sql
+cp ~/.webimpetus.env env
 
-docker build -t jackcunningham/webimpetus-ci4 -f devops/docker/Dockerfile .
+docker build -t localuser/webimpetus-ci4 -f devops/docker/Dockerfile .
 
 docker-compose -f devops/docker-compose.yaml down
-docker-compose -f devops/docker-compose.yaml up -d --build
+docker-compose -f devops/docker-compose.yaml up -d --build --remove-orphans
 
 #sleep 600
 #rm -Rf devops/init/01.sql
