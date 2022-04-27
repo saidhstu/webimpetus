@@ -140,5 +140,37 @@ class Api extends BaseController
 		$data['status'] = 'success';
         echo json_encode($data); die;
     }
+
+	public function webpages($uuid=false){
+
+		if( strlen($uuid) > 0){
+			$webpages = $this->cmodel->where(["uuid_business_id" => $uuid])->get()->getResult();
+			$blocks = $this->bmodel->get()->getResult();
+
+			$webPageList = [];
+			$blockList = [];
+			foreach($blocks as $eachBlock){
+
+				if( $eachBlock->webpages_id > 0){
+
+					$blockList[$eachBlock->webpages_id][] = $eachBlock;
+				}
+			}
+			
+			foreach($webpages as $key => $eachPage){
+
+				$webPageList[$key] = $eachPage;
+				$webPageList[$key]->blockList = @$blockList[$eachPage->id];
+				
+			}
+			
+			$data['data'] = $webPageList;
+			$data['status'] = 'success';
+		}else{
+
+			$data['status'] = 'error';
+		}
+		echo json_encode($data); die;
+	}
 	
 }
