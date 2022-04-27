@@ -2,7 +2,7 @@
 
 <?php require_once (APPPATH.'Views/common/edit-title.php');
 
-$blocks_list = getResultArray("blocks_list", ["webpages_id" => $webpage->id]);
+$blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
 ?>
 
 <div class="white_card_body">
