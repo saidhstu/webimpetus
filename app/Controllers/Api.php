@@ -143,7 +143,6 @@ class Api extends BaseController
 
 	public function webpages($uuid=false){
 
-		$where = "field is  NOT NULL";
 		$blocks = $this->bmodel->get()->getResult();
 		$webpageIdArr=[];
 		$blockList = [];
@@ -154,7 +153,7 @@ class Api extends BaseController
 				$blockList[$eachBlock->webpages_id][] = $eachBlock;
 			}
 		}
-		$webpages = $this->cmodel->whereIn('webpages_id', $webpageIdArr)->get()->getResult();
+		$webpages = $this->cmodel->whereIn('id', $webpageIdArr)->get()->getResult();
 		
 
 		if( $webpages ){
