@@ -143,9 +143,42 @@ class Api extends BaseController
 
 	public function webpages($uuid=false){
 
-		if( strlen($uuid) > 0){
-			$webpages = $this->cmodel->where(["uuid_business_id" => $uuid])->get()->getResult();
-			$blocks = $this->bmodel->get()->getResult();
+		
+		$webpages = $this->cmodel->get()->getResult();
+		$blocks = $this->bmodel->get()->getResult();
+
+		if( $webpages ){
+			$webPageList = [];
+			$blockList = [];
+			foreach($blocks as $eachBlock){
+
+				if( $eachBlock->webpages_id > 0){
+
+					$blockList[$eachBlock->webpages_id][] = $eachBlock;
+				}
+			}
+			
+			foreach($webpages as $key => $eachPage){
+
+				$webPageList[$key] = $eachPage;
+				$webPageList[$key]->blockList = @$blockList[$eachPage->id];
+				
+			}
+			
+			$data['data'] = $webPageList;
+			$data['status'] = 'success';
+		}else{
+
+			$data['status'] = 'error';
+		}
+		echo json_encode($data); die;
+	}
+
+	public function webpagesEdit($id=false){
+
+		if( strlen($id) > 0){
+			$webpages = $this->cmodel->where(["id" => $id])->get()->getResult();
+			$blocks = $this->bmodel->where(["webpages_id" => $id])->get()->getResult();
 
 			$webPageList = [];
 			$blockList = [];
@@ -169,6 +202,7 @@ class Api extends BaseController
 		}else{
 
 			$data['status'] = 'error';
+			$data['status'] = 'Id is missing';
 		}
 		echo json_encode($data); die;
 	}
