@@ -143,6 +143,14 @@ class Common_model extends Model
 
         return $result;
 	}
+    public function getRow($tableName, $value, $field = "id")
+    {
+		$result = $this->db->table($tableName)->getWhere([
+            $field => $value
+        ])->getRow();
+
+        return $result;
+	}
 
     public function deleteTableData($tableName, $id)
     {

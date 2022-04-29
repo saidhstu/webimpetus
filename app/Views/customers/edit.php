@@ -134,82 +134,82 @@ $contacts = $additional_data["contacts"];
 
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
-            <?php
-            if(count($contacts) > 0){
-            ?>
-            <div class="form-row addresscontainer">
                 <?php
-                    for($jak_i=0; $jak_i<count($contacts); $jak_i++){
-                        $new_id = $jak_i + 1;
+                if(count($contacts) > 0){
                 ?>
-                <div class="form-row col-md-12 each-row" id="  office_address_<?php echo $new_id; ?>">
-                    <div class="form-group col-md-3">
-                        <label for="inputEmail4">First Name</label>
-                        <input autocomplete="off" type="text" class="form-control" id="first_name<?php echo $new_id; ?>" name="first_name[]" placeholder="" value="<?=$contacts[$jak_i]['first_name'] ?>">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputEmail4">Surname</label>
-                        <input autocomplete="off" type="text" class="form-control" id="surname<?php echo $new_id; ?>" name="surname[]" placeholder="" value="<?=$contacts[$jak_i]['surname'] ?>">
-                    </div>
-                    <div class="form-group col-md-5">
-                        <label for="inputEmail4">Surname</label>
-                        <input autocomplete="off" type="text" class="form-control" id="contact_email<?php echo $new_id; ?>" name="contact_email[]" placeholder="" value="<?=$contacts[$jak_i]['contact_email'] ?>">
-                    </div>
-                    <input type="hidden" value="<?=$contacts[$jak_i]['contact_id'] ?>" id="contact_id" name="contact_id[]">
+                <div class="form-row addresscontainer">
                     <?php
-                        if($jak_i == 0){
+                        for($jak_i=0; $jak_i<count($contacts); $jak_i++){
+                            $new_id = $jak_i + 1;
                     ?>
-                        <div class="form-group col-md-1 change">
-                            <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 30px;margin-left: 10px;">+</button>
-                            <a href="/contacts/edit/<?=$contacts[$jak_i]['contact_id'] ?>" class="btn btn-primary " type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">...</a>
-
+                    <div class="form-row col-md-12 each-row" id="  office_address_<?php echo $new_id; ?>">
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">First Name</label>
+                            <input autocomplete="off" type="text" class="form-control" id="first_name<?php echo $new_id; ?>" name="first_name[]" placeholder="" value="<?=$contacts[$jak_i]['first_name'] ?>">
                         </div>
-                    <?php
-                        }else{
-                    ?>
-                        <div class="form-group col-md-1 change">
-                            <button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
-
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">Surname</label>
+                            <input autocomplete="off" type="text" class="form-control" id="surname<?php echo $new_id; ?>" name="surname[]" placeholder="" value="<?=$contacts[$jak_i]['surname'] ?>">
                         </div>
+                        <div class="form-group col-md-5">
+                            <label for="inputEmail4">Surname</label>
+                            <input autocomplete="off" type="text" class="form-control" id="contact_email<?php echo $new_id; ?>" name="contact_email[]" placeholder="" value="<?=$contacts[$jak_i]['contact_email'] ?>">
+                        </div>
+                        <input type="hidden" value="<?=$contacts[$jak_i]['contact_id'] ?>" id="contact_id" name="contact_id[]">
+                        <?php
+                            if($jak_i == 0){
+                        ?>
+                            <div class="form-group col-md-1 change">
+                                <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 30px;margin-left: 10px;">+</button>
+                                <a href="/contacts/edit/<?=$contacts[$jak_i]['contact_id'] ?>" class="btn btn-primary " type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">...</a>
+
+                            </div>
+                        <?php
+                            }else{
+                        ?>
+                            <div class="form-group col-md-1 change">
+                                <button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
+
+                            </div>
+                        <?php
+                            }
+                        ?>
+                    </div>
                     <?php
                         }
                     ?>
                 </div>
+                
+                <input type="hidden" value="<?php echo count($contacts); ?>" id="total_secret_services" name="total_secret_services" />
+                
+                <?php
+                    }else{
+                ?>
+                    <div class="form-row" id="office_address_1">
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">First Name</label>
+                            <input autocomplete="off" type="text" class="form-control" id="first_name_1" name="first_name[]" placeholder="" value="">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">Surname</label>
+                            <input autocomplete="off" type="text" class="form-control" id="surname" name="surname[]" placeholder="" value="">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="inputEmail4">Email</label>
+                            <input autocomplete="off" type="text" class="form-control" id="contact_email_1" name="contact_email[]" placeholder="" value="">
+                        </div>
+                        <div class="form-group col-md-1 change">
+                            <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+                        </div>
+                    </div>
+                    <input type="hidden" value="0" id="contact_id" name="contact_id">
+                    <div class="form-row addresscontainer">
+                    
+                    </div>
+                    <input type="hidden" value="1" id="total_contacts" name="total_contacts">
                 <?php
                     }
                 ?>
-            </div>
-            
-            <input type="hidden" value="<?php echo count($contacts); ?>" id="total_secret_services" name="total_secret_services" />
-            
-            <?php
-                }else{
-            ?>
-                <div class="form-row" id="office_address_1">
-                    <div class="form-group col-md-3">
-                        <label for="inputEmail4">First Name</label>
-                        <input autocomplete="off" type="text" class="form-control" id="first_name_1" name="first_name[]" placeholder="" value="">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputEmail4">Surname</label>
-                        <input autocomplete="off" type="text" class="form-control" id="surname" name="surname[]" placeholder="" value="">
-                    </div>
-                    <div class="form-group col-md-5">
-                        <label for="inputEmail4">Email</label>
-                        <input autocomplete="off" type="text" class="form-control" id="contact_email_1" name="contact_email[]" placeholder="" value="">
-                    </div>
-                    <div class="form-group col-md-1 change">
-                        <button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
-                    </div>
-                </div>
-                <input type="hidden" value="0" id="contact_id" name="contact_id">
-                <div class="form-row addresscontainer">
-                
-                </div>
-                <input type="hidden" value="1" id="total_contacts" name="total_contacts">
-            <?php
-                }
-            ?>
 
                 
             </div>
