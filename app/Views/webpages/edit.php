@@ -168,17 +168,17 @@ $blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
 										$new_id = $jak_i + 1;
 								?>
 								<div class="form-row col-md-12 each-row" id="  office_address_<?php echo $new_id; ?>">
-									<div class="form-group col-md-3">
+									<div class="form-group col-md-6">
 										<label for="inputEmail4">Code</label>
 										<input autocomplete="off" type="text" class="form-control" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?=$blocks_list[$jak_i]['code'] ?>">
-									</div>
-									<div class="form-group col-md-3">
+									
 										<label for="inputEmail4">Title</label>
 										<input autocomplete="off" type="text" class="form-control" id="blocks_title<?php echo $new_id; ?>" name="blocks_title[]" placeholder="" value="<?=$blocks_list[$jak_i]['title'] ?>">
 									</div>
 									<div class="form-group col-md-5">
 										<label for="inputEmail4">Text</label>
-										<input autocomplete="off" type="text" class="form-control" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" placeholder="" value="<?=$blocks_list[$jak_i]['text'] ?>">
+									
+										<textarea class="form-control myClassName" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" ><?=$blocks_list[$jak_i]['text'] ?></textarea> 
 									</div>
 									<input type="hidden" value="<?=$blocks_list[$jak_i]['id'] ?>" id="blocks_id" name="blocks_id[]">
 									<?php
@@ -208,17 +208,17 @@ $blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
 								}else{
 							?>
 								<div class="form-row" id="office_address_1">
-									<div class="form-group col-md-3">
+									<div class="form-group col-md-6">
 										<label for="inputEmail4">Code</label>
 										<input autocomplete="off" type="text" class="form-control" id="first_name_1" name="blocks_code[]" placeholder="" value="">
-									</div>
-									<div class="form-group col-md-3">
+									
 										<label for="inputEmail4">Title</label>
 										<input autocomplete="off" type="text" class="form-control" id="surname" name="blocks_title[]" placeholder="" value="">
 									</div>
 									<div class="form-group col-md-5">
 										<label for="inputEmail4">Text</label>
-										<input autocomplete="off" type="text" class="form-control" id="contact_email_1" name="blocks_text[]" placeholder="" value="">
+									
+										<textarea class="form-control myClassName" id="content" name="blocks_text[]" ></textarea> 
 									</div>
 									<div class="form-group col-md-1 change">
 										<button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
@@ -246,6 +246,7 @@ $blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
 <?php require_once (APPPATH.'Views/common/footer.php'); ?>
 <script>
 
+CKEDITOR.replaceAll( 'myClassName' ); 
 	
 var id = "<?=@$webpage->id ?>";
    
@@ -345,17 +346,16 @@ var x = $('#total_contacts').val(); //initialize counter for text box
 $('.add').click(function(e){ //click event on add more fields button having class add_more_button
   
         
-        $('.addresscontainer').append('<div class="form-row col-md-12" id="office_address_'+x+'"><div class="form-group col-md-3">'+
+        $('.addresscontainer').append('<div class="form-row col-md-12" id="office_address_'+x+'"><div class="form-group col-md-6">'+
             '<label for="inputSecretKey">Code</label>'+
             '<input type="text" class="form-control" id="blocks_code'+x+'" name="blocks_code[]" placeholder="" value="">'+
-        '</div>'+
-        '<div class="form-group col-md-3">'+
+       
             '<label for="inputSecretValue">Title</label>'+
             '<input type="text" class="form-control" id="blocks_title'+x+'" name="blocks_title[]" placeholder="" value="">'+
         '</div>'+
         '<div class="form-group col-md-5">'+
             '<label for="inputSecretValue">Text</label>'+
-            '<input type="text" class="form-control" id="blocks_text'+x+'" name="blocks_text[]" placeholder="" value="">'+
+			'<textarea class="form-control myClassName" id="blocks_text'+x+'" name="blocks_text[]" placeholder="" value="" ></textarea> '+
         '</div> <input type="hidden" value="0" id="blocks_id" name="blocks_id[]">'+
         '<div class="form-group col-md-1 change">'+
             '<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>'+
@@ -363,7 +363,7 @@ $('.add').click(function(e){ //click event on add more fields button having clas
         );
         
         
-    
+		CKEDITOR.replaceAll( 'myClassName' ); 
     
     $('.deleteaddress').on("click", function(e){ //user click on remove text links
         
