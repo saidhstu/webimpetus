@@ -31,7 +31,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                         <label for="inputState">Set Permissions</label>
-                        <select id="sid" name="sid[]" multiple class="form-control js-example-basic-multiple">                                            
+                        <select id="sid" name="sid[]" multiple class="form-control select2">                                            
                             <?php 
                             
                             $arr = json_decode(@$user->permissions);
