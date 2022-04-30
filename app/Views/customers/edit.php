@@ -169,6 +169,7 @@ $contacts = $additional_data["contacts"];
                         ?>
                             <div class="form-group col-md-1 change">
                                 <button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
+                                <a href="/contacts/edit/<?=$contacts[$jak_i]['contact_id'] ?>" class="btn btn-primary " type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">...</a>
 
                             </div>
                         <?php
