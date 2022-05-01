@@ -26,7 +26,8 @@ class Filters extends BaseConfig
         'csrf' => CSRF::class,
         'toolbar' => DebugToolbar::class,
         'honeypot' => \CodeIgniter\Filters\Honeypot::class,
-        'auth' => JWTAuthenticationFilter::class // add this line
+        'auth' => JWTAuthenticationFilter::class, // add this line
+        'cors' => \Fluent\Cors\Filters\CorsFilter::class,
     ];
 
     /**
@@ -74,6 +75,7 @@ class Filters extends BaseConfig
             'api/*',
             'api'
       ],
+      'cors' => ['after' => ['api/*']],
     ]
   ];
 }
