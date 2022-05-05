@@ -40,7 +40,7 @@ class Filters extends BaseConfig
         'before' => [
             // 'honeypot',
             // 'csrf',
-            'cors',
+            'cors'
         ],
         'after' => [
             'toolbar',
@@ -76,10 +76,7 @@ class Filters extends BaseConfig
             'api/*',
             'api'
       ],
-      'cors' => [
-            'after' => ['api/*'],
-            'before' => ['api/*']
-        ],
-    ]
+    ],
+    'cors' => ['after' => ['api/*']],
   ];
 }
