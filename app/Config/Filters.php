@@ -28,6 +28,7 @@ class Filters extends BaseConfig
         'honeypot' => \CodeIgniter\Filters\Honeypot::class,
         'auth' => JWTAuthenticationFilter::class, // add this line
         'cors' => \Fluent\Cors\Filters\CorsFilter::class,
+        'options' => \App\Filters\Options::class,
     ];
 
     /**
@@ -40,7 +41,7 @@ class Filters extends BaseConfig
         'before' => [
             // 'honeypot',
             // 'csrf',
-            'cors'
+            'options'
         ],
         'after' => [
             'toolbar',
@@ -77,6 +78,6 @@ class Filters extends BaseConfig
             'api'
       ],
     ],
-    'cors' => ['after' => ['api/*']],
+    'options' => ['before' => ['api/*']]
   ];
 }
