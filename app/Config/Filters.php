@@ -76,7 +76,10 @@ class Filters extends BaseConfig
             'api/*',
             'api'
       ],
-      'cors' => ['after' => ['api/*']],
+      'cors' => [
+            'after' => ['api/*'],
+            'before' => ['api/*']
+        ],
     ]
   ];
 }
