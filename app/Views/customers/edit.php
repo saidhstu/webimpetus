@@ -1,5 +1,6 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php'); 
 $contacts = $additional_data["contacts"];
+$categories = getResultArray("categories");
 ?>
     
 <div class="white_card_body">
@@ -103,12 +104,24 @@ $contacts = $additional_data["contacts"];
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="inputEmail4">Website</label>
                     <input autocomplete="off" type="text" class="form-control" id="website" name="website" placeholder=""  value="<?= @$customer->website ?>">
                 </div>
 
-                <div class="form-check col-md-1">
+               
+
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Categories</label>
+                    <select id="categories" name="categories[]" multiple class="form-control select2">                                            
+                        <?php 
+                        
+                        $arr = json_decode(@$customer->categories);
+                        foreach($categories as $row):?>
+                        <option value="<?= $row['id'];?>" <?php  if($arr) echo 
+                        in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
+                        <?php endforeach;?>
+                    </select>                
                 </div>
                
             </div>

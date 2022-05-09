@@ -30,8 +30,8 @@ class Customers extends CommonController
     }
 
     public function update()
-    {        
-        $post = $this->request->getPost();
+    {       
+        $post = $this->request->getPost(); 
         $data["company_name"] = @$post["company_name"];
         $data["acc_no"] = @$post["acc_no"];
         $data["status"] = @$post["status"];
@@ -47,6 +47,7 @@ class Customers extends CommonController
         $data["notes"] = $post["notes"];
         $data["supplier"] = @$post["supplier"];
         $data["website"] = @$post["website"];
+        $data["categories"] = json_encode(@$post["categories"]);
         $data["uuid_business_id"] = session('uuid_business');
 
         $id= $post["id"];

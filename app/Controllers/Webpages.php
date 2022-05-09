@@ -58,9 +58,9 @@ class Webpages extends CommonController
 			'meta_description' => $this->request->getPost('meta_description'),
 			'status' => $this->request->getPost('status'),
 			'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
-			//'image_logo' => $filepath
+			"categories" => json_encode($this->request->getPost('categories'))
 		);
-
+// prd($data);
 		$files = $this->request->getPost("file");
 
 		if(!empty($id)){

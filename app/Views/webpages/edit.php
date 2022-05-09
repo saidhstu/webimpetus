@@ -3,6 +3,7 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php');
 
 $blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
+$categories = getResultArray("categories");
 ?>
 
 <div class="white_card_body">
@@ -37,7 +38,18 @@ $blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
 									<input type="text" class="form-control" id="sub_title" name="sub_title" placeholder="" value="<?=@$webpage->sub_title?>">
 								</div>
 
-
+								<div class="form-group col-md-12">
+									<label for="inputEmail4">Categories</label>
+									<select id="categories" name="categories[]" multiple class="form-control select2">                                            
+										<?php 
+										
+										$arr = json_decode(@$webpage->categories);
+										foreach($categories as $row):?>
+										<option value="<?= $row['id'];?>" <?php  if($arr) echo 
+										in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
+										<?php endforeach;?>
+									</select>  								
+								</div>
 
 								<div class="form-group col-md-12">
 									<label for="inputPassword4">Body*</label>
@@ -51,7 +63,7 @@ $blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
 
 									<label for="inputEmail4" class="pr_10"><input type="radio" value="1" class="form-control " id="status" name="status" <?=@$webpage->status==1?'checked':''?> placeholder=""> Active</label>
 
-									<label for="inputEmail4"><input type="radio" <?=@$webpage->status==0?'checked':''?> value="0" class="form-control" id="status" name="status" placeholder=""> Inactive</label>
+									<label for="inputEmail4"><input type="radio" <?=@$webpage->status==0?'checked':''?> value="0" class="form-control" id="status" name="status" placeholder=""> Inactive  </label>
 								</div>
 
 
