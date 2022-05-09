@@ -152,8 +152,7 @@ class Api extends BaseController
 
 		$customer = $this->customer_model->asArray()->where('id',$customer_id)->first();
 	
-		$categories=array_filter(explode(",",$customer['category_id']));
-		$webpages = $this->cmodel->whereIn('categpry_id', $categories)->get()->getResult();
+		$webpages = $this->cmodel->whereIn('categories', $customer['categories'])->get()->getResult();
 		if( $webpages ){
 			$webPageList = [];
 			foreach($webpages as $key => $eachPage){
