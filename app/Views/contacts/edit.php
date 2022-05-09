@@ -175,6 +175,7 @@ $(document).on("click", '#addContact', function () {
 
             $("#addAddressModal").html(obj.html);
             $("#addAddressModal").modal('show');
+            $("#addAddressModal #address_type").select2();
         }
     });    
 });
@@ -222,12 +223,13 @@ $(document).on("click", "#saveOrUpdateAddress", function() {
     var post_code =  $('#addAddressModal #post_code').val();
     var country =  $('#addAddressModal #country').val();
     var addressId =  $('#addAddressModal #addressId').val();
+    var address_type =  $('#addAddressModal #address_type').val();
     
 
     $.ajax({
         url: baseURL+ 'contacts/saveAddress',
         type: 'POST',
-        data: {addressId:addressId, uuid_contact:uuid, address_line_1:address_line_1, address_line_2:address_line_2, address_line_3:address_line_3, address_line_4:address_line_4,city:city, state:state, post_code:post_code, country:country},
+        data: {addressId:addressId, uuid_contact:uuid, address_line_1:address_line_1, address_line_2:address_line_2, address_line_3:address_line_3, address_line_4:address_line_4,city:city, state:state, post_code:post_code, country:country,address_type:address_type},
         success: function(response) {
         
             var obj = JSON.parse(response);
