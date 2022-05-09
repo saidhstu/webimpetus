@@ -54,6 +54,20 @@
                 </div>
 
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputEmail4">Address Type</label><br>
+                    <select id="address_type" name="address_type"  class="form-control select2">                                            
+                    
+                        <option value="home" <?php if(@$data->address_type == "home")echo "selected";  ?> >Home</option>
+                        <option value="correspondence" <?php if(@$data->address_type == "correspondence")echo "selected";  ?> >Correspondence</option>
+                        <option value="business" <?php if(@$data->address_type == "business")echo "selected";  ?> >Business</option>
+                       
+                    </select> 
+                </div>
+               
+
+            </div>
         </div>
 
 
@@ -63,3 +77,9 @@
       </div>
     </div>
   </div>
+
+  <style>
+      span.select2.select2-container.select2-container--default {
+          width:227px !important;
+        }
+  </style>

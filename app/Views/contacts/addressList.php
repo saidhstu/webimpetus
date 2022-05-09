@@ -8,6 +8,7 @@
             <th scope="col">State</th>
             <th scope="col">Post code</th>
             <th scope="col">Country</th>
+            <th scope="col">Address Type</th>
             <th scope="col" width="50">Action</th>
         </tr>
     </thead>
@@ -22,6 +23,7 @@
         <td class="f_s_12 f_w_400  "><?= $row['state'];?> </td>
         <td class="f_s_12 f_w_400  "><?= $row['post_code'];?> </td>
         <td class="f_s_12 f_w_400  "><?= $row['country'];?> </td>
+        <td class="f_s_12 f_w_400  "><?= $row['address_type'];?> </td>
        
         <td class="f_s_12 f_w_400 text-right">
             <div class="header_more_tool">
