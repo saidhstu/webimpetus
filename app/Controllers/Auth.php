@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Users_model;
+use App\Models\Contact;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
@@ -73,19 +74,30 @@ $input = $this->getRequestInput($this->request);
                     ResponseInterface::HTTP_BAD_REQUEST
                 );
         }
-       return $this->getJWTForUser($input['email']);
+       return $this->getJWTForUser($input['email'],$input['password']);
 
        
     }
 
     private function getJWTForUser(
         string $emailAddress,
+        string $password,
         int $responseCode = ResponseInterface::HTTP_OK
     )
     {
         try {
-            $model = new Users_model();
+            //$model = new Users_model();
+            $model = new Contact(); // using customer contact
             $user = $model->findUserByEmailAddress($emailAddress);
+            if($user['password']!=md5($password)){
+                return $this
+                ->getResponse(
+                    [
+                        'error' => 'Password Not match',
+                    ],
+                    $responseCode
+                ); 
+            }
             unset($user['password']);
 
             helper('jwt');

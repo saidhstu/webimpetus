@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Users_model;
+use App\Models\Contact;
 use Config\Services;
 use Firebase\JWT\JWT;
 
@@ -17,7 +18,8 @@ function validateJWTFromRequest(string $encodedToken)
 {
     $key = Services::getSecretKey();
     $decodedToken = JWT::decode($encodedToken, $key, ['HS256']);
-    $userModel = new Users_model();
+    //$userModel = new Users_model();
+    $userModel = new Contact();
     $userModel->findUserByEmailAddress($decodedToken->email);
 }
 

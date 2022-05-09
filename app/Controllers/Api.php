@@ -9,6 +9,7 @@ use App\Models\Enquiries_model;
 use App\Models\Blocks_model;
 use App\Models\Gallery_model;
 use App\Models\Secret_model;
+use App\Models\Documents_model;
 class Api extends BaseController
 {
 	public function __construct()
@@ -22,7 +23,11 @@ class Api extends BaseController
 	  $this->bmodel = new Blocks_model();
 	  $this->gmodel = new Gallery_model();
 	  $this->sec_model = new Secret_model();
+	  $this->documents_model = new Documents_model();
 	  header('Content-Type: application/json; charset=utf-8');
+	  // header('Access-Control-Allow-Origin: *');
+	  // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+	  //header('Access-Control-Allow-Headers: Accept,Authorization,Content-Type');
 	}
 	
     public function index()
@@ -205,6 +210,24 @@ class Api extends BaseController
 			$data['status'] = 'error';
 			$data['status'] = 'Id is missing';
 		}
+		echo json_encode($data); die;
+	}
+
+	public function getDocument($id=false){
+
+		if( strlen($id) > 0){
+			$documents = $this->documents_model->where(["id" => $id])->get()->getResult();
+			
+		}else{
+			$documents = $this->documents_model->get()->getResult();
+		}
+		$documentList = [];	
+		foreach($documents as $key => $eachPage){
+			$documentList[$key] = $eachPage;
+		}
+		
+		$data['data'] = $documentList;
+		$data['status'] = 'success';
 		echo json_encode($data); die;
 	}
 	
