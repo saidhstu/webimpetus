@@ -10,6 +10,7 @@ use App\Models\Blocks_model;
 use App\Models\Gallery_model;
 use App\Models\Secret_model;
 use App\Models\Documents_model;
+use App\Models\Customers_model;
 class Api extends BaseController
 {
 	public function __construct()
@@ -24,6 +25,7 @@ class Api extends BaseController
 	  $this->gmodel = new Gallery_model();
 	  $this->sec_model = new Secret_model();
 	  $this->documents_model = new Documents_model();
+	  $this->customer_model = new Customers_model();
 	  header('Content-Type: application/json; charset=utf-8');
 	  // header('Access-Control-Allow-Origin: *');
 	  // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -146,29 +148,17 @@ class Api extends BaseController
         echo json_encode($data); die;
     }
 
-	public function webpages($uuid=false){
+	public function webpages($customer_id=false){
 
-		$blocks = $this->bmodel->get()->getResult();
-		$webpageIdArr=[];
-		$blockList = [];
-		foreach($blocks as $eachBlock){
-
-			if( $eachBlock->webpages_id > 0){
-				$webpageIdArr[$eachBlock->webpages_id]=$eachBlock->webpages_id;
-				$blockList[$eachBlock->webpages_id][] = $eachBlock;
-			}
-		}
-		$webpages = $this->cmodel->whereIn('id', $webpageIdArr)->get()->getResult();
-		
-
+		$customer = $this->customer_model->asArray()->where('id',$customer_id)->first();
+	
+		$webpages = $this->cmodel->whereIn('categories', $customer['categories'])->get()->getResult();
 		if( $webpages ){
 			$webPageList = [];
 			foreach($webpages as $key => $eachPage){
 
 				$webPageList[$key] = $eachPage;
-				$webPageList[$key]->blockList = @$blockList[$eachPage->id];
 				
-
 			}
 			
 			$data['data'] = $webPageList;
