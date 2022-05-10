@@ -2,7 +2,7 @@
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController; 
 use App\Models\Documents_model;
- 
+use App\Libraries\UUID;
 class Documents extends CommonController
 {	
 	
@@ -11,6 +11,7 @@ class Documents extends CommonController
         parent::__construct();
 
         $this->documents_model = new Documents_model();
+        
 
 	}
     
@@ -40,6 +41,8 @@ class Documents extends CommonController
         $id = $this->request->getPost('id');
 
 		$data = $this->request->getPost();
+
+        $data['uuid'] = UUID::v5(UUID::v4(), 'contacts_saving');
 
         $data['document_date'] = strtotime($data['document_date']);
 
