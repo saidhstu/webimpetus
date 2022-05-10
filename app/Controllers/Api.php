@@ -150,9 +150,20 @@ class Api extends BaseController
 
 	public function webpages($customer_id=false){
 
-		$customer = $this->customer_model->asArray()->where('id',$customer_id)->first();
-	
-		$webpages = $this->cmodel->whereIn('categories', $customer['categories'])->get()->getResult();
+		$categories=$this->db->query("select categories_id from customer_categories where customer_id=".$customer_id);
+		$categoriesId=[];
+		foreach($categories->getResult() as $row)
+		{
+			$categoriesId[$row->categories_id]=$row->categories_id;
+		}
+		$webPages = $this->db->query("select webpage_id from webpage_categories where categories_id in (".$categoriesId.")");
+		$webPagesId=[];
+		foreach($webPages->getResult() as $row)
+		{
+			$webPagesId[$row->webpage_id]=$row->webpage_id;
+		}
+
+		$webpages = $this->cmodel->whereIn('id', $webPagesId)->get()->getResult();
 		if( $webpages ){
 			$webPageList = [];
 			foreach($webpages as $key => $eachPage){
