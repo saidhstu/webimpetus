@@ -11,6 +11,8 @@ use App\Models\Gallery_model;
 use App\Models\Secret_model;
 use App\Models\Documents_model;
 use App\Models\Customers_model;
+use App\Models\WebpageCategory;
+use App\Models\CustomerCategory;
 class Api extends BaseController
 {
 	public function __construct()
@@ -26,6 +28,9 @@ class Api extends BaseController
 	  $this->sec_model = new Secret_model();
 	  $this->documents_model = new Documents_model();
 	  $this->customer_model = new Customers_model();
+	  $this->webCategory_model = new WebpageCategory();
+	  $this->cusCategory_model = new CustomerCategory();
+	  
 	  header('Content-Type: application/json; charset=utf-8');
 	  // header('Access-Control-Allow-Origin: *');
 	  // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -150,15 +155,15 @@ class Api extends BaseController
 
 	public function webpages($customer_id=false){
 
-		$categories=$this->db->query("select categories_id from customer_categories where customer_id=".$customer_id);
+		$categories=$this->cusCategory_model->where('customer_id',$customer_id)->get()->getResult();
 		$categoriesId=[];
-		foreach($categories->getResult() as $row)
+		foreach($categories as $row)
 		{
 			$categoriesId[$row->categories_id]=$row->categories_id;
 		}
-		$webPages = $this->db->query("select webpage_id from webpage_categories where categories_id in (".$categoriesId.")");
+		$webPages = $this->webCategory_model->whereIn('categories_id',$categoriesId)->get()->getResult();
 		$webPagesId=[];
-		foreach($webPages->getResult() as $row)
+		foreach($webPages as $row)
 		{
 			$webPagesId[$row->webpage_id]=$row->webpage_id;
 		}
