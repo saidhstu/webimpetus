@@ -152,9 +152,9 @@ class Common_model extends Model
         return $result;
 	}
 
-    public function deleteTableData($tableName, $id)
+    public function deleteTableData($tableName, $id, $field = "id")
     {
-        $query = $this->db->table($tableName)->delete(array('id' => $id));
+        $query = $this->db->table($tableName)->delete(array($field => $id));
         return $query;
     }
 
