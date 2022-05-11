@@ -11,6 +11,8 @@ use App\Models\Gallery_model;
 use App\Models\Secret_model;
 use App\Models\Documents_model;
 use App\Models\Customers_model;
+use App\Models\WebpageCategory;
+use App\Models\CustomerCategory;
 class Api extends BaseController
 {
 	public function __construct()
@@ -26,6 +28,9 @@ class Api extends BaseController
 	  $this->sec_model = new Secret_model();
 	  $this->documents_model = new Documents_model();
 	  $this->customer_model = new Customers_model();
+	  $this->webCategory_model = new WebpageCategory();
+	  $this->cusCategory_model = new CustomerCategory();
+	  
 	  header('Content-Type: application/json; charset=utf-8');
 	  // header('Access-Control-Allow-Origin: *');
 	  // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -150,23 +155,43 @@ class Api extends BaseController
 
 	public function webpages($customer_id=false){
 
-		$customer = $this->customer_model->asArray()->where('id',$customer_id)->first();
-	
-		$webpages = $this->cmodel->whereIn('categories', $customer['categories'])->get()->getResult();
-		if( $webpages ){
-			$webPageList = [];
-			foreach($webpages as $key => $eachPage){
-
-				$webPageList[$key] = $eachPage;
-				
+		$categories=$this->cusCategory_model->where('customer_id',$customer_id)->get()->getResult();
+		$categoriesId=[];
+		foreach($categories as $row)
+		{
+			$categoriesId[$row->categories_id]=$row->categories_id;
+		}
+		$webPagesId=[];
+		if(count($categoriesId))
+		{
+			$webPages = $this->webCategory_model->whereIn('categories_id',$categoriesId)->get()->getResult();
+			foreach($webPages as $row)
+			{
+				$webPagesId[$row->webpage_id]=$row->webpage_id;
 			}
-			
-			$data['data'] = $webPageList;
-			$data['status'] = 'success';
-		}else{
+		}
+		if(count($webPagesId))
+		{
+			$webpages = $this->cmodel->whereIn('id', $webPagesId)->get()->getResult();
+			if( $webpages ){
+				$webPageList = [];
+				foreach($webpages as $key => $eachPage){
 
+					$webPageList[$key] = $eachPage;
+					
+				}
+				
+				$data['data'] = $webPageList;
+				$data['status'] = 'success';
+			}else{
+
+				$data['status'] = 'error';
+			}
+		}
+		else{
 			$data['status'] = 'error';
 		}
+		
 		echo json_encode($data); die;
 	}
 
