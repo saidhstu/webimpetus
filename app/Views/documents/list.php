@@ -17,7 +17,11 @@
                 </thead>
                 <tbody>                                        
                 
-                <?php foreach($documents as $row):?>
+                <?php foreach($documents as $row):
+                    $html = "";
+                    $url = base_url()."/document/view/".$row['uuid'];
+                    $html = '<a href="'.$url.'" target="_blank">Document Link</a>';
+                    ?>
                 <tr data-link=<?= "/".$tableName."/edit/".$row['id'];?> >
 
                     <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?= basename($row['file']);?></td>
@@ -38,6 +42,7 @@
                                     
                                     <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/".$tableName."/delete/".$row['id'];?> <i class="ti-trash"></i> Delete</a>
                                     <a class="dropdown-item" href="<?= "/".$tableName."/edit/".$row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item" id="copyToClipBoard" link='<?= $html;?>' href="<?= "/".$tableName."/edit/".$row['id'];?>"> <i class="fas fa-copy"></i> Copy To Clipboard</a>
                                     
                                     
                                 </div>
@@ -95,5 +100,22 @@ $(document).on("click", ".open-file", function(e){
 
 
 })
+
+$(document).on("click", "#copyToClipBoard", function(e){
+    e.preventDefault();
+    var val = $(this).attr("link");
+
+    copyToClipboard(val);
+})
   
+function copyToClipboard(text) {
+    var sampleTextarea = document.createElement("textarea");
+    document.body.appendChild(sampleTextarea);
+    sampleTextarea.value = text; //save main text in it
+    sampleTextarea.select(); //select textarea contenrs
+    document.execCommand("copy");
+    document.body.removeChild(sampleTextarea);
+}
+
+
 </script>
