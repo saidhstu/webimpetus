@@ -161,28 +161,37 @@ class Api extends BaseController
 		{
 			$categoriesId[$row->categories_id]=$row->categories_id;
 		}
-		$webPages = $this->webCategory_model->whereIn('categories_id',$categoriesId)->get()->getResult();
 		$webPagesId=[];
-		foreach($webPages as $row)
+		if(count($categoriesId))
 		{
-			$webPagesId[$row->webpage_id]=$row->webpage_id;
-		}
-
-		$webpages = $this->cmodel->whereIn('id', $webPagesId)->get()->getResult();
-		if( $webpages ){
-			$webPageList = [];
-			foreach($webpages as $key => $eachPage){
-
-				$webPageList[$key] = $eachPage;
-				
+			$webPages = $this->webCategory_model->whereIn('categories_id',$categoriesId)->get()->getResult();
+			foreach($webPages as $row)
+			{
+				$webPagesId[$row->webpage_id]=$row->webpage_id;
 			}
-			
-			$data['data'] = $webPageList;
-			$data['status'] = 'success';
-		}else{
+		}
+		if(count($webPagesId))
+		{
+			$webpages = $this->cmodel->whereIn('id', $webPagesId)->get()->getResult();
+			if( $webpages ){
+				$webPageList = [];
+				foreach($webpages as $key => $eachPage){
 
+					$webPageList[$key] = $eachPage;
+					
+				}
+				
+				$data['data'] = $webPageList;
+				$data['status'] = 'success';
+			}else{
+
+				$data['status'] = 'error';
+			}
+		}
+		else{
 			$data['status'] = 'error';
 		}
+		
 		echo json_encode($data); die;
 	}
 
