@@ -129,15 +129,19 @@ class Webpages extends CommonController
 
 			$this->model->deleteTableData("webpage_categories", $id, "webpage_id");
 
-            foreach( $post["categories"] as $key => $categories_id){
+			if(isset($post["categories"])){
 
-                $c_data = [];
+				foreach( $post["categories"] as $key => $categories_id){
 
-                $c_data['webpage_id'] = $id;
-                $c_data['categories_id'] = $categories_id;
+					$c_data = [];
 
-                $this->model->insertTableData( $c_data, "webpage_categories");
-            }
+					$c_data['webpage_id'] = $id;
+					$c_data['categories_id'] = $categories_id;
+
+					$this->model->insertTableData( $c_data, "webpage_categories");
+				}
+			}
+            
 		}
         return redirect()->to('/'.$this->table);
     }

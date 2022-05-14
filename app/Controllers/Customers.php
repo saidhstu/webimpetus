@@ -77,14 +77,16 @@ class Customers extends CommonController
 
             $this->model->deleteTableData("customer_categories", $id, "customer_id");
 
-            foreach( $post["categories"] as $key => $categories_id){
+            if(isset($post["categories"])){
+                foreach( $post["categories"] as $key => $categories_id){
 
-                $c_data = [];
+                    $c_data = [];
 
-                $c_data['customer_id'] = $id;
-                $c_data['categories_id'] = $categories_id;
+                    $c_data['customer_id'] = $id;
+                    $c_data['categories_id'] = $categories_id;
 
-                $this->model->insertTableData( $c_data, "customer_categories");
+                    $this->model->insertTableData( $c_data, "customer_categories");
+                }
             }
         }
 

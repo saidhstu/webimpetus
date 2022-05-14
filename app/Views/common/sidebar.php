@@ -23,8 +23,13 @@
         
         </li>
 		<?php } else { 
-		// $menu = $_SESSION['permissions'];
+	
 		$menu = getWithOutUuidResultArray("menu", [], true, "sort_order");
+		$userMenus = getRowArray("users", ["id" => $_SESSION['uuid']])->permissions;
+        if($userMenus){
+            $userMenus = json_decode($userMenus);
+        }
+      
         if(isset($_SESSION["menucode"])){
 
             $menucode = $_SESSION["menucode"];
@@ -34,13 +39,15 @@
         // prd($menu);
 		foreach($menu as $val) { 
 
-            if(@$menucode == $val['id']){
+            if(in_array($val['id'], $userMenus)){
                 $activeIcon =  $val['icon'];
-            }
+            
         ?>
 			<li><a href="<?php echo $val['link']; ?>" class="<?php if(@$menucode == $val['id'])echo "active";?>"><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>		
 		
-		<?php } }  
+		<?php } }
+        
+        }  
         $_SESSION["menucode"] = 0;?>
     </ul>
 </nav>
