@@ -192,8 +192,12 @@ $categories = getResultArray("categories");
 
 										<label for="inputEmail4">Type</label>
 										<select name="type[]" id="text_type" class="form-control">
-											<option value="1" <?php if($blocks_list[$jak_i]['type'] == 1)echo "selected";?>>TEXT</option>
-											<option value="2" <?php if($blocks_list[$jak_i]['type'] == 2)echo "selected";?>>JOSN TEXT</option>
+											<option value="1" <?php if($blocks_list[$jak_i]['type'] == 1)echo "selected";?>>PLAIN TEXT</option>
+											<option value="2" <?php if($blocks_list[$jak_i]['type'] == 2)echo "selected";?>>JOSN</option>
+											<option value="3" <?php if($blocks_list[$jak_i]['type'] == 3)echo "selected";?>>Key Value Pairs</option>
+											<option value="4" <?php if($blocks_list[$jak_i]['type'] == 4)echo "selected";?>>WYSIWYG Editor</option>
+											<option value="5" <?php if($blocks_list[$jak_i]['type'] == 5)echo "selected";?>>Markdown Editor	</option>
+											<option value="6" <?php if($blocks_list[$jak_i]['type'] == 6)echo "selected";?>>CHART</option>
 										</select>
 										
 
@@ -234,8 +238,12 @@ $categories = getResultArray("categories");
 
 										<label for="inputEmail4">Type</label>
 										<select name="type[]" id="text_type" class="form-control">
-											<option value="1">TEXT</option>
-											<option value="2">JOSN TEXT</option>
+											<option value="1">PLAIN TEXT</option>
+											<option value="2">JOSN</option>
+											<option value="3" >Key Value Pairs</option>
+											<option value="4" >WYSIWYG Editor</option>
+											<option value="5" >Markdown Editor	</option>
+											<option value="6" >CHART</option>
 										</select>
 
 										
@@ -391,8 +399,12 @@ $('.add').click(function(e){ //click event on add more fields button having clas
 
 			'<label for="inputEmail4">Type</label>'+
 			'<select name="type[]" id="text_type" class="form-control">'+
-				'<option value="1">TEXT</option>'+
+				'<option value="1">PLAIN TEXT</option>'+
 				'<option value="2">JOSN TEXT</option>'+
+				'<option value="3" >Key Value Pairs</option>'+
+				'<option value="4" >WYSIWYG Editor</option>'+
+				'<option value="5" >Markdown Editor	</option>'+
+				'<option value="6" >CHART</option>'+
 			'</select>'+
            
         '</div>'+
