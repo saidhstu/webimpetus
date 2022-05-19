@@ -443,14 +443,33 @@ $(document).on("click", ".radioChecked2",function(){
 })
 
 $(document).on('click', "#save_block", function(e){
+	var code_arr = [];
 	$(".each-block").each(function(){
         var blocks_code = $(this).find(".blocks_code").val();
+		
        if( blocks_code.length == 0 ){
             alert("Code is mandatory in each blocks.");
 			e.preventDefault()
        }
+	   if( code_arr.indexOf(blocks_code) > -1 ){
+			alert("Duplicate code not allowed.");
+			e.preventDefault()
+	   }
+	   code_arr.push(blocks_code);
+	  
     })
 })
+// $(document).on('click', ".blocks_code", function(e){
+// 	var code = $(this).val();
+// 	$(".each-block").each(function(){
+//         var blocks_code = $(this).find(".blocks_code").val();
+//        if( blocks_code == code ){
+//             alert("Duplicate code not allowed.");
+// 			e.preventDefault()
+//        }
+//     })
+// })
+
 $(document).on('change', "#text_type", function(){
 	var current = $(this);
 	var text_type = $(this).val();
