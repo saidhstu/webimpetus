@@ -112,20 +112,36 @@ class Webpages extends CommonController
 		if( $id > 0){
 			$i = 0;
 			$post = $this->request->getPost();
-            foreach($post["blocks_code"] as $code){
+			if(isset($post["blocks_code"])){
+				foreach($post["blocks_code"] as $code){
 
-                $blocks["code"] = $code;
-                $blocks["webpages_id"] = $id;
-                $blocks["text"] = $post["blocks_text"][$i];
-                $blocks["title"] = $post["blocks_title"][$i];
-                $blocks["uuid_business_id"] = session('uuid_business');
-                $blocks_id =  @$post["blocks_id"][$i];
-                if(strlen(trim($code)) > 0 || strlen(trim($blocks["text"])>0) || strlen(trim($blocks["title"])>0)){
-                    $this->insertOrUpdate("blocks_list",$blocks_id, $blocks);
-                }
+					$blocks = [];
+					$blocks["code"] = $code;
+					$blocks["webpages_id"] = $id;
+					$blocks["text"] = $post["blocks_text"][$i];
+					$blocks["title"] = $post["blocks_title"][$i];
+					$blocks["sort"] = $post["sort"][$i];
+					$blocks["type"] = $post["type"][$i];
+					
+					$blocks["uuid_business_id"] = session('uuid_business');
+					$blocks_id =  @$post["blocks_id"][$i];
+					if(empty($blocks["sort"])){
+						$blocks["sort"] = $blocks_id;
+					}
+					
+					$blocks_id = $this->insertOrUpdate("blocks_list",$blocks_id, $blocks);
+					
+					if(empty($blocks["sort"])){
+						
+						$this->insertOrUpdate("blocks_list",$blocks_id, ["sort" => $blocks_id]);
+					}
 
-				$i++;
-            }
+					$i++;
+				}
+			}else{
+				$this->model->deleteTableData("blocks_list", $id ,"webpages_id");
+			}
+            
 
 			$this->model->deleteTableData("webpage_categories", $id, "webpage_id");
 
@@ -142,6 +158,10 @@ class Webpages extends CommonController
 				}
 			}
             
+		}
+
+		if( $id > 0){
+			return redirect()->to('/'.$this->table.'/edit/'.$id);
 		}
         return redirect()->to('/'.$this->table);
     }

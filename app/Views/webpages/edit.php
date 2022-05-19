@@ -52,7 +52,7 @@ $categories = getResultArray("categories");
 								</div>
 
 								<div class="form-group col-md-12">
-									<label for="inputPassword4">Body*</label>
+									<label for="inputPassword4">Body</label>
 									<textarea class="form-control" name="content" id="content" ><?=@$webpage->content?></textarea> 
 								</div>
 
@@ -61,9 +61,9 @@ $categories = getResultArray("categories");
 								<div class="form-group col-md-12">
 									<div ><label for="inputEmail4">Status</label></div>
 
-									<label for="inputEmail4" class="pr_10"><input type="radio" value="1" class="form-control " id="status" name="status" <?=@$webpage->status==1?'checked':''?> placeholder=""> Active</label>
+									<label for="inputEmail4" class="pr_10 radioChecked1" ><input type="radio" value="1" class="form-control " id="active" name="status" <?=@$webpage->status==1?'checked':''?> placeholder=""> Active</label>
 
-									<label for="inputEmail4"><input type="radio" <?=@$webpage->status==0?'checked':''?> value="0" class="form-control" id="status" name="status" placeholder=""> Inactive  </label>
+									<label for="inputEmail4" class="radioChecked2"><input type="radio" <?=@$webpage->status==0?'checked':''?> value="0" class="form-control " id="inactive" name="status" placeholder=""> Inactive  </label>
 								</div>
 
 
@@ -179,35 +179,38 @@ $categories = getResultArray("categories");
 									for($jak_i=0; $jak_i<count($blocks_list); $jak_i++){
 										$new_id = $jak_i + 1;
 								?>
-								<div class="form-row col-md-12 each-row" id="  office_address_<?php echo $new_id; ?>">
+								<div class="form-row col-md-12 each-row each-block" id="  office_address_<?php echo $new_id; ?>">
 									<div class="form-group col-md-6">
 										<label for="inputEmail4">Code</label>
-										<input autocomplete="off" type="text" class="form-control" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?=$blocks_list[$jak_i]['code'] ?>">
+										<input autocomplete="off" type="text" class="form-control blocks_code" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?=$blocks_list[$jak_i]['code'] ?>"><br>
 									
 										<label for="inputEmail4">Title</label>
-										<input autocomplete="off" type="text" class="form-control" id="blocks_title<?php echo $new_id; ?>" name="blocks_title[]" placeholder="" value="<?=$blocks_list[$jak_i]['title'] ?>">
+										<input autocomplete="off" type="text" class="form-control" id="blocks_title<?php echo $new_id; ?>" name="blocks_title[]" placeholder="" value="<?=$blocks_list[$jak_i]['title'] ?>"><br>
+
+										<label for="inputEmail4">Sort</label>
+										<input autocomplete="off" type="number" class="form-control"  name="sort[]" placeholder="" value="<?=$blocks_list[$jak_i]['sort'] ?>">
+
+										<label for="inputEmail4">Type</label>
+										<select name="type[]" id="text_type" class="form-control">
+											<option value="1" <?php if($blocks_list[$jak_i]['type'] == 1)echo "selected";?>>TEXT</option>
+											<option value="2" <?php if($blocks_list[$jak_i]['type'] == 2)echo "selected";?>>JOSN TEXT</option>
+										</select>
+										
+
 									</div>
-									<div class="form-group col-md-5">
+									<div class="form-group col-md-5 textarea-block">
 										<label for="inputEmail4">Text</label>
 									
-										<textarea class="form-control myClassName" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" ><?=$blocks_list[$jak_i]['text'] ?></textarea> 
+										<textarea class="form-control blocks_text <?php if($blocks_list[$jak_i]['type'] == 2){ echo "myClassName"; }else{echo "textarea-height";}?>" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" ><?=$blocks_list[$jak_i]['text'] ?></textarea> 
 									</div>
 									<input type="hidden" value="<?=$blocks_list[$jak_i]['id'] ?>" id="blocks_id" name="blocks_id[]">
-									<?php
-										if($jak_i == 0){
-									?>
-										<div class="form-group col-md-1 change">
-											<button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">+</button>
-										</div>
-									<?php
-										}else{
-									?>
-										<div class="form-group col-md-1 change">
-											<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
-										</div>
-									<?php
-										}
-									?>
+								
+									<div class="form-group col-md-1 change">
+										
+										<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
+									</div>
+								
+									
 								</div>
 								<?php
 									}
@@ -219,22 +222,33 @@ $categories = getResultArray("categories");
 							<?php
 								}else{
 							?>
-								<div class="form-row" id="office_address_1">
+								<div class="form-row each-block" id="office_address_1">
 									<div class="form-group col-md-6">
 										<label for="inputEmail4">Code</label>
-										<input autocomplete="off" type="text" class="form-control" id="first_name_1" name="blocks_code[]" placeholder="" value="">
+										<input autocomplete="off" type="text" class="form-control blocks_code" id="first_name_1" name="blocks_code[]" placeholder="" value="">
 									
 										<label for="inputEmail4">Title</label>
 										<input autocomplete="off" type="text" class="form-control" id="surname" name="blocks_title[]" placeholder="" value="">
+										<label for="inputEmail4">Sort</label>
+										<input autocomplete="off" type="number" class="form-control"  name="sort[]" placeholder="" value="">
+
+										<label for="inputEmail4">Type</label>
+										<select name="type[]" id="text_type" class="form-control">
+											<option value="1">TEXT</option>
+											<option value="2">JOSN TEXT</option>
+										</select>
+
+										
+
 									</div>
-									<div class="form-group col-md-5">
+									<div class="form-group col-md-5 textarea-section">
 										<label for="inputEmail4">Text</label>
+										<div class=" textarea-block">
+											<textarea class="form-control textarea-height blocks_text"  id="content" name="blocks_text[]" ></textarea>
+										</div>
+										 
+									</div>
 									
-										<textarea class="form-control myClassName" id="content" name="blocks_text[]" ></textarea> 
-									</div>
-									<div class="form-group col-md-1 change">
-										<button class="btn btn-primary bootstrap-touchspin-up add" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
-									</div>
 								</div>
 								<input type="hidden" value="0" id="contact_id" name="contact_id">
 								<div class="form-row addresscontainer">
@@ -244,17 +258,25 @@ $categories = getResultArray("categories");
 							<?php
 								}
 							?>
+
+							<div class="form-group">
+								<button class="btn btn-primary  add" type="button" style="float:right;margin-right: 120px;">Add Blocks</button><br><br>
+							</div>
 						</div>
 					</div>
 
 				</div>
 			</div>
 
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary" id="save_block">Submit</button>
 		</form>
 	</div>
 </div>
-
+<style>
+	.textarea-height{
+		height: 247px !important;
+	}
+</style>
 <?php require_once (APPPATH.'Views/common/footer.php'); ?>
 <script>
 
@@ -358,22 +380,30 @@ var x = $('#total_contacts').val(); //initialize counter for text box
 $('.add').click(function(e){ //click event on add more fields button having class add_more_button
   
         
-        $('.addresscontainer').append('<div class="form-row col-md-12" id="office_address_'+x+'"><div class="form-group col-md-6">'+
+        $('.addresscontainer').append('<div class="form-row col-md-12 each-block" id="office_address_'+x+'"><div class="form-group col-md-6">'+
             '<label for="inputSecretKey">Code</label>'+
-            '<input type="text" class="form-control" id="blocks_code'+x+'" name="blocks_code[]" placeholder="" value="">'+
+            '<input type="text" class="form-control blocks_code" id="blocks_code'+x+'" name="blocks_code[]" placeholder="" value=""><br>'+
        
             '<label for="inputSecretValue">Title</label>'+
-            '<input type="text" class="form-control" id="blocks_title'+x+'" name="blocks_title[]" placeholder="" value="">'+
+            '<input type="text" class="form-control" id="blocks_title'+x+'" name="blocks_title[]" placeholder="" value=""><br>'+
+			'<label for="inputEmail4">Sort</label>'+
+			'<input autocomplete="off" type="number" class="form-control"  name="sort[]" placeholder="" value="">'+
+
+			'<label for="inputEmail4">Type</label>'+
+			'<select name="type[]" id="text_type" class="form-control">'+
+				'<option value="1">TEXT</option>'+
+				'<option value="2">JOSN TEXT</option>'+
+			'</select>'+
+           
         '</div>'+
-        '<div class="form-group col-md-5">'+
+        '<div class="form-group col-md-5 textarea-block">'+
             '<label for="inputSecretValue">Text</label>'+
-			'<textarea class="form-control myClassName" id="blocks_text'+x+'" name="blocks_text[]" placeholder="" value="" ></textarea> '+
+			'<textarea class="form-control textarea-height blocks_text" id="blocks_text'+x+'" name="blocks_text[]" placeholder="" value="" ></textarea> '+
         '</div> <input type="hidden" value="0" id="blocks_id" name="blocks_id[]">'+
         '<div class="form-group col-md-1 change">'+
             '<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>'+
         '</div></div>'
         );
-        
         
 		CKEDITOR.replaceAll( 'myClassName' ); 
     
@@ -402,4 +432,39 @@ $('.deleteaddress').on("click", function(e){ //user click on remove text links
     x--;
 })
 
+$(document).on("click", ".radioChecked1",function(){
+	$(this).addClass("radioCheckedLabel");
+	$(".radioChecked2").removeClass("radioCheckedLabel");
+	$("#active").prop('checked', false);
+})
+$(document).on("click", ".radioChecked2",function(){
+	$(".radioChecked1").removeClass("radioCheckedLabel");
+	// $("input:radio[id='inactive']").trigger('click');
+})
+
+$(document).on('click', "#save_block", function(e){
+	$(".each-block").each(function(){
+        var blocks_code = $(this).find(".blocks_code").val();
+       if( blocks_code.length == 0 ){
+            alert("Code is mandatory in each blocks.");
+			e.preventDefault()
+       }
+    })
+})
+$(document).on('change', "#text_type", function(){
+	var current = $(this);
+	var text_type = $(this).val();
+
+	if(text_type == 2){
+	
+		current.closest('.each-block').find('.textarea-height').addClass('myClassName');
+		CKEDITOR.replaceAll( 'myClassName' ); 
+	}else if(text_type==1){
+		current.closest('.each-block').find('.textarea-block').html("");
+		var textVal = current.closest('.each-block').find('.blocks_text').val();
+		console.log(textVal)
+		var html = '<label for="inputSecretValue">Text</label><textarea class="form-control textarea-height" id="content" name="blocks_text[]" spellcheck="false">'+textVal+'</textarea>'; 
+		current.closest('.each-block').find('.textarea-block').html(html);
+	}
+})
 </script>
