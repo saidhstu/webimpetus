@@ -19,7 +19,12 @@ class Webpages extends CommonController
     public function index()
     {        
 
+		
 		$data[$this->table] = $this->content_model->where(['type' => 1, "uuid_business_id" => $this->businessUuid])->findAll();
+
+		if(isset($_GET['cat']) && $_GET['cat'] == 'strategies'){
+			$data['menuName'] = $_GET['cat'];
+		}
 		$data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;

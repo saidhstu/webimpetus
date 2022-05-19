@@ -49,12 +49,6 @@ function render_head_text($text){
     $builder = $db->table("menu");
     $query = $builder->getWhere( ["link" => "/".$text] );
     $result = $query->getRow();
-// prd($result );
-    // $text = str_replace("_", " ",  $result->name);
-    // $text = ucwords($text);
-
-    // return $text;
-
     return @$result->name;
 }    
 function getTitleHour($time)

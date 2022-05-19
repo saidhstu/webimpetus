@@ -11,11 +11,21 @@
         <div class="col-12">
             <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
                 <div class="page_title_left d-flex align-items-center">
-                    <h3 class="f_s_25 f_w_700 dark_text mr_30" ><?php echo render_head_text($tableName); ?> </h3>
+                    <h3 class="f_s_25 f_w_700 dark_text mr_30" >
+                        <?php if(isset($menuName)){
+                            echo ucfirst($menuName);
+                        }else{
+                            echo render_head_text($tableName);
+                        } ?>
+                     </h3>
                     <ol class="breadcrumb page_bradcam mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
                         <li class="breadcrumb-item active"><a href="/<?php echo $tableName; ?>">
-                        <?php echo render_head_text($tableName); ?>  </a></li>
+                        <?php if(isset($menuName)){
+                            echo ucfirst($menuName);
+                        }else{
+                            echo render_head_text($tableName);
+                        } ?>  </a></li>
                     </ol>
                 </div>
                 <div class="page_title_right">
@@ -24,7 +34,11 @@
                         <?php if(isset($is_add_permission) && $is_add_permission == 0){?>
 
                         <?php }else{?>
-                            <a href="/<?php echo $tableName; ?>/edit" class="btn btn-primary"><i class="ti-plus"></i> Add <?php echo render_head_text($rawTblName); ?></a>
+                            <a href="/<?php echo $tableName; ?>/edit" class="btn btn-primary"><i class="ti-plus"></i> Add <?php if(isset($menuName)){
+                            echo ucfirst($menuName);
+                        }else{
+                            echo render_head_text($rawTblName);
+                        } ?></a>
                         <?php }?>
                    
                     </div>
