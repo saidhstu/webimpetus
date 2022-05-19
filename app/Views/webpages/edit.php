@@ -12,6 +12,7 @@ $categories = getResultArray("categories");
 		<form id="addcat" method="post" action="/webpages/update" enctype="multipart/form-data">
 
 			<input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$webpage->id ?>" />
+			<input type="hidden" class="form-control" name="strategies" placeholder="" value="<?=@$menuName ?>" />
 
 			<div class="row">
 				<div class="col-xs-12 col-md-12">

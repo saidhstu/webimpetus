@@ -46,6 +46,10 @@ class Webpages extends CommonController
 			$data['images'] = [];
 		}
 
+		if(isset($_GET['cat']) && $_GET['cat'] == 'strategies'){
+			$data['menuName'] = $_GET['cat'];
+		}
+
 		echo view($this->table."/edit", $data);
 	}
 	
@@ -53,6 +57,7 @@ class Webpages extends CommonController
     public function update()
     {        
         $id = $this->request->getPost('id');
+        $menuName = $this->request->getPost('strategies');
 		$data = array(
 			'title'  => $this->request->getPost('title'),				
 			'sub_title' => $this->request->getPost('sub_title'),
@@ -164,11 +169,14 @@ class Webpages extends CommonController
 			}
             
 		}
-
-		if( $id > 0){
-			return redirect()->to('/'.$this->table.'/edit/'.$id);
+		$fromWhere = "";
+		if(strlen($menuName) > 1){
+			$fromWhere = "?cat=$menuName";
 		}
-        return redirect()->to('/'.$this->table);
+		if( $id > 0){
+			return redirect()->to('/'.$this->table.'/edit/'.$id.$fromWhere);
+		}
+        return redirect()->to('/'.$this->table.$fromWhere);
     }
 
 

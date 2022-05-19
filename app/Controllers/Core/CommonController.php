@@ -28,7 +28,13 @@ class CommonController extends BaseController
 		
 		$this->table = $this->getTableNameFromUri();
 		$this->rawTblName =  substr($this->table, 0, -1); 
-		$this->menucode = $this->getMenuCode("/".$this->table);
+		if(isset($_GET['cat']) && $_GET['cat'] == 'strategies'){
+			
+			$this->menucode = $this->getMenuCode("/".$this->table."?cat=strategies");
+		}else{
+			$this->menucode = $this->getMenuCode("/".$this->table);
+		}
+		
 
 		$this->session->set("menucode", $this->menucode);
 		$this->notAllowedFields = array('uuid_business_id',"uuid");

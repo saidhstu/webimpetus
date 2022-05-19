@@ -19,8 +19,16 @@
             </thead>
             <tbody>                                        
 
-                <?php foreach($webpages as $row):?>
-                    <tr data-link="/webpages/edit/<?= $row['id'];?>">
+                <?php
+                
+                foreach($webpages as $row):
+                    if(isset($menuName)){
+                        $link = "/webpages/edit/".$row['id']."?cat=strategies";
+                    }else{
+                       $link = "/webpages/edit/".$row['id'];
+                    }
+                    ?>
+                    <tr data-link=<?=$link?>>
 
                         <td class="f_s_12 f_w_400" ><?= $row['id'];?></td>
                         <td class="f_s_12 f_w_400"><?= $row['title'];?></td>
