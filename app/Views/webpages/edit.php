@@ -492,7 +492,7 @@ $(document).on('change', "#text_type", function(){
 		CKEDITOR.replaceAll( 'myClassName' ); 
 	}else if(text_type==1){
 		current.closest('.each-block').find('.textarea-block').html("");
-		var textVal = current.closest('.each-block').find('.blocks_text').val();
+		var textVal = "";current.closest('.each-block').find('.blocks_text').val();
 		console.log(textVal)
 		var html = '<label for="inputSecretValue">Text</label><textarea class="form-control textarea-height" id="content" name="blocks_text[]" spellcheck="false">'+textVal+'</textarea>'; 
 		current.closest('.each-block').find('.textarea-block').html(html);
