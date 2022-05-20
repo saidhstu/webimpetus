@@ -156,6 +156,7 @@ class Api extends BaseController
 	public function webpages($customer_id=false){
 
 		$categories=$this->cusCategory_model->where('customer_id',$customer_id)->get()->getResult();
+
 		$categoriesId=[];
 		foreach($categories as $row)
 		{
@@ -176,7 +177,7 @@ class Api extends BaseController
 			if( $webpages ){
 				$webPageList = [];
 				foreach($webpages as $key => $eachPage){
-
+					$eachPage["contacts"] = $this->getContacts($eachPage["id"]);
 					$webPageList[$key] = $eachPage;
 					
 				}
@@ -195,6 +196,11 @@ class Api extends BaseController
 		echo json_encode($data); die;
 	}
 
+	public function getContacts( $id){
+		$blocks = $this->bmodel->where(["webpages_id" => $id])->get()->getResult();
+		return $blocks;
+	}
+	
 	public function webpagesEdit($id=false){
 
 		if( strlen($id) > 0){
