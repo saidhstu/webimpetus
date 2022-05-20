@@ -13,8 +13,11 @@
                 <div class="page_title_left d-flex align-items-center">
                     <h3 class="f_s_25 f_w_700 dark_text mr_30" >
                         <?php if(isset($menuName)){
+                            $addLink = "/$tableName/edit/0?cat=strategies";
                             echo ucfirst($menuName);
+
                         }else{
+                            $addLink = "/$tableName/edit";
                             echo render_head_text($tableName);
                         } ?>
                      </h3>
@@ -34,7 +37,7 @@
                         <?php if(isset($is_add_permission) && $is_add_permission == 0){?>
 
                         <?php }else{?>
-                            <a href="/<?php echo $tableName; ?>/edit" class="btn btn-primary"><i class="ti-plus"></i> Add <?php if(isset($menuName)){
+                            <a href="<?php echo $addLink; ?>" class="btn btn-primary"><i class="ti-plus"></i> Add <?php if(isset($menuName)){
                             echo ucfirst($menuName);
                         }else{
                             echo render_head_text($rawTblName);
