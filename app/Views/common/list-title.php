@@ -65,7 +65,11 @@
         <div class="white_card_header">
             <div class="box_header m-0">
                 <div class="main-title">
-                    <h3 class="m-0"><?php echo render_head_text($tableName); ?> </h3>
+                    <h3 class="m-0"><?php if(isset($menuName)){
+                            echo ucfirst($menuName);
+                        }else{
+                            echo render_head_text($tableName);
+                        } ?> </h3>
                 </div>   
             </div>
         </div>
