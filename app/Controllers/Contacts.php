@@ -48,6 +48,9 @@ class Contacts extends CommonController
 
 		$data = $this->request->getPost();
 
+        if(!isset($data['allow_web_access'])){
+            $data['allow_web_access'] = 0;
+        }
         if(empty($id)){
             $data['uuid'] = UUID::v5(UUID::v4(), 'contacts_saving');
             $data['uuid_business_id'] = $this->session->get('uuid_business');
