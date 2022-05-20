@@ -54,8 +54,6 @@ class Contact extends Model
     {
         $contact = $this
             ->asArray()
-            ->where(['email' => $emailAddress])
-            ->where(['allow_web_access' => 1])
             ->first();
 
         if (!$contact) 
