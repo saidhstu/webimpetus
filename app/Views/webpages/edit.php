@@ -206,7 +206,7 @@ $categories = getResultArray("categories");
 									<div class="form-group col-md-5 textarea-block">
 										<label for="inputEmail4">Text</label>
 									
-										<textarea class="form-control blocks_text <?php if($blocks_list[$jak_i]['type'] == 2){ echo "myClassName"; }else{echo "textarea-height";}?>" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" ><?=$blocks_list[$jak_i]['text'] ?></textarea> 
+										<textarea class="form-control blocks_text <?php if($blocks_list[$jak_i]['type'] == 4){ echo "myClassName"; }else{echo "textarea-height";}?>" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" ><?=$blocks_list[$jak_i]['text'] ?></textarea> 
 									</div>
 									<input type="hidden" value="<?=$blocks_list[$jak_i]['id'] ?>" id="blocks_id" name="blocks_id[]">
 								
@@ -478,11 +478,11 @@ $(document).on('change', "#text_type", function(){
 	var current = $(this);
 	var text_type = $(this).val();
 
-	if(text_type == 2){
+	if(text_type == 4){
 	
 		current.closest('.each-block').find('.textarea-height').addClass('myClassName');
 		CKEDITOR.replaceAll( 'myClassName' ); 
-	}else if(text_type==1){
+	}else{
 		current.closest('.each-block').find('.textarea-block').html("");
 		var textVal = "";current.closest('.each-block').find('.blocks_text').val();
 		console.log(textVal)
