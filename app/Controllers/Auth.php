@@ -98,6 +98,17 @@ $input = $this->getRequestInput($this->request);
                     $responseCode
                 ); 
             }
+            
+          if($user['allow_web_access'] != '1'){
+                return $this
+                ->getResponse(
+                    [
+                        'error' => 'User do do have access to webpage!',
+                    ],
+                    $responseCode
+                ); 
+            }
+
             unset($user['password']);
 
             helper('jwt');
