@@ -62,9 +62,9 @@ $categories = getResultArray("categories");
 								<div class="form-group col-md-12">
 									<div ><label for="inputEmail4">Status</label></div>
 
-									<label for="inputEmail4" class="pr_10 radioChecked1" ><input type="radio" value="1" class="form-control " id="active" name="status" <?=@$webpage->status==1?'checked':''?> placeholder=""> Active</label>
+									<label  class="pr_10 " ><input for="inputEmail4" type="radio" value="1" class="form-control " id="active" name="status" <?=@$webpage->status==1?'checked':''?> placeholder=""> Active</label>
 
-									<label for="inputEmail4" class="radioChecked2"><input type="radio" <?=@$webpage->status==0?'checked':''?> value="0" class="form-control " id="inactive" name="status" placeholder=""> Inactive  </label>
+									<label  class=""><input for="inputEmail4" type="radio" <?=@$webpage->status==0?'checked':''?> value="0" class="form-control " id="inactive" name="status" placeholder=""> Inactive  </label>
 								</div>
 
 
@@ -445,15 +445,6 @@ $('.deleteaddress').on("click", function(e){ //user click on remove text links
     x--;
 })
 
-$(document).on("click", ".radioChecked1",function(){
-	$(this).addClass("radioCheckedLabel");
-	$(".radioChecked2").removeClass("radioCheckedLabel");
-	$("#active").prop('checked', false);
-})
-$(document).on("click", ".radioChecked2",function(){
-	$(".radioChecked1").removeClass("radioCheckedLabel");
-	// $("input:radio[id='inactive']").trigger('click');
-})
 
 $(document).on('click', "#save_block", function(e){
 	var code_arr = [];
