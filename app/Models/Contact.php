@@ -54,6 +54,7 @@ class Contact extends Model
     {
         $contact = $this
             ->asArray()
+            ->where(['email' => $emailAddress])
             ->first();
 
         if (!$contact) 
