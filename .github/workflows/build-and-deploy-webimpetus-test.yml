@@ -19,8 +19,8 @@ jobs:
 
     - name: Run script file
       run: |
-         chmod +x ./devops/scripts/fetch_env_vars.sh
-         ./devops/scripts/fetch_env_vars.sh
+         chmod +x ./devops/scripts/prepare_test_environment.sh
+         ./devops/scripts/prepare_test_environment.sh
       shell: bash
 
     - name: short-sha
