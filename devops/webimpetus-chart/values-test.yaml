@@ -3,12 +3,12 @@
 replicaCount: 1
 
 image:
-  repository: tenthmatrix/webimpetus-ci4
+  repository: 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imagePullSecrets: ""
+imagePullSecrets: "eu-west-2-ecr-registry"
 nameOverride: ""
 fullnameOverride: ""
 
