@@ -40,12 +40,12 @@ service:
 
 ingress:
   enabled: true
-  className: ""
+  className: "nginx"
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: test-my.workstation.co.uk 
+    - host: my.workstation.co.uk 
       paths:
         - path: /
           pathType: ImplementationSpecific
