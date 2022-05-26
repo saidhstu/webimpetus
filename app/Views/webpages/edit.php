@@ -193,15 +193,13 @@ $categories = getResultArray("categories");
 
 										<label for="inputEmail4">Type</label>
 										<select name="type[]" id="text_type" class="form-control">
-											<option value="1" <?php if($blocks_list[$jak_i]['type'] == 1)echo "selected";?>>PLAIN TEXT</option>
-											<option value="2" <?php if($blocks_list[$jak_i]['type'] == 2)echo "selected";?>>JOSN</option>
-											<option value="3" <?php if($blocks_list[$jak_i]['type'] == 3)echo "selected";?>>Key Value Pairs</option>
-											<option value="4" <?php if($blocks_list[$jak_i]['type'] == 4)echo "selected";?>>WYSIWYG Editor</option>
-											<option value="5" <?php if($blocks_list[$jak_i]['type'] == 5)echo "selected";?>>Markdown Editor	</option>
-											<option value="6" <?php if($blocks_list[$jak_i]['type'] == 6)echo "selected";?>>CHART</option>
+										<option value="TEXT" <?php if($blocks_list[$jak_i]['type'] == 'TEXT')echo "selected";?>>TEXT</option>
+										<option value="JSON" <?php if($blocks_list[$jak_i]['type'] == 'JSON')echo "selected";?>>JSON</option>
+										<option value="LIST" <?php if($blocks_list[$jak_i]['type'] == 'LIST')echo "selected";?>>LIST</option>
+										<option value="WYSIWYG" <?php if($blocks_list[$jak_i]['type'] == 'WYSIWYG')echo "selected";?>>WYSIWYG</option>
+										<option value="MARKDOWN" <?php if($blocks_list[$jak_i]['type'] == 'MARKDOWN')echo "selected";?>>MARKDOWN</option>
 										</select>
 										
-
 									</div>
 									<div class="form-group col-md-5 textarea-block">
 										<label for="inputEmail4">Text</label>
