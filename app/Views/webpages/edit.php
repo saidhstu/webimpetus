@@ -240,6 +240,7 @@ $categories = getResultArray("categories");
 											<option value="TEXT">TEXT</option>
 											<option value="JSON">JSON</option>
 											<option value="LIST" >LIST</option>
+											<option value="YAML" >YAML</option>
 											<option value="WYSIWYG" >WYSIWYG</option>
 											<option value="MARKDOWN" >MARKDOWN</option>
 										</select>
@@ -398,6 +399,7 @@ $('.add').click(function(e){ //click event on add more fields button having clas
 				'<option value="TEXT">TEXT</option>'+
 				'<option value="JSON">JSON</option>'+
 				'<option value="LIST" >LIST</option>'+
+				'<option value="YAML" >YAML</option>'+
 				'<option value="WYSIWYG" >WYSIWYG</option>'+
 				'<option value="MARKDOWN" >MARKDOWN	</option>'+
 			'</select>'+
@@ -472,16 +474,76 @@ $(document).on('change', "#text_type", function(){
 	var current = $(this);
 	var text_type = $(this).val();
 
-	if(text_type == 4){
+	if(text_type == 'WYSIWYG'){
 	
 		current.closest('.each-block').find('.textarea-height').addClass('myClassName');
-		CKEDITOR.replaceAll( 'myClassName' ); 
+		//CKEDITOR.replaceAll( 'myClassName' ); 
 	}else{
 		current.closest('.each-block').find('.textarea-block').html("");
 		var textVal = "";current.closest('.each-block').find('.blocks_text').val();
 		console.log(textVal)
-		var html = '<label for="inputSecretValue">Text</label><textarea class="form-control textarea-height" id="content" name="blocks_text[]" spellcheck="false">'+textVal+'</textarea>'; 
+		var html = '<textarea class="form-control textarea-height blocks_text" id="content" name="blocks_text[]" spellcheck="false">'+textVal+'</textarea>'; 
 		current.closest('.each-block').find('.textarea-block').html(html);
+	}
+
+	if(!current.closest('.each-block').find('.blocks_text').val())
+	{
+		if(text_type=='TEXT')
+		{
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", 'Your text goes here');
+		}
+		else if(text_type=='WYSIWYG')
+		{
+			CKEDITOR.replaceAll( 'myClassName', {
+				placeholder: '<p>Your Styled text goes here</p>'
+			} ) ; 
+			//current.closest('.each-block').find('.blocks_text').attr("placeholder", '<p>Your Styled text goes here</p>');
+		}
+		else if(text_type=='YAML')
+		{
+			var html = `invoice: 34843
+						date: "2001-01-23"
+						bill-to: &id001
+						given: Chris
+						family: Dumars
+						address:
+							lines: |-
+							458 Walkman Dr.
+									Suite #292
+							city: Royal Oak
+							state: MI
+							postal: 48046
+						ship-to: *id001
+						product:
+						- sku: BL394D
+						quantity: 4
+						description: Basketball
+						price: 450
+						- sku: BL4438H
+						quantity: 1
+						description: Super Hoop
+						price: 2392
+						tax: 251.420000
+						total: 4443.520000
+						comments: Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.`;
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
+		}
+		else if(text_type=='JSON')
+		{
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", '{ "example" : "some data in JSON format goes here"}');
+		}
+		else if(text_type=='LIST')
+		{
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", '');
+		}
+		else if(text_type=='MARKDOWN')
+		{
+			var html = `#### The quarterly results look great!- Revenue was off the chart.
+						- Profits were higher than ever.
+
+						*Everything* is going according to **plan**.`;
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
+		}
 	}
 })
 </script>

@@ -70,6 +70,39 @@ class Webpages extends CommonController
 			'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
 			"categories" => json_encode($this->request->getPost('categories'))
 		);
+		$post = $this->request->getPost();
+		$i = 0;
+		foreach($post["blocks_code"] as $code){
+			if($post["type"][$i]=='JSON')
+			{
+				@json_decode($post["blocks_text"][$i]);
+                if (json_last_error() !== JSON_ERROR_NONE){
+					session()->setFlashdata('message', 'JSON is not valid');
+					session()->setFlashdata('alert-class', 'alert-danger');
+					$fromWhere = "";
+					if(strlen($menuName) > 1){
+						$fromWhere = "?cat=$menuName";
+					}
+					return redirect()->to('/'.$this->table.$fromWhere);
+				}
+			}
+			else if($post["type"][$i]=='YAML')
+			{
+				// if(yaml_parse($post["blocks_text"][$i])===null)
+				// {
+				// 	session()->setFlashdata('message', 'YAML is not valid');
+				// 	session()->setFlashdata('alert-class', 'alert-danger');
+				// 	$fromWhere = "";
+				// 	if(strlen($menuName) > 1){
+				// 		$fromWhere = "?cat=$menuName";
+				// 	}
+				// 	return redirect()->to('/'.$this->table.$fromWhere);
+				// }
+			}
+			$i++;
+		}
+		$i = 0;
+
 // prd($data);
 		$files = $this->request->getPost("file");
 
