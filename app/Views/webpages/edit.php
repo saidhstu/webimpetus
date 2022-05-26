@@ -237,15 +237,12 @@ $categories = getResultArray("categories");
 
 										<label for="inputEmail4">Type</label>
 										<select name="type[]" id="text_type" class="form-control">
-											<option value="1">PLAIN TEXT</option>
-											<option value="2">JOSN</option>
-											<option value="3" >Key Value Pairs</option>
-											<option value="4" >WYSIWYG Editor</option>
-											<option value="5" >Markdown Editor	</option>
-											<option value="6" >CHART</option>
+											<option value="TEXT">TEXT</option>
+											<option value="JSON">JSON</option>
+											<option value="LIST" >LIST</option>
+											<option value="WYSIWYG" >WYSIWYG</option>
+											<option value="MARKDOWN" >MARKDOWN</option>
 										</select>
-
-										
 
 									</div>
 									<div class="form-group col-md-5 textarea-section">
@@ -398,14 +395,13 @@ $('.add').click(function(e){ //click event on add more fields button having clas
 
 			'<label for="inputEmail4">Type</label>'+
 			'<select name="type[]" id="text_type" class="form-control">'+
-				'<option value="1">PLAIN TEXT</option>'+
-				'<option value="2">JOSN TEXT</option>'+
-				'<option value="3" >Key Value Pairs</option>'+
-				'<option value="4" >WYSIWYG Editor</option>'+
-				'<option value="5" >Markdown Editor	</option>'+
-				'<option value="6" >CHART</option>'+
+				'<option value="TEXT">TEXT</option>'+
+				'<option value="JSON">JSON</option>'+
+				'<option value="LIST" >LIST</option>'+
+				'<option value="WYSIWYG" >WYSIWYG</option>'+
+				'<option value="MARKDOWN" >MARKDOWN	</option>'+
 			'</select>'+
-           
+
         '</div>'+
         '<div class="form-group col-md-5 textarea-block">'+
             '<label for="inputSecretValue">Text</label>'+
