@@ -3,7 +3,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 use Config\Database;
 
-class Mail_Model extends Model
+class Email_model extends Model
 {
 
     public $_table_prefix;

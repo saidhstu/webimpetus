@@ -13,7 +13,7 @@ use App\Models\Documents_model;
 use App\Models\Customers_model;
 use App\Models\WebpageCategory;
 use App\Models\CustomerCategory;
-use App\Models\Mail_Model;
+use App\Models\Email_model;
 
 class Api extends BaseController
 {
@@ -32,7 +32,8 @@ class Api extends BaseController
 	  $this->customer_model = new Customers_model();
 	  $this->webCategory_model = new WebpageCategory();
 	  $this->cusCategory_model = new CustomerCategory();
-	  
+	  $this->emailModel = new Email_model();
+
 	  header('Content-Type: application/json; charset=utf-8');
 	  // header('Access-Control-Allow-Origin: *');
 	  // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -257,9 +258,8 @@ class Api extends BaseController
 		$message = $this->request->getVar('message');
 		$subject = "Odin contact email";
 
-		$mailModel = new Mail_Model();
 		$from_email = "balinder.walia@gmail.com";
-		$is_send = $mailModel->send_mail($to, $name, $from_email, $message, $subject);
+		$is_send = $this->emailModel->send_mail($to, $name, $from_email, $message, $subject);
 		if($is_send){
 			$data['status'] = 'success';
 			$data['msg']    = 'Email send successfully!';
