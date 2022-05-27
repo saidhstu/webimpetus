@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
