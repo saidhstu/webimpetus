@@ -13,6 +13,8 @@ use App\Models\Documents_model;
 use App\Models\Customers_model;
 use App\Models\WebpageCategory;
 use App\Models\CustomerCategory;
+use App\Models\Mail_model;
+
 class Api extends BaseController
 {
 	public function __construct()
@@ -172,7 +174,7 @@ class Api extends BaseController
 		}
 		if(count($webPagesId))
 		{
-			$webpages = $this->cmodel->where("status", 1)->whereIn('id', $webPagesId)->get()->getResult();
+			$webpages = $this->cmodel->whereIn('id', $webPagesId)->get()->getResult();
 			if( $webpages ){
 				$webPageList = [];
 				foreach($webpages as $key => $eachPage){
@@ -245,5 +247,29 @@ class Api extends BaseController
 		$data['status'] = 'success';
 		echo json_encode($data); die;
 	}
+
+
+	public function sendEmail(){
+
+		$name = $this->request->getVar('name');
+		$to = $this->request->getVar('email');
+		$organisation = $this->request->getVar('organisation');
+		$message = $this->request->getVar('message');
+		$subject = "Odin contact email";
+
+		$mailModel = new Mail_model();
+		$from_email = "balinder.walia@gmail.com";
+		$is_send = $mailModel->send_mail($to, $name, $from_email, $message, $subject);
+		if($is_send){
+			$data['status'] = 'success';
+			$data['msg']    = 'Email send successfully!';
+		}else{
+			$data['status'] = 'error';
+			$data['msg']    = 'Email send failed!';
+		}
+	
+		echo json_encode($data); die;
+	}
+	
 	
 }
