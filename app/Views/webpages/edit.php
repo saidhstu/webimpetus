@@ -4,6 +4,13 @@
 
 $blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
 $categories = getResultArray("categories");
+
+$type["TEXT"] = "TEXT";
+$type["JSON"] = "JSON";
+$type["LIST"] = "LIST";
+$type["JSON"] = "WYSIWYG";
+$type["MARKDOWN"] = "MARKDOWN";
+
 ?>
 
 <div class="white_card_body">
@@ -195,7 +202,7 @@ $categories = getResultArray("categories");
 										<label for="inputEmail4">Type</label>
 										<select name="type[]" id="text_type" class="form-control">
 										<option value="TEXT" <?php if($blocks_list[$jak_i]['type'] == 'TEXT')echo "selected";?>>TEXT</option>
-										<option value="JSON" <?php if($blocks_list[$jak_i]['type'] == 'JSON')echo "selected";?>>JSON</option>
+									<option value="JSON" <?php if($blocks_list[$jak_i]['type'] == 'JSON')echo "selected";?>>JSON</option>
 										<option value="LIST" <?php if($blocks_list[$jak_i]['type'] == 'LIST')echo "selected";?>>LIST</option>
 										<option value="WYSIWYG" <?php if($blocks_list[$jak_i]['type'] == 'WYSIWYG')echo "selected";?>>WYSIWYG</option>
 										<option value="MARKDOWN" <?php if($blocks_list[$jak_i]['type'] == 'MARKDOWN')echo "selected";?>>MARKDOWN</option>
@@ -203,7 +210,7 @@ $categories = getResultArray("categories");
 										
 									</div>
 									<div class="form-group col-md-5 textarea-block">
-										<label for="inputEmail4">Text</label>
+										<label for="inputEmail4"><?php echo @$type[$blocks_list[$jak_i]['type']];?></label>
 									
 										<textarea class="form-control blocks_text <?php if($blocks_list[$jak_i]['type'] == 4){ echo "myClassName"; }else{echo "textarea-height";}?>" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" ><?=$blocks_list[$jak_i]['text'] ?></textarea> 
 									</div>
@@ -483,7 +490,7 @@ $(document).on('change', "#text_type", function(){
 		current.closest('.each-block').find('.textarea-block').html("");
 		var textVal = "";current.closest('.each-block').find('.blocks_text').val();
 		console.log(textVal)
-		var html = '<textarea class="form-control textarea-height blocks_text" id="content" name="blocks_text[]" spellcheck="false">'+textVal+'</textarea>'; 
+		var html = '<label for="inputEmail4">'+text_type+'</label><textarea class="form-control textarea-height blocks_text" id="content" name="blocks_text[]" spellcheck="false">'+textVal+'</textarea>'; 
 		current.closest('.each-block').find('.textarea-block').html(html);
 	}
 
