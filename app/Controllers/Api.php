@@ -164,7 +164,7 @@ class Api extends BaseController
 		$webPagesId=[];
 		if(count($categoriesId))
 		{
-			$webPages = $this->webCategory_model->where("status", "1")->whereIn('categories_id',$categoriesId)->get()->getResult();
+			$webPages = $this->webCategory_model->whereIn('categories_id',$categoriesId)->get()->getResult();
 			foreach($webPages as $row)
 			{
 				$webPagesId[$row->webpage_id]=$row->webpage_id;
@@ -172,7 +172,7 @@ class Api extends BaseController
 		}
 		if(count($webPagesId))
 		{
-			$webpages = $this->cmodel->whereIn('id', $webPagesId)->get()->getResult();
+			$webpages = $this->cmodel->where("status", 1)->whereIn('id', $webPagesId)->get()->getResult();
 			if( $webpages ){
 				$webPageList = [];
 				foreach($webpages as $key => $eachPage){
