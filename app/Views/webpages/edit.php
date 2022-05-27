@@ -180,7 +180,8 @@ $categories = getResultArray("categories");
 									for($jak_i=0; $jak_i<count($blocks_list); $jak_i++){
 										$new_id = $jak_i + 1;
 								?>
-								<div class="form-row col-md-12 each-row each-block" id="  office_address_<?php echo $new_id; ?>">
+								
+								<div class="form-row col-md-12 each-row each-block" style="margin-bottom:30px;" id="  office_address_<?php echo $new_id; ?>">
 									<div class="form-group col-md-6">
 										<label for="inputEmail4">Code</label>
 										<input autocomplete="off" type="text" class="form-control blocks_code" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?=$blocks_list[$jak_i]['code'] ?>"><br>
@@ -212,21 +213,20 @@ $categories = getResultArray("categories");
 										
 										<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
 									</div>
-								
-									
-								</div><br>
-								<br>
+							
+								</div>
+							
 								<?php
 									}
 								?>
 							</div>
-							
+
 							<input type="hidden" value="<?php echo count($blocks_list); ?>" id="total_blocks" name="total_blocks" />
 							
 							<?php
 								}else{
 							?>
-								<div class="form-row each-block" id="office_address_1">
+								<div class="form-row each-block" style="margin-bottom:30px;" id="office_address_1">
 									<div class="form-group col-md-6">
 										<label for="inputEmail4">Code</label>
 										<input autocomplete="off" type="text" class="form-control blocks_code" id="first_name_1" name="blocks_code[]" placeholder="" value="">
@@ -264,7 +264,7 @@ $categories = getResultArray("categories");
 							<?php
 								}
 							?>
-
+						
 							<div class="form-group">
 								<button class="btn btn-primary  add" type="button" style="float:right;margin-right: 120px;">Add Blocks</button><br><br>
 							</div>
@@ -386,7 +386,7 @@ var x = $('#total_contacts').val(); //initialize counter for text box
 $('.add').click(function(e){ //click event on add more fields button having class add_more_button
   
         
-        $('.addresscontainer').append('<div class="form-row col-md-12 each-block" id="office_address_'+x+'"><div class="form-group col-md-6">'+
+        $('.addresscontainer').append('<div class="form-row col-md-12 each-block" style="margin-bottom:30px;" id="office_address_'+x+'"><div class="form-group col-md-6">'+
             '<label for="inputSecretKey">Code</label>'+
             '<input type="text" class="form-control blocks_code" id="blocks_code'+x+'" name="blocks_code[]" placeholder="" value=""><br>'+
        
