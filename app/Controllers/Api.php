@@ -13,7 +13,7 @@ use App\Models\Documents_model;
 use App\Models\Customers_model;
 use App\Models\WebpageCategory;
 use App\Models\CustomerCategory;
-use App\Models\Mail_model;
+use App\Models\Mail_Model;
 
 class Api extends BaseController
 {
@@ -257,7 +257,7 @@ class Api extends BaseController
 		$message = $this->request->getVar('message');
 		$subject = "Odin contact email";
 
-		$mailModel = new Mail_model();
+		$mailModel = new Mail_Model();
 		$from_email = "balinder.walia@gmail.com";
 		$is_send = $mailModel->send_mail($to, $name, $from_email, $message, $subject);
 		if($is_send){
