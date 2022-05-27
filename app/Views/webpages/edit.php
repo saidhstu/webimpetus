@@ -214,7 +214,8 @@ $categories = getResultArray("categories");
 									</div>
 								
 									
-								</div>
+								</div><br>
+								<br>
 								<?php
 									}
 								?>
