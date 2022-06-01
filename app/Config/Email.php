@@ -33,7 +33,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $protocol = 'mail';
+    public $protocol = 'smtp';
 
     /**
      * The server path to Sendmail.
@@ -47,28 +47,28 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPHost;
+    public $SMTPHost =  '' ;
 
     /**
      * SMTP Username
      *
      * @var string
      */
-    public $SMTPUser;
+    public $SMTPUser= '';
 
     /**
      * SMTP Password
      *
      * @var string
      */
-    public $SMTPPass;
+    public $SMTPPass= "";
 
     /**
      * SMTP Port
      *
      * @var int
      */
-    public $SMTPPort = 25;
+    public $SMTPPort = 587;
 
     /**
      * SMTP Timeout (in seconds)
@@ -167,4 +167,16 @@ class Email extends BaseConfig
      * @var bool
      */
     public $DSN = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->SMTPHost =  getenv('SMTP_HOST');
+        $this->SMTPUser =  getenv('SMTP_USER');
+        $this->SMTPPass =  getenv('SMTP_PASSWORD');
+
+    }
+
+
 }
