@@ -181,7 +181,7 @@ class Api extends BaseController
 			if( $webpages ){
 				$webPageList = [];
 				foreach($webpages as $key => $eachPage){
-					$eachPage["contacts"] = $this->getContacts($eachPage["id"]);
+					$eachPage["contacts"] = $this->getContacts(@$eachPage->id);
 					$webPageList[$key] = $eachPage;
 					
 				}
