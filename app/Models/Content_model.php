@@ -134,7 +134,7 @@ class Content_model extends Model
 	public function getWebpages($ids){
 		$builder = $this->db->table("content_list");
 		$builder->where("status", 1);
-		$builder->whereIn('id', $webPagesId);     
+		$builder->whereIn('id', $ids);     
 		$result = $builder->get()->getResult();
 		return $result;
 	}
