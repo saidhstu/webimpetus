@@ -176,7 +176,7 @@ class Api extends BaseController
 		}
 		if(count($webPagesId))
 		{
-			$webpages = $this->cmodel->getWebpages($webPagesId);
+			$webpages = $this->cmodel->where("status", 1)->whereIn('id', $webPagesId)->get()->getResult();
 
 			if( $webpages ){
 				$webPageList = [];
@@ -263,6 +263,8 @@ class Api extends BaseController
 		$to = $this->request->getVar('email');
 		$organisation = $this->request->getVar('organisation');
 		$message = $this->request->getVar('message');
+		$phone = $this->request->getVar('phone');
+		$uuid_business_id = $this->request->getVar('uuid_business_id') ? $this->request->getVar('uuid_business_id') : 6;
 		$subject = "Odin contact email";
 
 		$from_email = "info@odincm.com";
@@ -270,6 +272,16 @@ class Api extends BaseController
 		if($is_send){
 			$data['status'] = 'success';
 			$data['msg']    = 'Email send successfully!';
+
+			$insertArray["uuid_business_id"] = $uuid_business_id;
+			$insertArray["name"] = $name;
+			$insertArray["email"] = $to;
+			$insertArray["phone"] = $phone;
+			$insertArray["message"] = $message;
+			$insertArray["type"] = 1;
+
+			$this->emodel->saveData($insertArray);
+			
 		}else{
 			$data['status'] = 'error';
 			$data['msg']    = 'Email send failed!';
