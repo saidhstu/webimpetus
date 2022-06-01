@@ -176,7 +176,7 @@ class Api extends BaseController
 		}
 		if(count($webPagesId))
 		{
-			$webpages = $this->cmodel->getWebpages($ids);
+			$webpages = $this->cmodel->getWebpages($webPagesId);
 
 			if( $webpages ){
 				$webPageList = [];
