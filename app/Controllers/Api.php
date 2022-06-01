@@ -264,7 +264,7 @@ class Api extends BaseController
 		$message = $this->request->getVar('message');
 		$subject = "Odin contact email";
 
-		$from_email = "balinder.walia@gmail.com";
+		$from_email = "info@odincm.com";
 		$is_send = $this->emailModel->send_mail($to, $name, $from_email, $message, $subject);
 		if($is_send){
 			$data['status'] = 'success';
