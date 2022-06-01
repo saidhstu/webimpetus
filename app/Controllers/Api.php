@@ -176,7 +176,8 @@ class Api extends BaseController
 		}
 		if(count($webPagesId))
 		{
-			$webpages = $this->cmodel->where("status", 1)->whereIn('id', $webPagesId)->get()->getResult();
+			$webpages = $this->cmodel->getWebpages($ids);
+
 			if( $webpages ){
 				$webPageList = [];
 				foreach($webpages as $key => $eachPage){

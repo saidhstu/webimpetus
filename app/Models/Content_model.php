@@ -130,4 +130,12 @@ class Content_model extends Model
 		$query = $this->db->table($tableName)->insert($data);
 		return $query;
 	}
+
+	public function getWebpages($ids){
+		$builder = $this->db->table("content_list");
+		$builder->where("status", 1);
+		$builder->whereIn('id', $webPagesId);     
+		$result = $builder->get()->getResult();
+		return $result;
+	}
 }
