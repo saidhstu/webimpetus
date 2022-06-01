@@ -15,26 +15,32 @@ class JWTAuthenticationFilter implements FilterInterface
 
     public function before(RequestInterface $request, $arguments = null)
     {
-        $authenticationHeader = $request->getServer('HTTP_AUTHORIZATION');
 
-        try {
+        $pos = strpos( $_SERVER['REQUEST_URI'], "api/sendEmail");
+        if($pos  ===  false){
 
-            helper('jwt');
-            $encodedToken = getJWTFromRequest($authenticationHeader);
-            validateJWTFromRequest($encodedToken);
-            return $request;
+            $authenticationHeader = $request->getServer('HTTP_AUTHORIZATION');
+            try {
 
-        } catch (Exception $e) {
-
-            return Services::response()
-                ->setJSON(
-                    [
-                        'error' => $e->getMessage()
-                    ]
-                )
-                ->setStatusCode(ResponseInterface::HTTP_UNAUTHORIZED);
-
+          
+                helper('jwt');
+                $encodedToken = getJWTFromRequest($authenticationHeader);
+                validateJWTFromRequest($encodedToken);
+                return $request;
+    
+            } catch (Exception $e) {
+    
+                return Services::response()
+                    ->setJSON(
+                        [
+                            'error' => $e->getMessage()
+                        ]
+                    )
+                    ->setStatusCode(ResponseInterface::HTTP_UNAUTHORIZED);
+    
+            }
         }
+ 
     }
 
     public function after(RequestInterface $request,

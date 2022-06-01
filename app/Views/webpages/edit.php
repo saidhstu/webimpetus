@@ -4,6 +4,13 @@
 
 $blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
 $categories = getResultArray("categories");
+
+$type["TEXT"] = "TEXT";
+$type["JSON"] = "JSON";
+$type["LIST"] = "LIST";
+$type["JSON"] = "WYSIWYG";
+$type["MARKDOWN"] = "MARKDOWN";
+
 ?>
 
 <div class="white_card_body">
@@ -180,7 +187,8 @@ $categories = getResultArray("categories");
 									for($jak_i=0; $jak_i<count($blocks_list); $jak_i++){
 										$new_id = $jak_i + 1;
 								?>
-								<div class="form-row col-md-12 each-row each-block" id="  office_address_<?php echo $new_id; ?>">
+								
+								<div class="form-row col-md-12 each-row each-block" style="margin-bottom:30px;" id="  office_address_<?php echo $new_id; ?>">
 									<div class="form-group col-md-6">
 										<label for="inputEmail4">Code</label>
 										<input autocomplete="off" type="text" class="form-control blocks_code" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?=$blocks_list[$jak_i]['code'] ?>"><br>
@@ -193,20 +201,18 @@ $categories = getResultArray("categories");
 
 										<label for="inputEmail4">Type</label>
 										<select name="type[]" id="text_type" class="form-control">
-											<option value="1" <?php if($blocks_list[$jak_i]['type'] == 1)echo "selected";?>>PLAIN TEXT</option>
-											<option value="2" <?php if($blocks_list[$jak_i]['type'] == 2)echo "selected";?>>JOSN</option>
-											<option value="3" <?php if($blocks_list[$jak_i]['type'] == 3)echo "selected";?>>Key Value Pairs</option>
-											<option value="4" <?php if($blocks_list[$jak_i]['type'] == 4)echo "selected";?>>WYSIWYG Editor</option>
-											<option value="5" <?php if($blocks_list[$jak_i]['type'] == 5)echo "selected";?>>Markdown Editor	</option>
-											<option value="6" <?php if($blocks_list[$jak_i]['type'] == 6)echo "selected";?>>CHART</option>
+										<option value="TEXT" <?php if($blocks_list[$jak_i]['type'] == 'TEXT')echo "selected";?>>TEXT</option>
+									<option value="JSON" <?php if($blocks_list[$jak_i]['type'] == 'JSON')echo "selected";?>>JSON</option>
+										<option value="LIST" <?php if($blocks_list[$jak_i]['type'] == 'LIST')echo "selected";?>>LIST</option>
+										<option value="WYSIWYG" <?php if($blocks_list[$jak_i]['type'] == 'WYSIWYG')echo "selected";?>>WYSIWYG</option>
+										<option value="MARKDOWN" <?php if($blocks_list[$jak_i]['type'] == 'MARKDOWN')echo "selected";?>>MARKDOWN</option>
 										</select>
 										
-
 									</div>
 									<div class="form-group col-md-5 textarea-block">
-										<label for="inputEmail4">Text</label>
+										<label for="inputEmail4"><?php echo @$type[$blocks_list[$jak_i]['type']];?></label>
 									
-										<textarea class="form-control blocks_text <?php if($blocks_list[$jak_i]['type'] == 2){ echo "myClassName"; }else{echo "textarea-height";}?>" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" ><?=$blocks_list[$jak_i]['text'] ?></textarea> 
+										<textarea class="form-control blocks_text <?php if($blocks_list[$jak_i]['type'] == 4){ echo "myClassName"; }else{echo "textarea-height";}?>" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]" ><?=$blocks_list[$jak_i]['text'] ?></textarea> 
 									</div>
 									<input type="hidden" value="<?=$blocks_list[$jak_i]['id'] ?>" id="blocks_id" name="blocks_id[]">
 								
@@ -214,20 +220,20 @@ $categories = getResultArray("categories");
 										
 										<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
 									</div>
-								
-									
+							
 								</div>
+							
 								<?php
 									}
 								?>
 							</div>
-							
+
 							<input type="hidden" value="<?php echo count($blocks_list); ?>" id="total_blocks" name="total_blocks" />
 							
 							<?php
 								}else{
 							?>
-								<div class="form-row each-block" id="office_address_1">
+								<div class="form-row each-block" style="margin-bottom:30px;" id="office_address_1">
 									<div class="form-group col-md-6">
 										<label for="inputEmail4">Code</label>
 										<input autocomplete="off" type="text" class="form-control blocks_code" id="first_name_1" name="blocks_code[]" placeholder="" value="">
@@ -239,15 +245,13 @@ $categories = getResultArray("categories");
 
 										<label for="inputEmail4">Type</label>
 										<select name="type[]" id="text_type" class="form-control">
-											<option value="1">PLAIN TEXT</option>
-											<option value="2">JOSN</option>
-											<option value="3" >Key Value Pairs</option>
-											<option value="4" >WYSIWYG Editor</option>
-											<option value="5" >Markdown Editor	</option>
-											<option value="6" >CHART</option>
+											<option value="TEXT">TEXT</option>
+											<option value="JSON">JSON</option>
+											<option value="LIST" >LIST</option>
+											<option value="YAML" >YAML</option>
+											<option value="WYSIWYG" >WYSIWYG</option>
+											<option value="MARKDOWN" >MARKDOWN</option>
 										</select>
-
-										
 
 									</div>
 									<div class="form-group col-md-5 textarea-section">
@@ -267,7 +271,7 @@ $categories = getResultArray("categories");
 							<?php
 								}
 							?>
-
+						
 							<div class="form-group">
 								<button class="btn btn-primary  add" type="button" style="float:right;margin-right: 120px;">Add Blocks</button><br><br>
 							</div>
@@ -389,7 +393,7 @@ var x = $('#total_contacts').val(); //initialize counter for text box
 $('.add').click(function(e){ //click event on add more fields button having class add_more_button
   
         
-        $('.addresscontainer').append('<div class="form-row col-md-12 each-block" id="office_address_'+x+'"><div class="form-group col-md-6">'+
+        $('.addresscontainer').append('<div class="form-row col-md-12 each-block" style="margin-bottom:30px;" id="office_address_'+x+'"><div class="form-group col-md-6">'+
             '<label for="inputSecretKey">Code</label>'+
             '<input type="text" class="form-control blocks_code" id="blocks_code'+x+'" name="blocks_code[]" placeholder="" value=""><br>'+
        
@@ -400,14 +404,14 @@ $('.add').click(function(e){ //click event on add more fields button having clas
 
 			'<label for="inputEmail4">Type</label>'+
 			'<select name="type[]" id="text_type" class="form-control">'+
-				'<option value="1">PLAIN TEXT</option>'+
-				'<option value="2">JOSN TEXT</option>'+
-				'<option value="3" >Key Value Pairs</option>'+
-				'<option value="4" >WYSIWYG Editor</option>'+
-				'<option value="5" >Markdown Editor	</option>'+
-				'<option value="6" >CHART</option>'+
+				'<option value="TEXT">TEXT</option>'+
+				'<option value="JSON">JSON</option>'+
+				'<option value="LIST" >LIST</option>'+
+				'<option value="YAML" >YAML</option>'+
+				'<option value="WYSIWYG" >WYSIWYG</option>'+
+				'<option value="MARKDOWN" >MARKDOWN	</option>'+
 			'</select>'+
-           
+
         '</div>'+
         '<div class="form-group col-md-5 textarea-block">'+
             '<label for="inputSecretValue">Text</label>'+
@@ -478,16 +482,76 @@ $(document).on('change', "#text_type", function(){
 	var current = $(this);
 	var text_type = $(this).val();
 
-	if(text_type == 2){
+	if(text_type == 'WYSIWYG'){
 	
 		current.closest('.each-block').find('.textarea-height').addClass('myClassName');
-		CKEDITOR.replaceAll( 'myClassName' ); 
-	}else if(text_type==1){
+		//CKEDITOR.replaceAll( 'myClassName' ); 
+	}else{
 		current.closest('.each-block').find('.textarea-block').html("");
 		var textVal = "";current.closest('.each-block').find('.blocks_text').val();
 		console.log(textVal)
-		var html = '<label for="inputSecretValue">Text</label><textarea class="form-control textarea-height" id="content" name="blocks_text[]" spellcheck="false">'+textVal+'</textarea>'; 
+		var html = '<label for="inputEmail4">'+text_type+'</label><textarea class="form-control textarea-height blocks_text" id="content" name="blocks_text[]" spellcheck="false">'+textVal+'</textarea>'; 
 		current.closest('.each-block').find('.textarea-block').html(html);
+	}
+
+	if(!current.closest('.each-block').find('.blocks_text').val())
+	{
+		if(text_type=='TEXT')
+		{
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", 'Your text goes here');
+		}
+		else if(text_type=='WYSIWYG')
+		{
+			CKEDITOR.replaceAll( 'myClassName', {
+				placeholder: '<p>Your Styled text goes here</p>'
+			} ) ; 
+			//current.closest('.each-block').find('.blocks_text').attr("placeholder", '<p>Your Styled text goes here</p>');
+		}
+		else if(text_type=='YAML')
+		{
+			var html = `invoice: 34843
+						date: "2001-01-23"
+						bill-to: &id001
+						given: Chris
+						family: Dumars
+						address:
+							lines: |-
+							458 Walkman Dr.
+									Suite #292
+							city: Royal Oak
+							state: MI
+							postal: 48046
+						ship-to: *id001
+						product:
+						- sku: BL394D
+						quantity: 4
+						description: Basketball
+						price: 450
+						- sku: BL4438H
+						quantity: 1
+						description: Super Hoop
+						price: 2392
+						tax: 251.420000
+						total: 4443.520000
+						comments: Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.`;
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
+		}
+		else if(text_type=='JSON')
+		{
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", '{ "example" : "some data in JSON format goes here"}');
+		}
+		else if(text_type=='LIST')
+		{
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", '');
+		}
+		else if(text_type=='MARKDOWN')
+		{
+			var html = `#### The quarterly results look great!- Revenue was off the chart.
+						- Profits were higher than ever.
+
+						*Everything* is going according to **plan**.`;
+			current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
+		}
 	}
 })
 </script>

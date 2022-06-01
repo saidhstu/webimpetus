@@ -1,9 +1,8 @@
-# Build and Deploy WebImpetus Code Igniter 4 Docker Image
 on:
   push:
-    branches: [ mainzz ]
+    branches: [ main ]
   pull_request:
-    branches: [ mainzz ]
+    branches: [ test ]
   workflow_dispatch:
   
 name: Main image
@@ -12,11 +11,17 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - name: Check out this repo code
       uses: actions/checkout@v2
+
+    - name: Run script file
+      run: |
+         chmod +x ./devops/scripts/prepare_test_environment.sh
+         ./devops/scripts/prepare_test_environment.sh
+      shell: bash
 
     - name: short-sha
       uses: benjlevesque/short-sha@v1.2
@@ -34,7 +39,7 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-      
+
     - run: echo $SHA
       env:
        SHA: ${{ steps.short-sha.outputs.sha }}
@@ -44,17 +49,24 @@ jobs:
        SHA: ${{ env.SHA }}
      
       # Build and push docker image to customer AWS ECR
-    - name: Build, tag, and push image to Amazon ECR
+    - name: Build, tag, and push WebImpetus ci4 image to Amazon ECR
       run: |
-        docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }} .
-        docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }}
+        docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:${{ env.SHA }} .
+        docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:${{ env.SHA }}
 
-    - name: helm deploy
-      uses: koslib/helm-eks-action@master
+    # - name: helm deploy
+    #   uses: koslib/helm-eks-action@master
+    #   env:
+    #     KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG_TEST_SERVER }}
+    #   with:
+    #     command: helm upgrade -f devops/webimpetus-chart/values-test.yaml -i ci4baseimagetest ./devops/webimpetus-chart --set=image.tag=${{ env.SHA }}
+    - name: Run script file
       env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-        command: helm upgrade -i webimpetus-release ./devops/webimpetus-chart -f ./devops/webimpetus-chart/values-staging.yaml --set=image.tag=${{ env.SHA }} --set env.TENANT_KEY="${{ secrets.TENANT_KEY }}"
+        IMAGE_TAG: ${{ env.SHA }}
+      run: |
+         chmod +x ./devops/scripts/deploy_test_environment.sh
+         ./devops/scripts/deploy_test_environment.sh
+      shell: bash
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
