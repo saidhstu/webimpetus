@@ -1,11 +1,11 @@
 on:
   push:
-    branches: [ imagepullbackofferrmain ]
+    branches: [ main ]
   pull_request:
-    branches: [ zzzztest ]
+    branches: [ zzzmain ]
   workflow_dispatch:
-  
-name: Build and Deploy WebImpetus test
+
+name: Build and Deploy WebImpetus test using Helm
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -19,15 +19,15 @@ jobs:
 
     - name: Run script file
       run: |
-         chmod +x ./devops/scripts/prepare_test_environment.sh
-         ./devops/scripts/prepare_test_environment.sh
+         chmod +x ./devops/scripts/fetch_env_vars.sh
+         ./devops/scripts/fetch_env_vars.sh
       shell: bash
 
     - name: short-sha
       uses: benjlevesque/short-sha@v1.2
       with:
         length: 6
-        
+
       # Runs a single command using the runners shell
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -47,27 +47,19 @@ jobs:
     - run: echo $SHA
       env:
        SHA: ${{ env.SHA }}
-     
+
       # Build and push docker image to customer AWS ECR
     - name: Build, tag, and push WebImpetus ci4 image to Amazon ECR
       run: |
         docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:${{ env.SHA }} .
         docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:${{ env.SHA }}
 
-     - name: helm deploy
-       uses: koslib/helm-eks-action@master
-       env:
-         KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG_TEST_SERVER }}
-       with:
-         command: helm upgrade -f devops/webimpetus-chart/values-test.yaml -i ci4baseimagetest ./devops/webimpetus-chart --set=image.tag=${{ env.SHA }}
-
-#    - name: Run script file
-#      env:
-#        IMAGE_TAG: ${{ env.SHA }}
-#      run: |
-#         chmod +x ./devops/scripts/deploy_test_environment.sh
-#         ./devops/scripts/deploy_test_environment.sh
-#      shell: bash
+    - name: helm deploy
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG_TEST_SERVER }}
+      with:
+        command: helm upgrade -i ci4baseimagetest ./devops/webimpetus-chart --set=image.tag=${{ env.SHA }}
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
@@ -79,5 +71,4 @@ jobs:
         SLACK_TITLE: Post Title
         SLACK_USERNAME: rtCamp
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
 
