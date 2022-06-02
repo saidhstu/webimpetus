@@ -54,19 +54,20 @@ jobs:
         docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:${{ env.SHA }} .
         docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:${{ env.SHA }}
 
-    # - name: helm deploy
-    #   uses: koslib/helm-eks-action@master
-    #   env:
-    #     KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG_TEST_SERVER }}
-    #   with:
-    #     command: helm upgrade -f devops/webimpetus-chart/values-test.yaml -i ci4baseimagetest ./devops/webimpetus-chart --set=image.tag=${{ env.SHA }}
-    - name: Run script file
-      env:
-        IMAGE_TAG: ${{ env.SHA }}
-      run: |
-         chmod +x ./devops/scripts/deploy_test_environment.sh
-         ./devops/scripts/deploy_test_environment.sh
-      shell: bash
+     - name: helm deploy
+       uses: koslib/helm-eks-action@master
+       env:
+         KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG_TEST_SERVER }}
+       with:
+         command: helm upgrade -f devops/webimpetus-chart/values-test.yaml -i ci4baseimagetest ./devops/webimpetus-chart --set=image.tag=${{ env.SHA }}
+
+#    - name: Run script file
+#      env:
+#        IMAGE_TAG: ${{ env.SHA }}
+#      run: |
+#         chmod +x ./devops/scripts/deploy_test_environment.sh
+#         ./devops/scripts/deploy_test_environment.sh
+#      shell: bash
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
