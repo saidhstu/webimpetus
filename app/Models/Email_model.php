@@ -103,7 +103,6 @@ class Email_model extends Model
             }
         }
         $result = $emailConfig->send();
-        echo  $emailConfig->printDebugger();
         $emailConfig->clear(TRUE);
 
         return $result;
