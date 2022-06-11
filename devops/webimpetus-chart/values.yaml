@@ -79,7 +79,8 @@ tolerations: []
 
 affinity: {}
 
-podPostStartExecCmd: "cd /var/www/html && php spark migrate"
+podPostStartExecCmd: ""
+podPostStartExecCmd1: "cd /var/www/html && php spark migrate"
 
 jwtTokenSecret: "workstationTest2022"
 jwtTokenTTL: 3600
