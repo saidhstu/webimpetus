@@ -61,7 +61,6 @@ class Webpages extends CommonController
 		$data = array(
 			'title'  => $this->request->getPost('title'),				
 			'sub_title' => $this->request->getPost('sub_title'),
-			'code' => $this->request->getPost('code')?$this->content_model->format_uri($this->request->getPost('code'),'-',$id):$this->content_model->format_uri($this->request->getPost('title'),'-',$id),
 			'content' => $this->request->getPost('content'),
 			'code' => $this->request->getPost('code')?$this->content_model->format_uri($this->request->getPost('code'),'-',$id):$this->content_model->format_uri($this->request->getPost('title'),'-',$id),
 			'meta_keywords' => $this->request->getPost('meta_keywords'),
