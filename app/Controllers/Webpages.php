@@ -59,6 +59,7 @@ class Webpages extends CommonController
 
         $id = $this->request->getPost('id');
         $menuName = $this->request->getPost('strategies');
+		$publishDate = strtotime($this->request->getPost('publish_date'));
 		$data = array(
 			'title'  => $this->request->getPost('title'),				
 			'sub_title' => $this->request->getPost('sub_title'),
@@ -69,7 +70,7 @@ class Webpages extends CommonController
 			'meta_title' => $this->request->getPost('meta_title'),
 			'meta_description' => $this->request->getPost('meta_description'),
 			'status' => $this->request->getPost('status'),
-			'publish_date' => $this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s')),
+			'publish_date' => $publishDate?$publishDate:0,
 			"categories" => json_encode($this->request->getPost('categories'))
 		);
 		$post = $this->request->getPost();
