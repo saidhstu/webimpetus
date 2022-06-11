@@ -20,24 +20,7 @@ CI_ENVIRONMENT = development
 # APP
 #--------------------------------------------------------------------
 
-SEOFRIENDLYURLSBOOL=true
-#JWT_SECRET_KEY key is the secret key used by the application to sign JWTS. Pick a stronger one for production.
-JWT_SECRET_KEY=kzUf4sxss4AeG5uHkNZAqT1Nyi1zVfpz
-#JWT_TIME_TO_LIVE indicates the validity period of a signed JWT (in milliseconds)
-JWT_TIME_TO_LIVE=3600
-SMTP_HOST=email-smtp.eu-west-2.amazonaws.com
-SMTP_USER=AKIARZLEOXGRNIQY66VV
-SMTP_PASSWORD=BBmMlm2zh++WW0HdV0AUqLCD5uxCtlBgIFpVCQm/Y1Q0
-amazons3.use_ssl = true
-amazons3.bucket = 'webimpetus-images'
-amazons3.region = 'eu-west-2'
-amazons3.s3_directory = 'dev'
-amazons3.verify_peer = true
-amazons3.access_key = 'AKIARZLEOXGRHXOVL3NN'
-amazons3.secret_key = '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'
-amazons3.get_from_enviroment = true
-
-app.baseURL = 'https://my.workstation.co.uk/'
+# app.baseURL = ''
 # app.forceGlobalSecureRequests = false
 
 # app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'
@@ -54,10 +37,10 @@ app.baseURL = 'https://my.workstation.co.uk/'
 # DATABASE
 #--------------------------------------------------------------------
 
-database.default.hostname = sql.workstation.co.uk
-database.default.username = root
-database.default.database = webimpetusci4test
-database.default.password = !ChBi2K1ngS
+#database.default.hostname = localhost
+#database.default.username = root
+#database.default.database = tenants
+#database.default.password = 
 database.default.DBDriver = MySQLi
 # database.default.DBPrefix =
 
@@ -140,4 +123,3 @@ database.default.DBDriver = MySQLi
 #--------------------------------------------------------------------
 
 # logger.threshold = 4
-
