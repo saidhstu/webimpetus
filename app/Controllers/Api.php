@@ -261,11 +261,25 @@ class Api extends BaseController
 
 		$name = $this->request->getVar('name');
 		$to = $this->request->getVar('email');
-		$organisation = $this->request->getVar('organisation');
+		if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+			$data['status'] = 'error';
+			$data['msg']    = 'Please Enter a valid email!';
+			echo json_encode($data); die;
+		}
+
 		$message = $this->request->getVar('message');
+		if (strlen(trim($message)) < 1) {
+			$data['status'] = 'error';
+			$data['msg']    = 'Frontend should send message field value or default value if no field is in the form.';
+			echo json_encode($data); die;
+		}
+
+		$organisation = $this->request->getVar('organisation');
+		
 		$phone = $this->request->getVar('phone');
 		$uuid_business_id = $this->request->getVar('uuid_business_id') ? $this->request->getVar('uuid_business_id') : 6;
 		$subject = "Odin contact email";
+		$name = $name ? $name : "";
 
 		$from_email = "info@odincm.com";
 		$is_send = $this->emailModel->send_mail($to, $name, $from_email, $message, $subject);
