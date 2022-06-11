@@ -62,13 +62,14 @@ class Webpages extends CommonController
 		$data = array(
 			'title'  => $this->request->getPost('title'),				
 			'sub_title' => $this->request->getPost('sub_title'),
+			'code' => $this->request->getPost('code')?$this->content_model->format_uri($this->request->getPost('code'),'-',$id):$this->content_model->format_uri($this->request->getPost('title'),'-',$id),
 			'content' => $this->request->getPost('content'),
 			'meta_keywords' => $this->request->getPost('meta_keywords'),
 			'published_date' => strtotime($this->request->getPost('published_date')),
 			'meta_title' => $this->request->getPost('meta_title'),
 			'meta_description' => $this->request->getPost('meta_description'),
 			'status' => $this->request->getPost('status'),
-			'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
+			'publish_date' => $this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s')),
 			"categories" => json_encode($this->request->getPost('categories'))
 		);
 		$post = $this->request->getPost();
