@@ -56,7 +56,6 @@ class Webpages extends CommonController
 	
     public function update()
     {        
-
         $id = $this->request->getPost('id');
         $menuName = $this->request->getPost('strategies');
 		$data = array(
@@ -64,8 +63,8 @@ class Webpages extends CommonController
 			'sub_title' => $this->request->getPost('sub_title'),
 			'code' => $this->request->getPost('code')?$this->content_model->format_uri($this->request->getPost('code'),'-',$id):$this->content_model->format_uri($this->request->getPost('title'),'-',$id),
 			'content' => $this->request->getPost('content'),
+			'code' => $this->request->getPost('code')?$this->content_model->format_uri($this->request->getPost('code'),'-',$id):$this->content_model->format_uri($this->request->getPost('title'),'-',$id),
 			'meta_keywords' => $this->request->getPost('meta_keywords'),
-			'published_date' => strtotime($this->request->getPost('published_date')),
 			'meta_title' => $this->request->getPost('meta_title'),
 			'meta_description' => $this->request->getPost('meta_description'),
 			'status' => $this->request->getPost('status'),
