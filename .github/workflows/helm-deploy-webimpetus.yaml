@@ -17,10 +17,10 @@ jobs:
     - name: Check out this repo code
       uses: actions/checkout@v2
 
-    - name: Run script file
+    - name: Run bash script to deploy to test server
       run: |
-         chmod +x ./devops/scripts/prepare_test_environment.sh
-         ./devops/scripts/prepare_test_environment.sh
+         chmod +x ./devops/scripts/deploy_test_environment.sh
+         ./devops/scripts/deploy_test_environment.sh
       shell: bash
 
     - name: short-sha
