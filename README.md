@@ -1,3 +1,23 @@
+# Developer Workspace setup guide  using Docker
+
+## Prerequisites
+ 1. Docker
+ 2. Docker-compose
+ 
+## Step 1 Clone this repo url
+
+## Step 2 docker-compose p -d
+
+
+
+
+
+
+
+
+-------------------------------------------------
+
+
 # CodeIgniter 4 Application Starter
 
 ## What is CodeIgniter?
