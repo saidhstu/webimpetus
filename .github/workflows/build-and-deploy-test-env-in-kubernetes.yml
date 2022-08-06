@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ main ]
+    branches: [ main_for_kubernetes ]
   pull_request:
     branches: [ zzzmain ]
   workflow_dispatch:

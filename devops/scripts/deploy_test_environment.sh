@@ -2,7 +2,35 @@
 
 set -x
 
-scp -r app/* bwalia@192.168.0.69:/home/bwalia/projects/webimpetus/app/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#scp -r app/* bwalia@192.168.0.69:/home/bwalia/projects/webimpetus/app/
 
 #/bin/bash prepare_test_environment.sh
 
