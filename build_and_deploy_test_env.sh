@@ -3,6 +3,7 @@
 
 set -x
 
+#cp sample.env .env
 docker-compose down
 docker-compose build
 docker-compose up -d
