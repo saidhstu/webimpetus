@@ -20,7 +20,7 @@ jobs:
     - name: Run bash script to deploy to test server
       run: |
           chmod +x ./dev_build_container.sh
-          ./dev_build_container.sh
+          ./dev_build_container.sh php74
       shell: bash
   
     - name: Slack Notification
