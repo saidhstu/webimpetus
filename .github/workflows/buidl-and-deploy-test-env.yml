@@ -19,8 +19,8 @@ jobs:
   
     - name: Run bash script to deploy to test server
       run: |
-          chmod +x ./devops/scripts/deploy_test_environment.sh
-          ./devops/scripts/deploy_test_environment.sh
+          chmod +x ./dev_build_container.sh
+          ./dev_build_container.sh
       shell: bash
   
     - name: Slack Notification
