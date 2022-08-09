@@ -6,13 +6,13 @@ set -x
 # docker-compose down
 # docker-compose build
 # docker-compose up -d
-docker-compose ps
-sleep 30
+# docker-compose ps
+#sleep 30
 
 mv .env dev.env
 
-docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
-docker exec -it lamp-php74 chown -R www-data:www-data /var/www/html/writable/
+# docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
+# docker exec -it lamp-php74 chown -R www-data:www-data /var/www/html/writable/
 
 # sleep 30
 
