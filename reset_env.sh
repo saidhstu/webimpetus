@@ -3,8 +3,6 @@
 
 #set -x
 
-
-
 #rm -Rf ci4/
 
 set -e

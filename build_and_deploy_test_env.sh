@@ -11,4 +11,9 @@ docker-compose ps
 
 sleep 30
 
-./reset_env.sh
+#./reset_env.sh
+
+sudo -S rm -Rf ci4/
+sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/data
+sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/config
+sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/
