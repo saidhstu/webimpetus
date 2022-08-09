@@ -3,4 +3,4 @@
 
 set -x
 
-rm -Rf ci4/
+/bin/bash /home/bwalia/prepare_workspace_env.sh
