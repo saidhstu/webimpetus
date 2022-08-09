@@ -32,11 +32,11 @@ jobs:
 
     - uses: isbang/compose-action@v1.1.0
       with:
-        #compose-file: "docker-compose.yml"
-        #down-flags: "--volumes"
-        services: |
-          webserver
-          database
+        compose-file: "docker-compose.yml"
+        up-flags: "--build"
+        # services: |
+        #   webserver
+        #   database
 
 
     # - name: Slack Notification
