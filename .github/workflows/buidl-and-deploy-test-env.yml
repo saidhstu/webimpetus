@@ -33,7 +33,9 @@ jobs:
     - name: Build the stack
       run: docker-compose up -d
     - name: Reset CI4 Permissions
-      run: docker-compose ps && docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/ && docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
+      run: docker-compose ps
+      
+      #&& docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/ && docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
 
       # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
     - name: Run bash script to show containers
