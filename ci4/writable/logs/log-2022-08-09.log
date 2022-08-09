@@ -1,0 +1,24 @@
+CRITICAL - 2022-08-09 04:46:37 --> Invalid configuration value provided for "region". Expected string, but got <pre class='xdebug-var-dump' dir='ltr'>
+<small>/var/www/html/vendor/aws/aws-sdk-php/src/functions.php:263:</small><small>boolean</small> <font color='#75507b'>false</font>
+</pre>
+
+region: (string)
+
+  Region to connect to. See
+  http://docs.aws.amazon.com/general/latest/gr/rande.html for a list of
+  available regions.
+#0 /var/www/html/vendor/aws/aws-sdk-php/src/ClientResolver.php(347): Aws\ClientResolver->invalidType('region', false)
+#1 /var/www/html/vendor/aws/aws-sdk-php/src/AwsClient.php(199): Aws\ClientResolver->resolve(Array, Object(Aws\HandlerList))
+#2 /var/www/html/vendor/aws/aws-sdk-php/src/S3/S3Client.php(355): Aws\AwsClient->__construct(Array)
+#3 /var/www/html/vendor/aws/aws-sdk-php/src/AwsClient.php(462): Aws\S3\S3Client->__construct(Array)
+#4 /var/www/html/app/Libraries/Aws3.php(23): Aws\AwsClient::factory(Array)
+#5 /var/www/html/app/Libraries/Aws3.php(31): App\Libraries\Aws3->__construct()
+#6 /var/www/html/app/Libraries/Aws3.php(46): App\Libraries\Aws3::getInstance()
+#7 /var/www/html/app/Models/Amazon_s3_model.php(53): App\Libraries\Aws3::sendFile(false, Array)
+#8 /var/www/html/app/Models/Amazon_s3_model.php(74): App\Models\Amazon_s3_model->uploadFileToS3('', 'category-file/1...', 'file')
+#9 /var/www/html/app/Controllers/Documents.php(51): App\Models\Amazon_s3_model->doUpload('file', 'category-file')
+#10 /var/www/html/system/CodeIgniter.php(825): App\Controllers\Documents->update()
+#11 /var/www/html/system/CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Documents))
+#12 /var/www/html/system/CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#13 /var/www/html/public/index.php(37): CodeIgniter\CodeIgniter->run()
+#14 {main}
