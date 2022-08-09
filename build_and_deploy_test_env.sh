@@ -11,6 +11,4 @@ docker-compose ps
 
 sleep 30
 
-docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
-
 ./reset_env.sh
