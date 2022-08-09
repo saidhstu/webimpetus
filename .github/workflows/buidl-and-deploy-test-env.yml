@@ -16,8 +16,8 @@ jobs:
     steps:
     - name: Run bash script to prepare dev environment a clean start
       run: |
-          chmod +x ./prepare_workspace_env.sh
-          ./prepare_workspace_env.sh
+          chmod +x ./reset_env.sh
+          ./reset_env.sh
       shell: bash
 
     - name: Check out this repo code
