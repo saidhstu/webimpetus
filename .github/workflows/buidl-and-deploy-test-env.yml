@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ main ]
+    branches: [ bwalia-devops-pipeline ]
   pull_request:
     branches: [ come_back_to_this_later ]
   workflow_dispatch:
@@ -23,23 +23,34 @@ jobs:
 
     - name: Check out this repo code
       uses: actions/checkout@v3
-  
+      with:
+        ref: bwalia-devops-pipeline
+
     - name: Run bash script to deploy to test server
       run: |
           chmod +x ./build_and_deploy_test_env.sh
           ./build_and_deploy_test_env.sh
       shell: bash
 
-    - name: Build the stack
-      run: docker-compose up -d
-    - name: Reset CI4 Permissions
-      run: docker-compose ps && docker exec -it lamp-php74 chown -R www-data:www-data /var/www/html/writable/ && docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
+    # - name: Build the stack
+    #   run: docker-compose up -d
+    # - name: Reset CI4 Permissions
+    #   run: docker-compose ps
+      
+      #&& docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/ && docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
 
       # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
     - name: Run bash script to show containers
       run: |
           chmod +x ./show_containers.sh
           ./show_containers.sh
+      shell: bash
+
+      # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
+    - name: Run bash script to exec into containers
+      run: |
+          chmod +x ./reset_containers.sh
+          ./reset_containers.sh
       shell: bash
 
 
