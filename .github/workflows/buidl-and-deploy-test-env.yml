@@ -24,21 +24,30 @@ jobs:
     - name: Check out this repo code
       uses: actions/checkout@v3
   
-    - name: Run bash script to deploy to test server
-      run: |
-          sudo chmod +x ./build_and_deploy_test_env.sh
-          sudo ./build_and_deploy_test_env.sh
-      shell: bash
-  
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_CHANNEL: general
-        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-        SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_MESSAGE: 'Post Content :rocket:'
-        SLACK_TITLE: Post Title
-        SLACK_USERNAME: rtCamp
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    # - name: Run bash script to deploy to test server
+    #   run: |
+    #       sudo chmod +x ./build_and_deploy_test_env.sh
+    #       sudo ./build_and_deploy_test_env.sh
+    #   shell: bash
+
+    - uses: isbang/compose-action@v1.1.0
+      with:
+        #compose-file: "docker-compose.yml"
+        #down-flags: "--volumes"
+        services: |
+          webserver
+          database
+
+
+    # - name: Slack Notification
+    #   uses: rtCamp/action-slack-notify@v2
+    #   env:
+    #     SLACK_CHANNEL: general
+    #     SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+    #     SLACK_ICON: https://github.com/rtCamp.png?size=48
+    #     SLACK_MESSAGE: 'Post Content :rocket:'
+    #     SLACK_TITLE: Post Title
+    #     SLACK_USERNAME: rtCamp
+    #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
 
