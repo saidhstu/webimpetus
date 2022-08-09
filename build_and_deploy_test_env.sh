@@ -3,7 +3,7 @@
 
 set -x
 
-cp dev.env .env
+mv dev.env .env
 docker-compose down
 docker-compose build
 docker-compose up -d
@@ -12,3 +12,5 @@ docker-compose ps
 sleep 30
 
 ./reset_env.sh
+
+mv .env dev.env
