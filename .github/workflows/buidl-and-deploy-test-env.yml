@@ -23,7 +23,9 @@ jobs:
 
     - name: Check out this repo code
       uses: actions/checkout@v3
-  
+      with:
+        ref: bwalia-devops-pipeline
+
     - name: Run bash script to deploy to test server
       run: |
           chmod +x ./build_and_deploy_test_env.sh
