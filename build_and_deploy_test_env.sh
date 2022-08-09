@@ -4,7 +4,7 @@
 set -x
 
 mv dev.env .env
-# docker-compose down
+docker-compose down
 # docker-compose build
 docker-compose up -d --build
 # docker-compose ps
