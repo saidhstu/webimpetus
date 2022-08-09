@@ -11,7 +11,4 @@ docker-compose ps
 
 sleep 30
 
-set -e
-EXIT_CODE=0
-/bin/bash /home/bwalia/prepare_workspace_env.sh || EXIT_CODE=$?
-echo $EXIT_CODE
+./reset_env.sh
