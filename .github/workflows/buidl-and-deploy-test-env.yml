@@ -13,13 +13,13 @@ jobs:
     # The type of runner that the job will run on
     runs-on: self-hosted
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    - name: Run bash script to prepare dev environment a clean start
-      run: |
-          chmod 777 ./reset_env.sh
-          chmod +x ./reset_env.sh
-          ./reset_env.sh
-      shell: bash
+    # steps:
+    # - name: Run bash script to prepare dev environment a clean start
+    #   run: |
+    #       chmod 777 ./reset_env.sh
+    #       chmod +x ./reset_env.sh
+    #       sudo ./reset_env.sh
+    #   shell: bash
 
     - name: Check out this repo code
       uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
     - name: Run bash script to deploy to test server
       run: |
           chmod +x ./build_and_deploy_test_env.sh
-          ./build_and_deploy_test_env.sh
+          sudo ./build_and_deploy_test_env.sh
       shell: bash
   
     - name: Slack Notification
