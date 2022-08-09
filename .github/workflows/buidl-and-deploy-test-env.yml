@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ main ]
+    branches: [ bwalia-devops-pipeline ]
   pull_request:
     branches: [ come_back_to_this_later ]
   workflow_dispatch:
