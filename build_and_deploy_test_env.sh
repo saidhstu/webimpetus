@@ -3,8 +3,8 @@
 
 set -x
 
-mkdir -p /tmp/webimpetus/
 mv ../webimpetus/* /tmp/webimpetus
+mv /tmp/webimpetus/dev.env /tmp/webimpetus/.env
 docker-compose -f /tmp/webimpetus/docker-compose.yaml down
 # docker-compose build
 docker-compose -f /tmp/webimpetus/docker-compose.yaml up -d --build

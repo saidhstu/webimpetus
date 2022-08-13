@@ -16,11 +16,11 @@ jobs:
     runs-on: self-hosted
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # - name: Run bash script to prepare dev environment a clean start
-    #   run: |
-    #       chmod +x ./prepare_workspace_env.sh
-    #       ./prepare_workspace_env.sh
-    #   shell: bash
+    - name: Run bash script to prepare dev environment a clean start
+      run: |
+          chmod +x ./prepare_workspace_env.sh
+          ./prepare_workspace_env.sh
+      shell: bash
 
     - name: Check out this repo code
       uses: actions/checkout@v3

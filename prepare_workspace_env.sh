@@ -6,4 +6,5 @@ set -x
 # rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/ci4/writable/
 # rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/data/
 
-mv dev.env .env
+#mv dev.env .env
+mkdir -p /tmp/webimpetus/
