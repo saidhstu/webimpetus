@@ -8,4 +8,4 @@ set -x
 
 #mv dev.env .env
 mkdir -p /tmp/webimpetus/
-mv ../webimpetus/* /tmp/webimpetus
+cp -r ../webimpetus/* /tmp/webimpetus
