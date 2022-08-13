@@ -4,9 +4,9 @@
 set -x
 
 mv dev.env .env
-docker-compose -f docker-compose-without-database.yaml down
-# docker-compose build
-docker-compose -f docker-compose-without-database.yaml up -d --build
+# docker-compose -f docker-compose-without-database.yaml down
+# # docker-compose build
+# docker-compose -f docker-compose-without-database.yaml up -d --build
 # docker-compose ps
 
 # sleep 30
