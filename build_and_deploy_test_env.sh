@@ -9,11 +9,6 @@ docker-compose -f /tmp/webimpetus/docker-compose.yml down
 docker-compose -f /tmp/webimpetus/docker-compose.yml up -d --build
 docker-compose -f /tmp/webimpetus/docker-compose.yml ps
 
-sleep 3
-docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
-docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/
-docker exec lamp-php74 composer update
-
 mv /tmp/webimpetus/prepare_workspace_env.sh .
 # sleep 30
 
