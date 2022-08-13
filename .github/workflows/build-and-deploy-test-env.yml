@@ -23,10 +23,10 @@ jobs:
     #       sudo ./reset_env.sh
     #   shell: bash
 
-    - name: Run bash script to deploy to test server
-      run: |
-          /bin/bash /home/bwalia/prepare_workspace_env.sh
-      # shell: 
+    # - name: Run bash script to deploy to test server
+    #   run: |
+    #       /bin/bash /home/bwalia/prepare_workspace_env.sh
+    #   # shell: 
 
     - name: Check out this repo code
       uses: actions/checkout@v3
@@ -48,10 +48,10 @@ jobs:
       #&& docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/ && docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
 
       # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
-    - name: Run bash script to show containers
-      run: |
-          /home/bwalia/prepare_workspace_env.sh
-      shell: bash
+    # - name: Run bash script to show containers
+    #   run: |
+    #       /home/bwalia/prepare_workspace_env.sh
+    #   shell: bash
 
       # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
     - name: Run bash script to exec into containers
@@ -59,13 +59,6 @@ jobs:
           chmod +x ./reset_containers.sh
           ./reset_containers.sh
       shell: bash
-
-    - name: Run bash script to reset env for next time
-      run: |
-          chmod +x ./reset_env.sh
-          ./reset_env.sh
-      shell: bash
-
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
