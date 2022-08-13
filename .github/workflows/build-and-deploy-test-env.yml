@@ -21,6 +21,12 @@ jobs:
     #       sudo ./reset_env.sh
     #   shell: bash
 
+    - name: Run bash script to deploy to test server
+      run: |
+          chmod +x ./prepare_workspace_env.sh
+          ./prepare_workspace_env.sh
+      shell: bash
+
     - name: Check out this repo code
       uses: actions/checkout@v3
       with:
