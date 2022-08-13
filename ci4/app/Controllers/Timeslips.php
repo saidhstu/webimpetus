@@ -32,9 +32,9 @@ class Timeslips extends CommonController
         $data['identifierKey'] = 'uuid';
 
         $viewPath = "common/list";
-        if (file_exists( APPPATH . $this->table."/list")) {
-           $viewPath = $this->table."/list";
-       }
+    //    Saidur/BW removed on 13 Aug 2022 as it caused pdf not to work if (file_exists( APPPATH . $this->table."/list")) {
+    //        $viewPath = $this->table."/list";
+    //    }
 
        return view($viewPath, $data);
    }
@@ -150,4 +150,38 @@ public function savecalenderevent()
         'end' => render_date($slipEndDate, "", "Y-m-d H:i:s"),
     ));
 }
+
+public function downloadPdf(){
+    $mpdf = new \App\Libraries\Generate_Pdf();
+    $pdf = $mpdf->load_portait();
+    $employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => 4))->getFirstRow();
+    // generate the PDF!
+    $headerData = view("timeslips/pdf_header");
+    $viewArray["timeslips"] = $this->getPdfData();
+    $viewArray["employeeData"] = $employeeData;
+    $html = view("timeslips/pdf_body", $viewArray);
+    $pdf->SetHTMLHeader($headerData);
+    // $pdf->SetHTMLFooter($data);
+    
+    $pdf->AddPage('', // L - landscape, P - portrait
+    '', '', '', '', 15, // margin_left
+    15, // margin right
+    30, // margin top
+    15, // margin bottom
+    8, // margin header
+    0, // margin footer
+'', '', '', '', '', '', '', '', '', 'A4-L');
+    $pdf->WriteHTML($html);
+    $pdf->Output("timeslips.pdf", "D");
+}
+public function getPdfData(){
+    $builder = $this->db->table("timeslips");
+    $builder->select("timeslips.*, tasks.name as tasks_name, employees.first_name as employee_first_name, employees.surname as employee_surname");
+    $builder->join("tasks", "tasks.id = timeslips.task_name", "left");
+    $builder->join("employees", "employees.id = timeslips.employee_name", "left");
+    $records = $builder->get()->getResultArray();
+    return $records;
+}
+
+
 }
