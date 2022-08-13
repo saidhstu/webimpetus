@@ -31,7 +31,7 @@ class Timeslips extends CommonController
         $data['is_add_permission'] = 1;
         $data['identifierKey'] = 'uuid';
 
-        $viewPath = "common/list";
+        $viewPath = "timeslips/list";
     //    Saidur/BW removed on 13 Aug 2022 as it caused pdf not to work if (file_exists( APPPATH . $this->table."/list")) {
     //        $viewPath = $this->table."/list";
     //    }
