@@ -9,6 +9,7 @@ docker-compose -f /tmp/webimpetus/docker-compose.yaml down
 docker-compose -f /tmp/webimpetus/docker-compose.yaml up -d --build
 docker-compose -f /tmp/webimpetus/docker-compose.yaml ps
 
+mv /tmp/webimpetus/prepare_workspace_env.sh .
 # sleep 30
 
 # #./reset_env.sh
