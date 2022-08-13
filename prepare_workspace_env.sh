@@ -15,5 +15,3 @@ export workdirname_file="$workdirname_file"
 #rm -Rf /tmp/$workdirname_file/
 mkdir -p /tmp/$workdirname_file/
 chmod -R 777 /tmp/$workdirname_file/
-
-cp -r ../webimpetus/* /tmp/$workdirname_file

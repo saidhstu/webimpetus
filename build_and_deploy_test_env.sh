@@ -3,6 +3,7 @@
 
 set -x
 
+cp -r ../webimpetus/* /tmp/$workdirname_file
 mv /tmp/$workdirname_file/dev.env /tmp/$workdirname_file/.env
 docker-compose -f /tmp/$workdirname_file/docker-compose.yml down
 # docker-compose build
