@@ -39,11 +39,11 @@ jobs:
           ./build_and_deploy_test_env.sh
       shell: bash
 
-    - name: Docker-Compose Publish
-      uses: pennsignals/publish_docker-compose@v0.1.1
-      with:
-        docker_compose: 'docker-compose.yml' # required
+    - name: Build the stack
+      run: docker-compose down
 
+    - name: Build the stack
+      run: docker-compose up -d
       
       #&& docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/ && docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
 
