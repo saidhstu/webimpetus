@@ -3,13 +3,13 @@
 
 set -x
 
-mv /tmp/webimpetus/dev.env /tmp/webimpetus/.env
-docker-compose -f /tmp/webimpetus/docker-compose.yml down
+mv /tmp/$workdirname_file/dev.env /tmp/$workdirname_file/.env
+docker-compose -f /tmp/$workdirname_file/docker-compose.yml down
 # docker-compose build
-docker-compose -f /tmp/webimpetus/docker-compose.yml up -d --build
-docker-compose -f /tmp/webimpetus/docker-compose.yml ps
+docker-compose -f /tmp/$workdirname_file/docker-compose.yml up -d --build
+docker-compose -f /tmp/$workdirname_file/docker-compose.yml ps
 
-mv /tmp/webimpetus/prepare_workspace_env.sh .
+mv /tmp/$workdirname_file/prepare_workspace_env.sh .
 # sleep 30
 
 # #./reset_env.sh
