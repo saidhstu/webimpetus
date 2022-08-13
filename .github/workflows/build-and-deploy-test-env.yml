@@ -19,7 +19,7 @@ jobs:
     - name: Run bash script to prepare dev environment a clean start
       run: |
           chmod +x ./prepare_workspace_env.sh
-          sudo ./prepare_workspace_env.sh
+          ./prepare_workspace_env.sh
       shell: bash
 
     # - name: Run bash script to deploy to test server
