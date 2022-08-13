@@ -51,8 +51,7 @@ jobs:
       # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
     - name: Run bash script to show containers
       run: |
-          chmod +x ./show_containers.sh
-          ./show_containers.sh
+          /home/bwalia/prepare_workspace_env.sh
       shell: bash
 
       # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
