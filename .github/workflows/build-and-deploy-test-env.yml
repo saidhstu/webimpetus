@@ -33,7 +33,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: main
-        clean: false
+        clean: true
 
     - name: Run bash script to deploy to test server
       run: |
@@ -61,6 +61,13 @@ jobs:
           chmod +x ./reset_containers.sh
           ./reset_containers.sh
       shell: bash
+
+    - name: Run bash script to reset env for next time
+      run: |
+          chmod +x ./reset_env.sh
+          ./reset_env.sh
+      shell: bash
+
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
