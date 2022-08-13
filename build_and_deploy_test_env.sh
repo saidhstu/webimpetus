@@ -4,10 +4,10 @@
 set -x
 
 mv /tmp/webimpetus/dev.env /tmp/webimpetus/.env
-docker-compose -f /tmp/webimpetus/docker-compose.yaml down
+docker-compose -f /tmp/webimpetus/docker-compose.yml down
 # docker-compose build
-docker-compose -f /tmp/webimpetus/docker-compose.yaml up -d --build
-docker-compose -f /tmp/webimpetus/docker-compose.yaml ps
+docker-compose -f /tmp/webimpetus/docker-compose.yml up -d --build
+docker-compose -f /tmp/webimpetus/docker-compose.yml ps
 
 mv /tmp/webimpetus/prepare_workspace_env.sh .
 # sleep 30
