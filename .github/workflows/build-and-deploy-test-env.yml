@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [ bwalia-devops-pipeline ]
+    branches: [ main ]
   pull_request:
-    branches: [ come_back_to_this_later ]
+    branches: [ feature/* ]
   workflow_dispatch:
 
 name: Build and Deploy WebImpetus test using Docker compose in test env at https://test-my.workstation.co.uk/
