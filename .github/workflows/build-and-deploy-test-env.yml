@@ -16,11 +16,11 @@ jobs:
     runs-on: self-hosted
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # - name: Run bash script to prepare dev environment a clean start
-    #   run: |
-    #       chmod +x ./prepare_workspace_env.sh
-    #       ./prepare_workspace_env.sh
-    #   shell: bash
+    - name: Run bash script to prepare dev environment a clean start
+      run: |
+          chmod +x ./prepare_workspace_env.sh
+          ./prepare_workspace_env.sh
+      shell: bash
 
     - name: Check out this repo code
       uses: actions/checkout@v3
@@ -28,11 +28,11 @@ jobs:
         ref: main
         clean: true
 
-    # - name: Run bash script to prep the deployment
-    #   run: |
-    #       chmod +x ./build_and_deploy_test_env.sh
-    #       ./build_and_deploy_test_env.sh
-    #   shell: bash
+    - name: Run bash script to prep the deployment
+      run: |
+          chmod +x /tmp/build_and_deploy_test_env.sh
+          /tmp/build_and_deploy_test_env.sh
+      shell: bash
 
     #   # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
     # - name: Run bash script to exec into containers
