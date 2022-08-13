@@ -2,11 +2,13 @@
 # This deploys CI4 project (mariadb, php_lamp, phpmyadmin) in docker container to test environment using docker compose.
 
 set -x
-mv dev.env .env
-docker-compose down
+
+mkdir -p /tmp/webimpetus/
+mv ../webimpetus/* /tmp/webimpetus
+docker-compose -f /tmp/webimpetus/docker-compose.yaml down
 # docker-compose build
-docker-compose up -d --build
-docker-compose ps
+docker-compose -f /tmp/webimpetus/docker-compose.yaml up -d --build
+docker-compose -f /tmp/webimpetus/docker-compose.yaml ps
 
 # sleep 30
 
