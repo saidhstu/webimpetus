@@ -16,16 +16,11 @@ jobs:
     runs-on: self-hosted
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Run bash script to prepare dev environment a clean start
-      run: |
-          chmod +x ./prepare_workspace_env.sh
-          ./prepare_workspace_env.sh
-      shell: bash
-
-    # - name: Run bash script to deploy to test server
+    # - name: Run bash script to prepare dev environment a clean start
     #   run: |
-    #       /bin/bash /home/bwalia/prepare_workspace_env.sh
-    #   # shell: 
+    #       chmod +x ./prepare_workspace_env.sh
+    #       ./prepare_workspace_env.sh
+    #   shell: bash
 
     - name: Check out this repo code
       uses: actions/checkout@v3
@@ -38,20 +33,6 @@ jobs:
           chmod +x ./build_and_deploy_test_env.sh
           ./build_and_deploy_test_env.sh
       shell: bash
-
-    - name: Build the stack
-      run: docker-compose down
-
-    - name: Build the stack
-      run: docker-compose up -d
-      
-      #&& docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/ && docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
-
-      # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
-    # - name: Run bash script to show containers
-    #   run: |
-    #       /home/bwalia/prepare_workspace_env.sh
-    #   shell: bash
 
       # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
     - name: Run bash script to exec into containers
