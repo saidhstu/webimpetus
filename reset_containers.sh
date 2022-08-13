@@ -7,11 +7,9 @@ docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/h
 docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/
 docker exec lamp-php74 composer update
 
-# sleep 30
+sleep 3
 
-# #./reset_env.sh
-
-# sudo -S rm -Rf ci4/
-# sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/data
-# sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/config
-# sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/
+sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/data
+sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/config
+sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/ci4/writable/
+sudo -S rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/data/
