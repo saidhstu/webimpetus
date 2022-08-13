@@ -26,7 +26,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: main
-        clean: false
+        clean: true
 
     - name: Run bash script to prep the deployment
       run: |
