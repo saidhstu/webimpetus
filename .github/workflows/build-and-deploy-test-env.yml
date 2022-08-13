@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [ feature/* ]
   workflow_dispatch:
+env:
+  TARGET_USER_PASSWD: "${{ secrets.TARGET_USER_PASSWD }}"
 
 name: Build and Deploy WebImpetus test using Docker compose in test env at https://test-my.workstation.co.uk/
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
