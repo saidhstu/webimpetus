@@ -3,14 +3,24 @@
 
 set -x
 
-cp -r ../webimpetus/* /tmp/$workdirname_file
-mv /tmp/$workdirname_file/dev.env /tmp/$workdirname_file/.env
-docker-compose -f /tmp/$workdirname_file/docker-compose.yml down
-# docker-compose build
-docker-compose -f /tmp/$workdirname_file/docker-compose.yml up -d --build
-docker-compose -f /tmp/$workdirname_file/docker-compose.yml ps
+# cp -r ../webimpetus/* /tmp/$workdirname_file
+# mv /tmp/$workdirname_file/dev.env /tmp/$workdirname_file/.env
+# docker-compose -f /tmp/$workdirname_file/docker-compose.yml down
+# # docker-compose build
+# docker-compose -f /tmp/$workdirname_file/docker-compose.yml up -d --build
+# docker-compose -f /tmp/$workdirname_file/docker-compose.yml ps
 
-mv /tmp/$workdirname_file/prepare_workspace_env.sh .
+# mv /tmp/$workdirname_file/prepare_workspace_env.sh .
+
+cp -r ../webimpetus/* /tmp
+mv /tmp/dev.env /tmp/.env
+docker-compose -f /tmp/docker-compose.yml down
+# docker-compose build
+docker-compose -f /tmp/docker-compose.yml up -d --build
+docker-compose -f /tmp/docker-compose.yml ps
+
+#mv /tmp/prepare_workspace_env.sh .
+
 # sleep 30
 
 # #./reset_env.sh
