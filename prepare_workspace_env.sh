@@ -7,5 +7,7 @@ set -x
 # rm -Rf /home/bwalia/actions-runner-webimpetus/_work/webimpetus/webimpetus/data/
 
 #mv dev.env .env
+rm -Rf /tmp/webimpetus/
 mkdir -p /tmp/webimpetus/
+chmod -R 777 /tmp/webimpetus/
 cp -r ../webimpetus/* /tmp/webimpetus
