@@ -30,8 +30,8 @@ jobs:
 
     - name: Run bash script to prep the deployment
       run: |
-          chmod +x /tmp/build_and_deploy_test_env.sh
-          /tmp/build_and_deploy_test_env.sh
+          chmod +x /tmp/webimpetus/build_and_deploy_test_env.sh
+          /tmp/webimpetus/build_and_deploy_test_env.sh
       shell: bash
 
     #   # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
