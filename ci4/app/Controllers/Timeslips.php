@@ -30,6 +30,7 @@ class Timeslips extends CommonController
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
         $data['identifierKey'] = 'uuid';
+        $data["employees"] = $this->timeSlipsModel->getEmployeesData();
 
         $viewPath = "timeslips/list";
     //    Saidur/BW removed on 13 Aug 2022 as it caused pdf not to work if (file_exists( APPPATH . $this->table."/list")) {
@@ -152,6 +153,7 @@ public function savecalenderevent()
 }
 
 public function downloadPdf(){
+
     $mpdf = new \App\Libraries\Generate_Pdf();
     $pdf = $mpdf->load_portait();
     $employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => 4))->getFirstRow();
@@ -175,13 +177,60 @@ public function downloadPdf(){
     $pdf->Output("timeslips.pdf", "D");
 }
 public function getPdfData(){
+    $employee_id = $_POST["employee"];
+    $requestMonth = $_POST["monthpicker"];
+    $year = $_POST["yearpicker"];
+    
     $builder = $this->db->table("timeslips");
+
+    $firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year)) ;
+        
+    $lastDayMonth = strtotime($this->lastday($requestMonth,  $year)); // hard-coded '01' for first day
+
     $builder->select("timeslips.*, tasks.name as tasks_name, employees.first_name as employee_first_name, employees.surname as employee_surname");
     $builder->join("tasks", "tasks.id = timeslips.task_name", "left");
     $builder->join("employees", "employees.id = timeslips.employee_name", "left");
+
+    if($employee_id != "-1"){
+
+        $builder->join("timeslips.employee_name", $employee_id);
+    }
+
+    $builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
+    $builder->where("timeslips.slip_start_date <=", $lastDayMonth);
+
+
     $records = $builder->get()->getResultArray();
+   // echo $this->db->getLastQuery(); die;
+   // print_r($records ); die;
     return $records;
 }
+
+
+function lastday($month = '', $year = '') {
+    if (empty($month)) {
+       $month = date('m');
+    }
+    if (empty($year)) {
+       $year = date('Y');
+    }
+    $result = strtotime("{$year}-{$month}-01");
+    $result = strtotime('-1 second', strtotime('+1 month', $result));
+    return date('Y-m-d', $result);
+ }
+
+ function firstDay($month = '', $year = '')
+    {
+        if (empty($month)) {
+        $month = date('m');
+    }
+    if (empty($year)) {
+        $year = date('Y');
+    }
+    $result = strtotime("{$year}-{$month}-01");
+    return date('Y-m-d', $result);
+ } 
+
 
 
 }
