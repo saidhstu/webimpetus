@@ -42,4 +42,5 @@
         </table>
     </div>
 </div>
-<?php require_once (APPPATH.'Views/common/footer.php'); ?>
+
+<?php require_once (APPPATH.'Views/timeslips/footer.php'); ?>

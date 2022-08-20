@@ -43,7 +43,7 @@
                             echo render_head_text($rawTblName);
                         } ?></a>
                         <?php }?>
-                        <a href="<?php echo base_url("timeslips/downloadPdf"); ?>" class="btn btn-primary"><i class="ti-export"></i> Export Pdf</a>
+                        <button data-toggle="modal" data-target="#exampleModal" href="<?php echo base_url("timeslips/downloadPdf"); ?>" class="btn btn-primary"><i class="ti-export"></i> Export Pdf</button>
                     </div>
 
             </div>
@@ -73,3 +73,4 @@
                 </div>   
             </div>
         </div>
+

@@ -30,6 +30,7 @@ class Timeslips extends CommonController
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
         $data['identifierKey'] = 'uuid';
+        $data["employees"] = $this->timeSlipsModel->getEmployeesData();
 
         $viewPath = "timeslips/list";
     //    Saidur/BW removed on 13 Aug 2022 as it caused pdf not to work if (file_exists( APPPATH . $this->table."/list")) {
