@@ -15,10 +15,12 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
+        <form action="<?php echo base_url("timeslips/downloadPdf"); ?>" method="post">
         <div class="modal-body">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Employee</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <select name="employee" class="form-control" id="exampleFormControlSelect1">
+                <option value="-1" selected>All</option>
                 <?php foreach(@$employees as $employee){?>
                     <option value="<?php echo $employee["id"]; ?>"><?php echo $employee["name"];?></option>
                     <?php } ?>
@@ -46,8 +48,9 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <a target="_blank" type="button" href="<?php echo base_url("timeslips/downloadPdf"); ?>" class="btn btn-primary">Export PDF</a>
+            <button  type="submit"  class="btn btn-primary" >Export PDF </button>
         </div>
+        </form>
         </div>
     </div>
 </div>
@@ -81,4 +84,6 @@
         j = ('0'+i).slice(-2);
       $('#monthpicker').append($('<option />').val(j).html(j));
     }
+
+
     </script>
