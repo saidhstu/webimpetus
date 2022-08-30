@@ -22,8 +22,8 @@ fi
 
 if [[ "$1" == "production" ]]; then
 
-cd /home/bwalia/temp/prod/
 cp -r ../webimpetus/* /home/bwalia/temp/prod/
+cd /home/bwalia/temp/prod/
 mv /home/bwalia/temp/prod/prod.env /home/bwalia/temp/prod/.env
 
 docker-compose -f /home/bwalia/temp/prod/docker-compose.yml down
@@ -33,9 +33,8 @@ docker-compose -f /home/bwalia/temp/prod/docker-compose.yml ps
 
 else
 
-cd /home/bwalia/temp/test/
-
 cp -r ../webimpetus/* /home/bwalia/temp/test/
+cd /home/bwalia/temp/test/
 mv /home/bwalia/temp/test/dev.env /home/bwalia/temp/test/.env
 docker-compose -f /home/bwalia/temp/test/docker-compose.yml down
 # docker-compose build
