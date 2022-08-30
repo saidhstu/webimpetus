@@ -19,13 +19,12 @@ fi
 
 # mv /tmp/$workdirname_file/prepare_workspace_env.sh .
 
-cp -r ../webimpetus/* /tmp
-
 
 if [[ "$1" == "production" ]]; then
 
+cp -r ../webimpetus/* /tmp/prod
 mkdir -p /tmp/prod
-mv /tmp/prod.env /tmp/prod/test/.env
+mv /tmp/prod/prod.env /tmp/prod/test/.env
 docker-compose -f /tmp/prod/docker-compose.yml down
 # docker-compose build
 docker-compose -f /tmp/prod/docker-compose.yml up -d --build
@@ -33,8 +32,9 @@ docker-compose -f /tmp/prod/docker-compose.yml ps
 
 else
 
+cp -r ../webimpetus/* /tmp/test
 mkdir -p /tmp/test
-mv /tmp/dev.env /tmp/test/.env
+mv /tmp/test/dev.env /tmp/test/.env
 docker-compose -f /tmp/test/docker-compose.yml down
 # docker-compose build
 docker-compose -f /tmp/test/docker-compose.yml up -d --build
