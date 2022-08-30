@@ -20,12 +20,24 @@ fi
 # mv /tmp/$workdirname_file/prepare_workspace_env.sh .
 
 cp -r ../webimpetus/* /tmp
+
+if [[ "$1" == "production" ]]; then
+
+mv /tmp/prod.env /tmp/.env
+docker-compose -f /tmp/docker-compose.yml down
+# docker-compose build
+docker-compose -f /tmp/docker-compose.yml up -d --build
+docker-compose -f /tmp/docker-compose.yml ps
+
+else
+
 mv /tmp/dev.env /tmp/.env
 docker-compose -f /tmp/docker-compose.yml down
 # docker-compose build
 docker-compose -f /tmp/docker-compose.yml up -d --build
 docker-compose -f /tmp/docker-compose.yml ps
 
+fi
 #mv /tmp/prepare_workspace_env.sh .
 
 # sleep 30
