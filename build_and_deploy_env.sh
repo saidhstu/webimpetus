@@ -21,24 +21,24 @@ fi
 
 cp -r ../webimpetus/* /tmp
 
-truncate -s 0 /tmp/.env
 
 if [[ "$1" == "production" ]]; then
 
-mv /tmp/prod.env /tmp/.env
-docker-compose -f /tmp/docker-compose.yml down
+mkdir -p /tmp/prod
+mv /tmp/prod.env /tmp/prod/test/.env
+docker-compose -f /tmp/prod/docker-compose.yml down
 # docker-compose build
-docker-compose -f /tmp/docker-compose.yml up -d --build
-docker-compose -f /tmp/docker-compose.yml ps
+docker-compose -f /tmp/prod/docker-compose.yml up -d --build
+docker-compose -f /tmp/prod/docker-compose.yml ps
 
 else
 
-mv /tmp/dev.env /tmp/.env
-docker-compose -f /tmp/docker-compose.yml down
+mkdir -p /tmp/test
+mv /tmp/dev.env /tmp/test/.env
+docker-compose -f /tmp/test/docker-compose.yml down
 # docker-compose build
-docker-compose -f /tmp/docker-compose.yml up -d --build
-docker-compose -f /tmp/docker-compose.yml ps
-
+docker-compose -f /tmp/test/docker-compose.yml up -d --build
+docker-compose -f /tmp/test/docker-compose.yml ps
 fi
 #mv /tmp/prepare_workspace_env.sh .
 
