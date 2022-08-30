@@ -21,6 +21,8 @@ fi
 
 cp -r ../webimpetus/* /tmp
 
+truncate -s 0 /tmp/.env
+
 if [[ "$1" == "production" ]]; then
 
 mv /tmp/prod.env /tmp/.env
