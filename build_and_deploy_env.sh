@@ -3,6 +3,13 @@
 
 set -x
 
+if [ -z "$1" ];
+then
+  echo "env is not set"
+  exit 1
+fi
+
+
 # cp -r ../webimpetus/* /tmp/$workdirname_file
 # mv /tmp/$workdirname_file/dev.env /tmp/$workdirname_file/.env
 # docker-compose -f /tmp/$workdirname_file/docker-compose.yml down

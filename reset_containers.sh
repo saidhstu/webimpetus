@@ -3,9 +3,24 @@
 
 set -x
 
+if [ -z "$1" ];
+then
+  echo "env is not set"
+  exit 1
+fi
+
 sleep 10
 
-docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
-docker exec lamp-php74 chown -R www-data:www-data /var/www/html/writable/
-docker exec lamp-php74 composer update
+if [[ "$1" == "production" ]]; then
 
+docker cp /home/bwalia/env_webimpetus_myworkstation lamp-php74:/var/www/html/.env
+docker exec prod-workstation-php74 chown -R www-data:www-data /var/www/html/writable/
+docker exec prod-workstation-php74 composer update
+
+else
+
+docker cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest lamp-php74:/var/www/html/.env
+docker exec test-workstation-php74 chown -R www-data:www-data /var/www/html/writable/
+docker exec test-workstation-php74 composer update
+
+fi
