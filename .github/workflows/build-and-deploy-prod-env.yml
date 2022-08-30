@@ -33,7 +33,7 @@ jobs:
     - name: Check out this repo code
       uses: actions/checkout@v3
       with:
-        ref: main
+        ref: feature/bwalia-devops-prod-pipeline
         clean: true
 
     - name: Run bash script to prep the deployment
