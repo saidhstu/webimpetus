@@ -1,13 +1,13 @@
 on:
   push:
-    branches: [ test ]
+    branches: [ main ]
   pull_request:
-    branches: [ feature/test* ]
+    branches: [ feature/main-* ]
   workflow_dispatch:
     inputs:
       workflow_action:
         type: choice
-        description: 'Please choose the test Workstation CI4 Project action'
+        description: 'Please choose the Prod Workstation CI4 Project action'
         default: 'deploy'
         required: true
         options:
@@ -15,10 +15,12 @@ on:
         - rollback
         - Choose
 
+
 env:
   TARGET_USER_PASSWD: "${{ secrets.TARGET_USER_PASSWD }}"
 
-name: (Test) Build and Deploy My Workstation CMS and CRM using Docker compose in test env at https://test-my.workstation.co.uk/
+
+name: (Prod) Build and Deploy My Workstation CMS and CRM using Docker compose in production env at https://my.workstation.co.uk/
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -27,29 +29,24 @@ jobs:
     runs-on: self-hosted
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # - name: Run bash script to prepare dev environment a clean start
-    #   run: |
-    #       chmod +x ./prepare_workspace_env.sh
-    #       ./prepare_workspace_env.sh
-    #   shell: bash
 
     - name: Check out this repo code
       uses: actions/checkout@v3
       with:
-        ref: test
+        ref: main
         clean: true
 
     - name: Run bash script to prep the deployment
       run: |
           chmod +x ./build_and_deploy_env.sh
-          ./build_and_deploy_env.sh test
+          ./build_and_deploy_env.sh "production"
       shell: bash
 
       # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
     - name: Run bash script to exec into containers
       run: |
           chmod +x ./reset_containers.sh
-          ./reset_containers.sh test
+          ./reset_containers.sh "production"
       shell: bash
 
     # - name: Run bash script to prep the deployment
