@@ -7,7 +7,7 @@ on:
     inputs:
       workflow_action:
         type: choice
-        description: 'Please choose the Workstation CI4 Project action'
+        description: 'Please choose the Prod Workstation CI4 Project action'
         default: 'deploy'
         required: true
         options:
