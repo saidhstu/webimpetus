@@ -1,5 +1,7 @@
 # LAMP stack built with Docker Compose and pipeline deploys on target machine in docker automatically at https://test-my.workstation.co.uk
 
+```Version deployed at: Tue 30 Aug 2022 17:38 hrs```
+
 ![Landing Page](https://user-images.githubusercontent.com/43859895/141092846-905eae39-0169-4fd7-911f-9ff32c48b7e8.png)
 
 A basic LAMP stack environment built using Docker Compose. It consists of the following:
