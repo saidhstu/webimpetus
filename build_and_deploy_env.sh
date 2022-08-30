@@ -22,23 +22,21 @@ fi
 
 if [[ "$1" == "production" ]]; then
 
-cp -r ../webimpetus/* /tmp/prod
-mkdir -p /tmp/prod
-mv /tmp/prod/prod.env /tmp/prod/test/.env
-docker-compose -f /tmp/prod/docker-compose.yml down
+cp -r ../webimpetus/* /home/bwalia/temp/prod/
+mv /home/bwalia/temp/prod/prod.env /home/bwalia/temp/prod/.env
+docker-compose -f /home/bwalia/temp/prod/docker-compose.yml down
 # docker-compose build
-docker-compose -f /tmp/prod/docker-compose.yml up -d --build
-docker-compose -f /tmp/prod/docker-compose.yml ps
+docker-compose -f /home/bwalia/temp/prod/docker-compose.yml up -d --build
+docker-compose -f /home/bwalia/temp/prod/docker-compose.yml ps
 
 else
 
-cp -r ../webimpetus/* /tmp/test
-mkdir -p /tmp/test
-mv /tmp/test/dev.env /tmp/test/.env
-docker-compose -f /tmp/test/docker-compose.yml down
+cp -r ../webimpetus/* /home/bwalia/temp/test/
+mv /home/bwalia/temp/test/dev.env /home/bwalia/temp/test/.env
+docker-compose -f /home/bwalia/temp/test/docker-compose.yml down
 # docker-compose build
-docker-compose -f /tmp/test/docker-compose.yml up -d --build
-docker-compose -f /tmp/test/docker-compose.yml ps
+docker-compose -f /home/bwalia/temp/test/docker-compose.yml up -d --build
+docker-compose -f /home/bwalia/temp/test/docker-compose.yml ps
 fi
 #mv /tmp/prepare_workspace_env.sh .
 
