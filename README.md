@@ -1,3 +1,29 @@
+## DEV ENV
+
+
+Install the project on localhost
+
+1. Clone the repository from git
+2. Create a file on you home dir name "env_webimpetus_myworkstation"
+3. Copy the text from here https://tenthmatrix.slack.com/archives/C02UATPJVP1/p1661954362293559 and save on that file
+4. modified the bellow lines on that file
+    app.baseURL = 'http://localhost:8078/'
+    database.default.hostname = host.docker.internal
+    database.default.username = root
+    database.default.database = webimpetus //your database name
+    database.default.password = password //your database pass
+
+    add a my sql user with full previliges
+    Username	Hostname	Password	Globalprivileges 
+    root	    %	         Yes	     ALL PRIVILEGES	
+
+5. Run the command ./build_and_deploy_env.sh development
+6. That's it! you can check your port and run like this in my cases 
+http://localhost:8078/
+
+
+
+
 # LAMP stack built with Docker Compose and pipeline deploys on target machine in docker automatically at https://test-my.workstation.co.uk
 
 ```Version deployed at: Tue 30 Aug 2022 17:38 hrs```
@@ -23,6 +49,7 @@ As of now, we have several different PHP versions. Use appropriate php version a
 - 8.0.x
 - 8.1.x
 
+TEST        ENF
 ## Installation
 
 - Clone this repository on your local computer
