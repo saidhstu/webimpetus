@@ -1,30 +1,37 @@
 ## DEV ENV
 
 
-Install the project on localhost
+#### Install WebImpetus Dev environment on your machine using Docker compose
 
 1. Clone the repository from git
-2. Create a file on you home dir name "env_webimpetus_myworkstation"
-3. Copy the text from here https://tenthmatrix.slack.com/archives/C02UATPJVP1/p1661954362293559 and save on that file
-4. modified the bellow lines on that file
+2. Create .env file in you home dir or vault securely outside github workspace and add the database and other creds name the file "env_webimpetus_myworkstation"
+3. Copy the text from here https://tenthmatrix.slack.com/archives/C02UATPJVP1/p1661954362293559 and save in that file `env_webimpetus_myworkstation`
+4. Modify the environment variables shown below in the same file `env_webimpetus_myworkstation`
+
+    ```
     app.baseURL = 'http://localhost:8078/'
-    database.default.hostname = host.docker.internal
+    database.default.hostname = host.docker.internal (Note: change this to docker service name if MySQL or MariaDB is also running in Docker)
     database.default.username = root
     database.default.database = webimpetus //your database name
     database.default.password = password //your database pass
 
-    add a my sql user with full previliges
+    Add a MySQL User with full previliges with IP running your CI4 and from which IP it will connect to MySQL. If dev test environment is secure just          add %
     Username	Hostname	Password	Globalprivileges 
-    root	    %	         Yes	     ALL PRIVILEGES	
+    root	    %	         Yes	     ALL PRIVILEGES
+    ```
 
-5. Run the command ./build_and_deploy_env.sh development
-6. That's it! you can check your port and run like this in my cases 
-http://localhost:8078/
+5. Run the this cmd in the bash terminal - `./build_and_deploy_env.sh development`
+6. Voila! Bob is your Uncle!!!
 
+Try to visit this URL from your web browser
 
+http://localhost:8078/ - Note change port to what you defined in the .env for docker compose
 
+or curl -IL http://localhost:8078/
 
-# LAMP stack built with Docker Compose and pipeline deploys on target machine in docker automatically at https://test-my.workstation.co.uk
+## TEST ENV
+
+#### LAMP stack built with Docker Compose and pipeline deploys on target machine in docker automatically at https://test-my.workstation.co.uk
 
 ```Version deployed at: Tue 30 Aug 2022 17:38 hrs```
 
