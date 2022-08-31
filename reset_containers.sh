@@ -3,11 +3,12 @@
 
 set -x
 
-if [ -z "$1" ];
-target_env=$1
-then
-  echo "env is not set"
-  target_env="development"
+if [[ -z "$1" ]]; then
+   echo "env is empty, so setting target_env to development (default)"
+   target_env="development"
+else
+   echo "env is NOT empty, so setting target_env to $1"
+   target_env=$1
 fi
 
 sleep 10
