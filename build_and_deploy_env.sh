@@ -4,11 +4,11 @@
 set -x
 
 if [ -z "$1" ];
+target_env=$1
 then
   echo "env is not set"
-  exit 1
+  target_env="development"
 fi
-
 
 # cp -r ../webimpetus/* /tmp/$workdirname_file
 # mv /tmp/$workdirname_file/dev.env /tmp/$workdirname_file/.env
@@ -20,7 +20,7 @@ fi
 # mv /tmp/$workdirname_file/prepare_workspace_env.sh .
 
 
-if [[ "$1" == "production" ]]; then
+if [[ "$target_env" == "production" ]]; then
 
 cp -r ../webimpetus/* /home/bwalia/temp/prod/
 cd /home/bwalia/temp/prod/
@@ -33,6 +33,16 @@ docker-compose -f /home/bwalia/temp/prod/docker-compose.yml ps
 
 else
 
+if [[ "$target_env" == "development" ]]; then
+
+docker-compose -f docker-compose.yml down
+# docker-compose build
+docker-compose -f docker-compose.yml up -d --build
+docker-compose -f docker-compose.yml ps
+
+bash ./reset_containers.sh $target_env
+
+else
 cp -r ../webimpetus/* /home/bwalia/temp/test/
 cd /home/bwalia/temp/test/
 mv /home/bwalia/temp/test/dev.env /home/bwalia/temp/test/.env
@@ -40,6 +50,7 @@ docker-compose -f /home/bwalia/temp/test/docker-compose.yml down
 # docker-compose build
 docker-compose -f /home/bwalia/temp/test/docker-compose.yml up -d --build
 docker-compose -f /home/bwalia/temp/test/docker-compose.yml ps
+fi
 fi
 #mv /tmp/prepare_workspace_env.sh .
 
