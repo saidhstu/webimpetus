@@ -260,7 +260,7 @@ class Api extends BaseController
 	public function sendEmail(){
 
 		$name = $this->request->getVar('name');
-		$to = $this->request->getVar('email');
+		$ccEmail = $this->request->getVar('email');
 		if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
 			$data['status'] = 'error';
 			$data['msg']    = 'Please Enter a valid email!';
@@ -268,28 +268,30 @@ class Api extends BaseController
 		}
 
 		$message = $this->request->getVar('message');
-		if (strlen(trim($message)) < 1) {
-			$data['status'] = 'error';
-			$data['msg']    = 'Frontend should send message field value or default value if no field is in the form.';
-			echo json_encode($data); die;
-		}
-
 		$organisation = $this->request->getVar('organisation');
 		
 		$phone = $this->request->getVar('phone');
+
+		if (strlen(trim($message)) < 1) {
+	
+			$message    = 'Email Sent by user '.$name."<br> Phone ".$phone. "<br> Organization :".$organisation;
+			echo json_encode($data); die;
+		}
+
+
 		$uuid_business_id = $this->request->getVar('uuid_business_id') ? $this->request->getVar('uuid_business_id') : 6;
 		$subject = "Odin contact email";
 		$name = $name ? $name : "";
 
 		$from_email = "info@odincm.com";
-		$is_send = $this->emailModel->send_mail($to, $name, $from_email, $message, $subject);
+		$is_send = $this->emailModel->send_mail($from_email, $name, $from_email, $message, $subject, [], "", $ccEmail);
 		if($is_send){
 			$data['status'] = 'success';
 			$data['msg']    = 'Email send successfully!';
 
 			$insertArray["uuid_business_id"] = $uuid_business_id;
 			$insertArray["name"] = $name;
-			$insertArray["email"] = $to;
+			$insertArray["email"] = $ccEmail;
 			$insertArray["phone"] = $phone;
 			$insertArray["message"] = $message;
 			$insertArray["type"] = 1;
