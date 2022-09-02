@@ -27,17 +27,13 @@ cp -r ../webimpetus/* /tmp/webimpetus/
 
 if [[ "$target_env" == "production" ]]; then
 target_env_short="prod"
-else
-# TEST
 fi
 
-mv /tmp/webimpetus/${target_env_short}.env /tmp/webimpetus/.env
+mv /tmp/webimpetus/$target_env_short.env /tmp/webimpetus/.env
 
 if [[ "$target_env" == "development" ]]; then
 target_env_short="dev"
 bash ./reset_containers.sh $target_env
-
-else
 fi
 
 cd /tmp/webimpetus/
@@ -49,7 +45,6 @@ docker-compose -f docker-compose.yml ps
 if [[ "$target_env" == "development" ]]; then
 chmod +x reset_containers.sh
 /bin/bash reset_containers.sh $target_env
-else
 fi
 
 #mv /tmp/prepare_workspace_env.sh .
