@@ -11,6 +11,7 @@ else
    target_env=$1
 fi
 
+target_env_short=$target_env
 # cp -r ../webimpetus/* /tmp/$workdirname_file
 # mv /tmp/$workdirname_file/dev.env /tmp/$workdirname_file/.env
 # docker-compose -f /tmp/$workdirname_file/docker-compose.yml down
@@ -19,41 +20,37 @@ fi
 # docker-compose -f /tmp/$workdirname_file/docker-compose.yml ps
 
 # mv /tmp/$workdirname_file/prepare_workspace_env.sh .
+mkdir -p /tmp/webimpetus/
+chmod 777 /tmp/webimpetus/
 
+cp -r ../webimpetus/* /tmp/webimpetus/
+mv /tmp/webimpetus/prod.env /tmp/webimpetus/.env
 
 if [[ "$target_env" == "production" ]]; then
-
-cp -r ../webimpetus/* /home/bwalia/temp/prod/
-cd /home/bwalia/temp/prod/
-mv /home/bwalia/temp/prod/prod.env /home/bwalia/temp/prod/.env
-
-docker-compose -f /home/bwalia/temp/prod/docker-compose.yml down
-# docker-compose build
-docker-compose -f /home/bwalia/temp/prod/docker-compose.yml up -d --build
-docker-compose -f /home/bwalia/temp/prod/docker-compose.yml ps
-
+target_env_short="prod"
+mv /tmp/webimpetus/prod.env /tmp/webimpetus/.env
 else
+mv /tmp/webimpetus/test.env /tmp/webimpetus/.env
+fi
 
 if [[ "$target_env" == "development" ]]; then
-
-docker-compose -f docker-compose.yml down
-# docker-compose build
-docker-compose -f docker-compose.yml up -d --build
-docker-compose -f docker-compose.yml ps
-
+target_env_short="dev"
 bash ./reset_containers.sh $target_env
 
 else
-cp -r ../webimpetus/* /home/bwalia/temp/test/
-cd /home/bwalia/temp/test/
-mv /home/bwalia/temp/test/dev.env /home/bwalia/temp/test/.env
-docker-compose -f /home/bwalia/temp/test/docker-compose.yml down
-# docker-compose build
-docker-compose -f /home/bwalia/temp/test/docker-compose.yml up -d --build
-docker-compose -f /home/bwalia/temp/test/docker-compose.yml ps
 fi
+
+docker-compose -f /tmp/webimpetus/docker-compose.yml down
+docker-compose -f /tmp/webimpetus/docker-compose.yml up -d --build
+docker-compose -f /tmp/webimpetus/docker-compose.yml ps
+
+if [[ "$target_env" == "development" ]]; then
+bash ./reset_containers.sh $target_env
+else
 fi
+
 #mv /tmp/prepare_workspace_env.sh .
+
 
 # sleep 30
 
