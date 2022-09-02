@@ -32,16 +32,16 @@ if [[ "$target_env" == "development" ]]; then
 target_env_short="dev"
 cp ${HOME}/env_webimpetus_myworkstation /tmp/.env
 echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/.env
-docker cp /tmp/.env dev-workstation-php74:/var/www/html/.env
 
 else
 # TEST
 cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest /tmp/.env
 echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/.env
-docker cp /tmp/.env test-workstation-php74:/var/www/html/.env
 
 fi
 fi
+
+docker cp /tmp/.env ${target_env_short}-workstation-php74:/var/www/html/.env
 
 docker exec ${target_env_short}-workstation-php74 chown -R www-data:www-data /var/www/html/writable/
 docker exec ${target_env_short}-workstation-php74 composer update
