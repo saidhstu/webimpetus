@@ -11,14 +11,31 @@ else
    target_env=$1
 fi
 
-target_env_short=$target_env
+# cp -r ../webimpetus/* /tmp/$workdirname_file
+# mv /tmp/$workdirname_file/dev.env /tmp/$workdirname_file/.env
+# docker-compose -f /tmp/$workdirname_file/docker-compose.yml down
+# # docker-compose build
+# docker-compose -f /tmp/$workdirname_file/docker-compose.yml up -d --build
+# docker-compose -f /tmp/$workdirname_file/docker-compose.yml ps
+
+# mv /tmp/$workdirname_file/prepare_workspace_env.sh .
+
+
 if [[ "$target_env" == "production" ]]; then
-target_env_short="prod"
-fi
+
+cp -r ../webimpetus/* /home/bwalia/temp/prod/
+cd /home/bwalia/temp/prod/
+mv /home/bwalia/temp/prod/prod.env /home/bwalia/temp/prod/.env
+
+docker-compose -f /home/bwalia/temp/prod/docker-compose.yml down
+# docker-compose build
+docker-compose -f /home/bwalia/temp/prod/docker-compose.yml up -d --build
+docker-compose -f /home/bwalia/temp/prod/docker-compose.yml ps
+
+else
 
 if [[ "$target_env" == "development" ]]; then
 
-target_env_short="dev"
 docker-compose -f docker-compose.yml down
 # docker-compose build
 docker-compose -f docker-compose.yml up -d --build
@@ -27,17 +44,15 @@ docker-compose -f docker-compose.yml ps
 bash ./reset_containers.sh $target_env
 
 else
-
-cp -r ../webimpetus/* /home/bwalia/temp/${target_env_short}/
-cd /home/bwalia/temp/${target_env_short}/
-mv /home/bwalia/temp/${target_env_short}/dev.env /home/bwalia/temp/${target_env_short}/.env
-docker-compose -f /home/bwalia/temp/${target_env_short}/docker-compose.yml down
+cp -r ../webimpetus/* /home/bwalia/temp/test/
+cd /home/bwalia/temp/test/
+mv /home/bwalia/temp/test/dev.env /home/bwalia/temp/test/.env
+docker-compose -f /home/bwalia/temp/test/docker-compose.yml down
 # docker-compose build
-docker-compose -f /home/bwalia/temp/${target_env_short}/docker-compose.yml up -d --build
-docker-compose -f /home/bwalia/temp/${target_env_short}/docker-compose.yml ps
-
+docker-compose -f /home/bwalia/temp/test/docker-compose.yml up -d --build
+docker-compose -f /home/bwalia/temp/test/docker-compose.yml ps
 fi
-
+fi
 #mv /tmp/prepare_workspace_env.sh .
 
 # sleep 30
