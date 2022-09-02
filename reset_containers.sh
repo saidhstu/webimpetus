@@ -20,29 +20,29 @@ export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
 mkdir -p /tmp
 touch /tmp/.env
-#PROD
+truncate -s 0 /tmp/.env
+   # PROD
 if [[ "$target_env" == "production" ]]; then
-target_env_short="prod"
-echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /home/bwalia/env_webimpetus_myworkstation
-docker cp /home/bwalia/env_webimpetus_myworkstation ${target_env_short}-workstation-php74:/var/www/html/.env
+   target_env_short="prod"
+   cp /home/bwalia/env_webimpetus_myworkstation /tmp/.env
+   echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/.env
 fi
 
 if [[ "$target_env" == "development" ]]; then
-target_env_short="dev"
-cp ${HOME}/env_webimpetus_myworkstation /tmp/.env
-echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/.env
-
+   target_env_short="dev"
+   cp ${HOME}/env_webimpetus_myworkstation /tmp/.env
 else
-# TEST
-cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest /tmp/.env
-echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/.env
+   # TEST
+   cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest /tmp/.env
 fi
 
+echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/.env
 docker cp /tmp/.env ${target_env_short}-workstation-php74:/var/www/html/.env
 
 docker exec ${target_env_short}-workstation-php74 chown -R www-data:www-data /var/www/html/writable/
 docker exec ${target_env_short}-workstation-php74 composer update
 
+# What OS are you using?
 docker exec ${target_env_short}-workstation-php74 cat /etc/os-release
 
 docker exec ${target_env_short}-workstation-php74 apt update 
