@@ -28,6 +28,7 @@ cp -r ../webimpetus/* /tmp/webimpetus/
 if [[ "$target_env" == "production" ]]; then
 target_env_short="prod"
 else
+# TEST
 fi
 
 mv /tmp/webimpetus/${target_env_short}.env /tmp/webimpetus/.env
