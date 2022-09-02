@@ -54,7 +54,7 @@ jobs:
     #       chmod +x ./reset_env.sh
     #       ./reset_env.sh
     #   shell: bash
-    - name: curl
+    - name: Healthcheck url my.workstation.co.uk
       uses: wei/curl@master
       with:
         args: https://my.workstation.co.uk/
