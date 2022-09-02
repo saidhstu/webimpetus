@@ -24,14 +24,13 @@ mkdir -p /tmp/webimpetus/
 chmod 777 /tmp/webimpetus/
 
 cp -r ../webimpetus/* /tmp/webimpetus/
-mv /tmp/webimpetus/prod.env /tmp/webimpetus/.env
 
 if [[ "$target_env" == "production" ]]; then
 target_env_short="prod"
-mv /tmp/webimpetus/prod.env /tmp/webimpetus/.env
 else
-mv /tmp/webimpetus/test.env /tmp/webimpetus/.env
 fi
+
+mv /tmp/webimpetus/${target_env_short}.env /tmp/webimpetus/.env
 
 if [[ "$target_env" == "development" ]]; then
 target_env_short="dev"
