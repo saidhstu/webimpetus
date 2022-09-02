@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ test ]
+    branches: [ main ]
   pull_request:
     branches: [ feature/test* ]
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
     - name: Check out this repo code
       uses: actions/checkout@v3
       with:
-        ref: test
+        ref: main
         clean: true
 
     - name: Run bash script to prep the deployment
