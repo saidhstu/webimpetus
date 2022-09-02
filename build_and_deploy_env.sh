@@ -40,12 +40,15 @@ bash ./reset_containers.sh $target_env
 else
 fi
 
-docker-compose -f /tmp/webimpetus/docker-compose.yml down
-docker-compose -f /tmp/webimpetus/docker-compose.yml up -d --build
-docker-compose -f /tmp/webimpetus/docker-compose.yml ps
+cd /tmp/webimpetus/
+
+docker-compose -f docker-compose.yml down
+docker-compose -f docker-compose.yml up -d --build
+docker-compose -f docker-compose.yml ps
 
 if [[ "$target_env" == "development" ]]; then
-bash ./reset_containers.sh $target_env
+chmod +x reset_containers.sh
+/bin/bash reset_containers.sh $target_env
 else
 fi
 
