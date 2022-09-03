@@ -7,7 +7,7 @@ set -x
 
 if [[ -z "$1" ]]; then
    echo "env is empty, so setting target_env to development (default)"
-   target_env="development"
+   target_env="dev"
 else
    echo "env is NOT empty, so setting target_env to $1"
    target_env=$1
@@ -15,20 +15,10 @@ fi
 
 if [[ -z "$2" ]]; then
    echo "action is empty, so setting action to start (default)"
-   env_action="start"
+   cicd_action="start"
 else
    echo "action is NOT empty, so setting action to start (default)"
-   env_action=$2
-fi
-
-target_env_short=$target_env
-
-if [[ "$target_env" == "production" ]]; then
-target_env_short="prod"
-fi
-
-if [[ "$target_env" == "development" ]]; then
-target_env_short="dev"
+   cicd_action=$2
 fi
 
 ###### Set some variables
@@ -37,7 +27,7 @@ HOST_ENDPOINT_UNSECURE_URL="http://localhost:8078"
 ##### Set some variables
 WORKSPACE_DIR=$(pwd)
 
-if [[ "$target_env_short" == "test" ]]; then
+if [[ "$target_env" == "test" ]]; then
 WORKSPACE_DIR="/tmp/webimpetus"
 mkdir -p ${WORKSPACE_DIR}
 chmod 777 ${WORKSPACE_DIR}
@@ -45,7 +35,7 @@ rm -rf ${WORKSPACE_DIR}*
 cp -r ../webimpetus/* ${WORKSPACE_DIR}/
 fi
 
-if [[ "$target_env_short" == "prod" ]]; then
+if [[ "$target_env" == "prod" ]]; then
 WORKSPACE_DIR="/tmp/webimpetus"
 mkdir -p ${WORKSPACE_DIR}
 chmod 777 ${WORKSPACE_DIR}
@@ -53,29 +43,29 @@ rm -rf ${WORKSPACE_DIR}*
 cp -r ../webimpetus/* ${WORKSPACE_DIR}/
 fi
 
-if [[ "$target_env_short" == "dev" ]]; then
+if [[ "$target_env" == "dev" ]]; then
 echo "No need to move dev env files"
 else
-mv ${WORKSPACE_DIR}/${target_env_short}.env ${WORKSPACE_DIR}/.env
+mv ${WORKSPACE_DIR}/${target_env}.env ${WORKSPACE_DIR}/.env
 fi
 cd ${WORKSPACE_DIR}/
 
-if [[ "$env_action" == "stop" ]]; then
+if [[ "$cicd_action" == "stop" ]]; then
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" down
 fi
 
-if [[ "$env_action" == "start" ]]; then
+if [[ "$cicd_action" == "start" ]]; then
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" down
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" up -d --build
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" ps
 fi
 
-if [[ "$target_env_short" == "dev" && "$env_action" == "start" ]]; then
+if [[ "$target_env" == "dev" && "$cicd_action" == "start" ]]; then
 chmod +x reset_containers.sh
 /bin/bash reset_containers.sh $target_env
 fi
 
-if [[ "$target_env_short" == "dev" && "$env_action" == "start" ]]; then
+if [[ "$target_env" == "dev" && "$cicd_action" == "start" ]]; then
 
 sleep 2
 
