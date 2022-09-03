@@ -24,8 +24,8 @@
                     }
 
                     ?>
-                    <p><?php auto_copyright("2009"); ?>&nbsp;&copy;&nbsp;Workstation&nbsp;-&nbsp;Powered&nbsp;by&nbsp;<a href="https://webimpetus.cloud/"> <i class="ti-heart"></i> </a></p>
-                    <p><?php echo $webImpetusCopyRight; ?>&nbsp;<a target="_blank" href="<?php echo $appReleaseNotesDocURL; ?>"> WebImpetus <?php echo getenv('APP_DEPLOYED_AT'); ?></a>
+                    <p><?php auto_copyright("2009"); ?>&nbsp;&copy;&nbsp;Workstation&nbsp;-&nbsp;Powered&nbsp;by&nbsp;<a href="https://webimpetus.cloud/"> <i class="ti-heart"></i><?php echo $webImpetusCopyRight; ?></a></p>
+                    <p><a target="_blank" href="<?php echo $appReleaseNotesDocURL; ?>"> WebImpetus <?php echo getenv('APP_DEPLOYED_AT'); ?></a>
                     </p>
                 </div>
             </div>
