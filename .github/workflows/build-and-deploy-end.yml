@@ -8,11 +8,31 @@ name: "Build and Deploy My Workstation CRM"
 
 on:
   push:
-    branches: [ "bwalia-devops-fix-1" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "feature/main*" ]
 
   workflow_dispatch:
+    inputs:
+      workflow_action:
+        type: choice
+        description: 'Please choose the action for My Workstation'
+        default: 'deploy'
+        required: true
+        options:
+        - deploy
+        - delete
+        - rollback
+        - Choose
+      # target_env:
+      #   type: choice
+      #   description: 'Please choose the target env for My Workstation'
+      #   default: 'test'
+      #   required: true
+      #   options:
+      #   - test
+      #   - acc
+      #   - prod
 
 # permissions:
 #   contents: read
@@ -27,17 +47,34 @@ jobs:
     - name: Check out this repo code
       uses: actions/checkout@v3
       with:
-        ref: bwalia-devops-fix-1
+        ref: main
         clean: true
 
     - name: Run bash script to build the docker image and deployment
       run: |
-          chmod +x ./build_and_deploy_env_dummy.sh
-          ./build_and_deploy_env_dummy.sh
+          chmod +x ./build_and_deploy_env.sh
+          ./build_and_deploy_env.sh test
       shell: bash
 
-    # - uses: actions/checkout@v3
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Run bash script to exec commands in the recently deployed docker containers
+      run: |
+          chmod +x ./reset_containers.sh
+          ./reset_containers.sh test
+      shell: bash
 
+    - name: Healthcheck url test-my.workstation.co.uk
+      uses: wei/curl@master
+      with:
+        args: https://test-my.workstation.co.uk/
+
+    - name: Slack Notification for Workstation CRM release 
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: general
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'Post Content :rocket:'
+        SLACK_TITLE: Post Title
+        SLACK_USERNAME: rtCamp
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
