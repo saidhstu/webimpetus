@@ -11,7 +11,7 @@ else
    target_env=$1
 fi
 
-sleep 2
+sleep 10
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
