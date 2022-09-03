@@ -18,8 +18,30 @@ docker exec ${target_env}-workstation-php74 chown -R www-data:www-data /var/www/
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
-export APP_RELEASE_NOTES_DOC_URL="https://webimpetus.dev/docs/app_release_notes"
+
+if [[ "$target_env" == "dev" ]]; then
+
 APP_RELEASE_NOTES_DOC_URL="https://webimpetus.dev/docs/app_release_notes"
+
+fi
+
+if [[ "$target_env" == "test" ]]; then
+
+APP_RELEASE_NOTES_DOC_URL="https://test.webimpetus.dev/docs/app_release_notes"
+
+fi
+
+if [[ "$target_env" == "prod" ]]; then
+
+APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
+
+fi
+
+export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
+
+echo "App environment: $target_env"
+echo "Date generated version: $DATE_GEN_VERSION"
+echo "App release notes doc url is $APP_RELEASE_NOTES_DOC_URL"
 
 mkdir -p /tmp
 touch /tmp/${target_env}.env
@@ -33,6 +55,9 @@ fi
 cp /home/bwalia/env_webimpetus_${target_env}_myworkstation /tmp/${target_env}.env
 
 echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/${target_env}.env
+echo APP_ENVIRONMENT=$target_env >> /tmp/${target_env}.env
+echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> /tmp/${target_env}.env
+
 docker cp /tmp/${target_env}.env ${target_env}-workstation-php74:/var/www/html/.env
 
 if [[ "$target_env" == "dev" ]]; then
