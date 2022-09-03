@@ -13,7 +13,7 @@ fi
 
 target_env_short=$target_env
 
-sleep 5
+sleep 2
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
