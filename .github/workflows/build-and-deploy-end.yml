@@ -30,6 +30,12 @@ jobs:
         ref: main
         clean: true
 
+    - name: Run bash script to build the docker image and deployment
+      run: |
+          chmod +x ./build_and_deploy_env_dummy.sh
+          ./build_and_deploy_env_dummy.sh
+      shell: bash
+
     # - uses: actions/checkout@v3
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
