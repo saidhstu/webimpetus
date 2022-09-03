@@ -1,0 +1,37 @@
+name: "Build and Deploy My Workstation CRM"
+
+# Description: This workflow Builds and Deploys My Workstation CRM service in Docker compose
+# environments, both in test or Prod. My Workstation is a service provided using WebImpetus open source
+# software.
+# Note: Test environment run at host https://test-my.workstation.co.uk/
+# ... and Prod environment run at host https://my.workstation.co.uk/
+
+on:
+  push:
+    branches: [ "bwalia-devops-fix-1" ]
+  pull_request:
+    branches: [ "feature/main*" ]
+
+  workflow_dispatch:
+
+# permissions:
+#   contents: read
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+    # self hosted runner runs this job on Edgeone Ubuntu Server
+    steps:
+
+    - name: Check out this repo code
+      uses: actions/checkout@v3
+      with:
+        ref: main
+        clean: true
+
+    # - uses: actions/checkout@v3
+    # - name: Build the Docker image
+    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+
