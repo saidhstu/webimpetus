@@ -27,16 +27,8 @@ HOST_ENDPOINT_UNSECURE_URL="http://localhost:8078"
 ##### Set some variables
 WORKSPACE_DIR=$(pwd)
 
-if [[ "$target_env" == "test" ]]; then
-WORKSPACE_DIR="/tmp/webimpetus"
-mkdir -p ${WORKSPACE_DIR}
-chmod 777 ${WORKSPACE_DIR}
-rm -rf ${WORKSPACE_DIR}*
-cp -r ../webimpetus/* ${WORKSPACE_DIR}/
-fi
-
-if [[ "$target_env" == "prod" ]]; then
-WORKSPACE_DIR="/tmp/webimpetus"
+if [[ "$target_env" == "test" || "$target_env" == "prod" ]]; then
+WORKSPACE_DIR="/tmp/webimpetus/${WORKSPACE_DIR}/"
 mkdir -p ${WORKSPACE_DIR}
 chmod 777 ${WORKSPACE_DIR}
 rm -rf ${WORKSPACE_DIR}*
