@@ -193,7 +193,7 @@ public function getPdfData(){
 
     if($employee_id != "-1"){
 
-        $builder->join("timeslips.employee_name", $employee_id);
+        $builder->where("timeslips.employee_name", $employee_id);
     }
 
     $builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
