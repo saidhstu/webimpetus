@@ -75,7 +75,7 @@ chmod +x reset_containers.sh
 /bin/bash reset_containers.sh $target_env
 fi
 
-if [[ "$env_action" == "start" ]]; then
+if [[ "$target_env_short" == "dev" && "$env_action" == "start" ]]; then
 
 sleep 2
 
