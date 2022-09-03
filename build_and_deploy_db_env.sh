@@ -12,20 +12,10 @@ WORKSPACE_DIR="/tmp/database/"
 
 if [[ -z "$1" ]]; then
    echo "env is empty, so setting target_env to development (default)"
-   target_env="development"
+   target_env="dev"
 else
    echo "env is NOT empty, so setting target_env to $1"
    target_env=$1
-fi
-
-target_env_short=$target_env
-
-if [[ "$target_env" == "production" ]]; then
-target_env_short="prod"
-fi
-
-if [[ "$target_env" == "development" ]]; then
-target_env_short="dev"
 fi
 
 mkdir -p ${workspace_dir}
@@ -34,7 +24,7 @@ chmod 777 ${workspace_dir}
 rm -rf ${workspace_dir}*
 cp -r ../webimpetus/* ${workspace_dir}
 
-mv ${workspace_dir}$target_env_short.env ${workspace_dir}.env
+mv ${workspace_dir}$target_env.env ${workspace_dir}.env
 
 cd ${workspace_dir}
 
