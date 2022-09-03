@@ -1,33 +1,35 @@
+name: "(Prod) Build and Deploy My Workstation CRM"
+
+# Description: This workflow Builds and Deploys My Workstation CRM service in Docker compose
+# environments, both in test or Prod. My Workstation is a service provided using WebImpetus open source
+# software.
+# Note: Prod environment run at host https://my.workstation.co.uk/
+
 on:
   push:
-    branches: [ main_but_manual ]
-  pull_request:
-    branches: [ feature/main-* ]
+    branches: [ "release" ]
+
   workflow_dispatch:
     inputs:
       workflow_action:
         type: choice
-        description: 'Please choose the Prod Workstation CI4 Project action'
+        description: 'Please choose the action for My Workstation'
         default: 'deploy'
         required: true
         options:
         - deploy
+        - delete
         - rollback
         - Choose
 
+# permissions:
+#   contents: read
 
-env:
-  TARGET_USER_PASSWD: "${{ secrets.TARGET_USER_PASSWD }}"
-
-
-name: (Prod) Build and Deploy My Workstation CMS and CRM using Docker compose in production env at https://my.workstation.co.uk/
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+
     runs-on: self-hosted
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # self hosted runner runs this job on Edgeone Ubuntu Server
     steps:
 
     - name: Check out this repo code
@@ -36,38 +38,31 @@ jobs:
         ref: main
         clean: true
 
-    - name: Run bash script to prep the deployment
+    - name: Run bash script to build the docker image and deployment
       run: |
           chmod +x ./build_and_deploy_env.sh
-          ./build_and_deploy_env.sh "production"
+          ./build_and_deploy_env.sh prod
       shell: bash
 
-      # run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
-    - name: Run bash script to exec into containers
+    - name: Run bash script to exec commands in the recently deployed docker containers
       run: |
           chmod +x ./reset_containers.sh
-          ./reset_containers.sh "production"
+          ./reset_containers.sh prod
       shell: bash
 
-    # - name: Run bash script to prep the deployment
-    #   run: |
-    #       chmod +x ./reset_env.sh
-    #       ./reset_env.sh
-    #   shell: bash
     - name: Healthcheck url my.workstation.co.uk
       uses: wei/curl@master
       with:
         args: https://my.workstation.co.uk/
 
-    - name: Slack Notification
+    - name: Slack Notification for Workstation CRM release 
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_CHANNEL: general
-        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+        SLACK_COLOR: ${{ job.status }}
         SLACK_ICON: https://github.com/rtCamp.png?size=48
         SLACK_MESSAGE: 'Post Content :rocket:'
         SLACK_TITLE: Post Title
         SLACK_USERNAME: rtCamp
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
 
