@@ -30,7 +30,7 @@ WORKSPACE_DIR=$(pwd)
 fi
 
 if [[ "$target_env" == "test" || "$target_env" == "prod" ]]; then
-WORKSPACE_DIR="/tmp/webimpetus/${target_env}/"
+WORKSPACE_DIR="/tmp/webimpetus/${target_env}"
 mkdir -p ${WORKSPACE_DIR}
 chmod 777 ${WORKSPACE_DIR}
 rm -rf ${WORKSPACE_DIR}*
