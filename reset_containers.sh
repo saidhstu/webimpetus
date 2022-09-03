@@ -11,7 +11,10 @@ else
    target_env=$1
 fi
 
-sleep 10
+sleep 1
+
+docker exec ${target_env}-workstation-php74 composer update
+docker exec ${target_env}-workstation-php74 chown -R www-data:www-data /var/www/html/writable/
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
@@ -29,9 +32,6 @@ cp /home/bwalia/env_webimpetus_${target_env}_myworkstation /tmp/${target_env}.en
 
 echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/${target_env}.env
 docker cp /tmp/${target_env}.env ${target_env}-workstation-php74:/var/www/html/.env
-
-docker exec ${target_env}-workstation-php74 composer update
-docker exec ${target_env}-workstation-php74 chown -R www-data:www-data /var/www/html/writable/
 
 if [[ "$target_env" == "dev" ]]; then
 # What OS are you using?
