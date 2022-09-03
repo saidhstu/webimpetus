@@ -18,6 +18,8 @@ docker exec ${target_env}-workstation-php74 chown -R www-data:www-data /var/www/
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
+export APP_RELEASE_NOTES_DOC_URL="https://webimpetus.dev/docs/app_release_notes"
+APP_RELEASE_NOTES_DOC_URL="https://webimpetus.dev/docs/app_release_notes"
 
 mkdir -p /tmp
 touch /tmp/${target_env}.env

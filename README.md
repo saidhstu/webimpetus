@@ -1,6 +1,5 @@
 ## DEV ENV
 
-
 #### Install WebImpetus Dev environment on your machine using Docker compose
 
 1. Clone the repository from git
@@ -20,7 +19,7 @@
     root	    %	         Yes	     ALL PRIVILEGES
     ```
 
-5. Run the this cmd in the bash terminal - `./build_and_deploy_env.sh development`
+5. Run the this cmd in the bash terminal - `./build_and_deploy_env.sh dev start`
 6. Voila! Bob is your Uncle!!!
 
 Try to visit this URL from your web browser
