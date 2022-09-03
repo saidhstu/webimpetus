@@ -1,13 +1,12 @@
-#!/bin/bash
 
-############ This bash script deploys WebImpetus CI4 project (mariadb, php_lamp, phpmyadmin)
+#!/bin/bash
+############ This bash script deploys mysql (mariadb, mysql, different versions)
 ############ as docker container into dev,test or prod environment using docker compose files.
 
 set -x
 
 ###### Set some variables
-HOST_ENDPOINT_UNSECURE_URL="http://localhost:8078"
-WORKSPACE_DIR="/tmp/webimpetus/"
+WORKSPACE_DIR="/tmp/database/"
 
 ##### Set some variables
 
@@ -29,40 +28,23 @@ if [[ "$target_env" == "development" ]]; then
 target_env_short="dev"
 fi
 
-mkdir -p ${WORKSPACE_DIR}
-chmod 777 ${WORKSPACE_DIR}
+mkdir -p ${workspace_dir}
+chmod 777 ${workspace_dir}
 
-rm -rf ${WORKSPACE_DIR}*
-cp -r ../webimpetus/* ${WORKSPACE_DIR}
+rm -rf ${workspace_dir}*
+cp -r ../webimpetus/* ${workspace_dir}
 
-mv ${WORKSPACE_DIR}${target_env_short}.env ${WORKSPACE_DIR}.env
+mv ${workspace_dir}$target_env_short.env ${workspace_dir}.env
 
-cd ${WORKSPACE_DIR}
+cd ${workspace_dir}
 
-docker-compose -f docker-compose.yml down
-docker-compose -f docker-compose.yml up -d --build
-docker-compose -f docker-compose.yml ps
-
-if [[ "$target_env_short" == "dev" ]]; then
-chmod +x reset_containers.sh
-/bin/bash reset_containers.sh $target_env
-fi
+docker-compose -f docker-compose-database.yml down
+docker-compose -f docker-compose-database.yml up -d --build
+docker-compose -f docker-compose-database.yml ps
 
 sleep 2
 
-curl -IL $HOST_ENDPOINT_UNSECURE_URL
-echo "Open Host endpoint..."
-
-os_type=$(uname -s)
-
-if [[ "$os_type" == "Darwin" ]]; then
-open $HOST_ENDPOINT_UNSECURE_URL
-fi
-
-if [[ "$os_type" == "Linux" ]]; then
-xdg-open $HOST_ENDPOINT_UNSECURE_URL
-fi
-
+echo "MySQL/MariaDB endpoint..."
 
 
 
