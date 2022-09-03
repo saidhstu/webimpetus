@@ -21,6 +21,13 @@ else
    cicd_action=$2
 fi
 
+if [[ "$target_env" == "test" || "$target_env" == "prod" ]]; then
+echo "The target_env is $target_env supported by this script"
+else
+echo "Oops! The target_env is $target_env is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
+exit 1
+fi
+
 ###### Set some variables
 HOST_ENDPOINT_UNSECURE_URL="http://localhost:8078"
 
