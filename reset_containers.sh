@@ -17,23 +17,23 @@ DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
 mkdir -p /tmp
-touch /tmp/.env
-truncate -s 0 /tmp/.env
+touch /tmp/${target_env}.env
+truncate -s 0 /tmp/${target_env}.env
    # PROD
 if [[ "$target_env" == "prod" ]]; then
-   cp /home/bwalia/env_webimpetus_myworkstation /tmp/.env
-   echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/.env
+   cp /home/bwalia/env_webimpetus_myworkstation /tmp/${target_env}.env
+   echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/${target_env}.env
 fi
 
 if [[ "$target_env" == "dev" ]]; then
-   cp ${HOME}/env_webimpetus_myworkstation /tmp/.env
+   cp ${HOME}/env_webimpetus_myworkstation /tmp/${target_env}.env
 else
    # TEST
-   cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest /tmp/.env
+   cp /home/bwalia/env_webimpetus_dev_ci4baseimagetest /tmp/${target_env}.env
 fi
 
-echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/.env
-docker cp /tmp/.env ${target_env}-workstation-php74:/var/www/html/.env
+echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/${target_env}.env
+docker cp /tmp/${target_env}.env ${target_env}-workstation-php74:/var/www/html/.env
 
 docker exec ${target_env}-workstation-php74 composer update
 
