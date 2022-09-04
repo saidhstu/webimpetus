@@ -43,7 +43,7 @@ echo "App environment: $target_env"
 echo "Date generated version: $DATE_GEN_VERSION"
 echo "App release notes doc url is $APP_RELEASE_NOTES_DOC_URL"
 
-mkdir -p /tmp
+mkdir -p /tmp/${target_env}
 touch /tmp/${target_env}.env
 truncate -s 0 /tmp/${target_env}.env
 
