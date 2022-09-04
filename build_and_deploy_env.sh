@@ -40,7 +40,7 @@ if [[ "$target_env" == "test" || "$target_env" == "prod" ]]; then
 WORKSPACE_DIR="/tmp/webimpetus/${target_env}"
 mkdir -p ${WORKSPACE_DIR}
 chmod 777 ${WORKSPACE_DIR}
-rm -rf ${WORKSPACE_DIR}*
+rm -rf ${WORKSPACE_DIR}/*
 cp -r ../webimpetus/* ${WORKSPACE_DIR}/
 fi
 
