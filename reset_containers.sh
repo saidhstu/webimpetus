@@ -49,10 +49,10 @@ truncate -s 0 /tmp/${target_env}.env
 
 #  DEV   
 if [[ "$target_env" == "dev" ]]; then
-   cp ${HOME}/env_webimpetus_myworkstation /tmp/${target_env}.env
-fi
-   
+cp ${HOME}/env_webimpetus_myworkstation /tmp/${target_env}.env
+else   
 cp /home/bwalia/env_webimpetus_${target_env}_myworkstation /tmp/${target_env}.env
+fi
 
 echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/${target_env}.env
 echo APP_ENVIRONMENT=$target_env >> /tmp/${target_env}.env
