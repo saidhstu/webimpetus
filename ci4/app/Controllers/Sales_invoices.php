@@ -242,4 +242,55 @@ class Sales_invoices extends CommonController
         $response = $commonModel->calculateDueDate($term, $currentDate);
         echo json_encode($response);
     }
+
+    public function printPdf($id = 0)
+    {   
+        $data['tableName'] = $this->table;
+        $data['rawTblName'] = $this->rawTblName;
+		$data["users"] = $this->model->getUser();
+		$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
+        $data["sales_invoices"] = $data[$this->rawTblName];
+        $footerdata = view("timeslips/pdf_footer");
+        $mpdf = new \App\Libraries\Generate_Pdf();
+        $pdf = $mpdf->load_portait();
+        $data["sales_invoices"] = $this->getPdfData();
+        $html = view("sales_invoices/printPdf", $data);
+        $pdf->SetHTMLFooter($footerdata);
+        $pdf->AddPage('', // L - landscape, P - portrait
+        '', '', '', '', 15, // margin_left
+        15, // margin right
+        10, // margin top
+        15, // margin bottom
+        8, // margin header
+        1, // margin footer
+        '', '', '', '', '', '', '', '', '', 'A4-P');
+        $pdf->WriteHTML($html);
+        $pdf->Output("sales_invoices.pdf", "D");
+
+		
+        if (empty($id)) {
+            if (empty($data[$this->rawTblName])) {
+                $data[$this->rawTblName] = new stdClass();
+            }
+            $data[$this->rawTblName]->date = time();
+            $data[$this->rawTblName]->status = 'Invoiced';
+        }
+		// if there any special cause we can overried this function and pass data to add or edit view
+		$data['additional_data'] = $this->getAdditionalData($id);
+
+        echo view($this->table."/printPdf",$data);
+    }
+    public function getPdfData($id = 0){
+
+        
+
+        $builder = $this->db->table("sales_invoices");
+        $builder->select("sales_invoices.*, customers.company_name as client_id ");
+        $builder->join("customers", "customers.id = sales_invoices.client_id", "left");
+
+        $records = $builder->get()->getResultArray();
+        return $records;
+    }
+    
+
 }
