@@ -159,15 +159,16 @@ public function downloadPdf(){
     $employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => 4))->getFirstRow();
     // generate the PDF!
     $headerData = view("timeslips/pdf_header");
+    $footerdata = view("timeslips/pdf_footer");
     $viewArray["timeslips"] = $this->getPdfData();
     $viewArray["employeeData"] = $employeeData;
     $html = view("timeslips/pdf_body", $viewArray);
     $pdf->SetHTMLHeader($headerData);
-    // $pdf->SetHTMLFooter($data);
+    $pdf->SetHTMLFooter($footerdata);
     
     $pdf->AddPage('', // L - landscape, P - portrait
-    '', '', '', '', 15, // margin_left
-    15, // margin right
+    '', '', '', '', 10, // margin_left
+    10, // margin right
     30, // margin top
     15, // margin bottom
     8, // margin header
@@ -182,7 +183,7 @@ public function getPdfData(){
     $year = $_POST["yearpicker"];
     
     $builder = $this->db->table("timeslips");
-
+    //var_dump($employee_id); die;
     $firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year)) ;
         
     $lastDayMonth = strtotime($this->lastday($requestMonth,  $year)); // hard-coded '01' for first day
@@ -201,8 +202,8 @@ public function getPdfData(){
 
 
     $records = $builder->get()->getResultArray();
-   // echo $this->db->getLastQuery(); die;
-   // print_r($records ); die;
+    //echo $this->db->getLastQuery(); die;
+    //print_r($records ); die;
     return $records;
 }
 
