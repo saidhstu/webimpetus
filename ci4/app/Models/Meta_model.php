@@ -64,6 +64,12 @@ class Meta_model extends Model
     {
         return $this->db->table("businesses")->get()->getResult();
     }
+
+    public function getAllUsers()
+    {
+        return $this->db->table("users")->get()->getResult();
+    }
+
     public function getBusinessRow($id)
     {
         $data = $this->db->table("businesses")->getWhere(['id' => $id])->getRow();
