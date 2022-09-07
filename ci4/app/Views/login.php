@@ -61,7 +61,7 @@
                                         </div>
                                         <br/><br/>
                                         <form id="loginform" method="post" action="/home/login">
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
 												<label>Service</label>
                                                 <select name="uuid_business_id" id="uuid_business_id" class="form-control">
                                                  <option>Please Select</option>
@@ -71,7 +71,7 @@
                                                  <?php endforeach;?>
                                                 </select>
                                                
-                                            </div>
+                                            </div> -->
                                             <div class="form-group">
 												<label>Email</label>
                                                 <input type="text" class="form-control" name="email" id="email" placeholder="">
