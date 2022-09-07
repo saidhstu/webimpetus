@@ -11,11 +11,11 @@ function getAllBusiness(){
         if($allBusinesssId){
             $result = $builder->whereIn("uuid", $allBusinesssId)->get()->getResultArray();
         }else{
-            $result = $builder->get()->where("default_business", 1)->getResultArray();   
+            $result = $builder->where("default_business", 1)->get()->getResultArray();   
         }
     }else{
         
-        $result = $builder->get()->where("default_business", 1)->getResultArray();
+        $result = $builder->where("default_business", 1)->get()->getResultArray();
     }
 
 
