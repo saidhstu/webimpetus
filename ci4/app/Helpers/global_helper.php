@@ -6,9 +6,13 @@ function getAllBusiness(){
     $builder = $db->table("user_business");
     $userBusiness = $builder->where("user_id", $_SESSION["uuid"])->get()->getResultArray();
     $builder = $db->table("businesses");
-    if($userBusiness[0]["user_business_id"]){
-        $allBusinesssId = json_decode($userBusiness[0]["user_business_id"]);
-        $result = $builder->whereIn("uuid", $allBusinesssId)->get()->getResultArray();
+    if($userBusiness){
+        $allBusinesssId = json_decode(@$userBusiness[0]["user_business_id"]);
+        if($allBusinesssId){
+            $result = $builder->whereIn("uuid", $allBusinesssId)->get()->getResultArray();
+        }else{
+            $result = $builder->get()->where("default_business", 1)->getResultArray();   
+        }
     }else{
         
         $result = $builder->get()->where("default_business", 1)->getResultArray();
