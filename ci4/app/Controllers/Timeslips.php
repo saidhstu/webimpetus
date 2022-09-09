@@ -158,11 +158,51 @@ public function downloadPdf(){
     $pdf = $mpdf->load_portait();
     $employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => 4))->getFirstRow();
     // generate the PDF!
-    $headerData = view("timeslips/pdf_header");
-    $footerdata = view("timeslips/pdf_footer");
     $viewArray["timeslips"] = $this->getPdfData();
     $viewArray["employeeData"] = $employeeData;
-    $html = view("timeslips/pdf_body", $viewArray);
+
+
+    // generate the dynamically PDF!
+    $uuid_business_id = $this->session->get('uuid_business');
+
+    //look for associated override temaplte in DB
+    $bodytemplate = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where("code", "Timeslip_PDF_Design_Template_Body")->get()->getRowArray();
+    if( $bodytemplate ){
+
+        file_put_contents(APPPATH."Views/timeslips/dynamic_body.php", $bodytemplate["template_content"]);
+        $html = view("timeslips/dynamic_body", $viewArray);
+
+    }else{
+        $html = view("timeslips/pdf_body", $viewArray);
+    }
+
+    $headertemplate = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where("code", "Timeslip_PDF_Design_Template_Header")->get()->getRowArray();
+    
+    if( $headertemplate ){
+
+        file_put_contents(APPPATH."Views/timeslips/dynamic_header.php", $headertemplate["template_content"]);
+        $headerData = view("timeslips/dynamic_header");
+
+    }else{
+        $headerData = view("timeslips/pdf_header");
+    }
+
+    
+
+    $footertemplate = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where("code", "Timeslip_PDF_Design_Template_Footer")->get()->getRowArray();
+    
+    if( $footertemplate ){
+
+        file_put_contents(APPPATH."Views/timeslips/dynamic_footer.php", $footertemplate["template_content"]);
+        $footerdata = view("timeslips/dynamic_footer");
+
+    }else{
+        $footerdata = view("timeslips/pdf_footer");
+    }
+
+    // end section for generate the dynamically PDF!
+
+        
     $pdf->SetHTMLHeader($headerData);
     $pdf->SetHTMLFooter($footerdata);
     
