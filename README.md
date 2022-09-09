@@ -19,8 +19,29 @@
     root	    %	         Yes	     ALL PRIVILEGES
     ```
 
+
 5. Run the this cmd in the bash terminal - `./build_and_deploy_env.sh dev start`
-6. Voila! Bob is your Uncle!!!
+
+6. If you would like to use docker based database, you can install docker compose by running:
+
+apt-get install docker-compose
+docker-compose -f /path/to/webimpetus/docker-compose-database up -d --build
+
+If you follow this step, update the .env file on www server with:
+MYSQL_USER=docker
+MYSQL_PASSWORD=docker
+MYSQL_DATABASE=docker
+MYSQL_HOST=host.docker.internal
+
+If you face any issues, can attach to localhost:8088, phpmyadmin console and confirm the docker database schema and tables were created succssfully.
+
+7. Now bring up the webimpetus application:
+
+docker-compose -f /path/to/webimpetus/docker-compose up -d --build
+
+Voila! Bob is your Uncle!!!
+
+docker-compose -f /path/to/webimpetus/docker-compose up -d --build
 
 Try to visit this URL from your web browser
 
