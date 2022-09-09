@@ -30,7 +30,7 @@
             
             <div class="form-row">
                 <div class="form-group col-md-12">
-                        <label for="inputState">Set Permissions</label>
+                        <label for="inputState">Set User Module Permissions</label>
                         <select id="sid" name="sid[]" multiple class="form-control select2">                                            
                             <?php 
                             
