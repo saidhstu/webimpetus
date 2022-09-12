@@ -2,6 +2,7 @@
 <?php 
 $projects = getResultArray("projects");
 $customers = getResultArray("customers");
+$users = getResultArray("users");
 $contacts = getResultArray("contacts");
 $employees = getResultArray("employees");
  ?>
@@ -102,8 +103,8 @@ $employees = getResultArray("employees");
                         <label for="inputEmail4">Assigned To </label>
                         <select id="assigned_to" name="assigned_to" class="form-control required dashboard-dropdown">
                             <option value="" selected="">--Selected--</option>
-                            <?php foreach($customers as $row):?>
-                            <option value="<?= $row['id'];?>" <?php if($row['id'] == @$task->assigned_to){ echo "selected"; }?>><?= $row['company_name'];?></option>
+                            <?php foreach($users as $row):?>
+                            <option value="<?= $row['id'];?>" <?php if($row['id'] == @$task->assigned_to){ echo "selected"; }?>><?= $row['name'];?></option>
                             <?php endforeach;?>
                         </select>
                     </div>

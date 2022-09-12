@@ -22,6 +22,7 @@ class Dashboard extends BaseController
     {
         $data['title'] = "Hello World from Codeigniter 4";
 		$data['recent_users'] = $this->dashboard_model->getRecentUsers();
+		$data['recent_employees'] = $this->dashboard_model->getRecentEmployees();
 		// prd($data);
 		$allMenu = getWithOutUuidResultArray("menu");
 		$menuList = [];
