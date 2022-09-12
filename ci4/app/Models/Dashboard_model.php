@@ -53,6 +53,18 @@ class Dashboard_model extends Model
 		return $result;
 		
 	}
+
+    public function getRecentEmployees(){
+
+		$result = $this->db->table("employees")
+		->where("uuid_business_id", $this->businessUuid )
+		->orderBy('id','desc')
+		->limit(5)
+		->get()->getResult();
+
+		return $result;
+		
+	}
 	
 	
 }
