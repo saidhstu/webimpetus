@@ -22,7 +22,7 @@ class Templates extends CommonController
         $data['rawTblName'] = $this->rawTblName;
         $data["users"] = $this->model->getUser();
         //echo "<pre>";
-        $data["blocks_list"] = $this->blocks_model->where([ "uuid_business_id" => $this->businessUuid])->findAll();
+        $data["blocks_lists"] = $this->blocks_model->where(["uuid_business_id" => $this->businessUuid])->findAll();
         //print_r($data);
         //exit;
         $data[$this->rawTblName] = $this->model->getRows($id)->getRow();
@@ -30,5 +30,15 @@ class Templates extends CommonController
         $data['additional_data'] = $this->getAdditionalData($id);
 
         echo view($this->table . "/edit", $data);
+    }
+
+    public function getBlockListBySearch($search_code = "")
+    {
+        if (!empty($search_code)) {
+            $data["blocks_lists"] = $this->blocks_model->where(["uuid_business_id" => $this->businessUuid])->like('code', $search_code)->findAll();
+        } else {
+            $data["blocks_lists"] = $this->blocks_model->where(["uuid_business_id" => $this->businessUuid])->findAll();
+        }
+        return json_encode($data, JSON_PRETTY_PRINT);
     }
 }

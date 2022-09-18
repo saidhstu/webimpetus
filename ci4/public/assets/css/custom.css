@@ -1,9 +1,11 @@
 .select2-container .select2-selection--single {
     height: 38px !important;
 }
+
 .redstar {
     color: red;
 }
+
 /* .dashBrdIcon {
     background: #ff004e !important;
 } */
@@ -11,6 +13,13 @@
 .user_crm_wrapper .fa {
     color: #ff004e !important;
 }
+
 .text_color_red {
     color: #ff004e !important;
+}
+
+.dragtoken {
+    width: 100%;
+    z-index: 9999;
+    cursor: pointer;
 }
