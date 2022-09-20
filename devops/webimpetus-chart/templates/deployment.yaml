@@ -1,62 +1,66 @@
+#mysql deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: ci4-db-{{ .Values.env }}
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ci4-{{ .Values.env }}     
+  strategy:
+    type: Recreate
+  template: 
+    metadata: 
+      labels: 
+        app: ci4-{{ .Values.env }}     
+    spec:
+      containers:
+       - image: mariadb:latest
+         name: ci4-db-{{ .Values.env }}
+         env:
+         - name: MYSQL_DATABASE_HOST
+           value: ci4-db-{{ .Values.env }}
+         - name: MYSQL_ROOT_PASSWORD
+           value: {{ .Values.password }}
+         - name: MYSQL_DATABASE
+           value:  {{ .Values.database }}   
+         - name: MYSQL_USER
+           value: {{ .Values.user }} 
+         
+         ports:
+         - containerPort: 3306
+           name: ci4-db-{{ .Values.env }}
+           protocol: TCP
+         volumeMounts:
+         - name: ci4-volume-claim
+           mountPath: /var/lib/mysql
+      volumes:
+      - name: ci4-volume-claim
+        persistentVolumeClaim:
+          claimName: ci4-claim-db-{{ .Values.env }}
+
+# ci4 deployment
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "webimpetus-chart.fullname" . }}
-  labels:
-    {{- include "webimpetus-chart.labels" . | nindent 4 }}
+  name: ci4-{{ .Values.env }} 
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "webimpetus-chart.selectorLabels" . | nindent 6 }}
+      app: ci4-{{ .Values.env }} 
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "webimpetus-chart.selectorLabels" . | nindent 8 }}
+        app: ci4-{{ .Values.env }} 
     spec:
-      imagePullSecrets:
-        - name: {{ .Values.imagePullSecrets }}
-      serviceAccountName: {{ include "webimpetus-chart.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/bin/sh", "-c", "{{ .Values.podPostStartExecCmd }}"]
-          env:
-          - name: TENANT_KEY
-            value: "{{ .Values.TENANT_KEY }}"
-          - name: JWT_SECRET_KEY
-            value: "{{ .Values.jwtTokenSecret }}"
-          - name: JWT_TIME_TO_LIVE
-            value: "{{ .Values.jwtTokenTTL }}"
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      - name: ci4-{{ .Values.env }} 
+        image: 127.0.0.1:5100/ci4-kubernetes:1.2 # your images name
+        imagePullPolicy: Always
+      
+        ports:
+        - containerPort: 80
+
