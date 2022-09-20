@@ -223,4 +223,38 @@ class CommonController extends BaseController
 		
 		echo json_encode(array("status" => $status, "file_path" => $file_views, "msg" => $msg));
 	}
+
+
+	public function exportPDF()
+	{
+		$mpdf = new \App\Libraries\Generate_Pdf();
+		$pdf = $mpdf->load_portait();
+
+		$uuid_business_id = $this->session->get('uuid_business');
+
+		//Find the template contenet and then search block by code
+		$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->get()->getResultArray();
+		$template_html = "";
+		if ($templates) {
+			foreach ($templates as $template) {
+				$template_contents = explode('<*--', $template['template_content']);
+				foreach ($template_contents as $template_content) {
+					$block_code = trim(str_replace('--*>', '', $template_content));
+					if (!empty($block_code)) {
+						$blocks_list = $this->db->table('blocks_list')->where("uuid_business_id", $uuid_business_id)->where('code', $block_code)->get()->getResultArray();
+						foreach ($blocks_list as $block) {
+							$template_html .= $block['text'];
+						}
+					}
+				}
+			}
+		}
+
+		file_put_contents(APPPATH . "Views/timeslips/dynamic_body.php", $template_html);
+		$html = view("timeslips/dynamic_body");
+		$pdf->WriteHTML($html);
+		$pdf->Output($this->table . ".pdf", "D");
+	}
+
+
 }

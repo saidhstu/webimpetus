@@ -15,7 +15,7 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form action="<?php echo base_url("timeslips/downloadPdf"); ?>" method="post">
+        <form action="<?php echo base_url("timeslips/exportPDF"); ?>" method="post">
         <div class="modal-body">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Employee</label>
