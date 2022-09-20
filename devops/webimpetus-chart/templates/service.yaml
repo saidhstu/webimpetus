@@ -1,15 +1,36 @@
+# ci4 service
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "webimpetus-chart.fullname" . }}
+  name: ci4-{{ .Values.env }}
   labels:
-    {{- include "webimpetus-chart.labels" . | nindent 4 }}
+    app: ci4-{{ .Values.env }}
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
   selector:
-    {{- include "webimpetus-chart.selectorLabels" . | nindent 4 }}
+    app: ci4-{{ .Values.env }}
+    tier: frontend
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: {{ .Values.svcAccessPort }}
+    protocol: TCP
+  type: NodePort 
+
+---
+#mysql service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ci4-db-{{ .Values.env }} # host
+  labels:
+    app: ci4-{{ .Values.env }}
+    
+spec:
+  ports:
+  - name: ci4-db-{{ .Values.env }}
+    port: 3306
+    targetPort: 3306
+  selector:
+    app: ci4-{{ .Values.env }}
+    tier: mysql
+

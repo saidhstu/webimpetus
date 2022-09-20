@@ -1,0 +1,10 @@
+env: dev
+
+# ports
+svcAccessPort: 31177
+
+# mysql / mariadb
+user: root
+password: prodPassword
+database: prodCi4
+  

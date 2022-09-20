@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "webimpetus-chart.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "webimpetus-chart.fullname" . }}:{{ .Values.svcAccessPort }}']
   restartPolicy: Never

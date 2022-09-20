@@ -1,0 +1,10 @@
+env: dev
+
+# ports
+svcAccessPort: 31178
+
+# mysql / mariadb
+user: root
+password: devPassword
+database: devCi4
+  
