@@ -219,15 +219,57 @@ class CommonController extends BaseController
 	}
 
 
-	public function exportPDF()
+	public function exportPDF($id = 0)
 	{
 		$mpdf = new \App\Libraries\Generate_Pdf();
 		$pdf = $mpdf->load_portait();
-		
 		$uuid_business_id = $this->session->get('uuid_business');
 
+		$pdf_template_code = 'timeslip_export_pdf';
+		$pdf_template_id = 0;
+
+		if (!empty($id) && $this->table == 'sales_invoices') {
+			$sales_invoices = $this->getSalesInvoiceItem($id);
+			// echo "<pre>";
+			// print_r($sales_invoices); exit;
+			$pdf_template_id = $sales_invoices->print_template_code;
+
+			$pdf->AddPage(
+				'', // L - landscape, P - portrait
+				'',
+				'',
+				'',
+				'',
+				15, // margin_left
+				15, // margin right
+				10, // margin top
+				15, // margin bottom
+				8, // margin header
+				1, // margin footer
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'A4-P'
+			);
+		}
+
+
 		//Find the template contenet and then search block by code
-		$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->get()->getResultArray();
+
+		if ($this->table == 'timeslips') {
+			$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('code', $pdf_template_code)->get()->getResultArray();
+		} else {
+			$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('id', $pdf_template_id)->get()->getResultArray();
+		}
+
+
+
 		$template_html = "";
 		if ($templates) {
 			foreach ($templates as $template) {
@@ -237,20 +279,30 @@ class CommonController extends BaseController
 					if (!empty($block_code)) {
 						$blocks_list = $this->db->table('blocks_list')->where("uuid_business_id", $uuid_business_id)->where('code', $block_code)->get()->getResultArray();
 						foreach ($blocks_list as $block) {
-
 							$block_text = $block['text'];
 							if (strpos($block_text, 'loadTimeslipData();') !== false) {
 								$template_html .= $this->loadTimeslipData();
 								$block_text = str_replace('loadTimeslipData();', '', $block_text);
 							}
-							if (strpos($block_text, 'displayTimeslipItem();') !== false) {
-								$template_html .= $this->displayTimeslipItem($_POST);
-								$block_text = str_replace('displayTimeslipItem();', '', $block_text);
-							}
 							if (strpos($block_text, 'displayTimeslipFooter();') !== false) {
 								$pdf->SetHTMLFooter($this->displayTimeslipFooter());
 								$block_text = str_replace('displayTimeslipFooter();', '', $block_text);
 							}
+							if (strpos($block_text, 'displayTimeslipItem();') !== false) {
+								if ($this->table != 'timeslips') continue;
+								$template_html .= $this->displayTimeslipItem($_POST);
+								$block_text = str_replace('displayTimeslipItem();', '', $block_text);
+							}
+							if (strpos($block_text, 'displaySalesInvoiceHeader();') !== false) {
+								$template_html .= $this->displaySalesInvoiceHeader();
+								$block_text = str_replace('displaySalesInvoiceHeader();', '', $block_text);
+							}
+							if (strpos($block_text, 'displaySalesInvoiceItem();') !== false) {
+								if ($this->table != 'sales_invoices') continue;
+								$template_html .= $this->displaySalesInvoiceItem($id);
+								$block_text = str_replace('displaySalesInvoiceItem();', '', $block_text);
+							}
+
 							$template_html .= $block_text;
 						}
 					}
@@ -334,5 +386,27 @@ class CommonController extends BaseController
 		$result = strtotime("{$year}-{$month}-01");
 		$result = strtotime('-1 second', strtotime('+1 month', $result));
 		return date('Y-m-d', $result);
+	}
+
+
+	function displaySalesInvoiceHeader()
+	{
+		return view("sales_invoices/pdf_header");
+	}
+
+	function displaySalesInvoiceItem($id)
+	{
+		$viewArray["sales_invoice"] = $this->getSalesInvoiceItem($id);
+		return view("sales_invoices/pdf_item", $viewArray);
+	}
+
+	function getSalesInvoiceItem($id)
+	{
+		$builder = $this->db->table("sales_invoices");
+		$builder->select("sales_invoices.*,sales_invoices.id AS id,customers.*");
+		$builder->join("customers", "customers.id = sales_invoices.client_id", "left");
+		$builder->where('sales_invoices.id', $id);
+		$records = $builder->get()->getRowArray();
+		return (object)$records;
 	}
 }
