@@ -42,8 +42,8 @@
   </style>
 
   <?php
-  $items = getResultArray("sales_invoice_items", ["sales_invoices_id" => $sales_invoice->id], false);
-  $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => $sales_invoice->id], false);
+  $items = getResultArray("purchase_invoice_items", ["purchase_invoices_id" => $sales_invoice->id], false);
+  $notes = getResultArray("purchase_invoice_notes", ["purchase_invoices_id" => $sales_invoice->id], false);
   if (isset($sales_invoice->id)) {
     $is_tax_readonly = "disabled";
   }
