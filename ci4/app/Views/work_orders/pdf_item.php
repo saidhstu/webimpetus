@@ -37,11 +37,12 @@
       padding: 10px;
       margin: 5px;
       width: 50%;
+
     }
   </style>
 
   <?php
-  $items = getResultArray("purchase_order_items", ["purchase_orders_id" => $sales_invoice->id], false);
+  $items = getResultArray("work_order_items", ["work_orders_id" => $sales_invoice->id], false);
   if (isset($sales_invoice->id)) {
     $is_tax_readonly = "disabled";
   }

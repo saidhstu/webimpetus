@@ -228,16 +228,17 @@ class CommonController extends BaseController
 		$pdf_template_code = 'timeslip_export_pdf';
 		$pdf_template_id = 0;
 
-		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders')) {
+		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
+
+			$item_details = $this->getInvoiceItem($id);
 
 			if ($this->table == 'sales_invoices') {
-				$item_details = $this->getSalesInvoiceItem($id);
 				$pdf_template_id = $item_details->print_template_code;
 			} else if ($this->table == 'purchase_invoices') {
-				$item_details = $this->getPurchaseInvoiceItem($id);
 				$pdf_template_id = $item_details->print_template_code;
 			} else if ($this->table == 'purchase_orders') {
-				$item_details = $this->getPurchaseOrderItem($id);
+				$pdf_template_id = $item_details->template;
+			} else if ($this->table == 'work_orders') {
 				$pdf_template_id = $item_details->template;
 			}
 
@@ -302,12 +303,8 @@ class CommonController extends BaseController
 							if (strpos($block_text, 'displayTimeslipItem();') !== false) {
 								if ($this->table == 'timeslips') {
 									$template_html .= $this->displayTimeslipItem($_POST);
-								} else if ($this->table == 'sales_invoices') {
-									$template_html .= $this->displaySalesInvoiceItem($id);
-								} else if ($this->table == 'purchase_invoices') {
-									$template_html .= $this->displayPurchaseInvoiceItem($id);
-								} else if ($this->table == 'purchase_orders') {
-									$template_html .= $this->displayPurchaseOrderItem($id);
+								} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders') {
+									$template_html .= $this->displayInvoiceItem($id);
 								}
 								$block_text = str_replace('displayTimeslipItem();', '', $block_text);
 							}
@@ -329,7 +326,7 @@ class CommonController extends BaseController
 	{
 		if ($this->table == 'timeslips') {
 			return view("timeslips/pdf_header");
-		} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders') {
+		} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders') {
 			return view("sales_invoices/pdf_header");
 		}
 		return;
@@ -401,44 +398,16 @@ class CommonController extends BaseController
 		return date('Y-m-d', $result);
 	}
 
-	function displaySalesInvoiceItem($id)
+	function displayInvoiceItem($id)
 	{
-		$viewArray["sales_invoice"] = $this->getSalesInvoiceItem($id);
-		return view("sales_invoices/pdf_item", $viewArray);
+		$viewArray["sales_invoice"] = $this->getInvoiceItem($id);
+		return view($this->table . "/pdf_item", $viewArray);
 	}
 
-	function getSalesInvoiceItem($id)
+	function getInvoiceItem($id)
 	{
-		$builder = $this->db->table("sales_invoices");
-		$builder->where('sales_invoices.id', $id);
-		$records = $builder->get()->getRowArray();
-		return (object)$records;
-	}
-
-	function displayPurchaseInvoiceItem($id)
-	{
-		$viewArray["sales_invoice"] = $this->getPurchaseInvoiceItem($id);
-		return view("purchase_invoices/pdf_item", $viewArray);
-	}
-
-	function getPurchaseInvoiceItem($id)
-	{
-		$builder = $this->db->table("purchase_invoices");
-		$builder->where('purchase_invoices.id', $id);
-		$records = $builder->get()->getRowArray();
-		return (object)$records;
-	}
-
-	function displayPurchaseOrderItem($id)
-	{
-		$viewArray["sales_invoice"] = $this->getPurchaseOrderItem($id);
-		return view("purchase_orders/pdf_item", $viewArray);
-	}
-
-	function getPurchaseOrderItem($id)
-	{
-		$builder = $this->db->table("purchase_orders");
-		$builder->where('purchase_orders.id', $id);
+		$builder = $this->db->table($this->table);
+		$builder->where('id', $id);
 		$records = $builder->get()->getRowArray();
 		return (object)$records;
 	}
