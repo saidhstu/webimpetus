@@ -103,18 +103,14 @@ docker push registry.workstation.co.uk/workstation:latest
 
 kubectl delete -f devops/kubernetes/workstation-deployment.yaml
 kubectl apply -f devops/kubernetes/workstation-deployment.yaml
-sleep 60 # wait for 60 seconds for the deployment to be ready
+sleep 60 # wait for 60 seconds for the k3s deployment to be ready
+kubectl get pods -A
 fi
 
 if [[ "$target_env" == "dev" && "$cicd_action" == "start" ]]; then
 echo "Dev env action start"
-fi
 
-if [[ "$cicd_action" == "start" ]]; then
-
-sleep 2
-
-kubectl get pods -A
+sleep 10 # wait for 10 seconds for the dev deployment to be ready
 
 echo "Waiting for services to start..."
 
@@ -130,8 +126,6 @@ xdg-open $HOST_ENDPOINT_UNSECURE_URL
 fi
 
 fi
-
-
 
 
 
