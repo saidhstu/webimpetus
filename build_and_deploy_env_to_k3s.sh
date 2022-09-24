@@ -55,6 +55,10 @@ echo "Load test env kubeconfig"
 export KUBECONFIG=/home/bwalia/.kube/k3s-test.yml
 fi
 
+if [[ "$target_env" == "prod" ]]; then
+echo "Load prod env kubeconfig"
+export KUBECONFIG=/home/bwalia/.kube/k3s-test.yml
+fi
 
 
 if [[ "$target_env" == "dev" ]]; then
@@ -69,12 +73,13 @@ kubectl delete -f devops/kubernetes/workstation-deployment.yaml
 fi
 
 if [[ "$cicd_action" == "start" ]]; then
-docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" up -d --build
+docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build                #up -d --build
 docker tag ${target_env}-workstation_webserver registry.workstation.co.uk/ci4-kubernetes:latest
 docker push registry.workstation.co.uk/ci4-kubernetes:latest
 
-docker build -f devops/kubernetes/Dockerfile -t registry.workstation.co.uk/workstation:latest .
-docker tag ${target_env}-workstation registry.workstation.co.uk/workstation:latest
+#docker build -f devops/kubernetes/Dockerfile -t registry.workstation.co.uk/workstation:latest .
+docker build -f devops/kubernetes/Dockerfile -t workstation .
+docker tag workstation registry.workstation.co.uk/workstation:latest
 docker push registry.workstation.co.uk/workstation:latest
 
 kubectl delete -f devops/kubernetes/workstation-deployment.yaml
