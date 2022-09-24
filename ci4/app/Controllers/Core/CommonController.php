@@ -315,8 +315,16 @@ class CommonController extends BaseController
 			}
 		}
 
-		file_put_contents(APPPATH . "Views/timeslips/dynamic_body.php", $template_html);
-		$html = view("timeslips/dynamic_body");
+		$pdf_path = getenv('DYNAMIC_SCRIPTS_PATH') . $this->table;
+		if (!file_exists($pdf_path)) {
+			mkdir($pdf_path, 0777, true);
+		}
+		file_put_contents($pdf_path . "/dynamic_body.php", $template_html);
+		ob_start();
+		include($pdf_path . "/dynamic_body.php");
+		$html = ob_get_contents();
+		ob_end_clean();
+
 		$pdf->WriteHTML($html);
 		$pdf->Output($this->table . ".pdf", "D");
 	}
