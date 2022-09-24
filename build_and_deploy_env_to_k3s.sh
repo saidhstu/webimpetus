@@ -5,7 +5,10 @@
 
 set -x
 
-NODEPORT=32180
+SVC_HOST=localhost
+SVC_NODEPORT=32180
+
+TARGET_CLUSTER="k3s-rancher-desktop"
 
 if [[ -z "$1" ]]; then
    echo "env is empty, so setting target_env to development (default)"
@@ -31,7 +34,7 @@ exit 1
 fi
 
 ###### Set some variables
-HOST_ENDPOINT_UNSECURE_URL="http://localhost:${NODEPORT}"
+HOST_ENDPOINT_UNSECURE_URL="http://${SVC_HOST}:${SVC_NODEPORT}"
 
 ##### Set some variables
 if [[ "$target_env" == "dev" ]]; then
