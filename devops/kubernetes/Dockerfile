@@ -1,4 +1,6 @@
-FROM registry.workstation.co.uk/ci4-kubernetes:latest
+ARG TAG=latest
+
+FROM registry.workstation.co.uk/webimpetus:$TAG
 
 RUN apt update && apt upgrade -y && apt install -y \
     curl \

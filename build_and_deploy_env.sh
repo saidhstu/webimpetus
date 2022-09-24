@@ -3,7 +3,7 @@
 ############ This bash script deploys WebImpetus CI4 project (mariadb, php_lamp, phpmyadmin)
 ############ as docker container into dev,test or prod environment using docker compose files.
 
-set -x
+#set -x
 
 if [[ -z "$1" ]]; then
    echo "env is empty, so setting target_env to development (default)"
@@ -61,7 +61,7 @@ docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" up -d --build
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" ps
 fi
 
-if [[ "$target_env" == "dev" && "$cicd_action" == "start" ]]; then
+if [[ "$cicd_action" == "start" ]]; then
 chmod +x reset_containers.sh
 /bin/bash reset_containers.sh $target_env
 fi

@@ -7,6 +7,7 @@
 
 SVC_HOST=localhost
 SVC_NODEPORT=32180
+DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
 TARGET_CLUSTER="k3s-rancher-desktop"
 
@@ -90,12 +91,13 @@ kubectl delete -f devops/kubernetes/workstation-deployment.yaml
 fi
 
 if [[ "$cicd_action" == "start" ]]; then
+# this builds the image name 
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build                #up -d --build
-docker tag ${target_env}-workstation_webserver registry.workstation.co.uk/ci4-kubernetes:latest
-docker push registry.workstation.co.uk/ci4-kubernetes:latest
+docker tag ${target_env}-workstation_webserver registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
+docker push registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
 
 #docker build -f devops/kubernetes/Dockerfile -t registry.workstation.co.uk/workstation:latest .
-docker build -f devops/kubernetes/Dockerfile -t workstation .
+docker build -f devops/kubernetes/Dockerfile --build-arg TAG=${DATE_GEN_VERSION}  -t workstation .
 docker tag workstation registry.workstation.co.uk/workstation:latest
 docker push registry.workstation.co.uk/workstation:latest
 
