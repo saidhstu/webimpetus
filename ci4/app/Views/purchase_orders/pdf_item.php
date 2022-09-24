@@ -37,12 +37,12 @@
       padding: 10px;
       margin: 5px;
       width: 50%;
+
     }
   </style>
 
   <?php
-  $items = getResultArray("purchase_invoice_items", ["purchase_invoices_id" => $sales_invoice->id], false);
-  $notes = getResultArray("purchase_invoice_notes", ["purchase_invoices_id" => $sales_invoice->id], false);
+  $items = getResultArray("purchase_order_items", ["purchase_orders_id" => $sales_invoice->id], false);
   if (isset($sales_invoice->id)) {
     $is_tax_readonly = "disabled";
   }
@@ -58,7 +58,7 @@
       </p>
     </div>
     <div class="col2 floatright">
-      <p><b>Invoice No: <?php echo $sales_invoice->invoice_number; ?></b><br>
+      <p><b>Invoice No: <?php echo $sales_invoice->order_number; ?></b><br>
         <b>Print Date: <?php echo date("d-m-Y", time()); ?></b>
       </p>
     </div>
@@ -73,8 +73,9 @@
       <tr style="background-color: #d4d4d4; ">
         <th align="center" width="10%"> Id </th>
         <th align="center" width="30%"> Description </th>
-        <th align="center" width="20%"> Rate </th>
-        <th align="center" width="20%"> Hours</th>
+        <th align="center" width="10%"> Rate </th>
+        <th align="center" width="10%"> Qty </th>
+        <th align="center" width="20%"> Discount</th>
         <th align="center" width="20%"> Amount</th>
       </tr>
     </thead>
@@ -84,7 +85,8 @@
           <td align="center"> <?= $eachItems->id ?> </td>
           <td align="center"> <?= $eachItems->description ?></td>
           <td align="center"> <?= $eachItems->rate ?></td>
-          <td align="center"> <?= $eachItems->hours ?></td>
+          <td align="center"> <?= $eachItems->qty ?></td>
+          <td align="center"> <?= $eachItems->discount ?></td>
           <td align="center"> <?= $eachItems->amount ?></td>
         </tr>
       <?php } ?>
@@ -93,49 +95,49 @@
         <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
+        <td align="right"></td>
         <td align="center" style="border-bottom: 1px solid #f5f5f5;">Tax code:</td>
-        <td align="center" style="border-bottom: 1px solid #f5f5f5;"><?php echo $sales_invoice->inv_tax_code; ?></td>
-
+        <td align="center" style="border-bottom: 1px solid #f5f5f5;"><?php echo $sales_invoice->tax_code; ?></td>
       </tr>
       <tr>
+        <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
         <td align="center" style="border-bottom: 1px solid #f5f5f5;">Total tax:</td>
         <td align="center" style="border-bottom: 1px solid #f5f5f5;"><?php echo $sales_invoice->total_tax; ?></td>
-
       </tr>
       <tr>
         <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
-        <td align="center" style="border-bottom: 1px solid #f5f5f5;">Total hours:</td>
-        <td align="center" style="border-bottom: 1px solid #f5f5f5;"><?php echo $sales_invoice->total_hours; ?></td>
-
+        <td align="right"></td>
+        <td align="center" style="border-bottom: 1px solid #f5f5f5;">Total quantity:</td>
+        <td align="center" style="border-bottom: 1px solid #f5f5f5;"><?php echo $sales_invoice->total_qty; ?></td>
       </tr>
       <tr>
+        <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
         <td align="center" style="border-bottom: 1px solid #f5f5f5;">Subtotal:</td>
         <td align="center" style="border-bottom: 1px solid #f5f5f5;"><?php echo $sales_invoice->total_due; ?></td>
-
       </tr>
       <tr>
+        <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
         <td align="center">Totals:</td>
         <td align="center"><?php echo $sales_invoice->total_due_with_tax; ?></td>
-
       </tr>
       <tr>
-        <td align="right">Note:</td>
-        <td align="right"><?php echo $sales_invoice->notes; ?></td>
+        <td align="right">Comments:</td>
+        <td align="right"><?php echo $sales_invoice->comments; ?></td>
+        <td align="right"></td>
         <td align="right"></td>
         <td align="center" style="background-color: #d4d4d4; font-size: 14px;"><b><?php echo $sales_invoice->base_currency_code; ?></b></td>
         <td align="center" style="background-color: #d4d4d4; font-size: 14px;"><b><?php echo $sales_invoice->total_due_with_tax; ?></b></td>
-
       </tr>
     </tbody>
   </table> <br />
@@ -156,7 +158,6 @@
       Please make payment by electronic transfer to one of the following bank accounts (Wise Payments Ltd is the preferred bank account):</p>
     <div class="col8">
       <table class="detail-1" cellpadding="3">
-
         <tbody>
           <tr>
             <td><b>Bank account</b></td>
@@ -184,16 +185,14 @@
           </tr>
           <tr>
             <td>Please use reference</td>
-            <td>INV-<?php echo $sales_invoice->invoice_number; ?></td>
+            <td>INV-<?php echo $sales_invoice->order_number; ?></td>
           </tr>
-
         </tbody>
       </table>
     </div>
     <br />
     <div class="col8">
       <table class="detail-2" cellpadding="3">
-
         <tr>
           <td>Bank account</td>
           <td><img src="<?= FCPATH ?>assets/img/ing.png" alt="<?= FCPATH . "assets/" ?> img/ing.png" width="60" /></td>
@@ -220,7 +219,7 @@
         </tr>
         <tr>
           <td>Please use reference</td>
-          <td>INV-<?php echo $sales_invoice->invoice_number; ?></td>
+          <td>INV-<?php echo $sales_invoice->order_number; ?></td>
         </tr>
       </table>
     </div>
@@ -239,5 +238,4 @@
   <p>Time :<?php echo date("h:i:sa"); ?></p>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
-
 </html>

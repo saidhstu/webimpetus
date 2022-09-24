@@ -228,14 +228,17 @@ class CommonController extends BaseController
 		$pdf_template_code = 'timeslip_export_pdf';
 		$pdf_template_id = 0;
 
-		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices')) {
+		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders')) {
 
 			if ($this->table == 'sales_invoices') {
-				$sales_invoices = $this->getSalesInvoiceItem($id);
-				$pdf_template_id = $sales_invoices->print_template_code;
+				$item_details = $this->getSalesInvoiceItem($id);
+				$pdf_template_id = $item_details->print_template_code;
 			} else if ($this->table == 'purchase_invoices') {
-				$purchase_invoices = $this->getPurchaseInvoiceItem($id);
-				$pdf_template_id = $purchase_invoices->print_template_code;
+				$item_details = $this->getPurchaseInvoiceItem($id);
+				$pdf_template_id = $item_details->print_template_code;
+			} else if ($this->table == 'purchase_orders') {
+				$item_details = $this->getPurchaseOrderItem($id);
+				$pdf_template_id = $item_details->template;
 			}
 
 			$pdf->AddPage(
@@ -303,6 +306,8 @@ class CommonController extends BaseController
 									$template_html .= $this->displaySalesInvoiceItem($id);
 								} else if ($this->table == 'purchase_invoices') {
 									$template_html .= $this->displayPurchaseInvoiceItem($id);
+								} else if ($this->table == 'purchase_orders') {
+									$template_html .= $this->displayPurchaseOrderItem($id);
 								}
 								$block_text = str_replace('displayTimeslipItem();', '', $block_text);
 							}
@@ -324,7 +329,7 @@ class CommonController extends BaseController
 	{
 		if ($this->table == 'timeslips') {
 			return view("timeslips/pdf_header");
-		} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
+		} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders') {
 			return view("sales_invoices/pdf_header");
 		}
 		return;
@@ -420,6 +425,20 @@ class CommonController extends BaseController
 	{
 		$builder = $this->db->table("purchase_invoices");
 		$builder->where('purchase_invoices.id', $id);
+		$records = $builder->get()->getRowArray();
+		return (object)$records;
+	}
+
+	function displayPurchaseOrderItem($id)
+	{
+		$viewArray["sales_invoice"] = $this->getPurchaseOrderItem($id);
+		return view("purchase_orders/pdf_item", $viewArray);
+	}
+
+	function getPurchaseOrderItem($id)
+	{
+		$builder = $this->db->table("purchase_orders");
+		$builder->where('purchase_orders.id', $id);
 		$records = $builder->get()->getRowArray();
 		return (object)$records;
 	}
