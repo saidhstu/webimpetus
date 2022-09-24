@@ -3,7 +3,7 @@
 ############ This bash script deploys WebImpetus CI4 project (mariadb, php_lamp, phpmyadmin)
 ############ as kubernetes deployment into dev,test or prod environment using k3s.
 
-set -x
+#   set -x
 
 SVC_HOST=localhost
 SVC_NODEPORT=32180
@@ -35,6 +35,20 @@ fi
 
 ###### Set some variables
 HOST_ENDPOINT_UNSECURE_URL="http://${SVC_HOST}:${SVC_NODEPORT}"
+
+if [[ "$target_env" == "dev" ]]; then
+APP_RELEASE_NOTES_DOC_URL="https://webimpetus.dev/docs/app_release_notes"
+fi
+
+if [[ "$target_env" == "test" ]]; then
+APP_RELEASE_NOTES_DOC_URL="https://test.webimpetus.dev/docs/app_release_notes"
+fi
+
+if [[ "$target_env" == "prod" ]]; then
+APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
+fi
+
+export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
 
 ##### Set some variables
 if [[ "$target_env" == "dev" ]]; then
@@ -99,9 +113,11 @@ sleep 2
 
 kubectl get pods -A
 
-curl -IL $HOST_ENDPOINT_UNSECURE_URL
-echo "Open Host endpoint..."
+echo "Waiting for services to start..."
 
+sleep 60
+
+curl -IL $HOST_ENDPOINT_UNSECURE_URL -H "Host: my.workstation.co.uk"
 os_type=$(uname -s)
 
 if [[ "$os_type" == "Darwin" ]]; then
@@ -114,7 +130,6 @@ fi
 
 fi
 
-sleep 60
 
 
 
