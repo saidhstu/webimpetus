@@ -41,14 +41,14 @@ jobs:
     - name: Run bash script to build the docker image and deployment
       run: |
           chmod +x ./build_and_deploy_env.sh
-          ./build_and_deploy_env.sh prod
+          ./build_and_deploy_env_to_k3s.sh prod
       shell: bash
 
-    - name: Run bash script to exec commands in the recently deployed docker containers
-      run: |
-          chmod +x ./reset_containers.sh
-          ./reset_containers.sh prod
-      shell: bash
+    # - name: Run bash script to exec commands in the recently deployed docker containers
+    #   run: |
+    #       chmod +x ./reset_containers.sh
+    #       ./reset_containers.sh prod
+    #   shell: bash
 
     - name: Healthcheck url my.workstation.co.uk
       uses: wei/curl@master
