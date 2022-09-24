@@ -7,7 +7,6 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
             <table id="example"  class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                     <tr>
-                        
                         <th scope="col">Id</th>
                         <th scope="col">Order No</th>
                         <th scope="col">Invoice Date</th>
@@ -20,11 +19,9 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
                         <th scope="col" width="50">Action</th>
                     </tr>
                 </thead>
-                <tbody>                                        
-                
+                <tbody>                                                       
                 <?php foreach($work_orders as $row):?>
-                <tr data-link=<?= "/".$tableName."/edit/".$row['id'];?> >
-                    
+                <tr data-link=<?= "/".$tableName."/edit/".$row['id'];?> >                  
                     <td class="f_s_12 f_w_400"><?= $row['id'];?>
                     </td>
                     <td class="f_s_12 f_w_400"><?= $row['order_number'];?>
@@ -36,8 +33,6 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
                     <td class="f_s_12 f_w_400  "><?= $row['balance_due'];?> </td>
                     <td class="f_s_12 f_w_400  "><?= render_date($row['paid_date']);?> </td>
                     <td class="f_s_12 f_w_400  "><?= $status[$row['status']];?> </td>
-
-
                     <td class="f_s_12 f_w_400 text-right">
                         <div class="header_more_tool">
                             <div class="dropdown">
@@ -45,11 +40,9 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
                                     <i class="ti-more-alt"></i>
                                 </span>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    
                                     <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/".$tableName."/delete/".$row['id'];?> <i class="ti-trash"></i> Delete</a>
                                     <a class="dropdown-item" href="<?= "/".$tableName."/edit/".$row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
-                                    
-                                    
+                                    <a class="dropdown-item" href="<?= "/" . $tableName . "/exportPDF/" . $row['id']; ?>"> <i class="ti-printer"></i> Print PDF</a>                             
                                 </div>
                             </div>
                         </div>
