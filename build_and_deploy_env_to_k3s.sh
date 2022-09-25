@@ -101,7 +101,7 @@ fi
 if [[ "$cicd_action" == "start" ]]; then
 # this builds the image name 
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build                #up -d --build
-docker tag ${targetEnv}-workstation_webserver registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
+docker tag ${targetEnv}-wsl_webserver registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
 docker push registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
 
 #docker build -f devops/kubernetes/Dockerfile -t registry.workstation.co.uk/workstation:latest .
