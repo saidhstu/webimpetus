@@ -1,36 +1,25 @@
-# ci4 service
-apiVersion: v1
-kind: Service
-metadata:
-  name: ci4-{{ .Values.env }}
-  labels:
-    app: ci4-{{ .Values.env }}
-spec:
-  selector:
-    app: ci4-{{ .Values.env }}
-    tier: frontend
-  ports:
-  - port: 80
-    targetPort: 80
-    nodePort: {{ .Values.svcAccessPort }}
-    protocol: TCP
-  type: NodePort 
-
 ---
-#mysql service
 apiVersion: v1
 kind: Service
 metadata:
-  name: ci4-db-{{ .Values.env }} # host
-  labels:
-    app: ci4-{{ .Values.env }}
-    
+  name: wsl-nodeport-{{ .Values.targetEnv }}
 spec:
-  ports:
-  - name: ci4-db-{{ .Values.env }}
-    port: 3306
-    targetPort: 3306
   selector:
-    app: ci4-{{ .Values.env }}
-    tier: mysql
-
+    app: wsl-{{ .Values.targetEnv }}
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: {{ .Values.svcAccessPort }}
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wsl-svc-{{ .Values.targetEnv }}
+spec:
+  selector:
+    app: wsl-{{ .Values.targetEnv }}
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

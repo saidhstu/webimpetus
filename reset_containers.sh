@@ -4,34 +4,34 @@
 set -x
 
 if [[ -z "$1" ]]; then
-   echo "env is empty, so setting target_env to development (default)"
-   target_env="dev"
+   echo "env is empty, so setting targetEnv to development (default)"
+   targetEnv="dev"
 else
-   echo "env is NOT empty, so setting target_env to $1"
-   target_env=$1
+   echo "env is NOT empty, so setting targetEnv to $1"
+   targetEnv=$1
 fi
 
 sleep 1
 
-docker exec ${target_env}-workstation-php74 composer update
-docker exec ${target_env}-workstation-php74 chown -R www-data:www-data /var/www/html/writable/
+docker exec ${targetEnv}-wsl-php74 composer update
+docker exec ${targetEnv}-wsl-php74 chown -R www-data:www-data /var/www/html/writable/
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
-if [[ "$target_env" == "dev" ]]; then
+if [[ "$targetEnv" == "dev" ]]; then
 
 APP_RELEASE_NOTES_DOC_URL="https://webimpetus.dev/docs/app_release_notes"
 
 fi
 
-if [[ "$target_env" == "test" ]]; then
+if [[ "$targetEnv" == "test" ]]; then
 
 APP_RELEASE_NOTES_DOC_URL="https://test.webimpetus.dev/docs/app_release_notes"
 
 fi
 
-if [[ "$target_env" == "prod" ]]; then
+if [[ "$targetEnv" == "prod" ]]; then
 
 APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
 
@@ -39,32 +39,32 @@ fi
 
 export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
 
-echo "App environment: $target_env"
+echo "App environment: $targetEnv"
 echo "Date generated version: $DATE_GEN_VERSION"
 echo "App release notes doc url is $APP_RELEASE_NOTES_DOC_URL"
 
-mkdir -p /tmp/${target_env}
-chmod 777 -R /tmp/${target_env}
-touch /tmp/${target_env}.env
-truncate -s 0 /tmp/${target_env}.env
+mkdir -p /tmp/${targetEnv}
+chmod 777 -R /tmp/${targetEnv}
+touch /tmp/${targetEnv}.env
+truncate -s 0 /tmp/${targetEnv}.env
 
 #  DEV   
-if [[ "$target_env" == "dev" ]]; then
-cp ${HOME}/env_webimpetus_myworkstation /tmp/${target_env}.env
+if [[ "$targetEnv" == "dev" ]]; then
+cp ${HOME}/env_webimpetus_myworkstation /tmp/${targetEnv}.env
 else   
-cp /home/bwalia/env_webimpetus_${target_env}_myworkstation /tmp/${target_env}.env
+cp /home/bwalia/env_webimpetus_${targetEnv}_myworkstation /tmp/${targetEnv}.env
 fi
 
-echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/${target_env}.env
-echo APP_ENVIRONMENT=$target_env >> /tmp/${target_env}.env
-echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> /tmp/${target_env}.env
+echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/${targetEnv}.env
+echo APP_ENVIRONMENT=$targetEnv >> /tmp/${targetEnv}.env
+echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> /tmp/${targetEnv}.env
 
-docker cp /tmp/${target_env}.env ${target_env}-workstation-php74:/var/www/html/.env
+docker cp /tmp/${targetEnv}.env ${targetEnv}-wsl-php74:/var/www/html/.env
 
-if [[ "$target_env" == "dev" ]]; then
+if [[ "$targetEnv" == "dev" ]]; then
 # What OS are you using?
-docker exec ${target_env}-workstation-php74 cat /etc/os-release
-docker exec ${target_env}-workstation-php74 apt update 
-docker exec ${target_env}-workstation-php74 apt upgrade
-docker exec ${target_env}-workstation-php74 apt install git vim -y
+docker exec ${targetEnv}-wsl-php74 cat /etc/os-release
+docker exec ${targetEnv}-wsl-php74 apt update 
+docker exec ${targetEnv}-wsl-php74 apt upgrade
+docker exec ${targetEnv}-wsl-php74 apt install git vim -y
 fi

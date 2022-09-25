@@ -28,8 +28,7 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted
-    # self hosted runner runs this job on Edgeone Ubuntu Server
+    runs-on: ubuntu-latest
     steps:
 
     - name: Check out this repo code
@@ -44,11 +43,13 @@ jobs:
           ./build_and_deploy_env_to_k3s.sh prod
       shell: bash
 
-    # - name: Run bash script to exec commands in the recently deployed docker containers
-    #   run: |
-    #       chmod +x ./reset_containers.sh
-    #       ./reset_containers.sh prod
-    #   shell: bash
+    - name: helm deploy
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        command: helm upgrade --install wsl-prod devops/webimpetus-chart -f devops/webimpetus-chart/values-prod.yaml --namespace prod --create-namespace
+        #--set=image.tag=${{ env.SHA }} --set env.TENANT_KEY="${{ secrets.TENANT_KEY }}"
 
     - name: Healthcheck url my.workstation.co.uk
       uses: wei/curl@master
