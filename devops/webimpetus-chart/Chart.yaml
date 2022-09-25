@@ -1,6 +1,6 @@
 apiVersion: v2
-name: webimpetus (Wimp)
-description: Wimp chart - A Helm chart for deploying Webimpetus in Kubernetes
+name: webimpetus
+description: Wimp chart - A Helm chart for deploying Webimpetus in Kubernetes - WebImpetus aka Wimp
 
 # A chart can be either an 'application' or a 'library' chart.
 #
