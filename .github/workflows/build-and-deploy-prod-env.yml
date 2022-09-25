@@ -39,8 +39,8 @@ jobs:
 
     - name: Run bash script to build the docker image and deployment
       run: |
-          chmod +x ./build_and_deploy_env_to_k3s.sh
-          ./build_and_deploy_env_to_k3s.sh prod
+          chmod +x ./build_and_deploy_using_helm.sh
+          ./build_and_deploy_using_helm.sh prod
       shell: bash
 
     - name: helm deploy
