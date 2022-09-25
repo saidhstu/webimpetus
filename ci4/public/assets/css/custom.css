@@ -23,3 +23,7 @@
     z-index: 9999;
     cursor: pointer;
 }
+
+.tokenlist {
+    height: 465px;
+}
