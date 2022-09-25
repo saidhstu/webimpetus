@@ -315,9 +315,9 @@ class CommonController extends BaseController
 			}
 		}
 
-		$pdf_path = getenv('DYNAMIC_SCRIPTS_PATH') . $this->table;
+		$pdf_path = getenv('DYNAMIC_SCRIPTS_PATH') . '/' . $this->table;
 		if (!file_exists($pdf_path)) {
-			mkdir($pdf_path, 0777, true);
+			mkdir($pdf_path, 0755, true);
 		}
 		file_put_contents($pdf_path . "/dynamic_body.php", $template_html);
 		ob_start();
