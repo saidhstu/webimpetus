@@ -78,6 +78,7 @@ echo "No need to load kubeconfig use default"
 fi
 
 if [[ "$runnerType " == "remote" ]]; then
+echo "Loading kubeconfig for remote runner"
 else
 echo "Load test env kubeconfig"
 export KUBECONFIG=/home/bwalia/.kube/k3s-test.yml
