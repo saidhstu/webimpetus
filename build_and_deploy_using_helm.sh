@@ -77,7 +77,7 @@ if [[ "$targetEnv" == "dev" ]]; then
 echo "No need to load kubeconfig use default"
 fi
 
-if [[ "$runnerType " == "remote" ]]; then
+if [[ "$runnerType" == "remote" ]]; then
 echo "Loading kubeconfig for remote runner"
 else
 echo "Load test env kubeconfig"
