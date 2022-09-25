@@ -58,7 +58,7 @@ fi
 echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> /tmp/${targetEnv}.env
 echo APP_ENVIRONMENT=$targetEnv >> /tmp/${targetEnv}.env
 echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> /tmp/${targetEnv}.env
-
+echo DYNAMIC_SCRIPTS_PATH=/tmp >> /tmp/${targetEnv}.env
 docker cp /tmp/${targetEnv}.env ${targetEnv}-wsl-php74:/var/www/html/.env
 
 if [[ "$targetEnv" == "dev" ]]; then
