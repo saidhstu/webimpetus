@@ -41,8 +41,10 @@ spec:
               value: "/etc/apache2/envvars"
             - name: "APACHE_RUN_DIR"
               value: "/var/run/apache2"
+            # - name: DYNAMIC_SCRIPTS_PATH
+            #   value: "/var/www/html/writable"
             - name: DYNAMIC_SCRIPTS_PATH
-              value: "/var/www/html/writable/"
+              value: "/tmp"
           imagePullPolicy: Always
           lifecycle:
             postStart:
