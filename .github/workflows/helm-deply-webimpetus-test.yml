@@ -59,7 +59,7 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG_TEST_SERVER }}
       with:
-        command: helm upgrade -i ci4baseimagetest ./devops/webimpetus-chart --set=image.tag=${{ env.SHA }}
+        command: helm upgrade -i ci4baseimagetest ./devops/webimpetus --set=image.tag=${{ env.SHA }}
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2

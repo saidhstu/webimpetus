@@ -6,11 +6,11 @@
 #set -x
 
 if [[ -z "$1" ]]; then
-   echo "env is empty, so setting target_env to development (default)"
-   target_env="dev"
+   echo "env is empty, so setting targetEnv to development (default)"
+   targetEnv="dev"
 else
-   echo "env is NOT empty, so setting target_env to $1"
-   target_env=$1
+   echo "env is NOT empty, so setting targetEnv to $1"
+   targetEnv=$1
 fi
 
 if [[ -z "$2" ]]; then
@@ -21,10 +21,10 @@ else
    cicd_action=$2
 fi
 
-if [[ "$target_env" == "dev" || "$target_env" == "test" || "$target_env" == "prod" ]]; then
-echo "The target_env is $target_env supported by this script"
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
+echo "The targetEnv is $targetEnv supported by this script"
 else
-echo "Oops! The target_env is $target_env is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
+echo "Oops! The targetEnv is $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
 exit 1
 fi
 
@@ -32,22 +32,22 @@ fi
 HOST_ENDPOINT_UNSECURE_URL="http://localhost:8078"
 
 ##### Set some variables
-if [[ "$target_env" == "dev" ]]; then
+if [[ "$targetEnv" == "dev" ]]; then
 WORKSPACE_DIR=$(pwd)
 fi
 
-if [[ "$target_env" == "test" || "$target_env" == "prod" ]]; then
-WORKSPACE_DIR="/tmp/webimpetus/${target_env}"
+if [[ "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
+WORKSPACE_DIR="/tmp/webimpetus/${targetEnv}"
 mkdir -p ${WORKSPACE_DIR}
 chmod 777 ${WORKSPACE_DIR}
 rm -rf ${WORKSPACE_DIR}/*
 cp -r ../webimpetus/* ${WORKSPACE_DIR}/
 fi
 
-if [[ "$target_env" == "dev" ]]; then
+if [[ "$targetEnv" == "dev" ]]; then
 echo "No need to move dev env files"
 else
-mv ${WORKSPACE_DIR}/${target_env}.env ${WORKSPACE_DIR}/.env
+mv ${WORKSPACE_DIR}/${targetEnv}.env ${WORKSPACE_DIR}/.env
 fi
 cd ${WORKSPACE_DIR}/
 
@@ -63,10 +63,10 @@ fi
 
 if [[ "$cicd_action" == "start" ]]; then
 chmod +x reset_containers.sh
-/bin/bash reset_containers.sh $target_env
+/bin/bash reset_containers.sh $targetEnv
 fi
 
-if [[ "$target_env" == "dev" && "$cicd_action" == "start" ]]; then
+if [[ "$targetEnv" == "dev" && "$cicd_action" == "start" ]]; then
 
 sleep 2
 

@@ -24,7 +24,7 @@ on:
         - delete
         - rollback
         - Choose
-      # target_env:
+      # targetEnv:
       #   type: choice
       #   description: 'Please choose the target env for My Workstation'
       #   default: 'test'

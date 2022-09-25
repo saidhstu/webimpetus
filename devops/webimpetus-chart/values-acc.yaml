@@ -1,5 +1,5 @@
-targetEnv: test
-targetNameSpace: test
+targetEnv: acc
+targetNameSpace: acc
 
 targetImage: "registry.workstation.co.uk/workstation"
 targetImageTag: "latest"
@@ -10,12 +10,12 @@ serviceAccount:
   # Specifies whether a service account should be created
   create: true
 # ports
-svcAccessPort: 31179
+svcAccessPort: 31199
 
 # mysql / mariadb
 user: root
-password: testPassword
-database: testCi4
+password: accPassword
+database: accCi4
 
 service:
   type: ClusterIP
@@ -28,7 +28,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: test-my.workstation.co.uk
+    - host: acc-my.workstation.co.uk
       paths:
         - path: /
           pathType: Prefix

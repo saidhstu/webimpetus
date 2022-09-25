@@ -1,0 +1,39 @@
+---
+######################################################
+# Configmaps: Create Multiples Configmaps data
+######################################################
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wsl-boostrap-cm-{{ .Values.targetEnv }}
+  namespace: {{ .Values.targetNameSpace }}
+data:
+    wsl-bootstrap.sh: |
+        #!/bin/bash
+        set -x
+        echo "Workstation Bootstrap Script"
+        echo "==========================="
+        cp /tmp/secrets/.env /var/www/html/.env
+        FILE=/var/www/html/.env
+        if test -f "$FILE"; then
+            echo "$FILE exists."
+            echo "==========================="
+            echo "Workstation Bootstrap Script Copied"
+            echo "==========================="
+        fi
+            echo "Starting Workstation"
+            echo "==========================="
+            php -v
+        echo "==========================="
+        yes | composer update
+        chmod 777 -R /var/www/html/writable/
+        chmod 777 -R /var/www/html/writable/cache/
+        chmod 777 -R /var/www/html/writable/session/
+        APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
+        export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
+        DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
+        export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
+        echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> $FILE
+        echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
+        echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> $FILE
+        echo "==========================="

@@ -1,66 +1,58 @@
-#mysql deployment
----
-apiVersion: apps/v1
-kind: Deployment
-metadata: 
-  name: ci4-db-{{ .Values.env }}
-spec: 
-  replicas: 1
-  selector:
-    matchLabels:
-      app: ci4-{{ .Values.env }}     
-  strategy:
-    type: Recreate
-  template: 
-    metadata: 
-      labels: 
-        app: ci4-{{ .Values.env }}     
-    spec:
-      containers:
-       - image: mariadb:latest
-         name: ci4-db-{{ .Values.env }}
-         env:
-         - name: MYSQL_DATABASE_HOST
-           value: ci4-db-{{ .Values.env }}
-         - name: MYSQL_ROOT_PASSWORD
-           value: {{ .Values.password }}
-         - name: MYSQL_DATABASE
-           value:  {{ .Values.database }}   
-         - name: MYSQL_USER
-           value: {{ .Values.user }} 
-         
-         ports:
-         - containerPort: 3306
-           name: ci4-db-{{ .Values.env }}
-           protocol: TCP
-         volumeMounts:
-         - name: ci4-volume-claim
-           mountPath: /var/lib/mysql
-      volumes:
-      - name: ci4-volume-claim
-        persistentVolumeClaim:
-          claimName: ci4-claim-db-{{ .Values.env }}
-
-# ci4 deployment
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ci4-{{ .Values.env }} 
+  name: wsl-{{ .Values.targetEnv }}
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: ci4-{{ .Values.env }} 
+      app: wsl-{{ .Values.targetEnv }}
   template:
     metadata:
       labels:
-        app: ci4-{{ .Values.env }} 
+        app: wsl-{{ .Values.targetEnv }}
     spec:
-      containers:
-      - name: ci4-{{ .Values.env }} 
-        image: 127.0.0.1:5100/ci4-kubernetes:1.2 # your images name
-        imagePullPolicy: Always
-      
-        ports:
-        - containerPort: 80
+      volumes:
+        - name: wsl-boostrap-cm-vol
+          # Populate the volume with config map data
+          configMap:
+            # `name` here must match the name 
+            # specified in the ConfigMap's YAML 
+            name: wsl-boostrap-cm-{{ .Values.targetEnv }}
+        - name: wsl-env-vol-{{ .Values.targetEnv }}
+          secret:
+            secretName: wsl-secret-{{ .Values.targetEnv }}
+            items:
+            - key: env_file
+              path: .env
 
+      containers:
+        - name: wsl-{{ .Values.targetEnv }}
+          image: {{ .Values.targetImage }}:{{ .Values.targetImageTag }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: "APACHE_CONFDIR"
+              value: "/etc/apache2"
+            - name: "APACHE_DOCUMENT_ROOT"
+              value: "/var/www/html/public"
+            - name: "APACHE_ENVVARS"
+              value: "/etc/apache2/envvars"
+            - name: "APACHE_RUN_DIR"
+              value: "/var/run/apache2"
+            - name: DYNAMIC_SCRIPTS_PATH
+              value: "/var/www/html/writable/"
+          imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/wsl-bootstrap.sh /usr/local/bin/wsl-bootstrap.sh && chmod +x /usr/local/bin/wsl-bootstrap.sh && sh /usr/local/bin/wsl-bootstrap.sh"]
+          volumeMounts:
+            - name: wsl-env-vol-{{ .Values.targetEnv }}
+              mountPath: /tmp/secrets
+              # `bootstrap` mount bash script from configmap wsl-boostrap-cm-{{ .Values.targetEnv }}
+              # execute in the poststrat lifecycle hook
+            - name: wsl-boostrap-cm-vol
+              mountPath: /tmp/configmap
+              
