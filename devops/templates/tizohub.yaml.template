@@ -171,12 +171,12 @@ spec:
       paths:
         - path: /
           backend:
-            serviceName: {{SITE_NAME}}-svc-prod
+            service_name: {{SITE_NAME}}-svc-prod
             servicePort: 80
   - host: test-{{SITE_NAME}}.tizohub.com
     http:
       paths:
         - path: /
           backend:
-            serviceName: {{SITE_NAME}}-svc-prod
+            service_name: {{SITE_NAME}}-svc-prod
             servicePort: 80

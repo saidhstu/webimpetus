@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wsl-{{ .Values.targetEnv }}
+  namespace: {{ .Values.targetNS }}
 spec:
   replicas: 1
   selector:
@@ -14,13 +15,13 @@ spec:
         app: wsl-{{ .Values.targetEnv }}
     spec:
       volumes:
-        - name: wsl-boostrap-cm-vol
+        - name: {{ .Values.service_name }}-bootstrap-cm-vol
           # Populate the volume with config map data
           configMap:
             # `name` here must match the name 
             # specified in the ConfigMap's YAML 
-            name: wsl-boostrap-cm-{{ .Values.targetEnv }}
-        - name: wsl-env-vol-{{ .Values.targetEnv }}
+            name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.targetEnv }}
+        - name: wslenv-vol-{{ .Values.targetEnv }}
           secret:
             secretName: wsl-secret-{{ .Values.targetEnv }}
             items:
@@ -49,12 +50,12 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/wsl-bootstrap.sh /usr/local/bin/wsl-bootstrap.sh && chmod +x /usr/local/bin/wsl-bootstrap.sh && sh /usr/local/bin/wsl-bootstrap.sh"]
+                command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/wslbootstrap.sh /usr/local/bin/wslbootstrap.sh && chmod +x /usr/local/bin/wslbootstrap.sh && sh /usr/local/bin/wslbootstrap.sh"]
           volumeMounts:
-            - name: wsl-env-vol-{{ .Values.targetEnv }}
+            - name: wslenv-vol-{{ .Values.targetEnv }}
               mountPath: /tmp/secrets
-              # `bootstrap` mount bash script from configmap wsl-boostrap-cm-{{ .Values.targetEnv }}
+              # `bootstrap` mount bash script from configmap {{ .Values.service_name }}-bootstrap-cm-{{ .Values.targetEnv }}
               # execute in the poststrat lifecycle hook
-            - name: wsl-boostrap-cm-vol
+            - name: {{ .Values.service_name }}-bootstrap-cm-vol
               mountPath: /tmp/configmap
               
