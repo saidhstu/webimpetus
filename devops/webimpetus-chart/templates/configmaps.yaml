@@ -5,10 +5,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wsl-boostrap-cm-{{ .Values.targetEnv }}
-  namespace: {{ .Values.targetNameSpace }}
+  name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.targetEnv }}
+  namespace: {{ .Values.targetNS }}
 data:
-    wsl-bootstrap.sh: |
+    wslbootstrap.sh: |
         #!/bin/bash
         set -x
         echo "Workstation Bootstrap Script"

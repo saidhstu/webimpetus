@@ -1,5 +1,7 @@
+service_name: wsl
+
 targetEnv: test
-targetNameSpace: test
+targetNS: test
 
 targetImage: "registry.workstation.co.uk/workstation"
 targetImageTag: "latest"

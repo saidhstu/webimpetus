@@ -3,12 +3,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wsl-nodeport-{{ .Values.targetEnv }}
+  namespace: {{ .Values.targetNS }}
 spec:
   selector:
     app: wsl-{{ .Values.targetEnv }}
   ports:
-    - port: 80
-      targetPort: 80
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
       nodePort: {{ .Values.svcAccessPort }}
   type: NodePort
 ---
@@ -16,10 +17,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wsl-svc-{{ .Values.targetEnv }}
+  namespace: {{ .Values.targetNS }}
 spec:
   selector:
     app: wsl-{{ .Values.targetEnv }}
   ports:
-    - port: 80
-      targetPort: 80
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
   type: ClusterIP

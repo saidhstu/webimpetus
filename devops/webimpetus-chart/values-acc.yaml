@@ -1,5 +1,7 @@
+service_name: wsl
+
 targetEnv: acc
-targetNameSpace: acc
+targetNS: acc
 
 targetImage: "registry.workstation.co.uk/workstation"
 targetImageTag: "latest"
