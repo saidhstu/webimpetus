@@ -317,11 +317,11 @@ class CommonController extends BaseController
 										$block_text = str_replace('loadTimeslipData();', '', $block_text);
 										$template_html .= $block_text;
 									} else {
-										$template_html .= $this->getHtmlFromBlock($block_text);
+										$template_html .= $this->getRecursiveHtmlFromBlock($block_text);
 									}
 								}
 							} else {
-								$template_html .= '<div class="alert alert-danger" role="alert">' . $template_content . ' Template block is inactive or not exist!</div>';
+								$template_html .= '<div class="alert alert-danger" role="alert">' . $block_code . ' Template block is inactive or not exist!</div>';
 							}
 						}
 					}
@@ -348,9 +348,8 @@ class CommonController extends BaseController
 	}
 
 
-	public function getHtmlFromBlock($block_text)
+	public function getRecursiveHtmlFromBlock($block_text)
 	{
-		$template_html = "";
 		$uuid_business_id = $this->session->get('uuid_business');
 
 		// Recursively Search for a block inside block content
@@ -364,17 +363,17 @@ class CommonController extends BaseController
 					$blocks_list = $this->db->table('blocks_list')->where("uuid_business_id", $uuid_business_id)->where('code', $block_code)->where('status', 1)->get()->getRowArray();
 					if ($blocks_list) {
 						$text = $blocks_list['text'];
-
-						$template_html .= str_replace($template_content, $text, $block_text);
-						//$this->getHtmlFromBlock($template_html);
+						$block_text	= str_replace($template_content, $text, $block_text);
+						$block_text = str_replace($template_content, "", $block_text);
 					} else {
-						$template_html .= '<div class="alert alert-danger" role="alert">' . $template_content . ' Template block is inactive or not exist!</div>';
+						$alert = '<div class="alert alert-danger" role="alert">' . $block_code . ' Template block is inactive or not exist!</div>';
+						$block_text	= str_replace($template_content, $alert, $block_text);
 					}
+					return $this->getRecursiveHtmlFromBlock($block_text);
 				}
 			}
 		}
-
-		return $template_html;
+		return $block_text;
 	}
 
 
