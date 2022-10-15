@@ -39,7 +39,7 @@ data:
         echo DYNAMIC_SCRIPTS_PATH=/tmp >> $FILE
         echo "==========================="
         echo "Copy apache config file for Workstation"
-        cp /tmp/configmap/workstation.conf /etc/apache2/sites-enabled/000-default.conf
+        cp /tmp/configmap/workstation.conf /etc/apache2/sites-available/000-default.conf
         echo "==========================="
     workstation.conf: |
         <VirtualHost *:80>
