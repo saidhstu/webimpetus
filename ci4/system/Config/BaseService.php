@@ -162,7 +162,7 @@ class BaseService
      *
      * @var array<string>
      */
-    private static $serviceNames = [];
+    private static $service_names = [];
 
     /**
      * Returns a shared instance of any of the class' services.
@@ -255,7 +255,7 @@ class BaseService
     public static function serviceExists(string $name): ?string
     {
         static::buildServicesCache();
-        $services = array_merge(self::$serviceNames, [Services::class]);
+        $services = array_merge(self::$service_names, [Services::class]);
         $name     = strtolower($name);
 
         foreach ($services as $service) {
@@ -366,7 +366,7 @@ class BaseService
                     $classname = $locator->getClassname($file);
 
                     if ($classname !== 'CodeIgniter\\Config\\Services') {
-                        self::$serviceNames[] = $classname;
+                        self::$service_names[] = $classname;
                         static::$services[]   = new $classname();
                     }
                 }

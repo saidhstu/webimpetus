@@ -2,7 +2,7 @@
   <tbody>
     <tr style=" width:100%;">
       <td align="left">
-        <img src="<?= FCPATH ?>assets/img/workstation-logo-login.png" alt="<?= FCPATH . "assets/" ?> img/workstation-logo-login.png" width="200" />
+        <img src="<?= FCPATH ?>assets/img/wsllogo-login.png" alt="<?= FCPATH . "assets/" ?> img/wsllogo-login.png" width="200" />
       </td>
 
       <td align="left">

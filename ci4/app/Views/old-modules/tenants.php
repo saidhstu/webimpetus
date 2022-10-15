@@ -80,7 +80,7 @@
                                         
                                         <td class="f_s_12 f_w_400"><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['id'];?></a>
                                         </td>
-                                        <td class="f_s_12 f_w_400"><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['servicename'];?> </a>
+                                        <td class="f_s_12 f_w_400"><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['service_name'];?> </a>
                                         </td>
                                         <td class="f_s_12 f_w_400 text_color_1 "><a href="/tenants/edit/<?= $row['id'];?>"><?= $row['name'];?></a>
                                         </td>

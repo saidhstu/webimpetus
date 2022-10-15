@@ -24,7 +24,7 @@
                 
                 <td class="f_s_12 f_w_400"><?= $row['id'];?>
                 </td>
-                <td class="f_s_12 f_w_400"><?= $row['servicename'];?> 
+                <td class="f_s_12 f_w_400"><?= $row['service_name'];?> 
                 </td>
                 <td class="f_s_12 f_w_400  "><?= $row['name'];?>
                 </td>

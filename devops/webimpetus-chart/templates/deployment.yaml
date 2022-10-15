@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wsl-{{ .Values.targetEnv }}
-  namespace: {{ .Values.targetNS }}
+  # namespace: {{ .Values.targetNS }}
 spec:
   replicas: 1
   selector:
@@ -47,10 +47,10 @@ spec:
             - name: DYNAMIC_SCRIPTS_PATH
               value: "/tmp"
           imagePullPolicy: Always
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/wslbootstrap.sh /usr/local/bin/wslbootstrap.sh && chmod +x /usr/local/bin/wslbootstrap.sh && sh /usr/local/bin/wslbootstrap.sh"]
+          # lifecycle:
+          #   postStart:
+          #     exec:
+                #command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/wslbootstrap.sh /usr/local/bin/wslbootstrap.sh && chmod +x /usr/local/bin/wslbootstrap.sh && sh /usr/local/bin/wslbootstrap.sh"]
           volumeMounts:
             - name: wslenv-vol-{{ .Values.targetEnv }}
               mountPath: /tmp/secrets

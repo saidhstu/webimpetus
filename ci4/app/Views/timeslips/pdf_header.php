@@ -9,7 +9,7 @@
         </h4>
         </td>
       <td  align="right">
-            <img src="<?= FCPATH?>assets/img/workstation-logo-login.png" alt="<?= FCPATH."assets/" ?> img/workstation-logo-login.png" width="240" />
+            <img src="<?= FCPATH?>assets/img/wsllogo-login.png" alt="<?= FCPATH."assets/" ?> img/wsllogo-login.png" width="240" />
      </td>
     </tr>
   </tbody>

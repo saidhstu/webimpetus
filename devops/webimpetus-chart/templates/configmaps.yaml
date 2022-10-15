@@ -6,7 +6,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.targetEnv }}
-  namespace: {{ .Values.targetNS }}
+#   namespace: {{ .Values.targetNS }}
 data:
     wslbootstrap.sh: |
         #!/bin/bash
@@ -38,3 +38,15 @@ data:
         echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> $FILE
         echo DYNAMIC_SCRIPTS_PATH=/tmp >> $FILE
         echo "==========================="
+        echo "Copy apache config file for Workstation"
+        cp /tmp/configmap/workstation.conf /etc/apache2/sites-enabled/workstation.conf
+        echo "==========================="
+    workstation.conf: |
+        <VirtualHost *:80>
+            ServerAdmin webmaster@localhost
+            DocumentRoot /var/www/html/public
+            ServerName {{ .Values.targetEnv }}-my.workstation.co.uk
+                <Directory /var/www/html/public>
+                        AllowOverride all
+                </Directory>
+        </VirtualHost>        

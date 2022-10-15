@@ -21,4 +21,4 @@ users:
       args:
         - "token"
         - "-i"
-        - "workstation-eks-YTyc6Mf1"
+        - "wsleks-YTyc6Mf1"

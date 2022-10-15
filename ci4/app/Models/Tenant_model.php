@@ -41,7 +41,7 @@ class Tenant_model extends Model
         $this->join('tenants_services', 'tenants_services.tid = tenants.id', 'LEFT');
         $this->join('services', 'tenants_services.sid = services.id', 'LEFT');
         $this->groupBy('tenants.id');
-        $this->select('GROUP_CONCAT(services.name) as servicename');
+        $this->select('GROUP_CONCAT(services.name) as service_name');
         $this->select('tenants.*');
         if (!empty($whereCond)) {
 
