@@ -30,7 +30,7 @@ class Users extends CommonController
     public function update()
     {        
         $id = $this->request->getPost('id');
-		
+
 		if($id){
 			$count = $this->userModel->getWhere(['email' => $this->request->getPost('email'), 'id!=' => $id])->getNumRows();
 				if(!empty($count)){
@@ -43,7 +43,8 @@ class Users extends CommonController
 					'email' => $this->request->getPost('email'),
 					'address' => $this->request->getPost('address'),
 					'notes' => $this->request->getPost('notes'),
-					'permissions' => json_encode($this->request->getPost('sid'))
+					'permissions' => json_encode($this->request->getPost('sid')),
+					'role' => $this->request->getPost('role'),
 				);
 				$this->userModel->updateUser($data, $id);
 				session()->setFlashdata('message', 'Data updated Successfully!');
@@ -69,7 +70,8 @@ class Users extends CommonController
 							'uuid' => $uuid,
 							'uuid_business_id' => session('uuid_business'),
 							'status' => 0,
-							'permissions' => json_encode($this->request->getPost('sid'))
+							'permissions' => json_encode($this->request->getPost('sid')),
+							'role' => $this->request->getPost('role'),
 						);
 						$this->userModel->saveUser($data);
 						session()->setFlashdata('message', 'Data entered Successfully!');
