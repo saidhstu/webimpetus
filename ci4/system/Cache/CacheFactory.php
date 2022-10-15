@@ -33,7 +33,7 @@ class CacheFactory
      *
      * @var string
      */
-    public static $mockServiceName = 'cache';
+    public static $mockservice_name = 'cache';
 
     /**
      * Attempts to create the desired cache handler, based upon the
