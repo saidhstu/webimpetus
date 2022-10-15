@@ -62,10 +62,10 @@ jobs:
     #       ./reset_containers.sh test
     #   shell: bash
 
-    - name: Healthcheck url test-my.workstation.co.uk
-      uses: wei/curl@master
-      with:
-        args: https://test-my.workstation.co.uk/
+    # - name: Healthcheck url test-my.workstation.co.uk
+    #   uses: wei/curl@master
+    #   with:
+    #     args: https://test-my.workstation.co.uk/
 
     - name: Slack Notification for Workstation CRM release 
       uses: rtCamp/action-slack-notify@v2
