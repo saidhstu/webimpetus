@@ -45,6 +45,7 @@ data:
         <VirtualHost *:80>
             ServerAdmin webmaster@localhost
             DocumentRoot /var/www/html/public
+            DirectoryIndex index.html index.php
             ServerName {{ .Values.targetEnv }}-my.workstation.co.uk
                 <Directory /var/www/html/public>
                         AllowOverride all
