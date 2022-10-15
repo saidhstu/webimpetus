@@ -16,6 +16,6 @@ COPY ci4 /var/www/html
 
 COPY config/php/php.ini /usr/local/etc/php
 #COPY devops/kubernetes/config/ssl /etc/apache2/ssl
-COPY config/vhosts/default.conf /etc/apache2/sites-enabled/default.conf
+#COPY config/vhosts/default.conf /etc/apache2/sites-enabled/default.conf
 COPY logs/apache2/* /var/log
 #COPY logs/xdebug /var/log
