@@ -46,6 +46,16 @@ spec:
             #   value: "/var/www/html/writable"
             - name: DYNAMIC_SCRIPTS_PATH
               value: "/tmp"
+            - name: APACHE_RUN_USER
+              value: "www-data"
+            - name: APACHE_RUN_GROUP
+              value: "www-data"
+            - name: APACHE_PID_FILE
+              value: "/var/run/apache2$SUFFIX.pid"
+            - name: APACHE_RUN_DIR
+              value: "/var/run/apache2$SUFFIX"
+            - name: APACHE_LOG_DIR
+              value: "/var/log/apache2$SUFFIX"
           imagePullPolicy: Always
           lifecycle:
             postStart:
