@@ -100,6 +100,7 @@ fi
 
 if [[ "$cicd_action" == "start" ]]; then
 # this builds the image name 
+#docker rmi -f $(docker images -aq)
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build                #up -d --build
 docker tag ${targetEnv}-wsl_webserver registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
 docker push registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
@@ -114,7 +115,8 @@ docker push registry.workstation.co.uk/workstation:${DATE_GEN_VERSION}
 if [[ "$k3s_deployment_tool" == "helm" ]]; then
 #helm upgrade --install workstation --set image.tag=${DATE_GEN_VERSION} --set image.repository=registry.workstation.co.uk/workstation --set ingress.hosts[0].host=${HOST_ENDPOINT_UNSECURE_URL} --set ingress.hosts[0].paths[0]=/ --set ingress.hosts[0].paths[1]=/docs --set ingress.hosts[0].paths[2]=/docs/app_release_notes --set ingress.hosts[0].paths[3]=/docs/app_release_notes/${DATE_GEN_VERSION} --set ingress.hosts[0].paths[4]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus --set ingress.hosts[0].paths[5]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[6]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[7]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[8]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[9]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[10]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[11]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[12]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[13]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/web
 helm uninstall wsl-${targetEnv} -n ${targetEnv}
-helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set image=registry.workstation.co.uk/workstation:${DATE_GEN_VERSION} --namespace ${targetEnv}
+###helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set image=registry.workstation.co.uk/workstation:${DATE_GEN_VERSION} --namespace ${targetEnv}
+helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set-string targetImageTag="${DATE_GEN_VERSION}" --namespace ${targetEnv}
 else
 kubectl delete -f devops/kubernetes/wsldeployment.yaml
 kubectl apply -f devops/kubernetes/wsldeployment.yaml
