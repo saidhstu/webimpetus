@@ -7,7 +7,9 @@ name: "(Prod) Workstation CRM Build and Deployment pipeline"
 
 on:
   push:
-    branches: [ "release" ]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "feature/main*" ]
 
   workflow_dispatch:
     inputs:
@@ -21,6 +23,15 @@ on:
         - delete
         - rollback
         - Choose
+      # targetEnv:
+      #   type: choice
+      #   description: 'Please choose the target env for My Workstation'
+      #   default: 'test'
+      #   required: true
+      #   options:
+      #   - test
+      #   - acc
+      #   - prod
 
 # permissions:
 #   contents: read
@@ -28,7 +39,8 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    # self hosted runner runs this job on Edgeone Ubuntu Server
     steps:
 
     - name: Check out this repo code
@@ -39,22 +51,14 @@ jobs:
 
     - name: Run bash script to build the docker image and deployment
       run: |
-          chmod +x ./build_and_deploy_using_helm.sh
-          ./build_and_deploy_using_helm.sh prod
+          chmod +x ./build_and_deploy_env_to_k3s.sh
+          ./build_and_deploy_env_to_k3s.sh prod start
       shell: bash
 
-    - name: helm deploy
-      uses: koslib/helm-eks-action@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-        command: helm upgrade --install wsl-prod devops/webimpetus-chart -f devops/webimpetus-chart/values-prod.yaml --namespace prod --create-namespace
-        #--set=image.tag=${{ env.SHA }} --set env.TENANT_KEY="${{ secrets.TENANT_KEY }}"
-
-    - name: Healthcheck url my.workstation.co.uk
-      uses: wei/curl@master
-      with:
-        args: https://my.workstation.co.uk/
+    # - name: Healthcheck url my.workstation.co.uk
+    #   uses: wei/curl@master
+    #   with:
+    #     args: https://my.workstation.co.uk/
 
     - name: Slack Notification for Workstation CRM release 
       uses: rtCamp/action-slack-notify@v2
