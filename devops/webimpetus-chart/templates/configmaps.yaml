@@ -42,7 +42,8 @@ data:
         cp /tmp/configmap/workstation.conf /etc/apache2/sites-available/000-default.conf
         echo "==========================="
         echo "Restart apache2"
-        apachectl restart
+        apachectl graceful
+        #apachectl restart
         # a2ensite 000-default
         # service apache2 reload
         echo "==========================="
