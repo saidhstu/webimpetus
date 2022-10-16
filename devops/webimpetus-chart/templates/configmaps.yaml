@@ -26,8 +26,6 @@ data:
             php -v
         echo "==========================="
         yes | composer update
-        chmod 755 -R /var/www/html/
-        chmod www-data:root -R /var/www/html/
         chmod 777 -R /var/www/html/writable/
         chmod 777 -R /var/www/html/writable/cache/
         chmod 777 -R /var/www/html/writable/session/
@@ -44,8 +42,11 @@ data:
         cp /tmp/configmap/workstation.conf /etc/apache2/sites-available/000-default.conf
         echo "==========================="
         echo "Restart apache2"
-        a2ensite 000-default
-        service apache2 reload
+        apachectl graceful
+        #apachectl restart
+        # a2ensite 000-default
+        # service apache2 reload
+        echo "==========================="
     workstation.conf: |
         <VirtualHost *:80>
             ServerAdmin webmaster@localhost
