@@ -2,9 +2,14 @@
 <?php
 function getAllBusiness(){
 
+    $result = array();
+    
+    if ( isset ($_SESSION["uuid"]) ) {
+        $uuid = $_SESSION["uuid"];
+
     $db = \Config\Database::connect();
     $builder = $db->table("user_business");
-    $userBusiness = $builder->where("user_id", $_SESSION["uuid"])->get()->getResultArray();
+    $userBusiness = $builder->where("user_id", $uuid)->get()->getResultArray();
     $builder = $db->table("businesses");
     if($userBusiness){
         $allBusinesssId = json_decode(@$userBusiness[0]["user_business_id"]);
@@ -18,6 +23,7 @@ function getAllBusiness(){
         $result = $builder->where("default_business", 1)->get()->getResultArray();
     }
 
+    }
 
     return $result ;    
 }
