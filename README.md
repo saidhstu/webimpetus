@@ -1,4 +1,33 @@
 ## DEV ENV
+./build_and_deploy_env_to_k3s.sh dev-bwalia start helm dev-wsl_webserver
+
+
+#### Install WebImpetus Dev environment on local K3S
+
+1. Clone the repository from git
+2. Create .{yourusername}-env file in you home dir or vault securely outside github workspace to define .env for creating the Image with PHP8 and Apache
+database and other creds name the file "env_webimpetus_myworkstation"
+3. Copy the env `env_webimpetus_sample` credentials file for Code Igniter 4 and save in that file `env_webimpetus_dev_{yourusername}`
+4. Modify the environment variables shown below in the same file `env_webimpetus_dev_{yourusername}`
+
+    ```
+    app.baseURL = 'http://localhost:{32080}/'
+    # Note if 32080 is already used use a different port number from range 30000-32768
+    database.default.hostname = host.docker.internal (Note: change this to docker service name if MySQL or MariaDB is also running in Docker)
+    database.default.username = root
+    database.default.database = webimpetus //your database name
+    database.default.password = password //your database pass
+
+    Add a MySQL User with full previliges with IP running your CI4 and from which IP it will connect to MySQL. If dev test environment is secure just          add %
+    Username	Hostname	Password	Globalprivileges 
+    root	    %	         Yes	     ALL PRIVILEGES
+    ```
+
+
+5. Run the this cmd in the bash terminal - `./build_and_deploy_env_to_k3s.sh dev-{yourusername} start helm dev-wsl_webserver` where build_and_deploy_env_to_k3s.sh $1=namespace in which to deploy the webimpetus deployment, $2=start deploy the env (Note it will delete if env already exists), $3=helm use helm, $2 the local docker image name
+
+Voila! Bob is your Uncle!!!
+
 
 #### Install WebImpetus Dev environment on your machine using Docker compose
 
