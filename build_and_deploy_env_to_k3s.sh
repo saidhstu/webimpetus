@@ -45,7 +45,7 @@ else
 fi
 
 
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetEnv" == "dev-popos" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
 echo "The targetEnv is $targetEnv supported by this script"
 else
 echo "Oops! The targetEnv is $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
@@ -70,7 +70,7 @@ fi
 export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
 
 ##### Set some variables
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetEnv" == "dev-popos" ]]; then
 WORKSPACE_DIR=$(pwd)
 fi
 
@@ -88,19 +88,25 @@ fi
 
 if [[ "$targetEnv" == "test" ]]; then
 echo "Load test env kubeconfig"
-export KUBECONFIG=/home/bwalia/.kube/k3s-test.yml
+export KUBECONFIG=~/.kube/k3s-test.yml
 fi
 
 if [[ "$targetEnv" == "prod" ]]; then
 echo "Load prod env kubeconfig"
-export KUBECONFIG=/home/bwalia/.kube/k3s-test.yml
+export KUBECONFIG=~/.kube/k3s-test.yml
 fi
 
+if [[ -z "$5" ]]; then
+echo "KUBECONFIG is empty, so leaving default set KUBECONFIG to whatever it may be (default)"
+else
+echo "KUBECONFIG is empty, so setting KUBECONFIG $5"
+export KUBECONFIG=$5
+fi
 
 if [[ "$targetEnv" == "dev" ]]; then
 echo "No need to move dev env files"
 else
-mv ${WORKSPACE_DIR}/${targetEnv}.env ${WORKSPACE_DIR}/.env
+cp ${WORKSPACE_DIR}/${targetEnv}.env ${WORKSPACE_DIR}/.env
 fi
 cd ${WORKSPACE_DIR}/
 
@@ -124,7 +130,7 @@ docker push registry.workstation.co.uk/workstation:${DATE_GEN_VERSION}
 
 if [[ "$k3s_deployment_tool" == "helm" ]]; then
 #helm upgrade --install workstation --set image.tag=${DATE_GEN_VERSION} --set image.repository=registry.workstation.co.uk/workstation --set ingress.hosts[0].host=${HOST_ENDPOINT_UNSECURE_URL} --set ingress.hosts[0].paths[0]=/ --set ingress.hosts[0].paths[1]=/docs --set ingress.hosts[0].paths[2]=/docs/app_release_notes --set ingress.hosts[0].paths[3]=/docs/app_release_notes/${DATE_GEN_VERSION} --set ingress.hosts[0].paths[4]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus --set ingress.hosts[0].paths[5]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[6]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[7]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[8]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[9]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[10]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[11]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[12]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[13]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/web
-helm uninstall wsl-${targetEnv} -n ${targetEnv}
+#helm uninstall wsl-${targetEnv} -n ${targetEnv}
 ###helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set image=registry.workstation.co.uk/workstation:${DATE_GEN_VERSION} --namespace ${targetEnv}
 helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set-string targetImageTag="${DATE_GEN_VERSION}" --namespace ${targetEnv}
 else
