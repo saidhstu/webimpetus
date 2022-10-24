@@ -14,7 +14,7 @@ data:
         echo "Workstation Bootstrap Script"
         echo "==========================="
 
-        cp -r /src /var/www/html/
+        cp -r /src/* /var/www/html/
         chmod 755 -R /var/www/html/
         chown www-data:root -R /var/www/html/
         chmod 777 -R /var/www/html/writable/
@@ -55,6 +55,7 @@ data:
         # a2ensite 000-default
         # service apache2 reload
         echo "==========================="
+        echo "Workstation Bootstrap Script Completed"   
     workstation.conf: |
         <VirtualHost *:80>
             ServerAdmin webmaster@localhost

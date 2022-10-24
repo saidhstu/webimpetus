@@ -75,11 +75,11 @@ spec:
               exec:
                 command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/wslbootstrap.sh /usr/local/bin/wslbootstrap.sh && chmod +x /usr/local/bin/wslbootstrap.sh && sh /usr/local/bin/wslbootstrap.sh"]
           volumeMounts:
+            - name: wsl-{{ .Values.targetEnv }}-vol
+              mountPath: /var/www/html  
             - name: wslenv-vol-{{ .Values.targetEnv }}
               mountPath: /tmp/secrets
               # `bootstrap` mount bash script from configmap {{ .Values.service_name }}-bootstrap-cm-{{ .Values.targetEnv }}
               # execute in the poststrat lifecycle hook
             - name: {{ .Values.service_name }}-bootstrap-cm-vol
-              mountPath: /tmp/configmap
-            - name: wsl-{{ .Values.targetEnv }}-vol
-              mountPath: /var/www/html              
+              mountPath: /tmp/configmap            
