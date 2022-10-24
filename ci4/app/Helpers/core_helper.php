@@ -6,9 +6,9 @@ function pre($data){
 function prd($data){
     echo "<pre>";print_r($data);die;
 }
-function render_date($time, $type="input", $format=""){
+function render_date($time="", $type="input", $format=""){
 
-    if(strlen(trim(@$time)) === 0){
+    if(empty($time)){
         return "";
     }
     if (!empty($format)) {
