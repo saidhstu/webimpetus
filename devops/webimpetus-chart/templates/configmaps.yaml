@@ -13,6 +13,14 @@ data:
         set -x
         echo "Workstation Bootstrap Script"
         echo "==========================="
+
+        cp -r /src /var/www/html/
+        chmod 755 -R /var/www/html/
+        chown www-data:root -R /var/www/html/
+        chmod 777 -R /var/www/html/writable/
+        chmod 777 -R /var/www/html/writable/cache/
+        chmod 777 -R /var/www/html/writable/session/
+
         cp /tmp/secrets/.env /var/www/html/.env
         FILE=/var/www/html/.env
         if test -f "$FILE"; then

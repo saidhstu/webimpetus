@@ -1,11 +1,24 @@
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: wsl-{{ .Values.targetEnv }}
+  name: wsl-{{ .Values.targetEnv }}-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi    
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wsl-{{ .Values.targetEnv }}
   # namespace: {{ .Values.targetNS }}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: wsl-{{ .Values.targetEnv }}
@@ -27,7 +40,9 @@ spec:
             items:
             - key: env_file
               path: .env
-
+        - name: wsl-{{ .Values.targetEnv }}-vol
+          persistentVolumeClaim:
+            claimName: wsl-{{ .Values.targetEnv }}-pvc
       containers:
         - name: wsl-{{ .Values.targetEnv }}
           image: {{ .Values.targetImage }}:{{ .Values.targetImageTag }}
@@ -66,4 +81,5 @@ spec:
               # execute in the poststrat lifecycle hook
             - name: {{ .Values.service_name }}-bootstrap-cm-vol
               mountPath: /tmp/configmap
-              
+            - name: wsl-{{ .Values.targetEnv }}-vol
+              mountPath: /var/www/html              
