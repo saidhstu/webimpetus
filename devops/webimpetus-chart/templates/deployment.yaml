@@ -5,7 +5,7 @@ metadata:
   name: wsl-{{ .Values.targetEnv }}
   # namespace: {{ .Values.targetNS }}
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: wsl-{{ .Values.targetEnv }}
