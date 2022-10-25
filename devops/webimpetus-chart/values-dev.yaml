@@ -1,3 +1,7 @@
+mariadb:
+  type: mariadb
+  port: 30360
+  
 service_name: wsl
 
 targetEnv: dev
