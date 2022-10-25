@@ -18,7 +18,7 @@ metadata:
   name: wsl-{{ .Values.targetEnv }}
   # namespace: {{ .Values.targetNS }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.autoscaling.minReplicas }}
   selector:
     matchLabels:
       app: wsl-{{ .Values.targetEnv }}

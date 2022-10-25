@@ -1,7 +1,7 @@
 mariadb:
   type: mariadb
   port: 30360
-  
+
 service_name: wsl
 
 targetEnv: dev-popos
@@ -33,7 +33,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: localhost
+    - host: popos
       paths:
         - path: /
           pathType: Prefix

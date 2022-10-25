@@ -1,7 +1,7 @@
 mariadb:
   type: mariadb
   port: 30360
-  
+
 service_name: wsl
 
 targetEnv: dev-bwalia
@@ -46,6 +46,6 @@ resources: {}
 
 autoscaling:
   enabled: false
-  minReplicas: 1
+  minReplicas: 2
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
