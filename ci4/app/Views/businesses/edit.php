@@ -76,14 +76,12 @@ $businessContacts = getResultArray("business_contacts");
                         <label for="inputEmail4">Business Contact</label>
                         <select id="business_contacts" name="business_contacts[]" multiple class="form-control select2">                                            
                             <?php 
-                            
-                            $arr = json_decode(@$businesse->business_contacts);
-                           
+                            if (isset($businesse) && (!empty($businesse->business_contacts))) {                            $arr = json_decode(@$businesse->business_contacts);
                             foreach($businessContacts as $row):?>
                             <option value="<?= $row['id'];?>" <?php  if($arr){ echo  in_array($row['id'],$arr)?'selected="selected"':'';}?>>
                             <?= $row['surname']; ?>
                             </option>
-                            <?php endforeach;?>
+                            <?php endforeach; } ?>
                         </select>
                       
                     </div>
@@ -110,12 +108,14 @@ $businessContacts = getResultArray("business_contacts");
 <script>
 
     $("#status").on("change", function(){
+        <?php if (isset($secret) && (!empty($secret->key_value))) { ?>
         var vall = '<?=base64_encode(@$secret->key_value)?>';
         if($(this).is(":checked")===true){
             $('#key_value').val(atob(vall))
         }else{
             $('#key_value').val("*************")
         }
-        //alert($(this).is(":checked"))
+        <?php } ?>
+    //alert($(this).is(":checked"))
     })
 </script>
