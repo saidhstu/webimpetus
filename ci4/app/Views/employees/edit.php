@@ -13,12 +13,12 @@
                         <label for="inputEmail4">Businesses Pop</label>
                         <select id="businesses" name="businesses[]" multiple class="form-control select2">                                            
                             <?php 
-                            
+                            if (isset($employee) && (!empty($employee->businesses))) {
                             $arr = json_decode(@$employee->businesses);
                             foreach($businesses as $row):?>
                             <option value="<?= $row['id'];?>" <?php  if($arr) echo 
                             in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
-                            <?php endforeach;?>
+                            <?php endforeach; } ?>
                         </select>
                       
                     </div>
