@@ -19,11 +19,10 @@
                             </select>
                         </div>
                     </div>
-
-                    <?php if (strlen(trim(@$document->file)) > 0) { ?>
+                    <?php if (isset($document) && !empty($document->file)) { ?>
+                    <!--php if (strlen(trim(@$document->file)) > 0) { -->
                         <div class="row form-group ">
                             <iframe src="https://drive.google.com/viewerng/viewer?embedded=true&url=<?= @$document->file?>" width="960" height="1200"></iframe>
-    
                         </div><br><br>
                     <?php } ?>
                     <div class="row form-group ">
