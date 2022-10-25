@@ -56,12 +56,12 @@ $type["MARKDOWN"] = "MARKDOWN";
 									<label for="inputEmail4">Categories</label>
 									<select id="categories" name="categories[]" multiple class="form-control select2">                                            
 										<?php 
-										
+										if (isset($webpage) && (!empty($webpage->categories))) {
 										$arr = json_decode(@$webpage->categories);
 										foreach($categories as $row):?>
 										<option value="<?= $row['id'];?>" <?php  if($arr) echo 
 										in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
-										<?php endforeach;?>
+										<?php endforeach; } ?>
 									</select>  								
 								</div>
 

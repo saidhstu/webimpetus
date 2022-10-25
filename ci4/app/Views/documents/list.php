@@ -26,6 +26,7 @@
 
                     <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?= basename($row['file']);?></td>
                     <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?= $row['company_name'];?></td>
+
                     <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?php if (isset($row['created_at']) && (!empty($row['created_at']))) { render_date(strtotime($row['created_at'])); } ?></td>
                     <td class="f_s_12 f_w_400 open-file" data-id="<?= $row['id']?>"><?php if (isset($row['modified_at']) && (!empty($row['modified_at']))) { render_date(strtotime($row['modified_at'])); } ?></td>
 

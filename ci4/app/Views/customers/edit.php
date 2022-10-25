@@ -115,12 +115,13 @@ $categories = getResultArray("categories");
                     <label for="inputEmail4">Categories</label>
                     <select id="categories" name="categories[]" multiple class="form-control select2">                                            
                         <?php 
-                        
+                        if (isset($customer) && (!empty($customer->categories))) {
                         $arr = json_decode(@$customer->categories);
                         foreach($categories as $row):?>
                         <option value="<?= $row['id'];?>" <?php  if($arr) echo 
                         in_array($row['id'],$arr)?'selected="selected"':''?>><?= $row['name'];?></option>
                         <?php endforeach;?>
+                        <?php } ?>
                     </select>                
                 </div>
                
