@@ -227,19 +227,19 @@ class CommonController extends BaseController
 
 		$pdf_template_code = 'timeslip_export_pdf';
 		$pdf_template_id = 0;
+		$pdf_name_prefix = "workstation";
 
 		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
 
 			$item_details = $this->getInvoiceItem($id);
+			$pdf_name_prefix = ucfirst($this->table) . '-' . $item_details->company_name . '-' . $item_details->contact_firstname . '-' . $item_details->contact_lastname;
 
-			if ($this->table == 'sales_invoices') {
+			if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
 				$pdf_template_id = $item_details->print_template_code;
-			} else if ($this->table == 'purchase_invoices') {
-				$pdf_template_id = $item_details->print_template_code;
-			} else if ($this->table == 'purchase_orders') {
+				$pdf_name_prefix .= '-' . $item_details->invoice_number;
+			} else if ($this->table == 'purchase_orders' || $this->table == 'work_orders') {
 				$pdf_template_id = $item_details->template;
-			} else if ($this->table == 'work_orders') {
-				$pdf_template_id = $item_details->template;
+				$pdf_name_prefix .= '-' . $item_details->order_number;
 			}
 
 			$pdf->AddPage(
@@ -265,6 +265,9 @@ class CommonController extends BaseController
 				'',
 				'A4-P'
 			);
+		} else if ($this->table == 'timeslips') {
+			$businesses = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
+			$pdf_name_prefix = ucfirst($this->table) . '-' . $businesses['name'];
 		}
 
 
@@ -279,46 +282,98 @@ class CommonController extends BaseController
 		$template_html = "";
 		if ($templates) {
 			foreach ($templates as $template) {
-				$template_contents = explode('<*--', $template['template_content']);
-				foreach ($template_contents as $template_content) {
-					$block_code = trim(str_replace('--*>', '', $template_content));
-					if (!empty($block_code)) {
-						$blocks_list = $this->db->table('blocks_list')->where("uuid_business_id", $uuid_business_id)->where('code', $block_code)->get()->getResultArray();
-						foreach ($blocks_list as $block) {
-							$block_text = $block['text'];
+				$block_pattern = "/<\*\-\-[A-Za-z0-9-_+*&@!()# ]+\-\-\*\>/i";
+				if (preg_match_all($block_pattern, $template['template_content'], $blocks_code)) {
+					$blocks_code = $blocks_code[0];
+					$replace_str = ['<*--', '--*>'];
+					foreach ($blocks_code as $template_content) {
+						$block_code = trim(str_replace($replace_str, '', $template_content));
+						if (!empty($block_code)) {
+							$blocks_list = $this->db->table('blocks_list')->where("uuid_business_id", $uuid_business_id)->where('code', $block_code)->where('status', 1)->get()->getResultArray();
+							if ($blocks_list) {
+								foreach ($blocks_list as $block) {
+									$block_text = $block['text'];
 
-							// Load Header Data
-							if (strpos($block_text, 'loadTimeslipData();') !== false) {
-								$template_html .= $this->loadTimeslipData();
-								$block_text = str_replace('loadTimeslipData();', '', $block_text);
-							}
+									// Load Footer Data
+									if (strpos($block_text, 'displayTimeslipFooter();') !== false) {
+										$pdf->SetHTMLFooter($this->displayTimeslipFooter());
+										$block_text = str_replace('displayTimeslipFooter();', '', $block_text);
+										$template_html .= $block_text;
+									}
 
-							// Load Footer Data
-							if (strpos($block_text, 'displayTimeslipFooter();') !== false) {
-								$pdf->SetHTMLFooter($this->displayTimeslipFooter());
-								$block_text = str_replace('displayTimeslipFooter();', '', $block_text);
-							}
-
-							// Load Body Data With Dynamic Content
-							if (strpos($block_text, 'displayTimeslipItem();') !== false) {
-								if ($this->table == 'timeslips') {
-									$template_html .= $this->displayTimeslipItem($_POST);
-								} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders') {
-									$template_html .= $this->displayInvoiceItem($id);
+									// Load Body Data With Dynamic Content
+									else if (strpos($block_text, 'displayTimeslipItem();') !== false) {
+										if ($this->table == 'timeslips') {
+											$template_html .= $this->displayTimeslipItem($_POST);
+										} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders') {
+											$template_html .= $this->displayInvoiceItem($id);
+										}
+										$block_text = str_replace('displayTimeslipItem();', '', $block_text);
+										$template_html .= $block_text;
+									}
+									// Load Header Data
+									else if (strpos($block_text, 'loadTimeslipData();') !== false) {
+										$template_html .= $this->loadTimeslipData();
+										$block_text = str_replace('loadTimeslipData();', '', $block_text);
+										$template_html .= $block_text;
+									} else {
+										$template_html .= $this->getRecursiveHtmlFromBlock($block_text);
+									}
 								}
-								$block_text = str_replace('displayTimeslipItem();', '', $block_text);
+							} else {
+								$template_html .= '<div class="alert alert-danger" role="alert">' . $block_code . ' Template block is inactive or not exist!</div>';
 							}
-							$template_html .= $block_text;
 						}
 					}
 				}
 			}
 		}
 
-		file_put_contents(APPPATH . "Views/timeslips/dynamic_body.php", $template_html);
-		$html = view("timeslips/dynamic_body");
+		$DYNAMIC_SCRIPTS_PATH = getenv('DYNAMIC_SCRIPTS_PATH');
+		if (empty($DYNAMIC_SCRIPTS_PATH)) {
+			$DYNAMIC_SCRIPTS_PATH = '/tmp';
+		}
+		$pdf_path = $DYNAMIC_SCRIPTS_PATH . '/' . $this->table;
+		if (!file_exists($pdf_path)) {
+			mkdir($pdf_path, 0755, true);
+		}
+		file_put_contents($pdf_path . "/dynamic_body.php", $template_html);
+		ob_start();
+		include($pdf_path . "/dynamic_body.php");
+		$html = ob_get_contents();
+		ob_end_clean();
+
 		$pdf->WriteHTML($html);
-		$pdf->Output($this->table . ".pdf", "D");
+		$pdf->Output($pdf_name_prefix . '-' . date('M-Y') . ".pdf", "D");
+	}
+
+
+	public function getRecursiveHtmlFromBlock($block_text)
+	{
+		$uuid_business_id = $this->session->get('uuid_business');
+
+		// Recursively Search for a block inside block content
+		$block_pattern = "/<\*\-\-[A-Za-z0-9-_+*&@!()# ]+\-\-\*\>/i";
+		if (preg_match_all($block_pattern, $block_text, $blocks_code)) {
+			$blocks_code = $blocks_code[0];
+			$replace_str = ['<*--', '--*>'];
+			foreach ($blocks_code as $template_content) {
+				$block_code = trim(str_replace($replace_str, '', $template_content));
+				if (!empty($block_code)) {
+					$blocks_list = $this->db->table('blocks_list')->where("uuid_business_id", $uuid_business_id)->where('code', $block_code)->where('status', 1)->get()->getRowArray();
+					if ($blocks_list) {
+						$text = $blocks_list['text'];
+						$block_text	= str_replace($template_content, $text, $block_text);
+						$block_text = str_replace($template_content, "", $block_text);
+					} else {
+						$alert = '<div class="alert alert-danger" role="alert">' . $block_code . ' Template block is inactive or not exist!</div>';
+						$block_text	= str_replace($template_content, $alert, $block_text);
+					}
+					return $this->getRecursiveHtmlFromBlock($block_text);
+				}
+			}
+		}
+		return $block_text;
 	}
 
 
@@ -407,7 +462,9 @@ class CommonController extends BaseController
 	function getInvoiceItem($id)
 	{
 		$builder = $this->db->table($this->table);
-		$builder->where('id', $id);
+		$builder->select($this->table . '.*,customers.company_name,customers.contact_firstname,customers.contact_lastname');
+		$builder->join('customers', 'customers.id=' . $this->table . '.client_id');
+		$builder->where($this->table . '.id', $id);
 		$records = $builder->get()->getRowArray();
 		return (object)$records;
 	}

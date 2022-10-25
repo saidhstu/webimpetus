@@ -1,45 +1,58 @@
-<?php 
+<?php
+
 namespace App\Controllers;
+
 use App\Controllers\BaseController;
- 
+
 use App\Models\Blocks_model;
 use App\Models\Users_model;
-use App\Controllers\Core\CommonController; 
+use App\Controllers\Core\CommonController;
 use App\Models\Core\Common_model;
 
 
 class Blocks extends CommonController
-{	
+{
 
 	function __construct()
-    {
-        parent::__construct();
+	{
+		parent::__construct();
 		$this->table = "blocks_list";
-		$this->rawTblName =  "blocks"; 
+		$this->rawTblName =  "blocks";
 		$this->blocks_model = new Blocks_model();
 		$this->user_model = new Users_model();
 	}
 
-    public function index()
-    {        
+	public function index()
+	{
 		$data['rawTblName'] = $this->rawTblName;
 		$data['tableName'] = "blocks";
-        $data[$this->rawTblName] = $this->blocks_model->where([ "uuid_business_id" => $this->businessUuid])->findAll();
-        echo view($this->table.'/list',$data);
-    }
-	
-	
+		$data[$this->rawTblName] = $this->blocks_model->where(["uuid_business_id" => $this->businessUuid])->findAll();
+		echo view($this->table . '/list', $data);
+	}
+
+
 	public function edit($id = 0)
-    {
+	{
+		$data['role'] = $this->session->get('role');
 		$data['tableName'] = "blocks";
 		$data[$this->rawTblName] = $this->blocks_model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
-        echo view($this->table.'/edit',$data);
-    }
-	
-	
-    public function update()
-    {        
+		echo view($this->table . '/edit', $data);
+	}
+
+
+	public function update()
+	{
+		$role = $this->session->get('role');
+		if ($role != 2) {
+			$text = $this->request->getPost('text');
+			if (strpos($text, '<?') !== false || strpos($text, '?>') !== false) {
+				session()->setFlashdata('message', 'You are not allowed to enter PHP code as block content!');
+				session()->setFlashdata('alert-class', 'alert-danger');
+				return redirect()->to('/' . $this->rawTblName);
+			}
+		}
+
 		$data = array(
 			'code' => $this->request->getPost('code'),
 			'title' => $this->request->getPost('title'),
@@ -48,42 +61,35 @@ class Blocks extends CommonController
 			"uuid_business_id" => $this->businessUuid,
 		);
 
-        $id = $this->request->getPost('id');
-		if($id > 0){
-								
-	
+		$id = $this->request->getPost('id');
+		if ($id > 0) {
 			$this->blocks_model->updateData($id, $data);
-			
 			session()->setFlashdata('message', 'Data updated Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
-		}else {
-
-			$this->blocks_model->saveData($data);	
+		} else {
+			$this->blocks_model->saveData($data);
 			session()->setFlashdata('message', 'Data entered Successfully!');
-			session()->setFlashdata('alert-class', 'alert-success');	   
+			session()->setFlashdata('alert-class', 'alert-success');
 		}
 
-		
-        return redirect()->to('/'.$this->rawTblName);
-    }	
+
+		return redirect()->to('/' . $this->rawTblName);
+	}
 
 	public function delete($id)
-    {       
+	{
 		//echo $id; die;
-        if(!empty($id)) {
-			$response = $this->blocks_model->deleteData($id);		
-			if($response){
+		if (!empty($id)) {
+			$response = $this->blocks_model->deleteData($id);
+			if ($response) {
 				session()->setFlashdata('message', 'Data deleted Successfully!');
 				session()->setFlashdata('alert-class', 'alert-success');
-			}else{
+			} else {
 				session()->setFlashdata('message', 'Something wrong delete failed!');
-				session()->setFlashdata('alert-class', 'alert-danger');		
+				session()->setFlashdata('alert-class', 'alert-danger');
 			}
-
 		}
-		
-        return redirect()->to('/blocks');
-    }
 
-
+		return redirect()->to('/blocks');
+	}
 }

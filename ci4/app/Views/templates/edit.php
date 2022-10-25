@@ -23,7 +23,6 @@
                         <div class="form-group required col-md-6">
                             <label for="inputEmail4">Comment</label>
                             <textarea row='40' col='40' class="form-control required" id="comment" name="comment" placeholder="" value=""><?= @$template->comment ?></textarea>
-
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -39,7 +38,7 @@
                         <button class="btn btn-outline-secondary search-token-button" type="button"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
-                <ul class="list-group token-list">
+                <ul class="list-group token-list overflow-auto tokenlist">
                     <?php foreach($blocks_lists as $row):?>
                         <li class="list-group-item list-group-item-action dragtoken" aria-current="true">
                             <?= $row['code'];?>
