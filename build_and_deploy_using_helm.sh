@@ -101,8 +101,8 @@ docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build                #up
 docker tag ${targetEnv}-workstation_webserver registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
 docker push registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
 
-#docker build -f devops/kubernetes/Dockerfile -t registry.workstation.co.uk/workstation:latest .
-docker build -f devops/kubernetes/Dockerfile --build-arg TAG=${DATE_GEN_VERSION}  -t workstation .
+#docker build -f devops/kubernetes/Dockerfile-v1.0.0 -t registry.workstation.co.uk/workstation:latest .
+docker build -f devops/kubernetes/Dockerfile-v1.0.0 --build-arg TAG=${DATE_GEN_VERSION}  -t workstation .
 docker tag workstation registry.workstation.co.uk/workstation:latest
 docker push registry.workstation.co.uk/workstation:latest
 

@@ -49,12 +49,18 @@ jobs:
       with:
         ref: main
         clean: true
+# APACHE PHP enabled this
+        # - name: Run bash script to build the docker image and deployment
+        #   run: |
+        #       chmod +x ./build_and_deploy_env_to_k3s.sh
+        #       ./build_and_deploy_env_to_k3s.sh test start
+        #   shell: bash
 
     - name: Run bash script to build the docker image and deployment
       run: |
-          chmod +x ./build_and_deploy_env_to_k3s.sh
-          ./build_and_deploy_env_to_k3s.sh test start
-      shell: bash
+          chmod +x ./release_manager_apache_php.sh
+          ./release_manager_apache_php.sh test start
+      shell: bash      
 
     # - name: Run bash script to exec commands in the recently deployed docker containers
     #   run: |

@@ -51,8 +51,8 @@ jobs:
 
     - name: Run bash script to build the docker image and deployment
       run: |
-          chmod +x ./build_and_deploy_env_to_k3s.sh
-          ./build_and_deploy_env_to_k3s.sh prod start
+          chmod +x ./release_manager_apache_php.sh
+          ./release_manager_apache_php.sh prod start
       shell: bash
 
     # - name: Healthcheck url my.workstation.co.uk
