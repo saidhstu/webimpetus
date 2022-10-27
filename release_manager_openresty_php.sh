@@ -141,7 +141,7 @@ if [[ "$cicd_action" == "install" ]]; then
 #docker rmi -f $(docker images -aq)
 echo ${WORKSPACE_DIR}/docker-compose.yml
 
-docker build -f devops/docker/Dockerfile --build-arg TAG=latest . --no-cache
+docker build -f devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
 docker tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 docker push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 
