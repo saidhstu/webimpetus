@@ -52,7 +52,7 @@ jobs:
     - name: Run bash script to build the docker image and deployment
       run: |
           chmod +x ./release_manager_apache_php.sh
-          ./release_manager_apache_php.sh prod start
+          ./release_manager_apache_php.sh prod prod start
       shell: bash
 
     # - name: Healthcheck url my.workstation.co.uk
