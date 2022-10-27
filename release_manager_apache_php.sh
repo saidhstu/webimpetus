@@ -55,6 +55,10 @@ exit 1
 fi
 
 ###### Set some variables
+if [[ "$targetNs" == "dev-popos" ]]; then
+SVC_HOST=popos
+fi
+
 HOST_ENDPOINT_UNSECURE_URL="http://${SVC_HOST}:${SVC_NODEPORT}"
 
 if [[ "$targetEnv" == "dev" ]]; then
