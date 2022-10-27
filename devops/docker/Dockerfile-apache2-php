@@ -10,18 +10,4 @@ RUN apt update && apt upgrade -y && apt install -y \
     wget
 
 COPY ci4 /src
-RUN chmod 755 -R /var/www/html/
-RUN chown www-data:root -R /var/www/html/
-
-# RUN chmod 777 -R /var/www/html/writable/
-# RUN chmod 777 -R /var/www/html/writable/cache/
-# RUN chmod 777 -R /var/www/html/writable/session/
-
-ENV DOCUMENT_ROOT=/var/www/html/public
-ENV PHP_INI=/usr/local/etc/php/php.ini
-
 COPY config/php/php.ini /usr/local/etc/php
-COPY devops/kubernetes/config/ssl /etc/apache2/ssl
-COPY config/vhosts/default.conf /etc/apache2/sites-enabled/default.conf
-COPY logs/apache2/* /var/log
-COPY logs/xdebug /var/log
