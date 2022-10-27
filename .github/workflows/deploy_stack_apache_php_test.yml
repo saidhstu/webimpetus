@@ -59,7 +59,7 @@ jobs:
     - name: Run bash script to build the docker image and deployment
       run: |
           chmod +x ./release_manager_apache_php.sh
-          ./release_manager_apache_php.sh test test start
+          ./release_manager_apache_php.sh test test install
       shell: bash      
 
     # - name: Run bash script to exec commands in the recently deployed docker containers
