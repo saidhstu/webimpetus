@@ -118,7 +118,7 @@ export VIRTUAL_HOST=$6
 fi
 
 if [[ -z "$7" ]]; then
-   echo "docker base image is empty, so setting docker base image to dev-wsl-webserver (default)"
+   echo "docker base image is empty, so setting docker base image to ${targetEnv}-wsl-webserver (default)"
    docker_base_image="${targetEnv}-wsl-webserver"
 else
    echo "docker base image type is provided, docker base image is set to $7"
