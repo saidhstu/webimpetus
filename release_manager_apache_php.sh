@@ -12,6 +12,8 @@ DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
 TARGET_STACK="apache_php"
 TARGET_CLUSTER="k3s-rancher-desktop"
+IMAGE_BUILD_TYPE="docker"
+IMAGE_BUILD_NAME="wsl_webserver"
 
 echo "Techstack: $TARGET_STACK"
 
@@ -118,8 +120,8 @@ export VIRTUAL_HOST=$6
 fi
 
 if [[ -z "$7" ]]; then
-   echo "docker base image is empty, so setting docker base image to ${targetEnv}-wsl-webserver (default)"
-   docker_base_image="${targetEnv}-wsl-webserver"
+   echo "docker base image is empty, so setting docker base image to ${targetEnv}-${IMAGE_BUILD_NAME} (default)"
+   docker_base_image="${targetEnv}-${IMAGE_BUILD_NAME}"
 else
    echo "docker base image type is provided, docker base image is set to $7"
    docker_base_image=$7

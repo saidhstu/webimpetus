@@ -141,12 +141,7 @@ if [[ "$cicd_action" == "install" ]]; then
 #docker rmi -f $(docker images -aq)
 echo ${WORKSPACE_DIR}/docker-compose.yml
 
-docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build           #up -d --build
-docker tag ${docker_base_image} registry.workstation.co.uk/webimpetus:${TARGET_STACK}-${DATE_GEN_VERSION}
-docker push registry.workstation.co.uk/webimpetus:${TARGET_STACK}-${DATE_GEN_VERSION}
-
-#docker build -f devops/kubernetes/Dockerfile -t registry.workstation.co.uk/workstation:latest .
-docker build -f devops/docker/Dockerfile --build-arg TAG=${TARGET_STACK}-${DATE_GEN_VERSION} -t wsl-${TARGET_STACK} . --no-cache
+docker build -f devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
 docker tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 docker push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 
