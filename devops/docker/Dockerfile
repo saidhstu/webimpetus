@@ -1,84 +1,14 @@
-# PULL openresty119php74 BASE IMAGE AND PUSH DEPLOYMENT
-FROM docker.io/bwalia/openresty119php74:latest
+ARG TAG=latest
 
-WORKDIR /tmp
+#FROM registry.workstation.co.uk/openresty-php:$TAG
+FROM bwalia/openresty-php:$TAG
 
-#Install kubectl and helmchart binaries
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl && chmod +x ./kubectl && mv ./kubectl /usr/bin/kubectl
-RUN kubectl version --client
+RUN apk update && apk upgrade \
+     jq
+     
+COPY ci4 /src
 
-#ARG VERSION
-ENV VERSION="3.7.2"
-# ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
-ENV BASE_URL="https://get.helm.sh"
-
-RUN case `uname -m` in \
-        x86_64) ARCH=amd64; ;; \
-        armv7l) ARCH=arm; ;; \
-        aarch64) ARCH=arm64; ;; \
-        ppc64le) ARCH=ppc64le; ;; \
-        s390x) ARCH=s390x; ;; \
-        *) echo "un-supported arch, exit ..."; exit 1; ;; \
-    esac && \
-    apk add --update --no-cache wget git && \
-    wget ${BASE_URL}/helm-v${VERSION}-linux-${ARCH}.tar.gz -O - | tar -xz && \
-    mv linux-${ARCH}/helm /usr/bin/helm && \
-    chmod +x /usr/bin/helm && \
-    rm -rf linux-${ARCH}
-
-COPY devops/docker/php-fpm-7.conf /usr/local/etc/php-fpm.conf
-COPY devops/docker/php.ini /usr/local/etc/php/conf.d/php.ini
-
-#Prepare dir for PHP unix socket etc
-COPY devops/docker/setup.sh /
-RUN chmod +x /setup.sh
-RUN sh /setup.sh
-
-WORKDIR /var/www/html
-
-RUN mkdir -p /var/php
-
-ADD . /var/www/html/
-
-COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-COPY devops/templates/tizohub.env.template /var/www/html/writable/tizohub.env.template
-COPY devops/templates/tizohub.yaml.template /var/www/html/writable/tizohub.yaml.template
-COPY devops/scripts/tizohub_deploy_service.sh /var/www/html/writable/tizohub_deploy_service.sh
-COPY devops/scripts/tizohub_delete_service.sh /var/www/html/writable/tizohub_delete_service.sh
-RUN chmod +x /var/www/html/writable/tizohub_deploy_service.sh
-RUN chmod 777 /var/www/html/writable/tizohub_deploy_service.sh
-RUN chmod +x /var/www/html/writable/tizohub_delete_service.sh
-RUN chmod 777 /var/www/html/writable/tizohub_delete_service.sh
-
-RUN rm -rf /var/www/html/devops/
-RUN rm -rf /var/www/html/*.sql
-RUN rm -rf /var/www/html/buildspec.yaml
-
-# Install Composer
-#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    && php -r "unlink('composer-setup.php');"
-
-RUN cd /var/www/html && composer update
-# Moved to kubernetes deployment because db connection is not available here run cd /var/www/html && php spark migrate 
-RUN mv /var/www/html/env /var/www/html/.env
-
-RUN chown www-data:root -R /var/www/html/
-RUN chmod 775 -R /var/www/html/
-RUN chmod 777 -Rv /var/www/html/writable
-COPY devops/docker/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-
-# create folder for automated deployments
-RUN mkdir -p /var/www/html/writable/tizohub_deployments
-RUN chmod 777 /var/www/html/writable/tizohub_deployments
-
-RUN mkdir -p /var/php
-
-RUN apk add supervisor
-
-COPY devops/docker/supervisord.conf /etc/
-
-ENTRYPOINT /usr/bin/supervisord -c /etc/supervisord.conf
-
-STOPSIGNAL SIGQUIT
+#COPY ./config/php/php.ini /usr/local/etc/php/php.ini
+COPY ./config/vhosts/wsl_server.conf /etc/nginx/sites-enabled/wsl_server.conf
+COPY ./config/vhosts/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+     #RUN sed -i "s|listen = 127.0.0.1:9000|listen = 127.0.0.1:9000\nlisten = /var/run/php-fpm/www.sock|g" /usr/local/etc/php-fpm.d/www.conf

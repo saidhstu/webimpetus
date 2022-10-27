@@ -6,37 +6,48 @@
 #   set -x
 
 SVC_HOST=localhost
-SVC_NODEPORT=32180
+SVC_NODEPORT=32080
+
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
-TARGET_CLUSTER="k3s-edge1"
-runnerType=remote
+TARGET_STACK="openresty_php"
+TARGET_CLUSTER="k3s-rancher-desktop"
+
+echo "Techstack: $TARGET_STACK"
 
 if [[ -z "$1" ]]; then
    echo "env is empty, so setting targetEnv to development (default)"
    targetEnv="dev"
 else
-   echo "env is NOT empty, so setting targetEnv to $1"
+   echo "env is provided, so setting targetEnv to $1"
    targetEnv=$1
 fi
 
 if [[ -z "$2" ]]; then
-   echo "action is empty, so setting action to start (default)"
-   cicd_action="start"
+   echo "namespace is empty, so setting namespace to dev (default)"
+   targetNs="dev"
 else
-   echo "action is NOT empty, action is set to $2"
-   cicd_action=$2
+   echo "namespace is provided, so setting namespace to $2"
+   targetNs=$2
 fi
 
 if [[ -z "$3" ]]; then
+   echo "action is empty, so setting action to install (default)"
+   cicd_action="install"
+else
+   echo "action is provided, action is set to $3"
+   cicd_action=$3
+fi
+
+if [[ -z "$4" ]]; then
    echo "k3s deployment tool type is empty, so setting k3s_deployment_tool to helm (default)"
    k3s_deployment_tool="helm"
 else
-   echo "k3s deployment tool type is NOT empty, k3s_deployment_tool is set to $3"
-   k3s_deployment_tool=$3
+   echo "k3s deployment tool type is provided, k3s_deployment_tool is set to $4"
+   k3s_deployment_tool=$4
 fi
 
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "test" || "$targetEnv" == "acc" || "$targetEnv" == "prod" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "dev-popos" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
 echo "The targetEnv is $targetEnv supported by this script"
 else
 echo "Oops! The targetEnv is $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
@@ -44,6 +55,10 @@ exit 1
 fi
 
 ###### Set some variables
+if [[ "$targetNs" == "dev-popos" ]]; then
+SVC_HOST=popos
+fi
+
 HOST_ENDPOINT_UNSECURE_URL="http://${SVC_HOST}:${SVC_NODEPORT}"
 
 if [[ "$targetEnv" == "dev" ]]; then
@@ -61,7 +76,7 @@ fi
 export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
 
 ##### Set some variables
-if [[ "$targetEnv" == "dev" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "dev-popos" ]]; then
 WORKSPACE_DIR=$(pwd)
 fi
 
@@ -77,54 +92,89 @@ if [[ "$targetEnv" == "dev" ]]; then
 echo "No need to load kubeconfig use default"
 fi
 
-if [[ "$runnerType" == "remote" ]]; then
-echo "Loading kubeconfig for remote runner"
-else
+if [[ "$targetEnv" == "test" ]]; then
 echo "Load test env kubeconfig"
-export KUBECONFIG=/home/bwalia/.kube/k3s-test.yml
+export KUBECONFIG=~/.kube/k3s-test.yml
+fi
+
+if [[ "$targetEnv" == "prod" ]]; then
+echo "Load prod env kubeconfig"
+export KUBECONFIG=~/.kube/k3s-test.yml
+fi
+
+if [[ -z "$5" ]]; then
+echo "KUBECONFIG is empty, so leaving default set KUBECONFIG to whatever it may be (default)"
+else
+echo "KUBECONFIG is provided, so setting KUBECONFIG $5"
+export KUBECONFIG=$5
+fi
+
+if [[ -z "$6" ]]; then
+echo "VIRTUAL_HOST is empty, so leaving default set VIRTUAL_HOST to whatever it may be (default ${SVC_HOST})"
+export VIRTUAL_HOST=${SVC_HOST}
+else
+echo "VIRTUAL_HOST is provided, so setting VIRTUAL_HOST $6"
+export VIRTUAL_HOST=$6
+fi
+
+if [[ -z "$7" ]]; then
+   echo "docker base image is empty, so setting docker base image to dev-wsl-webserver (default)"
+   docker_base_image="${targetEnv}-wsl-webserver"
+else
+   echo "docker base image type is provided, docker base image is set to $7"
+   docker_base_image=$7
 fi
 
 if [[ "$targetEnv" == "dev" ]]; then
-echo "No need to move dev env files"
+echo "No need to move env files in case local dev env"
 else
-mv ${WORKSPACE_DIR}/${targetEnv}.env ${WORKSPACE_DIR}/.env
+cp ${WORKSPACE_DIR}/${targetEnv}.env ${WORKSPACE_DIR}/.env
 fi
 cd ${WORKSPACE_DIR}/
 
-if [[ "$cicd_action" == "stop" ]]; then
-helm delete -f devops/kubernetes/wsldeployment.yaml
+if [[ "$cicd_action" == "delete" ]]; then
+kubectl delete -f devops/kubernetes/wsldeployment.yaml
 fi
 
-if [[ "$cicd_action" == "start" ]]; then
+if [[ "$cicd_action" == "install" ]]; then
 # this builds the image name 
-docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build                #up -d --build
-docker tag ${targetEnv}-workstation_webserver registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
-docker push registry.workstation.co.uk/webimpetus:${DATE_GEN_VERSION}
+#docker rmi -f $(docker images -aq)
+echo ${WORKSPACE_DIR}/docker-compose.yml
 
-#docker build -f devops/kubernetes/Dockerfile-v1.0.0 -t registry.workstation.co.uk/workstation:latest .
-docker build -f devops/kubernetes/Dockerfile-v1.0.0 --build-arg TAG=${DATE_GEN_VERSION}  -t workstation .
-docker tag workstation registry.workstation.co.uk/workstation:latest
-docker push registry.workstation.co.uk/workstation:latest
+docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build           #up -d --build
+docker tag ${docker_base_image} registry.workstation.co.uk/webimpetus:${TARGET_STACK}-${DATE_GEN_VERSION}
+docker push registry.workstation.co.uk/webimpetus:${TARGET_STACK}-${DATE_GEN_VERSION}
+
+#docker build -f devops/kubernetes/Dockerfile -t registry.workstation.co.uk/workstation:latest .
+docker build -f devops/docker/Dockerfile --build-arg TAG=${TARGET_STACK}-${DATE_GEN_VERSION} -t wsl-${TARGET_STACK} . --no-cache
+docker tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
+docker push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 
 # this deploys the image to k3s
 
 if [[ "$k3s_deployment_tool" == "helm" ]]; then
 #helm upgrade --install workstation --set image.tag=${DATE_GEN_VERSION} --set image.repository=registry.workstation.co.uk/workstation --set ingress.hosts[0].host=${HOST_ENDPOINT_UNSECURE_URL} --set ingress.hosts[0].paths[0]=/ --set ingress.hosts[0].paths[1]=/docs --set ingress.hosts[0].paths[2]=/docs/app_release_notes --set ingress.hosts[0].paths[3]=/docs/app_release_notes/${DATE_GEN_VERSION} --set ingress.hosts[0].paths[4]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus --set ingress.hosts[0].paths[5]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[6]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[7]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[8]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[9]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[10]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[11]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[12]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[13]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/web
-helm upgrade --install wsl${targetEnv} devops/webimpetus-chart -f devops/webimpetus-chart/values-${targetEnv}.yaml --namespace ${targetEnv} --create-namespace
+#helm uninstall wsl-${targetEnv} -n ${targetEnv}
+###helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set image=registry.workstation.co.uk/workstation:${DATE_GEN_VERSION} --namespace ${targetEnv}
+helm upgrade --install -f devops/webimpetus-chart/values-${targetNs}.yaml wsl-${targetNs} ./devops/webimpetus-chart --set-string targetImage="registry.workstation.co.uk/wsl-${TARGET_STACK}" --set-string targetImageTag="${DATE_GEN_VERSION}" --namespace ${targetNs}
+else
+echo "k3s_deployment_tool is not helm, so not deploying using YAML manifests"
+# kubectl delete -f devops/kubernetes/wsldeployment.yaml
+# kubectl apply -f devops/kubernetes/wsldeployment.yaml
 fi
 
 sleep 60 # wait for 60 seconds for the k3s deployment to be ready
 kubectl get pods -A
 fi
 
-if [[ "$targetEnv" == "dev" && "$cicd_action" == "start" ]]; then
-echo "Dev env action start"
+if [[ "$targetEnv" == "dev" && "$cicd_action" == "install" ]]; then
+echo "Dev env action install"
 
 sleep 10 # wait for 10 seconds for the dev deployment to be ready
 
-echo "Waiting for services to start..."
+echo "Waiting for services to install..."
 
-curl -IL $HOST_ENDPOINT_UNSECURE_URL -H "Host: my.workstation.co.uk"
+curl -IL $HOST_ENDPOINT_UNSECURE_URL -H "Host: ${VIRTUAL_HOST}"
 os_type=$(uname -s)
 
 if [[ "$os_type" == "Darwin" ]]; then
@@ -136,8 +186,3 @@ xdg-open $HOST_ENDPOINT_UNSECURE_URL
 fi
 
 fi
-
-
-
-
-

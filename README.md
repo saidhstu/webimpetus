@@ -23,8 +23,7 @@ database and other creds name the file "env_webimpetus_myworkstation"
     root	    %	         Yes	     ALL PRIVILEGES
     ```
 
-
-5. Run the this cmd in the bash terminal - `./build_and_deploy_env_to_k3s.sh dev-{yourusername} start helm dev-wsl_webserver` where build_and_deploy_env_to_k3s.sh $1=namespace in which to deploy the webimpetus deployment, $2=start deploy the env (Note it will delete if env already exists), $3=helm use helm, $2 the local docker image name
+5. Run the this cmd in the bash terminal - `./release_manager_apache_php.sh dev dev-{yourusername} install helm  ~/.kube/k3s-config.yaml dev-wsl_webserver` where release_manager_apache_php.sh $1=env ($1 is required), $2=target namespace (optional) in which to deploy the webimpetus deployment (optional), $3=install (default install) deploy the env (Note it will delete if env already exists), $3=helm use helm, $2 the local docker image name
 
 Voila! Bob is your Uncle!!!
 
