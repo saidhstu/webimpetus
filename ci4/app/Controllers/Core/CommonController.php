@@ -321,7 +321,7 @@ class CommonController extends BaseController
 									}
 								}
 							} else {
-								$template_html .= '<div class="alert alert-danger" role="alert">' . $block_code . ' Template block is inactive or not exist!</div>';
+								$template_html .= '<div class="alert alert-danger" role="alert">' . $block_code . ' Template block is inactive or does not exist!</div>';
 							}
 						}
 					}

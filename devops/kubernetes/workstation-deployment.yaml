@@ -20,10 +20,10 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.service_name }}-bootstrap-cm-prod
+  name: {{ .Values.service_name }}-bootstrap-cm-apache2-prod
   namespace: {{ .Values.targetNS }}
 data:
-    wslbootstrap.sh: |
+    bootstrap-apache2.sh: |
         #!/bin/bash
         set -x
         echo "Workstation Bootstrap Script"
@@ -114,12 +114,12 @@ spec:
         app: wslprod
     spec:
       volumes:
-        - name: {{ .Values.service_name }}-bootstrap-cm-vol
+        - name: {{ .Values.service_name }}-bootstrap-cm-apache2-vol
           # Populate the volume with config map data
           configMap:
             # `name` here must match the name 
             # specified in the ConfigMap's YAML 
-            name: {{ .Values.service_name }}-bootstrap-cm-prod
+            name: {{ .Values.service_name }}-bootstrap-cm-apache2-prod
         - name: wslenv-vol-prod
           secret:
             secretName: wsl-secret-prod
@@ -147,12 +147,12 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/wslbootstrap.sh /usr/local/bin/wslbootstrap.sh && chmod +x /usr/local/bin/wslbootstrap.sh && sh /usr/local/bin/wslbootstrap.sh"]
+                command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/bootstrap-apache2.sh /usr/local/bin/bootstrap-apache2.sh && chmod +x /usr/local/bin/bootstrap-apache2.sh && sh /usr/local/bin/bootstrap-apache2.sh"]
           volumeMounts:
             - name: wslenv-vol-prod
               mountPath: /tmp/secrets
-              # `bootstrap` mount bash script from configmap {{ .Values.service_name }}-bootstrap-cm-prod
+              # `bootstrap` mount bash script from configmap {{ .Values.service_name }}-bootstrap-cm-apache2-prod
               # execute in the poststrat lifecycle hook
-            - name: {{ .Values.service_name }}-bootstrap-cm-vol
+            - name: {{ .Values.service_name }}-bootstrap-cm-apache2-vol
               mountPath: /tmp/configmap
               
