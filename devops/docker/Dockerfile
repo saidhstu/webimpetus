@@ -3,6 +3,8 @@ ARG TAG=latest
 #FROM registry.workstation.co.uk/openresty-php:$TAG
 FROM bwalia/openresty-php:$TAG
 
+WORKDIR /var/www/html
+
 RUN apk update && apk upgrade \
      jq
      

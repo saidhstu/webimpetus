@@ -2,6 +2,8 @@ ARG TAG=latest
 
 FROM registry.workstation.co.uk/webimpetus:$TAG
 
+WORKDIR /var/www/html
+
 RUN apt update && apt upgrade -y && apt install -y \
     curl \
     # git \
