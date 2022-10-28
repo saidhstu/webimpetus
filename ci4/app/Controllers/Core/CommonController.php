@@ -282,11 +282,13 @@ class CommonController extends BaseController
 		$template_html = "";
 		if ($templates) {
 			foreach ($templates as $template) {
+				$template_html .= $template['template_content'];
 				$block_pattern = "/<\*\-\-[A-Za-z0-9-_+*&@!()# ]+\-\-\*\>/i";
 				if (preg_match_all($block_pattern, $template['template_content'], $blocks_code)) {
 					$blocks_code = $blocks_code[0];
 					$replace_str = ['<*--', '--*>'];
 					foreach ($blocks_code as $template_content) {
+						$block_html = "";
 						$block_code = trim(str_replace($replace_str, '', $template_content));
 						if (!empty($block_code)) {
 							$blocks_list = $this->db->table('blocks_list')->where("uuid_business_id", $uuid_business_id)->where('code', $block_code)->where('status', 1)->get()->getResultArray();
@@ -298,32 +300,34 @@ class CommonController extends BaseController
 									if (strpos($block_text, 'displayTimeslipFooter();') !== false) {
 										$pdf->SetHTMLFooter($this->displayTimeslipFooter());
 										$block_text = str_replace('displayTimeslipFooter();', '', $block_text);
-										$template_html .= $block_text;
+										$block_html .= $block_text;
 									}
 
 									// Load Body Data With Dynamic Content
 									else if (strpos($block_text, 'displayTimeslipItem();') !== false) {
 										if ($this->table == 'timeslips') {
-											$template_html .= $this->displayTimeslipItem($_POST);
+											$block_html .= $this->displayTimeslipItem($_POST);
 										} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders') {
-											$template_html .= $this->displayInvoiceItem($id);
+											$block_html .= $this->displayInvoiceItem($id);
 										}
 										$block_text = str_replace('displayTimeslipItem();', '', $block_text);
-										$template_html .= $block_text;
+										$block_html .= $block_text;
 									}
 									// Load Header Data
 									else if (strpos($block_text, 'loadTimeslipData();') !== false) {
-										$template_html .= $this->loadTimeslipData();
+										$block_html .= $this->loadTimeslipData();
 										$block_text = str_replace('loadTimeslipData();', '', $block_text);
-										$template_html .= $block_text;
+										$block_html .= $block_text;
 									} else {
-										$template_html .= $this->getRecursiveHtmlFromBlock($block_text);
+										$block_html .= $this->getRecursiveHtmlFromBlock($block_text);
 									}
 								}
 							} else {
-								$template_html .= '<div class="alert alert-danger" role="alert">' . $block_code . ' Template block is inactive or does not exist!</div>';
+								$block_html .= '<div class="alert alert-danger" role="alert">' . $block_code . ' Template block is inactive or does not exist!</div>';
 							}
 						}
+
+						$template_html = str_replace($template_content, $block_html, $template_html);
 					}
 				}
 			}

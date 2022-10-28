@@ -18,7 +18,7 @@
                         </div>
                         <div class="form-group required col-md-12">
                             <label for="inputEmail4">Template Content</label>
-                            <textarea class="form-control required" id="template_content" name="template_content" placeholder="" rows="12" column="20" value=""><?= @$template->template_content ?></textarea>
+                            <textarea class="form-control required template_content" id="template_content" name="template_content" placeholder="" rows="20" column="20" value=""><?= @$template->template_content ?></textarea>
                         </div>
                         <div class="form-group required col-md-6">
                             <label for="inputEmail4">Comment</label>
@@ -39,11 +39,11 @@
                     </div>
                 </div>
                 <ul class="list-group token-list overflow-auto tokenlist">
-                    <?php foreach($blocks_lists as $row):?>
+                    <?php foreach ($blocks_lists as $row) : ?>
                         <li class="list-group-item list-group-item-action dragtoken" aria-current="true">
-                            <?= $row['code'];?>
+                            <?= $row['code']; ?>
                         </li>
-                    <?php endforeach;?>                       
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
@@ -58,6 +58,15 @@
             $(this).val(0);
         } else {
             $(this).val(1);
+        }
+    });
+    $("textarea.template_content").on("input", function() {
+        let text = $(this).val();
+        var js_start_tag = "<script>";
+        if (text.indexOf(js_start_tag) != -1) {
+            alert("You are not allowed to enter JavaScript code here!");
+            $("textarea.template_content").val(text.replace(js_start_tag, ""));
+            return false;
         }
     });
 </script>
