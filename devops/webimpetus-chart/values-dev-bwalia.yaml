@@ -7,6 +7,9 @@ service_name: wsl
 targetEnv: dev-bwalia
 targetNS: dev-bwalia
 
+architecture:
+  http_server_type: openresty   # apache2 | openresty are supported
+
 targetImage: "registry.workstation.co.uk/webimpetus"
 targetImageTag: "latest"
 
