@@ -10,6 +10,7 @@ SVC_NODEPORT=32080
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
+HTTP_SERVER_TYPE="openresty"
 TARGET_STACK="openresty_php"
 TARGET_CLUSTER="k3s-rancher-desktop"
 

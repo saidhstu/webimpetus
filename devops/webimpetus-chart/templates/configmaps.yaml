@@ -5,15 +5,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.targetEnv }}
+  name: {{ .Values.service_name }}-bootstrap-cm-apache2-{{ .Values.targetEnv }}
 #   namespace: {{ .Values.targetNS }}
 data:
-    wslbootstrap.sh: |
+    bootstrap-apache2.sh: |
         #!/bin/bash
         set -x
-        echo "Workstation Bootstrap Script"
+        echo "Workstation Apache2 Bootstrap Script"
         echo "==========================="
-
+            
         cp -r /src/* /var/www/html/
         chmod 755 -R /var/www/html/
         chown www-data:root -R /var/www/html/
@@ -55,7 +55,7 @@ data:
         # a2ensite 000-default
         # service apache2 reload
         echo "==========================="
-        echo "Workstation Bootstrap Script Completed"   
+        echo "Workstation Apache2 Bootstrap Script Completed"   
     workstation.conf: |
         <VirtualHost *:80>
             ServerAdmin webmaster@localhost
@@ -67,3 +67,57 @@ data:
                 </Directory>
         </VirtualHost>
         ServerName 127.0.0.1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.service_name }}-bootstrap-cm-openresty-{{ .Values.targetEnv }}
+#   namespace: {{ .Values.targetNS }}
+data:
+    bootstrap-openresty.sh: |
+        #!/bin/bash
+        set -x
+        echo "Workstation Nginx Bootstrap Script"
+        echo "==========================="
+            
+        cp -r /src/* /var/www/html/
+        chmod 755 -R /var/www/html/
+        chown www-data:root -R /var/www/html/
+        chmod 777 -R /var/www/html/writable/
+        chmod 777 -R /var/www/html/writable/cache/
+        chmod 777 -R /var/www/html/writable/session/
+
+        cp /tmp/secrets/.env /var/www/html/.env
+        FILE=/var/www/html/.env
+        if test -f "$FILE"; then
+            echo "$FILE exists."
+            echo "==========================="
+            echo "Workstation Bootstrap Script Copied"
+            echo "==========================="
+        fi
+            echo "Starting Workstation"
+            echo "==========================="
+            php -v
+        echo "==========================="
+        yes | composer update
+        chmod 777 -R /var/www/html/writable/
+        chmod 777 -R /var/www/html/writable/cache/
+        chmod 777 -R /var/www/html/writable/session/
+        APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
+        export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
+        DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
+        export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
+        echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> $FILE
+        echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
+        echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> $FILE
+        echo DYNAMIC_SCRIPTS_PATH=/tmp >> $FILE
+        echo "==========================="
+        echo "Copy openresty config file for Workstation"
+        cp /tmp/configmap/workstation.conf /etc/nginx/sites-enabled/workstation.conf
+        echo "==========================="
+        echo "Restart openresty nginx"
+        openresty -s reload
+        echo "==========================="
+        echo "Workstation Nginx Bootstrap Script Completed"   
+    workstation.conf: |
+        # Enter nginx config server block here later

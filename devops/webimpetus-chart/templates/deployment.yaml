@@ -43,12 +43,12 @@ spec:
         app: wsl-{{ .Values.targetEnv }}
     spec:
       volumes:
-        - name: {{ .Values.service_name }}-bootstrap-cm-vol
+        - name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.architecture.http_server_type }}-vol
           # Populate the volume with config map data
           configMap:
             # `name` here must match the name 
             # specified in the ConfigMap's YAML 
-            name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.targetEnv }}
+            name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.architecture.http_server_type }}-{{ .Values.targetEnv }}
         - name: wslenv-vol-{{ .Values.targetEnv }}
           secret:
             secretName: wsl-secret-{{ .Values.targetEnv }}
@@ -64,16 +64,17 @@ spec:
           ports:
             - containerPort: 80
           env:
+            - name: DYNAMIC_SCRIPTS_PATH
+              value: "/tmp"
+            # - name: DYNAMIC_SCRIPTS_PATH
+            #   value: "/var/www/html/writable"
+{{- if eq .Values.architecture.http_server_type "apache2" }}
             - name: "APACHE_CONFDIR"
               value: "/etc/apache2"
             - name: "APACHE_DOCUMENT_ROOT"
               value: "/var/www/html/public"
             - name: "APACHE_ENVVARS"
               value: "/etc/apache2/envvars"
-            # - name: DYNAMIC_SCRIPTS_PATH
-            #   value: "/var/www/html/writable"
-            - name: DYNAMIC_SCRIPTS_PATH
-              value: "/tmp"
             - name: APACHE_RUN_USER
               value: "www-data"
             - name: APACHE_RUN_GROUP
@@ -84,17 +85,23 @@ spec:
               value: "/var/run/apache2$SUFFIX"
             - name: APACHE_LOG_DIR
               value: "/var/log/apache2$SUFFIX"
+{{ else }}
+{{ end }}
           imagePullPolicy: Always
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/wslbootstrap.sh /usr/local/bin/wslbootstrap.sh && chmod +x /usr/local/bin/wslbootstrap.sh && sh /usr/local/bin/wslbootstrap.sh"]
+                command: ["/bin/sh", "-c", "stat -c %a /tmp && ls -la /tmp && cp /tmp/configmap/bootstrap-{{ .Values.architecture.http_server_type }}.sh /usr/local/bin/bootstrap-{{ .Values.architecture.http_server_type }}.sh && chmod +x /usr/local/bin/bootstrap-{{ .Values.architecture.http_server_type }}.sh && sh /usr/local/bin/bootstrap-{{ .Values.architecture.http_server_type }}.sh"]
           volumeMounts:
             - name: wsl-{{ .Values.targetEnv }}-vol
               mountPath: /var/www/html  
             - name: wslenv-vol-{{ .Values.targetEnv }}
               mountPath: /tmp/secrets
-              # `bootstrap` mount bash script from configmap {{ .Values.service_name }}-bootstrap-cm-{{ .Values.targetEnv }}
+              # `bootstrap` mount bash script from configmap {{ .Values.service_name }}-bootstrap-cm-{{ .Values.architecture.http_server_type }}-{{ .Values.targetEnv }}
               # execute in the poststrat lifecycle hook
-            - name: {{ .Values.service_name }}-bootstrap-cm-vol
-              mountPath: /tmp/configmap            
+            - name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.architecture.http_server_type }}-vol
+              mountPath: /tmp/configmap
+
+
+
+  
