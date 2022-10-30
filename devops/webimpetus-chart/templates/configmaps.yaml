@@ -34,6 +34,7 @@ data:
             php -v
         echo "==========================="
         yes | composer update
+        php spark migrate
         chmod 777 -R /var/www/html/writable/
         chmod 777 -R /var/www/html/writable/cache/
         chmod 777 -R /var/www/html/writable/session/
@@ -105,6 +106,7 @@ data:
         echo "Workstation Src copy to /var/www/html Complete"
         fi
         fi
+        php spark migrate
         yes | composer update
         FILE=/var/www/html/writable/
         if [ -d "$FILE" ]; then

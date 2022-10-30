@@ -1,6 +1,10 @@
 ## DEV ENV
-./build_and_deploy_env_to_k3s.sh dev-bwalia start helm dev-wsl_webserver
 
+# To start Dev environment inside k3s using openresty and php docker image run
+./release_manager_lnmp_stack.sh dev start
+
+# To start Dev environment inside k3s using apache2 and php docker image run
+./release_manager_lamp_stack.sh dev start
 
 #### Install WebImpetus Dev environment on local K3S
 
@@ -23,7 +27,7 @@ database and other creds name the file "env_webimpetus_myworkstation"
     root	    %	         Yes	     ALL PRIVILEGES
     ```
 
-5. Run the this cmd in the bash terminal - `./release_manager_apache_php.sh dev dev-{yourusername} install helm  ~/.kube/k3s-config.yaml dev-wsl_webserver` where release_manager_apache_php.sh $1=env ($1 is required), $2=target namespace (optional) in which to deploy the webimpetus deployment (optional), $3=install (default install) deploy the env (Note it will delete if env already exists), $3=helm use helm, $2 the local docker image name
+5. Run the this cmd in the bash terminal - `./release_manager_lnmp_stack.sh dev dev-{yourusername} install helm  ~/.kube/k3s-config.yaml dev-wsl_webserver` where release_manager_lnmp_stack.sh $1=env ($1 is required), $2=target namespace (optional) in which to deploy the webimpetus deployment (optional), $3=install (default install) deploy the env (Note it will delete if env already exists), $3=helm use helm, $2 the local docker image name
 
 Voila! Bob is your Uncle!!!
 
