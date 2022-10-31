@@ -5,6 +5,7 @@ $customers = getResultArray("customers");
 $users = getResultArray("users");
 $contacts = getResultArray("contacts");
 $employees = getResultArray("employees");
+$sprints = getResultArray("sprints");
 ?>
 <div class="white_card_body">
     <div class="card-body">
@@ -20,8 +21,8 @@ $employees = getResultArray("employees");
                             <option value="" selected="">--Selected--</option>
                             <?php foreach ($projects as $row) : ?>
                                 <option customer_id="<?= $row['customers_id']; ?>" value="<?= $row['id']; ?>" <?php if ($row['id'] == @$task->projects_id) {
-                                                                                                                echo "selected";
-                                                                                                            } ?>><?= $row['name']; ?></option>
+                                                                                                                    echo "selected";
+                                                                                                                } ?>><?= $row['name']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -68,23 +69,17 @@ $employees = getResultArray("employees");
                         </select>
                     </div>
 
-
-
-
-
-
-                    <div class="form-group col-md-12 ">
+                    <div class="form-group required col-md-12 ">
                         <label for="inputEmail4">Task Start Date</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" id="start_date" name="start_date" placeholder="" value="<?= render_date(@$task->start_date) ?>">
+                        <input type="text" autocomplete="off" class="form-control required datepicker" id="start_date" name="start_date" placeholder="" value="<?= render_date(@$task->start_date) ?>">
                     </div>
-                    <div class="form-group col-md-12 ">
+                    <div class="form-group required col-md-12 ">
                         <label for="inputEmail4">Task End Date</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" id="end_date" name="end_date" placeholder="" value="<?= render_date(@$task->end_date) ?>">
+                        <input type="text" autocomplete="off" class="form-control required datepicker" id="end_date" name="end_date" placeholder="" value="<?= render_date(@$task->end_date) ?>">
                     </div>
 
                 </div>
                 <div class="form-group col-md-6">
-
 
                     <div class="form-group col-md-12 ">
                         <label for="inputEmail4"> Task Estimated Hour</label>
@@ -115,9 +110,9 @@ $employees = getResultArray("employees");
                         </select>
                     </div>
 
-                    <div class="form-group  required col-md-12">
+                    <div class="form-group col-md-12">
                         <label for="inputEmail4">Assigned To </label>
-                        <select id="assigned_to" name="assigned_to" class="form-control required dashboard-dropdown">
+                        <select id="assigned_to" name="assigned_to" class="form-control dashboard-dropdown">
                             <option value="" selected="">--Selected--</option>
                             <?php foreach ($users as $row) : ?>
                                 <option value="<?= $row['id']; ?>" <?php if ($row['id'] == @$task->assigned_to) {
@@ -131,13 +126,13 @@ $employees = getResultArray("employees");
                     <div class="form-group col-md-12 ">
                         <label for="inputEmail4">Task Active</label>
                         <select name="active" id="active" class="form-control select2">
-                            <option value="1" <?php if (@$task->currency == 1) echo "active" ?>>Active</option>
-                            <option value="2" <?php if (@$task->currency == 2) echo "active" ?>>Completed</option>
+                            <option value="1" <?php if (@$task->active == 1) echo "selected" ?>>Active</option>
+                            <option value="2" <?php if (@$task->active == 2) echo "selected" ?>>Completed</option>
                         </select>
                     </div>
-                    <div class="form-group  col-md-12 ">
+                    <div class="form-group required col-md-12 ">
                         <label for="category">Category</label>
-                        <select name="category" class="form-control  dashboard-dropdown">
+                        <select name="category" class="form-control required dashboard-dropdown">
                             <option value="" selected="">--Selected--</option>
                             <option value="todo" <?= ("assigned" == @$task->category ? 'selected' : '') ?>>
                                 Todo
@@ -153,9 +148,9 @@ $employees = getResultArray("employees");
                             </option>
                         </select>
                     </div>
-                    <div class="form-group  col-md-12 ">
+                    <div class="form-group required  col-md-12 ">
                         <label for="priority">Priority</label>
-                        <select name="priority" class="form-control  dashboard-dropdown">
+                        <select name="priority" class="form-control required  dashboard-dropdown">
                             <option value="" selected="">--Selected--</option>
                             <option value="low" <?= ("low" == @$task->priority ? 'selected' : '') ?>>
                                 Low
@@ -168,11 +163,19 @@ $employees = getResultArray("employees");
                             </option>
                         </select>
                     </div>
+                    <div class="form-group  required col-md-12">
+                        <label for="sprint_id">Sprint </label>
+                        <select name="sprint_id" class="form-control required dashboard-dropdown">
+                            <option value="" selected="">--Selected--</option>
+                            <?php foreach ($sprints as $row) : ?>
+                                <option value="<?= $row['id'] ?>" <?= ($row['id'] == @$task->sprint_id ? 'selected' : '') ?>>
+                                    <?= $row['sprint_name'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                 </div>
             </div>
-
-
-
             <br>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -184,11 +187,9 @@ $employees = getResultArray("employees");
 
 <script>
     $(document).on("change", "#projects_id", function() {
-
         var customerId = $('option:selected', this).attr('customer_id');
         $("#customers_id").val(customerId);
         $("#customers_id").select2();
-        // console.log(option)
     })
     $(document).on("click", ".form-check-input", function() {
         if ($(this).prop("checked") == false) {
