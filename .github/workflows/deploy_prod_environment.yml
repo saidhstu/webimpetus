@@ -1,10 +1,9 @@
-name: "(Test) Workstation CRM Build and Deployment pipeline"
+name: "(Prod) Workstation CRM Build and Deployment pipeline"
 
 # Description: This workflow Builds and Deploys My Workstation CRM service in Docker compose
 # environments, both in test or Prod. My Workstation is a service provided using WebImpetus open source
 # software.
-# Note: Test environment run at host https://test-my.workstation.co.uk/
-# ... and Prod environment run at host https://my.workstation.co.uk/
+# Note: Prod environment run at host https://my.workstation.co.uk/
 
 on:
   push:
@@ -49,29 +48,17 @@ jobs:
       with:
         ref: main
         clean: true
-# APACHE PHP enabled this
-        # - name: Run bash script to build the docker image and deployment
-        #   run: |
-        #       chmod +x ./build_and_deploy_env_to_k3s.sh
-        #       ./build_and_deploy_env_to_k3s.sh test start
-        #   shell: bash
 
     - name: Run bash script to build the docker image and deployment
       run: |
-          chmod +x ./release_manager_openresty_php.sh
-          ./release_manager_openresty_php test test install
-      shell: bash      
-
-    # - name: Run bash script to exec commands in the recently deployed docker containers
-    #   run: |
-    #       chmod +x ./reset_containers.sh
-    #       ./reset_containers.sh test
-    #   shell: bash
-
-    # - name: Healthcheck url test-my.workstation.co.uk
+          chmod +x ./release_manager_lnmp_stack.sh
+          ./release_manager_lnmp_stack.sh prod prod install
+      shell: bash
+    # For Lamp stack use release_manager_lamp_stack.sh bash script instead of release_manager_lnmp_stack.sh
+    # - name: Healthcheck url my.workstation.co.uk
     #   uses: wei/curl@master
     #   with:
-    #     args: https://test-my.workstation.co.uk/
+    #     args: https://my.workstation.co.uk/
 
     - name: Slack Notification for Workstation CRM release 
       uses: rtCamp/action-slack-notify@v2

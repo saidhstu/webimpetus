@@ -7,6 +7,9 @@ service_name: wsl
 targetEnv: test
 targetNS: test
 
+architecture:
+  http_server_type: openresty   # apache2 | openresty are supported
+
 targetImage: "registry.workstation.co.uk/webimpetus"
 targetImageTag: "latest"
 
