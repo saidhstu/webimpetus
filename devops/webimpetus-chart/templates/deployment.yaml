@@ -101,6 +101,12 @@ spec:
               # execute in the poststrat lifecycle hook
             - name: {{ .Values.service_name }}-bootstrap-cm-{{ .Values.architecture.http_server_type }}-vol
               mountPath: /tmp/configmap
+#if kubernetes 1.24+ use the following
+#    updateStrategy:
+#    rollingUpdate:
+#      maxUnavailable: 1 # this is the new alpha field, whose default value is 1
+#      partition: 0
+#    type: RollingUpdate
 
 
 
