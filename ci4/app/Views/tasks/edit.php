@@ -137,7 +137,7 @@ $sprints = getResultArray("sprints");
                             <option value="todo" <?= ("assigned" == @$task->category ? 'selected' : '') ?>>
                                 Todo
                             </option>
-                            <option value="inprogress" <?= ("inprogress" == @$task->category ? 'selected' : '') ?>>
+                            <option value="in-progress" <?= ("inprogress" == @$task->category ? 'selected' : '') ?>>
                                 In-progress
                             </option>
                             <option value="review" <?= ("review" == @$task->category ? 'selected' : '') ?>>
