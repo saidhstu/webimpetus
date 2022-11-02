@@ -8,7 +8,6 @@
                 <div class="card-body card-body-custom" data-category="<?= $key ?>">
                     <h6 class="card-title text-uppercase text-truncate py-2"><?= $key ?></h6>
                     <div class="items add-dropzone" data-category="<?= $key ?>">
-                        <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
                         <?php if (count($values)) { ?>
                             <?php foreach ($values as $row) { ?>
                                 <div class="card draggable shadow-sm add-dropzone" data-id="<?= $row['id'] ?>" id="cd<?= $row['id'] ?>" draggable="true" ondragstart="drag(event)">
@@ -16,15 +15,15 @@
                                         <div class="card-title">
                                             <a href="<?= "/" . $tableName . "/edit/" . $row['id']; ?>" class="lead font-weight-light">TSK-<?= $row['task_id'] ?></a>
                                         </div>
-                                        <p>
-                                            <?= $row['name'] ?>
-                                        </p>
-                                        <a href="<?= "/" . $tableName . "/edit/" . $row['id']; ?>" class="btn btn-success btn-sm mt-2">View</a>
+                                        <p><?= $row['name'] ?></p>
+                                        <div class="mt-3 pl-2 text-white <?= $row['priority'] == 'high' ? 'bg-danger' : ($row['priority'] == 'medium' ? 'bg-warning' : 'bg-info') ?>"><?= ucfirst($row['priority']) ?></div>
+                                        <a href="<?= "/" . $tableName . "/edit/" . $row['id']; ?>" class="btn btn-success btn-sm mt-3">View</a>
                                     </div>
                                 </div>
                                 <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
                             <?php } ?>
                         <?php }  ?>
+                        <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
                     </div>
                 </div>
             </div>
