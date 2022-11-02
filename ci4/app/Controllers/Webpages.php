@@ -89,16 +89,16 @@ class Webpages extends CommonController
 			}
 			else if($post["type"][$i]=='YAML')
 			{
-				if(yaml_parse($post["blocks_text"][$i])===null)
-				{
-					session()->setFlashdata('message', 'YAML is not valid');
-					session()->setFlashdata('alert-class', 'alert-danger');
-					$fromWhere = "";
-					if(strlen($menuName) > 1){
-						$fromWhere = "?cat=$menuName";
-					}
-					return redirect()->to('/'.$this->table.$fromWhere);
-				}
+				// if(yaml_parse($post["blocks_text"][$i])===null)
+				// {
+				// 	session()->setFlashdata('message', 'YAML is not valid');
+				// 	session()->setFlashdata('alert-class', 'alert-danger');
+				// 	$fromWhere = "";
+				// 	if(strlen($menuName) > 1){
+				// 		$fromWhere = "?cat=$menuName";
+				// 	}
+				// 	return redirect()->to('/'.$this->table.$fromWhere);
+				// }
 			}
 			$i++;
 		}
