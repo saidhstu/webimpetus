@@ -39,4 +39,10 @@ class Tasks_model extends Model
         }
         return $builder->get()->getResultArray();
     }
+
+    public function updateData($id = null, $data = null)
+    {
+        $query = $this->db->table($this->table)->update($data, array('id' => $id));
+        return $query;
+    }
 }

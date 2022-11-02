@@ -15,6 +15,9 @@ class Kanban_board extends CommonController
         $this->taskModel = new Tasks_model();
     }
 
+    /**
+     * [POST] Display kanban board based on task category
+     */
     public function index()
     {
         $table = 'tasks';
@@ -31,21 +34,17 @@ class Kanban_board extends CommonController
             'review' => $this->taskModel->getTaskList(['category' => 'review']),
             'done' => $this->taskModel->getTaskList(['category' => 'done']),
         ];
-
-
-        // echo "<pre>";
-        // foreach ($data['tasks'] as $key => $value) {
-        //     foreach($value as $record){
-        //         print_r($record['id']);
-        //     }
-            
-        //     // if(count($value)){
-        //     //     print_r($value['id']);
-        //     // }
-            
-        // }
-        // exit;
-
         return view($viewPath, $data);
+    }
+
+    /**
+     * [POST] Update task category
+     */
+    public function update_task()
+    {
+        $task_id = $this->request->getPost('task_id');
+        $data_category = $this->request->getPost('data_category');
+        $this->taskModel->updateData($task_id, ['category' => $data_category]);
+        echo json_encode(array("status" => true, "message" => "Successfully Updated!"));
     }
 }
