@@ -10,6 +10,7 @@ $type["JSON"] = "JSON";
 $type["LIST"] = "LIST";
 $type["JSON"] = "WYSIWYG";
 $type["MARKDOWN"] = "MARKDOWN";
+$type["YAML"] = "YAML";
 
 ?>
 
@@ -206,6 +207,7 @@ $type["MARKDOWN"] = "MARKDOWN";
 										<option value="LIST" <?php if($blocks_list[$jak_i]['type'] == 'LIST')echo "selected";?>>LIST</option>
 										<option value="WYSIWYG" <?php if($blocks_list[$jak_i]['type'] == 'WYSIWYG')echo "selected";?>>WYSIWYG</option>
 										<option value="MARKDOWN" <?php if($blocks_list[$jak_i]['type'] == 'MARKDOWN')echo "selected";?>>MARKDOWN</option>
+										<option value="YAML" <?php if($blocks_list[$jak_i]['type'] == 'YAML')echo "selected";?>>YAML</option>
 										</select>
 										
 									</div>
@@ -251,6 +253,7 @@ $type["MARKDOWN"] = "MARKDOWN";
 											<option value="YAML" >YAML</option>
 											<option value="WYSIWYG" >WYSIWYG</option>
 											<option value="MARKDOWN" >MARKDOWN</option>
+											<option value="YAML">YAML</option>
 										</select>
 
 									</div>
@@ -410,6 +413,7 @@ $('.add').click(function(e){ //click event on add more fields button having clas
 				'<option value="YAML" >YAML</option>'+
 				'<option value="WYSIWYG" >WYSIWYG</option>'+
 				'<option value="MARKDOWN" >MARKDOWN	</option>'+
+				'<option value="YAML">YAML</option>' + 
 			'</select>'+
 
         '</div>'+
@@ -509,31 +513,7 @@ $(document).on('change', "#text_type", function(){
 		}
 		else if(text_type=='YAML')
 		{
-			var html = `invoice: 34843
-						date: "2001-01-23"
-						bill-to: &id001
-						given: Chris
-						family: Dumars
-						address:
-							lines: |-
-							458 Walkman Dr.
-									Suite #292
-							city: Royal Oak
-							state: MI
-							postal: 48046
-						ship-to: *id001
-						product:
-						- sku: BL394D
-						quantity: 4
-						description: Basketball
-						price: 450
-						- sku: BL4438H
-						quantity: 1
-						description: Super Hoop
-						price: 2392
-						tax: 251.420000
-						total: 4443.520000
-						comments: Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.`;
+			var html = ``;
 			current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
 		}
 		else if(text_type=='JSON')
