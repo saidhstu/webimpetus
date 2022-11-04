@@ -94,7 +94,7 @@ class Email_model extends Model
     
         if (!empty($file)) {
 
-            foreach ( $file as $filePath ) {
+            foreach ($file as $filePath) {
 
                 if (file_exists($filePath)) {
 
