@@ -6,16 +6,20 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Values.service_name }}-bootstrap-cm-apache2-{{ .Values.targetEnv }}
-#   namespace: {{ .Values.targetNS }}
 data:
     bootstrap-apache2.sh: |
         #!/bin/bash
         set -x
+        FILE=/etc/resolv.conf
+        echo "Workstation On Starting Pod Bootstrap Script"
+            # Set DNS to cloudflare Name servers for faster DNS resolution
+        echo "nameserver 1.1.1.1" >> $FILE
+        echo "nameserver 1.0.0.1" >> $FILE
+
         echo "Workstation Apache2 Bootstrap Script"
         echo "==========================="
             
         cp -r /src/* /var/www/html/
-        yes | composer update
         chmod 755 -R /var/www/html/
         chown www-data:root -R /var/www/html/
         chmod 777 -R /var/www/html/writable/
@@ -34,6 +38,11 @@ data:
             echo "==========================="
             php -v
         echo "==========================="
+        export COMPOSER_ALLOW_SUPERUSER=1
+        yes | composer update
+        chmod 777 -R /var/www/html/writable/
+        chmod 777 -R /var/www/html/writable/cache/
+        chmod 777 -R /var/www/html/writable/session/
         APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
         export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
         DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
@@ -75,17 +84,28 @@ data:
     bootstrap-openresty.sh: |
         #!/bin/bash
         set -x
+        FILE=/etc/resolv.conf
+        echo "Workstation On Starting Pod Bootstrap Script"
+            # Set DNS to cloudflare Name servers for faster DNS resolution
+        echo "nameserver 1.1.1.1" >> $FILE
+        echo "nameserver 1.0.0.1" >> $FILE
+
         echo "Workstation Nginx Bootstrap Script"
+        export COMPOSER_ALLOW_SUPERUSER=1
+        yes | composer update
         echo "==========================="
         FILE=/src/
         if [ -d "$FILE" ]; then
         FILE=/var/www/html/
         cp -r /src/* $FILE
-        yes | composer update
         if [ -d "$FILE" ]; then
         chmod 755 -R $FILE
         chown www-data:root -R $FILE
-        cp /tmp/secrets/.env $FILE.env
+        chmod 777 -R ${FILE}writable/
+        chmod 777 -R ${FILE}writable/cache/
+        chmod 777 -R ${FILE}writable/session/
+
+        cp /tmp/secrets/.env $FI    LE.env
         FILE=/var/www/html/.env
         if [ -f "$FILE" ];then
             echo "$FILE exists."
@@ -100,6 +120,7 @@ data:
         echo "Workstation Src copy to /var/www/html Complete"
         fi
         fi
+        
         FILE=/var/www/html/writable/
         if [ -d "$FILE" ]; then
             echo "$FILE exists."
