@@ -36,9 +36,8 @@
         <tr>
           <td>Consultant Email </td>
           <td><?php echo $employeeData->email; ?></td>
-          <td>Total Hours</td>
           <td> </td>
-
+          <td> </td>
         </tr>
         <tr>
 
@@ -62,7 +61,11 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($timeslips as $timeslip) { ?>
+        <?php
+        $total_hours = 0;
+        foreach ($timeslips as $timeslip) {
+          $total_hours += $timeslip["slip_hours"];
+        ?>
 
           <tr>
             <td>
@@ -95,13 +98,18 @@
             <td>
               <?= $timeslip["slip_hours"]; ?>
             </td>
-
-
-
           </tr>
-
-
         <?php } ?>
+
+        <tr>
+          <td class="blanktotal" colspan="6" rowspan="7"></td>
+          <td class="totals" style="font-weight: bold;">Total Hours</td>
+          <td class="totals" style="font-weight: bold;"><?= $total_hours ?></td>
+        </tr>
+        <tr>
+          <td class="totals" style="font-weight: bold;">Total Days</td>
+          <td class="totals" style="font-weight: bold;"><?= ($total_hours / 24) ?></td>
+        </tr>
       </tbody>
 
     </table>
