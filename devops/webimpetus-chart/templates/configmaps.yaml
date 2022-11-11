@@ -11,6 +11,7 @@ data:
         #!/bin/bash
         set -x
         FILE=/etc/resolv.conf
+        WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----
         echo "Workstation On Starting Pod Bootstrap Script"
             # Set DNS to cloudflare Name servers for faster DNS resolution
         echo "nameserver 1.1.1.1" >> $FILE
@@ -29,6 +30,13 @@ data:
         cp /tmp/secrets/.env /var/www/html/.env
         FILE=/var/www/html/.env
         if test -f "$FILE"; then
+        if grep -rnw $FILE -e $WEBIMPETUS_INFO_MARKER
+           then
+            echo "WEBIMPETUS_INFO_MARKER Found"
+        else
+            echo "WEBIMPETUS_INFO_MARKER Not Found, Adding"
+            echo $WEBIMPETUS_INFO_MARKER >> $FILE
+        fi
             echo "$FILE exists."
             echo "==========================="
             echo "Workstation Bootstrap Script Copied"
@@ -38,6 +46,7 @@ data:
             echo "==========================="
             php -v
         echo "==========================="
+        sed '/$WEBIMPETUS_INFO_MARKER/q' $FILE
         export COMPOSER_ALLOW_SUPERUSER=1
         yes | composer update
         chmod 777 -R /var/www/html/writable/
@@ -89,7 +98,15 @@ data:
             # Set DNS to cloudflare Name servers for faster DNS resolution
         echo "nameserver 1.1.1.1" >> $FILE
         echo "nameserver 1.0.0.1" >> $FILE
-        WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----        echo "Workstation Nginx Bootstrap Script"
+        if grep -rnw $FILE -e $CLOUDFLARE_DNS_1; then
+            echo "Cloudflare DNS already set"
+        else
+            echo "nameserver $CLOUDFLARE_DNS_1" >> $FILE
+            echo "nameserver $CLOUDFLARE_DNS_2" >> $FILE
+        fi
+
+        WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----
+        echo "Workstation Nginx Bootstrap Script"
         export COMPOSER_ALLOW_SUPERUSER=1
         yes | composer update
         echo "==========================="
@@ -108,11 +125,10 @@ data:
         FILE=/var/www/html/.env
         
         if [ -f "$FILE" ];then
-        WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----
         if grep -rnw $FILE -e $WEBIMPETUS_INFO_MARKER
            then
             echo "WEBIMPETUS_INFO_MARKER Found"
-            else
+        else
             echo "WEBIMPETUS_INFO_MARKER Not Found, Adding"
             echo $WEBIMPETUS_INFO_MARKER >> $FILE
         fi
