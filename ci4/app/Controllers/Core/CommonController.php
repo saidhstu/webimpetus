@@ -297,26 +297,26 @@ class CommonController extends BaseController
 									$block_text = $block['text'];
 
 									// Load Footer Data
-									if (strpos($block_text, 'displayTimeslipFooter();') !== false) {
-										$pdf->SetHTMLFooter($this->displayTimeslipFooter());
-										$block_text = str_replace('displayTimeslipFooter();', '', $block_text);
+									if (strpos($block_text, 'displayPageNumber();') !== false) {
+										$pdf->SetHTMLFooter($this->displayPageNumber());
+										$block_text = str_replace('displayPageNumber();', '', $block_text);
 										$block_html .= $block_text;
 									}
 
 									// Load Body Data With Dynamic Content
-									else if (strpos($block_text, 'displayTimeslipItem();') !== false) {
+									else if (strpos($block_text, 'displayTableItem();') !== false) {
 										if ($this->table == 'timeslips') {
 											$block_html .= $this->displayTimeslipItem($_POST);
 										} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders') {
 											$block_html .= $this->displayInvoiceItem($id);
 										}
-										$block_text = str_replace('displayTimeslipItem();', '', $block_text);
+										$block_text = str_replace('displayTableItem();', '', $block_text);
 										$block_html .= $block_text;
 									}
 									// Load Header Data
-									else if (strpos($block_text, 'loadTimeslipData();') !== false) {
-										$block_html .= $this->loadTimeslipData();
-										$block_text = str_replace('loadTimeslipData();', '', $block_text);
+									else if (strpos($block_text, 'displayPDFHeader();') !== false) {
+										$block_html .= $this->displayPDFHeader();
+										$block_text = str_replace('displayPDFHeader();', '', $block_text);
 										$block_html .= $block_text;
 									} else {
 										$block_html .= $this->getRecursiveHtmlFromBlock($block_text);
@@ -381,7 +381,7 @@ class CommonController extends BaseController
 	}
 
 
-	public function loadTimeslipData()
+	public function displayPDFHeader()
 	{
 		if ($this->table == 'timeslips') {
 			return view("timeslips/pdf_header");
@@ -391,7 +391,7 @@ class CommonController extends BaseController
 		return;
 	}
 
-	public function displayTimeslipFooter()
+	public function displayPageNumber()
 	{
 		return view("timeslips/pdf_footer");
 	}

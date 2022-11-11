@@ -140,7 +140,10 @@
       </tr>
     </tbody>
   </table> <br />
-  <div class="terms">
+
+
+
+  <!-- <div class="terms">
     <p><b>Thank you for your business.</b></p>
     <p><b>Terms of business:</b><br />
       I certify that this claim is in all respects true, correct, supportable by available documentation, and in compliance with all the terms and
@@ -235,6 +238,8 @@
   <p>Date :<?php echo date("d-m-Y", time()); ?></p>
   <p>Time :<?php echo date("h:i:sa"); ?></p>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  </body>
+   -->
 
+
+</body>
 </html>
