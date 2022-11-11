@@ -89,8 +89,7 @@ data:
             # Set DNS to cloudflare Name servers for faster DNS resolution
         echo "nameserver 1.1.1.1" >> $FILE
         echo "nameserver 1.0.0.1" >> $FILE
-
-        echo "Workstation Nginx Bootstrap Script"
+        WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----        echo "Workstation Nginx Bootstrap Script"
         export COMPOSER_ALLOW_SUPERUSER=1
         yes | composer update
         echo "==========================="
@@ -105,9 +104,18 @@ data:
         chmod 777 -R ${FILE}writable/cache/
         chmod 777 -R ${FILE}writable/session/
 
-        cp /tmp/secrets/.env $FI    LE.env
+        cp /tmp/secrets/.env $FILE.env
         FILE=/var/www/html/.env
+        
         if [ -f "$FILE" ];then
+        WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----
+        if grep -rnw $FILE -e $WEBIMPETUS_INFO_MARKER
+           then
+            echo "WEBIMPETUS_INFO_MARKER Found"
+            else
+            echo "WEBIMPETUS_INFO_MARKER Not Found, Adding"
+            echo $WEBIMPETUS_INFO_MARKER >> $FILE
+        fi
             echo "$FILE exists."
             echo "==========================="
             echo "Workstation Bootstrap Script Copied"
@@ -117,6 +125,7 @@ data:
             echo "==========================="
             php -v
         echo "==========================="
+        sed '/$WEBIMPETUS_INFO_MARKER/q' $FILE
         echo "Workstation Src copy to /var/www/html Complete"
         fi
         fi
