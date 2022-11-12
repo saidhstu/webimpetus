@@ -23,9 +23,30 @@ data:
         cp -r /src/* /var/www/html/
         chmod 755 -R /var/www/html/
         chown www-data:root -R /var/www/html/
-        chmod 777 -R /var/www/html/writable/
-        chmod 777 -R /var/www/html/writable/cache/
-        chmod 777 -R /var/www/html/writable/session/
+
+        SUB_DIR=$FILE"writable/"
+        if [ -f "$SUB_DIR" ];then
+        mkdir -p $SUB_DIR
+        chmod 777 -R ${SUB_DIR}
+        fi
+        SUB_DIR=$FILE"writable/"
+        SUB_DIR=$SUB_DIR"cache/"
+        if [ -f "$SUB_DIR" ];then
+        mkdir -p $SUB_DIR
+        chmod 777 -R ${SUB_DIR}
+        fi
+        SUB_DIR=$FILE"writable/"
+        SUB_DIR=$SUB_DIR"session/"
+        if [ -f "$SUB_DIR" ];then
+        mkdir -p $SUB_DIR
+        chmod 777 -R ${SUB_DIR}
+        fi
+        SUB_DIR=$FILE"writable/"
+        SUB_DIR=$SUB_DIR"session/"
+        if [ -f "$SUB_DIR" ];then
+        mkdir -p $SUB_DIR
+        chmod 777 -R ${SUB_DIR}/
+        fi
 
         cp /tmp/secrets/.env /var/www/html/.env
         FILE=/var/www/html/.env
@@ -117,10 +138,31 @@ data:
         if [ -d "$FILE" ]; then
         chmod 755 -R $FILE
         chown www-data:root -R $FILE
-        chmod 777 -R ${FILE}writable/
-        chmod 777 -R ${FILE}writable/cache/
-        chmod 777 -R ${FILE}writable/session/
 
+        SUB_DIR=$FILE"writable/"
+        if [ -f "$SUB_DIR" ];then
+        mkdir -p $SUB_DIR
+        chmod 777 -R ${SUB_DIR}
+        fi
+        SUB_DIR=$FILE"writable/"
+        SUB_DIR=$SUB_DIR"cache/"
+        if [ -f "$SUB_DIR" ];then
+        mkdir -p $SUB_DIR
+        chmod 777 -R ${SUB_DIR}
+        fi
+        SUB_DIR=$FILE"writable/"
+        SUB_DIR=$SUB_DIR"session/"
+        if [ -f "$SUB_DIR" ];then
+        mkdir -p $SUB_DIR
+        chmod 777 -R ${SUB_DIR}
+        fi
+        SUB_DIR=$FILE"writable/"
+        SUB_DIR=$SUB_DIR"session/"
+        if [ -f "$SUB_DIR" ];then
+        mkdir -p $SUB_DIR
+        chmod 777 -R ${SUB_DIR}/
+        fi
+        
         cp /tmp/secrets/.env $FILE.env
         FILE=/var/www/html/.env
         
