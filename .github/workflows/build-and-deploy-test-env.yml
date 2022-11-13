@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ main_but_manual ]
+    branches: [ dummy ]
   pull_request:
     branches: [ feature/test* ]
   workflow_dispatch:

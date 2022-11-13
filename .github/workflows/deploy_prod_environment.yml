@@ -7,7 +7,7 @@ name: "(Prod) Workstation CRM Build and Deployment pipeline"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dummy" ]
   pull_request:
     branches: [ "feature/main*" ]
 

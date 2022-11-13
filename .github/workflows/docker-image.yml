@@ -1,9 +1,9 @@
 # Build and Deploy WebImpetus Code Igniter 4 Docker Image
 on:
   push:
-    branches: [ mainzz ]
+    branches: [ dummy ]
   pull_request:
-    branches: [ mainzz ]
+    branches: [ dummy ]
   workflow_dispatch:
   
 name: Main image
