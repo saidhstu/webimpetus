@@ -45,7 +45,7 @@ jobs:
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: get pods
+        args: get pods -A
 
     # - uses: actions/checkout@v1
     # - name: Deploy Environment - Release
