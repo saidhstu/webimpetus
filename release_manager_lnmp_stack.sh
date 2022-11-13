@@ -131,6 +131,7 @@ echo "No need to move env files in case local dev env"
 else
 cp ${WORKSPACE_DIR}/${targetEnv}.env ${WORKSPACE_DIR}/.env
 fi
+
 cd ${WORKSPACE_DIR}/
 
 if [[ "$cicd_action" == "delete" ]]; then
