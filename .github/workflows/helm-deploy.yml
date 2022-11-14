@@ -3,7 +3,7 @@ name: WebImpetus - Deploy to Kubernetes
 
 on:
   push:
-    branches: [ devops/prod_deployment_setup ]
+    branches: [ dummy ]
 
   workflow_dispatch:
     inputs:
@@ -41,26 +41,22 @@ jobs:
     steps:
 
     - uses: actions/checkout@v1
-    # - name: Deploy Environment - Release
-    #   run: |
+    - name: Deploy Environment - Release
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
+      run: |
 
-    #     if [ $TARGET_INFRA == "aws" ]; then 
-    #       HELM_CMD=helm
-    #       KUBECTL_CMD=kubectl
-    #       VALUES=aws
-    #     else
-    #       HELM_CMD="helm"
-    #       KUBECTL_CMD="kubectl"
-    #       VALUES=namecheap
-    #     fi
-    #     $HELM_CMD upgrade --install -f devops/HealthStat_v3_Helm_Chart/values-${VALUES}-${{ env.TARGET_ENV }}.yaml healthstat-platform-${{ env.TARGET_ENV }} devops/HealthStat_v3_Helm_Chart --namespace ns-${{ env.TARGET_ENV }}
-    #     $KUBECTL_CMD rollout restart deploy/healthstat-platform-prod-healthstat-v3-chart -n ns-${{ env.TARGET_ENV }}
-    - name: Lint Helm
-      uses: WyriHaximus/github-action-helm3@v2
-      with:
-        exec: helm lint ./.helm/webimpetus/devops/webimpetus-chart/
-        #upgrade --install -f ./.helm/webimpetus/devops/webimpetus-chart/values-${targetNs}.yaml wsl-${targetNs} ./devops/webimpetus-chart --set-string targetImage="registry.workstation.co.uk/wsl-${TARGET_STACK}" --set-string targetImageTag="${DATE_GEN_VERSION}" --namespace ${targetNs}
-        kubeconfig: '${{ secrets.KUBE_CONFIG_DATA }}'
+        if [ $TARGET_INFRA == "aws" ]; then 
+          HELM_CMD=helm
+          KUBECTL_CMD=kubectl
+          VALUES=aws
+        else
+          HELM_CMD="helm"
+          KUBECTL_CMD="kubectl"
+          VALUES=namecheap
+        fi
+        $HELM_CMD upgrade --install -f devops/webimpetus-chart/values-${VALUES}-${{ env.TARGET_ENV }}.yaml wsl-${{ env.TARGET_ENV }} devops/webimpetus-chart --namespace ${{ env.TARGET_ENV }}
+        $KUBECTL_CMD rollout restart devops/webimpetus -n ${{ env.TARGET_ENV }}
 
     - uses: actions-hub/kubectl@master
       env:
