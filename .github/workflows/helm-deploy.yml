@@ -46,7 +46,7 @@ jobs:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
       run: |
 
-        if [ $TARGET_INFRA == "aws" ]; then 
+        if [ ${{ env.TARGET_INFRA }} == "aws" ]; then 
           HELM_CMD=helm
           KUBECTL_CMD=kubectl
           VALUES=aws
