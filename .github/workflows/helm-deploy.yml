@@ -3,7 +3,7 @@ name: WebImpetus - Deploy to Kubernetes
 
 on:
   push:
-    branches: [ dummy ]
+    branches: [ devops/prod_deployment_setup ]
 
   workflow_dispatch:
     inputs:
@@ -29,7 +29,6 @@ on:
 env:
   TARGET_ENV: "${{ inputs.TARGET_ENV }}"
   TARGET_INFRA: "${{ inputs.TARGET_INFRA }}"
-  HD_WDIR: /var/www/healthstat.be
   DOCKER_REGISTRY: "${{ secrets.DOCKER_REGISTRY }}"
   DOCKER_USERNAME: "${{ secrets.DOCKER_USERNAME }}"
   DOCKER_PASSWORD: "${{ secrets.DOCKER_PASSWORD }}"
@@ -41,15 +40,10 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
-    - uses: actions-hub/kubectl@master
-      env:
-        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-        args: get pods -A
-
     # - uses: actions/checkout@v1
     # - name: Deploy Environment - Release
     #   run: |
+
     #     if [ $TARGET_INFRA == "aws" ]; then 
     #       HELM_CMD=helm
     #       KUBECTL_CMD=kubectl
@@ -61,4 +55,15 @@ jobs:
     #     fi
     #     $HELM_CMD upgrade --install -f devops/HealthStat_v3_Helm_Chart/values-${VALUES}-${{ env.TARGET_ENV }}.yaml healthstat-platform-${{ env.TARGET_ENV }} devops/HealthStat_v3_Helm_Chart --namespace ns-${{ env.TARGET_ENV }}
     #     $KUBECTL_CMD rollout restart deploy/healthstat-platform-prod-healthstat-v3-chart -n ns-${{ env.TARGET_ENV }}
+    - name: Deploy
+      uses: WyriHaximus/github-action-helm3@v2
+      with:
+        exec: helm ls -A
+        #upgrade --install -f devops/webimpetus-chart/values-${targetNs}.yaml wsl-${targetNs} ./devops/webimpetus-chart --set-string targetImage="registry.workstation.co.uk/wsl-${TARGET_STACK}" --set-string targetImageTag="${DATE_GEN_VERSION}" --namespace ${targetNs}
+        kubeconfig: '${{ secrets.KUBE_CONFIG_DATA }}'
 
+    - uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        args: get pods -A
