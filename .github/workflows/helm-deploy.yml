@@ -40,7 +40,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
-    # - uses: actions/checkout@v1
+    - uses: actions/checkout@v1
     # - name: Deploy Environment - Release
     #   run: |
 
@@ -55,6 +55,12 @@ jobs:
     #     fi
     #     $HELM_CMD upgrade --install -f devops/HealthStat_v3_Helm_Chart/values-${VALUES}-${{ env.TARGET_ENV }}.yaml healthstat-platform-${{ env.TARGET_ENV }} devops/HealthStat_v3_Helm_Chart --namespace ns-${{ env.TARGET_ENV }}
     #     $KUBECTL_CMD rollout restart deploy/healthstat-platform-prod-healthstat-v3-chart -n ns-${{ env.TARGET_ENV }}
+    - name: Deploy Environment - Release
+      uses: WyriHaximus/github-action-helm3@v2
+      with:
+        exec: helm ls -A
+        #upgrade --install -f ./.helm/devops/webimpetus-chart/values-${targetNs}.yaml wsl-${targetNs} ./devops/webimpetus-chart --set-string targetImage="registry.workstation.co.uk/wsl-${TARGET_STACK}" --set-string targetImageTag="${DATE_GEN_VERSION}" --namespace ${targetNs}
+        kubeconfig: '${{ secrets.KUBE_CONFIG_DATA }}'
 
     - uses: actions-hub/kubectl@master
       env:
