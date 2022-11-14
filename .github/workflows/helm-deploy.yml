@@ -48,11 +48,11 @@ jobs:
         echo $KUBE_CONFIG > k3s.yaml
         if [ ${{ env.TARGET_INFRA }} == "aws" ]; then 
           HELM_CMD="helm --kubeconfig k3s.yaml"
-          KUBECTL_CMD=kubectl
+          KUBECTL_CMD="kubectl --kubeconfig k3s.yaml"
           VALUES=aws
         else
           HELM_CMD="helm --kubeconfig k3s.yaml"
-          KUBECTL_CMD="kubectl"
+          KUBECTL_CMD="kubectl --kubeconfig k3s.yaml"
           VALUES=namecheap
         fi
         $HELM_CMD upgrade --install -f devops/webimpetus-chart/values-prod.yaml wsl-${{ env.TARGET_ENV }} devops/webimpetus-chart --namespace ${{ env.TARGET_ENV }}
