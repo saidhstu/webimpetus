@@ -104,11 +104,11 @@
         <tr>
           <td class="blanktotal" colspan="6" rowspan="7"></td>
           <td class="totals" style="font-weight: bold;">Total Hours</td>
-          <td class="totals" style="font-weight: bold;"><?= $total_hours ?></td>
+          <td class="totals" style="font-weight: bold;"><?= number_format($total_hours, 2) ?></td>
         </tr>
         <tr>
           <td class="totals" style="font-weight: bold;">Total Days</td>
-          <td class="totals" style="font-weight: bold;"><?= ($total_hours / 24) ?></td>
+          <td class="totals" style="font-weight: bold;"><?= number_format(($total_hours / 7),2) ?></td>
         </tr>
       </tbody>
 
