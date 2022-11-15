@@ -4,7 +4,7 @@ name: Deploy Workstation CRM to Kubernetes
 
 on:
   push:
-    branches: [ main ]
+    branches: [ devops/prod_deployment_setup ]
   workflow_dispatch:
     inputs:
       TARGET_ENV:
@@ -44,7 +44,7 @@ jobs:
 
     - name: Vars
       run: |
-        echo TARGET_ENV = $TARGET_ENV
+        echo TARGET_ENV = ${{ env.TARGET_ENV }}
 
     # - name: Checkout this repo
     #   uses: actions/checkout@v3
