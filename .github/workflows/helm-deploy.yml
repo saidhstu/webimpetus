@@ -57,7 +57,7 @@ jobs:
 
     - name: Build, tag, and push image to Workstation Docker Registry
       run: |
-        docker build -f devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
+        docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
         docker tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${{ env.SHA }}
         docker push registry.workstation.co.uk/wsl-${TARGET_STACK}:${{ env.SHA }}
 
