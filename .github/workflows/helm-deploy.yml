@@ -4,7 +4,6 @@ name: WebImpetus - Deploy to Kubernetes
 on:
   push:
     branches: [ dummy ]
-
   workflow_dispatch:
     inputs:
       TARGET_ENV:
@@ -40,29 +39,41 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
-    - uses: actions/checkout@v1
-    #   env:
-    #     KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
-    #   run: |
-    #     echo ${KUBE_CONFIG} > k3s.yaml
-    #     if [ ${{ env.TARGET_INFRA }} == "aws" ]; then 
-    #       HELM_CMD="helm --kubeconfig k3s.yaml"
-    #       KUBECTL_CMD="kubectl --kubeconfig k3s.yaml"
-    #       VALUES=aws
-    #     else
-    #       HELM_CMD="helm --kubeconfig k3s.yaml"
-    #       KUBECTL_CMD="kubectl --kubeconfig k3s.yaml"
-    #       VALUES=namecheap
-    #     fi
-    #     $HELM_CMD upgrade --install -f devops/webimpetus-chart/values-prod.yaml wsl-${{ env.TARGET_ENV }} devops/webimpetus-chart --namespace ${{ env.TARGET_ENV }}
-    #     $KUBECTL_CMD rollout restart devops/webimpetus -n ${{ env.TARGET_ENV }}
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+
+    - name: short-sha
+      uses: benjlevesque/short-sha@v1.2
+      with:
+        length: 6
+
+    - run: echo $SHA
+      env:
+       SHA: ${{ steps.short-sha.outputs.sha }}
+
+    - run: echo $SHA
+      env:
+       SHA: ${{ env.SHA }}
+
+    - name: Build, tag, and push image to Workstation Docker Registry
+      run: |
+        docker build -f devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
+        docker tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${{ env.SHA }}
+        docker push registry.workstation.co.uk/wsl-${TARGET_STACK}:${{ env.SHA }}
+
     - name: Helm Deploy - Release
       uses: koslib/helm-eks-action@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        #command: helm delete tizohub
-        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}.yaml --namespace ${{ env.TARGET_ENV }}
+        #command: helm delete wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}.yaml --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }}
+
+    - uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        args: rollout restart deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
 
     - uses: actions-hub/kubectl@master
       env:
