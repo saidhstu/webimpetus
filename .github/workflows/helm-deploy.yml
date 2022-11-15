@@ -26,14 +26,14 @@ on:
           - azure
           - namecheap
 env:
-  TARGET_ENV: "${{ inputs.TARGET_ENV  || test }}"
-  TARGET_INFRA: "${{ inputs.TARGET_INFRA }}"
-  DOCKER_REGISTRY: "${{ secrets.DOCKER_REGISTRY }}"
-  DOCKER_USERNAME: "${{ secrets.DOCKER_USERNAME }}"
-  DOCKER_PASSWORD: "${{ secrets.DOCKER_PASSWORD }}"
-  IMAGE_TAG: "${{ github.ref_name }}"
-  TARGET_STACK: "openresty_php"
-  IMAGE_NAME: "webimpetus"
+  TARGET_ENV: ${{ inputs.TARGET_ENV:-"test" }}
+  TARGET_INFRA: ${{ inputs.TARGET_INFRA }}
+  DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  IMAGE_TAG: ${{ github.ref_name }}
+  TARGET_STACK: openresty_php
+  IMAGE_NAME: webimpetus
 
 jobs:
   deployment:
