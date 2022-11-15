@@ -1,16 +1,16 @@
 # .github/workflows/deploy.yml
-name: Deploy Workstation CRM to Kubernetes
+name: Auto Deploy Workstation CRM to Kubernetes
 
 on:
   push:
-    branches: [ dummy ]
+    branches: [ main ]
   workflow_dispatch:
 
 env:
   IMAGE_TAG: ${{ github.ref_name }}
   TARGET_STACK: openresty_php
   IMAGE_NAME: webimpetus
-  TARGET_ENV: prod
+  TARGET_ENV: test
 
 jobs:
   deployment:
@@ -45,7 +45,7 @@ jobs:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
         #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
-        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }}
 
     - uses: actions-hub/kubectl@master
       env:
