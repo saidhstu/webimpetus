@@ -3,7 +3,7 @@ name: Deploy Workstation CRM to Kubernetes
 
 on:
   push:
-    branches: [ devops/prod_deployment_setup ]
+    branches: [ dummy ]
   workflow_dispatch:
 
 env:
