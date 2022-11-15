@@ -60,7 +60,7 @@ jobs:
 
     - name: Init undefined variables to the default values
       run: |
-        if [ $TARGET_ENV == "" ]: then
+        if [ $TARGET_ENV == "" ]; then
         echo "TARGET_ENV=test" >> $GITHUB_ENV
 
     - name: Build, tag, and push image to Workstation Docker Registry
