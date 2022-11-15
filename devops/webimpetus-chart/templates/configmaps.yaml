@@ -140,25 +140,25 @@ data:
         chown www-data:root -R $FILE
 
         SUB_DIR=$FILE"writable/"
-        if [ -f "$SUB_DIR" ];then
+        if [ ! -d "$SUB_DIR" ];then
         mkdir -p $SUB_DIR
         chmod 777 -R ${SUB_DIR}
         fi
         SUB_DIR=$FILE"writable/"
         SUB_DIR=$SUB_DIR"cache/"
-        if [ -f "$SUB_DIR" ];then
+        if [ ! -d "$SUB_DIR" ];then
         mkdir -p $SUB_DIR
         chmod 777 -R ${SUB_DIR}
         fi
         SUB_DIR=$FILE"writable/"
         SUB_DIR=$SUB_DIR"session/"
-        if [ -f "$SUB_DIR" ];then
+        if [ ! -d "$SUB_DIR" ];then
         mkdir -p $SUB_DIR
         chmod 777 -R ${SUB_DIR}
         fi
         SUB_DIR=$FILE"writable/"
         SUB_DIR=$SUB_DIR"session/"
-        if [ -f "$SUB_DIR" ];then
+        if [ ! -d "$SUB_DIR" ];then
         mkdir -p $SUB_DIR
         chmod 777 -R ${SUB_DIR}/
         fi
