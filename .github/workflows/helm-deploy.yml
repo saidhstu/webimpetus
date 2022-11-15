@@ -1,5 +1,5 @@
 # .github/workflows/deploy.yml
-name: Workstation CRM - Helm Deploy to Kubernetes
+name: Deploy Workstation CRM to Kubernetes
 
 on:
   push:
