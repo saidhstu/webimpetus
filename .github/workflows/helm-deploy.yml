@@ -40,23 +40,30 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
-    - uses: actions/checkout@v1
-    - name: Deploy Environment - Release
+    # - uses: actions/checkout@v1
+    # - name: Deploy Environment - Release
+    #   env:
+    #     KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
+    #   run: |
+    #     echo ${KUBE_CONFIG} > k3s.yaml
+    #     if [ ${{ env.TARGET_INFRA }} == "aws" ]; then 
+    #       HELM_CMD="helm --kubeconfig k3s.yaml"
+    #       KUBECTL_CMD="kubectl --kubeconfig k3s.yaml"
+    #       VALUES=aws
+    #     else
+    #       HELM_CMD="helm --kubeconfig k3s.yaml"
+    #       KUBECTL_CMD="kubectl --kubeconfig k3s.yaml"
+    #       VALUES=namecheap
+    #     fi
+    #     $HELM_CMD upgrade --install -f devops/webimpetus-chart/values-prod.yaml wsl-${{ env.TARGET_ENV }} devops/webimpetus-chart --namespace ${{ env.TARGET_ENV }}
+    #     $KUBECTL_CMD rollout restart devops/webimpetus -n ${{ env.TARGET_ENV }}
+    - name: helm deploy
+      uses: koslib/helm-eks-action@master
       env:
-        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
-      run: |
-        echo $KUBE_CONFIG > k3s.yaml
-        if [ ${{ env.TARGET_INFRA }} == "aws" ]; then 
-          HELM_CMD="helm --kubeconfig k3s.yaml"
-          KUBECTL_CMD="kubectl --kubeconfig k3s.yaml"
-          VALUES=aws
-        else
-          HELM_CMD="helm --kubeconfig k3s.yaml"
-          KUBECTL_CMD="kubectl --kubeconfig k3s.yaml"
-          VALUES=namecheap
-        fi
-        $HELM_CMD upgrade --install -f devops/webimpetus-chart/values-prod.yaml wsl-${{ env.TARGET_ENV }} devops/webimpetus-chart --namespace ${{ env.TARGET_ENV }}
-        $KUBECTL_CMD rollout restart devops/webimpetus -n ${{ env.TARGET_ENV }}
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        #command: helm delete tizohub
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart 
 
     - uses: actions-hub/kubectl@master
       env:
