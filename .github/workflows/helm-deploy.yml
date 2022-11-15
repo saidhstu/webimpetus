@@ -57,10 +57,9 @@ jobs:
 
     - name: Build, tag, and push image to Workstation Docker Registry
       run: |
-        docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
+        docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK}
         docker tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${{ env.SHA }}
         docker push registry.workstation.co.uk/wsl-${TARGET_STACK}:${{ env.SHA }}
-
     - name: Helm Deploy - Release
       uses: koslib/helm-eks-action@master
       env:
@@ -80,3 +79,14 @@ jobs:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
         args: get pods -A
+
+    - name: Slack Notification for Workstation CRM release 
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: general
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'Post Content :rocket:'
+        SLACK_TITLE: Post Title
+        SLACK_USERNAME: rtCamp
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
