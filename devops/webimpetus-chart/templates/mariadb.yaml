@@ -19,7 +19,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: mariadb
-  name: mariadb-pv-claim
+  name: mariadb-pv-{{ .Values.targetEnv }}
 spec:
   accessModes:
   - ReadWriteOnce
@@ -69,7 +69,7 @@ spec:
       volumes:
       - name: mariadb-persistent-storage
         persistentVolumeClaim:
-          claimName: mariadb-pv-claim
+          claimName: mariadb-pv-{{ .Values.targetEnv }}
 ---
 apiVersion: v1
 kind: Service
