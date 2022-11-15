@@ -73,6 +73,7 @@ jobs:
     - name: Helm Deploy - Release
       uses: koslib/helm-eks-action@master
       env:
+        TARGET_ENV: ${{ env.TARGET_ENV }}
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
         #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
@@ -80,7 +81,7 @@ jobs:
 
     - uses: actions-hub/kubectl@master
       env:
-        # TARGET_ENV: ${{ env.TARGET_ENV }}
+        TARGET_ENV: ${{ env.TARGET_ENV }}
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
         args: rollout restart deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
