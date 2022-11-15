@@ -26,7 +26,7 @@ on:
           - azure
           - namecheap
 env:
-  TARGET_ENV: "${{ inputs.TARGET_ENV }}"
+  TARGET_ENV: "${{ inputs.TARGET_ENV || test }}"
   TARGET_INFRA: "${{ inputs.TARGET_INFRA }}"
   DOCKER_REGISTRY: "${{ secrets.DOCKER_REGISTRY }}"
   DOCKER_USERNAME: "${{ secrets.DOCKER_USERNAME }}"
