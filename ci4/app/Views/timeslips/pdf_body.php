@@ -108,7 +108,7 @@
         </tr>
         <tr>
           <td class="totals" style="font-weight: bold;">Total Days</td>
-          <td class="totals" style="font-weight: bold;"><?= number_format(($total_hours / 7),2) ?></td>
+          <td class="totals" style="font-weight: bold;"><?= number_format(($total_hours / 8),2) ?></td>
         </tr>
       </tbody>
 
