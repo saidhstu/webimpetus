@@ -1,11 +1,11 @@
 on:
   push:
-    branches: [ mainzzz ]
+    branches: [ dummy ]
   pull_request:
-    branches: [ zzzmain ]
+    branches: [ dummy ]
   workflow_dispatch:
   
-name: Main image
+name: __DO_NOT_USE__ Main image ZZZ
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"

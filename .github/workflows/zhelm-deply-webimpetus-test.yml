@@ -1,11 +1,11 @@
 on:
   push:
-    branches: [ dummy ]
+    branches: [ zzzmain ]
   pull_request:
-    branches: [ dummy ]
+    branches: [ zzzmain ]
   workflow_dispatch:
 
-name: Build and Deploy WebImpetus test using Helm chart
+name: __DO_NOT_USE__ Build and Deploy WebImpetus test using Helm
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -17,10 +17,10 @@ jobs:
     - name: Check out this repo code
       uses: actions/checkout@v2
 
-    - name: Run bash script to deploy to test server
+    - name: Run script file
       run: |
-         chmod +x ./devops/scripts/deploy_test_environment.sh
-         ./devops/scripts/deploy_test_environment.sh
+         chmod +x ./devops/scripts/fetch_env_vars.sh
+         ./devops/scripts/fetch_env_vars.sh
       shell: bash
 
     - name: short-sha

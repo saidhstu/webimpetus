@@ -1,33 +1,28 @@
+# Build and Deploy WebImpetus Code Igniter 4 Docker Image
 on:
   push:
-    branches: [ zzzmain ]
+    branches: [ dummy ]
   pull_request:
-    branches: [ zzzmain ]
+    branches: [ dummy ]
   workflow_dispatch:
-
-name: Build and Deploy WebImpetus test using Helm
+  
+name: __DO_NOT_USE__ Main image
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - name: Check out this repo code
       uses: actions/checkout@v2
 
-    - name: Run script file
-      run: |
-         chmod +x ./devops/scripts/fetch_env_vars.sh
-         ./devops/scripts/fetch_env_vars.sh
-      shell: bash
-
     - name: short-sha
       uses: benjlevesque/short-sha@v1.2
       with:
         length: 6
-
+        
       # Runs a single command using the runners shell
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -39,7 +34,7 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-
+      
     - run: echo $SHA
       env:
        SHA: ${{ steps.short-sha.outputs.sha }}
@@ -47,19 +42,19 @@ jobs:
     - run: echo $SHA
       env:
        SHA: ${{ env.SHA }}
-
+     
       # Build and push docker image to customer AWS ECR
-    - name: Build, tag, and push WebImpetus ci4 image to Amazon ECR
+    - name: Build, tag, and push image to Amazon ECR
       run: |
-        docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:${{ env.SHA }} .
-        docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus-ci4:${{ env.SHA }}
+        docker build -f devops/docker/Dockerfile -t 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }} .
+        docker push 123154119074.dkr.ecr.eu-west-2.amazonaws.com/tenthmatrix/webimpetus:${{ env.SHA }}
 
     - name: helm deploy
       uses: koslib/helm-eks-action@master
       env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG_TEST_SERVER }}
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        command: helm upgrade -i ci4baseimagetest ./devops/webimpetus --set=image.tag=${{ env.SHA }}
+        command: helm upgrade -i webimpetus-release ./devops/webimpetus -f ./devops/webimpetus/values-staging.yaml --set=image.tag=${{ env.SHA }} --set env.TENANT_KEY="${{ secrets.TENANT_KEY }}"
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
@@ -71,4 +66,5 @@ jobs:
         SLACK_TITLE: Post Title
         SLACK_USERNAME: rtCamp
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
 
