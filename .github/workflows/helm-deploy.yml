@@ -7,16 +7,18 @@ on:
     branches: [ main ]
   workflow_dispatch:
     inputs:
-      target_env:
+      TARGET_ENV:
         type: choice
         description: 'Please choose the environment'
         default: 'test'
+        required: true
         options:
           - dev
           - test
           - acc
           - prod
-      target_infra_provider:
+
+      TARGET_INFRA_PROVIDER:
         type: choice
         description: 'Please choose the environment'
         default: 'aws'
@@ -26,8 +28,8 @@ on:
           - azure
           - namecheap
 env:
-  target_env: ${{ inputs.target_env:-"test" }}
-  target_infra_provider: ${{ inputs.target_infra_provider }}
+  TARGET_ENV: ${{ inputs.TARGET_ENV }}
+  TARGET_INFRA_PROVIDER: ${{ inputs.TARGET_INFRA_PROVIDER }}
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -66,15 +68,16 @@ jobs:
       uses: koslib/helm-eks-action@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        TARGET_ENV: ${{ env.TARGET_ENV }}
       with:
-        #command: helm delete wsl-${{ env.target_env }} -n ${{ env.target_env }}
-        command: helm upgrade -i wsl-${{ env.target_env }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.target_env }}.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.target_env }}
+        #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
+        command: helm upgrade -i wsl-$TARGET_ENV ./devops/webimpetus-chart -f devops/webimpetus-chart/values-$TARGET_ENV.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace $TARGET_ENV
 
     - uses: actions-hub/kubectl@master
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: rollout restart deployment/wsl-${{ env.target_env }} -n ${{ env.target_env }}
+        args: rollout restart deployment/wsl-$TARGET_ENV -n $TARGET_ENV
 
     - uses: actions-hub/kubectl@master
       env:
