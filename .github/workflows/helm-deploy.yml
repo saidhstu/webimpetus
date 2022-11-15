@@ -1,15 +1,15 @@
 # .github/workflows/deploy.yml
-name: WebImpetus - Deploy to Kubernetes
+name: Workstation CRM - Helm Deploy to Kubernetes
 
 on:
   push:
-    branches: [ dummy ]
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       TARGET_ENV:
         type: choice
         description: 'Please choose the environment'
-        default: 'dev'
+        default: 'test'
         required: true
         options:
           - dev

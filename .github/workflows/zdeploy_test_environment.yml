@@ -1,4 +1,4 @@
-name: "(Test) Workstation CRM Build and Deployment pipeline"
+name: "__DO_NOT_USE__ (Test) Workstation CRM Build and Deployment pipeline"
 
 # Description: This workflow Builds and Deploys My Workstation CRM service in Docker compose
 # environments, both in test or Prod. My Workstation is a service provided using WebImpetus open source
