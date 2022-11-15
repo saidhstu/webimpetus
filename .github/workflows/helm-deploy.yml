@@ -40,8 +40,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
 
-    # - uses: actions/checkout@v1
-    # - name: Deploy Environment - Release
+    - uses: actions/checkout@v1
     #   env:
     #     KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
     #   run: |
@@ -57,7 +56,7 @@ jobs:
     #     fi
     #     $HELM_CMD upgrade --install -f devops/webimpetus-chart/values-prod.yaml wsl-${{ env.TARGET_ENV }} devops/webimpetus-chart --namespace ${{ env.TARGET_ENV }}
     #     $KUBECTL_CMD rollout restart devops/webimpetus -n ${{ env.TARGET_ENV }}
-    - name: helm deploy
+    - name: Helm Deploy - Release
       uses: koslib/helm-eks-action@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
