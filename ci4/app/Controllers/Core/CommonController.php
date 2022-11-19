@@ -279,10 +279,35 @@ class CommonController extends BaseController
 			$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('id', $pdf_template_id)->get()->getResultArray();
 		}
 
+		// tmp PHP file generation directory
+		$DYNAMIC_SCRIPTS_PATH = getenv('DYNAMIC_SCRIPTS_PATH');
+		if (empty($DYNAMIC_SCRIPTS_PATH)) {
+			$DYNAMIC_SCRIPTS_PATH = '/tmp';
+		}
+		$pdf_path = $DYNAMIC_SCRIPTS_PATH . '/' . $this->table;
+		if (!file_exists($pdf_path)) {
+			mkdir($pdf_path, 0755, true);
+		}
+
 		$template_html = "";
 		if ($templates) {
+			// Include all dynamic data like timeslips, sales orders etc and replace dynamic data variable with template user define variable
+			if ($this->table == 'timeslips') {
+				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getTimesheetDataVariables($_POST));
+				$template_html .= '<?php include("dynamic_variables.php"); ?>';
+			} else {
+				$template_html .= $this->displayInvoiceItem($id);
+			}
+
 			foreach ($templates as $template) {
 				$template_html .= $template['template_content'];
+
+				// Replace data variable
+				$template_html = str_replace('<*--timesheet-start-loop--*>', '<?php foreach(json_decode($dataVariables)->timeslips as $timeslip){ ?>', $template_html);
+				$template_html = str_replace('<*--timeslips#week_no--*>', '<?= $timeslip->week_no ?>', $template_html);
+				$template_html = str_replace('<*--timesheet-end-loop--*>', '<?php } ?>', $template_html);	
+
+
 				$block_pattern = "/<\*\-\-[A-Za-z0-9-_+*&@!()# ]+\-\-\*\>/i";
 				if (preg_match_all($block_pattern, $template['template_content'], $blocks_code)) {
 					$blocks_code = $blocks_code[0];
@@ -333,14 +358,6 @@ class CommonController extends BaseController
 			}
 		}
 
-		$DYNAMIC_SCRIPTS_PATH = getenv('DYNAMIC_SCRIPTS_PATH');
-		if (empty($DYNAMIC_SCRIPTS_PATH)) {
-			$DYNAMIC_SCRIPTS_PATH = '/tmp';
-		}
-		$pdf_path = $DYNAMIC_SCRIPTS_PATH . '/' . $this->table;
-		if (!file_exists($pdf_path)) {
-			mkdir($pdf_path, 0755, true);
-		}
 		file_put_contents($pdf_path . "/dynamic_body.php", $template_html);
 		ob_start();
 		include($pdf_path . "/dynamic_body.php");
@@ -394,6 +411,21 @@ class CommonController extends BaseController
 	public function displayPageNumber()
 	{
 		return view("timeslips/pdf_footer");
+	}
+
+	public function getTimesheetDataVariables($post_data)
+	{
+		$employee_id = $post_data["employee"];
+		if ($employee_id != "-1") {
+			$employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => 4))->getFirstRow();
+		} else {
+			$employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => $employee_id))->getFirstRow();
+		}
+
+		$viewArray["timeslips"] = $this->loadTimeslipItem($post_data);
+		$viewArray["employees"] = $employeeData;
+		$viewArray = "'" . json_encode($viewArray) . "'";
+		return '<?php $dataVariables =' . $viewArray . ';?>';
 	}
 
 	public function displayTimeslipItem($post_data)
