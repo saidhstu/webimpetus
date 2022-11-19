@@ -8,7 +8,7 @@
             
             <div class="form-row">
                 <div class="form-group col-md-12">
-                        <label for="inputState">Users</label>
+                        <label for="inputState">Select User</label>
                         <select id="user_id" name="user_id" class="form-control select2">                                            
                             <?php 
 
@@ -27,7 +27,7 @@
             ?>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                        <label for="inputState">All Business</label>
+                        <label for="inputState">User Access to Workspaces (Brands or Businesses etc.)</label>
                         <select id="user_business_id" name="user_business_id[]" multiple class="form-control select2">                                            
                             <?php 
                       
