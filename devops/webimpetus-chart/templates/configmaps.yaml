@@ -222,4 +222,31 @@ data:
         echo "==========================="
         echo "Workstation Nginx Bootstrap Script Completed"      
     workstation.conf: |
-        # Enter nginx config server block here later
+        # Workstation Nginx Conf workstation.conf src ConfigMap loaded by openresty
+        server {
+                listen         80 default_server;
+                {{- range .Values.ingress.hosts }}
+                server_name: {{ .host | quote }}
+                root  /var/www/html/public;
+                index          index.html  index.php;
+                location / {
+                    try_files $uri $uri/ /index.php?$args;
+                }
+                location ~ [^/]\.php(/|$) {
+                    access_log      /var/log/nginx/access.log;
+                    fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+                    if (!-f $document_root$fastcgi_script_name) {
+                    return 404;
+                }
+                fastcgi_param HTTP_PROXY "";
+                fastcgi_intercept_errors on;
+                fastcgi_index  index.php;
+                include        fastcgi_params;
+                fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+                #fastcgi_pass   unix:/var/run/php-fpm/php8-fpm.sock;
+                fastcgi_pass 127.0.0.1:9000;
+                location ~ /\. {
+                    deny all;
+                }
+                }
+        }
