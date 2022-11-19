@@ -90,7 +90,7 @@ cp -r ../webimpetus/* ${WORKSPACE_DIR}/
 fi
 
 if [[ "$targetEnv" == "dev" ]]; then
-echo "No need to load kubeconfig use default"
+echo "No need to load kubeconfig use default var KUBE_CONFIG"
 fi
 
 if [[ "$targetEnv" == "test" ]]; then
@@ -103,11 +103,15 @@ echo "Load prod env kubeconfig"
 export KUBECONFIG=~/.kube/k3s-test.yml
 fi
 
+if [[ "$targetEnv" == "dev" ]]; then
+echo "No need to load kubeconfig use default var KUBE_CONFIG"
+else
 if [[ -z "$5" ]]; then
 echo "KUBECONFIG is empty, so leaving default set KUBECONFIG to whatever it may be (default)"
 else
 echo "KUBECONFIG is provided, so setting KUBECONFIG $5"
 export KUBECONFIG=$5
+fi
 fi
 
 if [[ -z "$6" ]]; then
