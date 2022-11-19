@@ -6,7 +6,7 @@
 #   set -x
 
 SVC_HOST=localhost
-SVC_NODEPORT=32080
+SVC_NODEPORT=31178
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
