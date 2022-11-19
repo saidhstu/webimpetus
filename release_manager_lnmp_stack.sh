@@ -48,7 +48,7 @@ else
    k3s_deployment_tool=$4
 fi
 
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "dev-popos" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "int" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
 echo "The targetEnv is $targetEnv supported by this script"
 else
 echo "Oops! The targetEnv is $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
@@ -56,7 +56,7 @@ exit 1
 fi
 
 ###### Set some variables
-if [[ "$targetNs" == "dev-popos" ]]; then
+if [[ "$targetNs" == "int" ]]; then
 SVC_HOST=popos
 fi
 
@@ -77,7 +77,7 @@ fi
 export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
 
 ##### Set some variables
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "dev-popos" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "int" ]]; then
 WORKSPACE_DIR=$(pwd)
 fi
 
