@@ -6,7 +6,7 @@
 #   set -x
 
 SVC_HOST=localhost
-SVC_NODEPORT=32080
+SVC_NODEPORT=31178
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
@@ -48,7 +48,7 @@ else
    k3s_deployment_tool=$4
 fi
 
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "dev-popos" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "int" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
 echo "The targetEnv is $targetEnv supported by this script"
 else
 echo "Oops! The targetEnv is $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
@@ -56,7 +56,7 @@ exit 1
 fi
 
 ###### Set some variables
-if [[ "$targetNs" == "dev-popos" ]]; then
+if [[ "$targetNs" == "int" ]]; then
 SVC_HOST=popos
 fi
 
@@ -77,7 +77,7 @@ fi
 export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
 
 ##### Set some variables
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "dev-popos" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "int" ]]; then
 WORKSPACE_DIR=$(pwd)
 fi
 
@@ -90,7 +90,7 @@ cp -r ../webimpetus/* ${WORKSPACE_DIR}/
 fi
 
 if [[ "$targetEnv" == "dev" ]]; then
-echo "No need to load kubeconfig use default"
+echo "No need to load kubeconfig use default var KUBE_CONFIG"
 fi
 
 if [[ "$targetEnv" == "test" ]]; then
@@ -103,11 +103,15 @@ echo "Load prod env kubeconfig"
 export KUBECONFIG=~/.kube/k3s-test.yml
 fi
 
+if [[ "$targetEnv" == "dev" ]]; then
+echo "No need to load kubeconfig use default var KUBE_CONFIG"
+else
 if [[ -z "$5" ]]; then
 echo "KUBECONFIG is empty, so leaving default set KUBECONFIG to whatever it may be (default)"
 else
 echo "KUBECONFIG is provided, so setting KUBECONFIG $5"
 export KUBECONFIG=$5
+fi
 fi
 
 if [[ -z "$6" ]]; then
