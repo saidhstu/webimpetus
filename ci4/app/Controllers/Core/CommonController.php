@@ -369,6 +369,7 @@ class CommonController extends BaseController
 		$tables = ['timeslips', 'employees', 'customers', 'sales_invoices', 'sales_invoice_items', 'sales_invoice_notes'];
 		foreach ($tables as $table) {
 			$fields = $this->db->getFieldNames($table);
+			array_push($fields, 'name_of_task', 'employee_first_name', 'employee_surname');
 			foreach ($fields as $field) {
 				$template_html = str_replace('<*--' . $table . '#' . $field . '--*>', '<?= $' . substr($table, 0, -1) . '->' . $field . ' ?>', $template_html);
 			}
@@ -467,7 +468,7 @@ class CommonController extends BaseController
 
 		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year)); // hard-coded '01' for first day
 
-		$builder->select("timeslips.*, tasks.name as tasks_name, employees.first_name as employee_first_name, employees.surname as employee_surname");
+		$builder->select("timeslips.*, tasks.name as name_of_task, employees.first_name as employee_first_name, employees.surname as employee_surname");
 		$builder->join("tasks", "tasks.id = timeslips.task_name", "left");
 		$builder->join("employees", "employees.id = timeslips.employee_name", "left");
 
