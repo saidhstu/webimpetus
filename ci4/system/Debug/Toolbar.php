@@ -81,8 +81,14 @@ class Toolbar
         $data['startTime']       = $startTime;
         $data['totalTime']       = $totalTime * 1000;
         $data['totalMemory']     = number_format((memory_get_peak_usage()) / 1024 / 1024, 3);
+        if ( isset($data['totalTime']) && isset ($data['segmentDuration']) && ($data['totalTime'])>0 && ($data['segmentDuration'])>0) {
         $data['segmentDuration'] = $this->roundTo($data['totalTime'] / 7);
         $data['segmentCount']    = (int) ceil($data['totalTime'] / $data['segmentDuration']);
+        } else {
+            $data['segmentDuration'] = 0;
+            $data['segmentCount'] = 0;
+
+        }
         $data['CI_VERSION']      = CodeIgniter::CI_VERSION;
         $data['collectors']      = [];
 
