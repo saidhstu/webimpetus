@@ -73,7 +73,7 @@
             </td>
 
             <td>
-              <?= $timeslip["tasks_name"]; ?>
+              <?= $timeslip["name_of_task"]; ?>
             </td>
 
             <td>

@@ -279,10 +279,30 @@ class CommonController extends BaseController
 			$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('id', $pdf_template_id)->get()->getResultArray();
 		}
 
+		// tmp PHP file generation directory
+		$DYNAMIC_SCRIPTS_PATH = getenv('DYNAMIC_SCRIPTS_PATH');
+		if (empty($DYNAMIC_SCRIPTS_PATH)) {
+			$DYNAMIC_SCRIPTS_PATH = '/tmp';
+		}
+		$pdf_path = $DYNAMIC_SCRIPTS_PATH . '/' . $this->table;
+		if (!file_exists($pdf_path)) {
+			mkdir($pdf_path, 0755, true);
+		}
+
 		$template_html = "";
 		if ($templates) {
+			// Include all dynamic data like timeslips, sales orders etc and replace dynamic data variable with template user define variable
+			if ($this->table == 'timeslips') {
+				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getTimesheetDataVariables($_POST));
+				$template_html .= '<?php include("dynamic_variables.php"); ?>';
+			} else {
+				$template_html .= $this->displayInvoiceItem($id);
+			}
+
 			foreach ($templates as $template) {
 				$template_html .= $template['template_content'];
+				$template_html = $this->templateReplaceStr($template_html);
+
 				$block_pattern = "/<\*\-\-[A-Za-z0-9-_+*&@!()# ]+\-\-\*\>/i";
 				if (preg_match_all($block_pattern, $template['template_content'], $blocks_code)) {
 					$blocks_code = $blocks_code[0];
@@ -333,14 +353,6 @@ class CommonController extends BaseController
 			}
 		}
 
-		$DYNAMIC_SCRIPTS_PATH = getenv('DYNAMIC_SCRIPTS_PATH');
-		if (empty($DYNAMIC_SCRIPTS_PATH)) {
-			$DYNAMIC_SCRIPTS_PATH = '/tmp';
-		}
-		$pdf_path = $DYNAMIC_SCRIPTS_PATH . '/' . $this->table;
-		if (!file_exists($pdf_path)) {
-			mkdir($pdf_path, 0755, true);
-		}
 		file_put_contents($pdf_path . "/dynamic_body.php", $template_html);
 		ob_start();
 		include($pdf_path . "/dynamic_body.php");
@@ -349,6 +361,26 @@ class CommonController extends BaseController
 
 		$pdf->WriteHTML($html);
 		$pdf->Output($pdf_name_prefix . '-' . date('M-Y') . ".pdf", "D");
+	}
+
+
+	public function templateReplaceStr($template_html)
+	{
+		$tables = ['timeslips', 'employees', 'customers', 'sales_invoices', 'sales_invoice_items', 'sales_invoice_notes'];
+		foreach ($tables as $table) {
+			$fields = $this->db->getFieldNames($table);
+			array_push($fields, 'name_of_task', 'employee_first_name', 'employee_surname');
+			foreach ($fields as $field) {
+				$template_html = str_replace('<*--' . $table . '#' . $field . '--*>', '<?= $' . substr($table, 0, -1) . '->' . $field . ' ?>', $template_html);
+			}
+
+			// Replace data variable
+			$template_html = str_replace('<*--timesheet-start-loop--*>', '<?php foreach(json_decode($dataVariables)->timeslips as $timeslip){ ?>', $template_html);
+			$template_html = str_replace('<*--timesheet-end-loop--*>', '<?php } ?>', $template_html);
+			$template_html = str_replace('<*--timeslips#total#slip_hours--*>', '<?= json_decode($dataVariables)->timeslips_total_slip_hours ?>', $template_html);
+			$template_html = str_replace('<*--timeslips#total#slip_days--*>', '<?= json_decode($dataVariables)->timeslips_total_slip_days ?>', $template_html);
+		}
+		return $template_html;
 	}
 
 
@@ -396,6 +428,24 @@ class CommonController extends BaseController
 		return view("timeslips/pdf_footer");
 	}
 
+	public function getTimesheetDataVariables($post_data)
+	{
+		$employee_id = $post_data["employee"];
+		if ($employee_id != "-1") {
+			$employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => 4))->getFirstRow();
+		} else {
+			$employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => $employee_id))->getFirstRow();
+		}
+
+		$viewArray["timeslips"] = $this->loadTimeslipItem($post_data);
+		$viewArray["employees"] = $employeeData;
+		$viewArray["timeslips"] = $this->loadTimeslipItem($post_data);
+		$viewArray["timeslips_total_slip_hours"] = number_format($this->getTimeslipHours($post_data), 2);
+		$viewArray["timeslips_total_slip_days"] = number_format($viewArray["timeslips_total_slip_hours"] / 8, 2);
+		$viewArray = "'" . json_encode($viewArray) . "'";
+		return '<?php $dataVariables =' . $viewArray . ';?>';
+	}
+
 	public function displayTimeslipItem($post_data)
 	{
 		$employeeData = $this->db->table('employees')->select('*')->getWhere(array('id' => 4))->getFirstRow();
@@ -418,7 +468,7 @@ class CommonController extends BaseController
 
 		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year)); // hard-coded '01' for first day
 
-		$builder->select("timeslips.*, tasks.name as tasks_name, employees.first_name as employee_first_name, employees.surname as employee_surname");
+		$builder->select("timeslips.*, tasks.name as name_of_task, employees.first_name as employee_first_name, employees.surname as employee_surname");
 		$builder->join("tasks", "tasks.id = timeslips.task_name", "left");
 		$builder->join("employees", "employees.id = timeslips.employee_name", "left");
 
@@ -430,6 +480,28 @@ class CommonController extends BaseController
 		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
 		$records = $builder->get()->getResultArray();
 		return $records;
+	}
+
+	public function getTimeslipHours($post_data)
+	{
+		$employee_id = $post_data["employee"];
+		$requestMonth = $post_data["monthpicker"];
+		$year = $_POST["yearpicker"];
+
+		$builder = $this->db->table("timeslips");
+
+		$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
+		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
+		$builder->select("SUM(slip_hours) as total_slip_hours");
+
+		if ($employee_id != "-1") {
+			$builder->where("timeslips.employee_name", $employee_id);
+		}
+
+		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
+		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
+		$records = $builder->get()->getRowArray();
+		return $records['total_slip_hours'];
 	}
 
 	function firstDay($month = '', $year = '')
