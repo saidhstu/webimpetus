@@ -301,12 +301,7 @@ class CommonController extends BaseController
 
 			foreach ($templates as $template) {
 				$template_html .= $template['template_content'];
-
-				// Replace data variable
-				$template_html = str_replace('<*--timesheet-start-loop--*>', '<?php foreach(json_decode($dataVariables)->timeslips as $timeslip){ ?>', $template_html);
-				$template_html = str_replace('<*--timeslips#week_no--*>', '<?= $timeslip->week_no ?>', $template_html);
-				$template_html = str_replace('<*--timesheet-end-loop--*>', '<?php } ?>', $template_html);	
-
+				$template_html = $this->templateReplaceStr($template_html);
 
 				$block_pattern = "/<\*\-\-[A-Za-z0-9-_+*&@!()# ]+\-\-\*\>/i";
 				if (preg_match_all($block_pattern, $template['template_content'], $blocks_code)) {
@@ -369,6 +364,25 @@ class CommonController extends BaseController
 	}
 
 
+	public function templateReplaceStr($template_html)
+	{
+		$tables = ['timeslips', 'employees', 'customers', 'sales_invoices', 'sales_invoice_items', 'sales_invoice_notes'];
+		foreach ($tables as $table) {
+			$fields = $this->db->getFieldNames($table);
+			foreach ($fields as $field) {
+				$template_html = str_replace('<*--' . $table . '#' . $field . '--*>', '<?= $' . substr($table, 0, -1) . '->' . $field . ' ?>', $template_html);
+			}
+
+			// Replace data variable
+			$template_html = str_replace('<*--timesheet-start-loop--*>', '<?php foreach(json_decode($dataVariables)->timeslips as $timeslip){ ?>', $template_html);
+			$template_html = str_replace('<*--timesheet-end-loop--*>', '<?php } ?>', $template_html);
+			$template_html = str_replace('<*--timeslips#total#slip_hours--*>', '<?= json_decode($dataVariables)->timeslips_total_slip_hours ?>', $template_html);
+			$template_html = str_replace('<*--timeslips#total#slip_days--*>', '<?= json_decode($dataVariables)->timeslips_total_slip_days ?>', $template_html);
+		}
+		return $template_html;
+	}
+
+
 	public function getRecursiveHtmlFromBlock($block_text)
 	{
 		$uuid_business_id = $this->session->get('uuid_business');
@@ -424,6 +438,9 @@ class CommonController extends BaseController
 
 		$viewArray["timeslips"] = $this->loadTimeslipItem($post_data);
 		$viewArray["employees"] = $employeeData;
+		$viewArray["timeslips"] = $this->loadTimeslipItem($post_data);
+		$viewArray["timeslips_total_slip_hours"] = number_format($this->getTimeslipHours($post_data), 2);
+		$viewArray["timeslips_total_slip_days"] = number_format($viewArray["timeslips_total_slip_hours"] / 8, 2);
 		$viewArray = "'" . json_encode($viewArray) . "'";
 		return '<?php $dataVariables =' . $viewArray . ';?>';
 	}
@@ -462,6 +479,28 @@ class CommonController extends BaseController
 		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
 		$records = $builder->get()->getResultArray();
 		return $records;
+	}
+
+	public function getTimeslipHours($post_data)
+	{
+		$employee_id = $post_data["employee"];
+		$requestMonth = $post_data["monthpicker"];
+		$year = $_POST["yearpicker"];
+
+		$builder = $this->db->table("timeslips");
+
+		$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
+		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
+		$builder->select("SUM(slip_hours) as total_slip_hours");
+
+		if ($employee_id != "-1") {
+			$builder->where("timeslips.employee_name", $employee_id);
+		}
+
+		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
+		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
+		$records = $builder->get()->getRowArray();
+		return $records['total_slip_hours'];
 	}
 
 	function firstDay($month = '', $year = '')
