@@ -296,7 +296,8 @@ class CommonController extends BaseController
 				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getTimesheetDataVariables($_POST));
 				$template_html .= '<?php include("dynamic_variables.php"); ?>';
 			} else {
-				$template_html .= $this->displayInvoiceItem($id);
+				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getInvoiceDataVariables($id));
+				$template_html .= '<?php include("dynamic_variables.php"); ?>';
 			}
 
 			foreach ($templates as $template) {
@@ -366,7 +367,26 @@ class CommonController extends BaseController
 
 	public function templateReplaceStr($template_html)
 	{
-		$tables = ['timeslips', 'sales_invoice_items'];
+
+		// For item of array
+		$tables = [];
+		if ($this->table == 'timeslips') {
+			array_push($tables, $this->table);
+			$template_html = str_replace('<*--item-start-loop--*>', '<?php foreach(json_decode($dataVariables)->' . $this->table . ' as $' . $this->rawTblName . '){ ?>', $template_html);
+		} else {
+			$item_table = $this->rawTblName . "_items";
+			array_push($tables, $item_table);
+			$template_html = str_replace('<*--item-start-loop--*>', '<?php foreach(json_decode($dataVariables)->' . $item_table . ' as $' . substr($item_table, 0, -1) . '){ ?>', $template_html);
+		}
+		$template_html = str_replace('<*--item-end-loop--*>', '<?php } ?>', $template_html);
+
+		if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
+			$note_table = $this->rawTblName . "_notes";
+			array_push($tables, $note_table);
+			$template_html = str_replace('<*--' . $note_table . '-item-start-loop--*>', '<?php foreach(json_decode($dataVariables)->' . $note_table . ' as $' . substr($note_table, 0, -1) . '){ ?>', $template_html);
+			$template_html = str_replace('<*--' . $note_table . '-item-end-loop--*>', '<?php } ?>', $template_html);
+		}
+
 		foreach ($tables as $table) {
 			$fields = $this->db->getFieldData($table);
 			array_push($fields, 'name_of_task', 'employee_first_name', 'employee_surname');
@@ -385,7 +405,12 @@ class CommonController extends BaseController
 			}
 		}
 
-		$tables = ['employees', 'customers', 'sales_invoices', 'sales_invoice_notes'];
+
+		// For single item
+		$tables = ['employees'];
+		if ($this->table != 'timeslips') {
+			array_push($tables, $this->table);
+		}
 		foreach ($tables as $table) {
 			$fields = $this->db->getFieldData($table);
 			foreach ($fields as $field) {
@@ -403,9 +428,7 @@ class CommonController extends BaseController
 			}
 		}
 
-		// Replace data variable
-		$template_html = str_replace('<*--timesheet-start-loop--*>', '<?php foreach(json_decode($dataVariables)->timeslips as $timeslip){ ?>', $template_html);
-		$template_html = str_replace('<*--timesheet-end-loop--*>', '<?php } ?>', $template_html);
+		// Replace data variable which is define manually
 		$template_html = str_replace('<*--timeslips#total#slip_hours--*>', '<?= json_decode($dataVariables)->timeslips_total_slip_hours ?>', $template_html);
 		$template_html = str_replace('<*--timeslips#total#slip_days--*>', '<?= json_decode($dataVariables)->timeslips_total_slip_days ?>', $template_html);
 		return $template_html;
@@ -469,6 +492,21 @@ class CommonController extends BaseController
 		$viewArray["employee"] = $employeeData;
 		$viewArray["timeslips_total_slip_hours"] = number_format($this->getTimeslipHours($post_data), 2);
 		$viewArray["timeslips_total_slip_days"] = number_format($viewArray["timeslips_total_slip_hours"] / 8, 2);
+		$viewArray = "'" . json_encode($viewArray) . "'";
+		return '<?php $dataVariables =' . $viewArray . ';?>';
+	}
+
+	function getInvoiceDataVariables($id)
+	{
+		$viewArray[$this->rawTblName] = $this->getInvoiceItem($id);
+		$item_table = $this->rawTblName . "_items";
+		$viewArray[$item_table] = $this->db->table($item_table)->select('*')->where(array($this->table . '_id' => $id))->get()->getResultObject();
+
+		if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
+			$note_table = $this->rawTblName . "_notes";
+			$viewArray[$note_table] = $this->db->table($note_table)->select('*')->where(array($this->table . '_id' => $id))->get()->getResultObject();
+		}
+
 		$viewArray = "'" . json_encode($viewArray) . "'";
 		return '<?php $dataVariables =' . $viewArray . ';?>';
 	}
