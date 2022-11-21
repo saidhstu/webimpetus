@@ -4,7 +4,7 @@ mariadb:
 
 service_name: wsl
 
-targetEnv: int-popos
+targetEnv: int
 targetNS: int
 
 architecture:
