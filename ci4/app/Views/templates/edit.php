@@ -20,9 +20,25 @@
                             <label for="inputEmail4">Template Content</label>
                             <textarea class="form-control required template_content" id="template_content" name="template_content" placeholder="" rows="20" column="20" value=""><?= @$template->template_content ?></textarea>
                         </div>
-                        <div class="form-group required col-md-6">
+                        <div class="form-group required col-md-12">
                             <label for="inputEmail4">Comment</label>
                             <textarea row='40' col='40' class="form-control required" id="comment" name="comment" placeholder="" value=""><?= @$template->comment ?></textarea>
+                        </div>
+                        <div class="form-group required col-md-6">
+                            <label for="inputModule">Choose Module</label>
+                            <select name="module_name" class="form-control required">
+                                <option value="">--Choose Module--</option>
+                                <option value="sales_invoices" <?= @$template->module_name == 'sales_invoices' ? 'selected' : ''; ?>>Sales Invoices</option>
+                                <option value="purchase_invoices" <?= @$template->module_name == 'purchase_invoices' ? 'selected' : ''; ?>>Purchase Invoices</option>
+                                <option value="purchase_orders" <?= @$template->module_name == 'purchase_orders' ? 'selected' : ''; ?>>Purchase Orders</option>
+                                <option value="work_orders" <?= @$template->module_name == 'work_orders' ? 'selected' : ''; ?>>Work Orders</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputModule">Default Template</label>
+                            <div class="help-block">
+                                <input type="checkbox" name="is_default" <?= !empty(@$template->is_default) ? "checked" : ''; ?>>
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>

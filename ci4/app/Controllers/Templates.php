@@ -37,4 +37,21 @@ class Templates extends CommonController
         }
         return json_encode($data, JSON_PRETTY_PRINT);
     }
+
+
+    public function update()
+    {
+        $id = $this->request->getPost('id');
+
+        $data = $this->request->getPost();
+        $data['is_default'] = isset($data['is_default']) && $data['is_default'] == 'on' ? 1 : 0;
+
+        $response = $this->model->insertOrUpdate($id, $data);
+        if (!$response) {
+            session()->setFlashdata('message', 'Something wrong!');
+            session()->setFlashdata('alert-class', 'alert-danger');
+        }
+
+        return redirect()->to('/' . $this->table);
+    }
 }
