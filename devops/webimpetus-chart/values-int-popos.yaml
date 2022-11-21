@@ -3,8 +3,8 @@ mariadb:
   port: 30360
 
 service_name: wsl
-
-targetEnv: int-popos
+# Define Int env and namespace Int
+targetEnv: int
 targetNS: int
 
 architecture:
