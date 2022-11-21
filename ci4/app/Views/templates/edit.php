@@ -57,7 +57,7 @@
                 <ul class="list-group token-list overflow-auto tokenlist">
                     <?php foreach ($blocks_lists as $row) : ?>
                         <li class="list-group-item list-group-item-action dragtoken" aria-current="true">
-                            <?= $row['code']; ?>
+                            <a target="_blank" href="<?= site_url('blocks/edit/' . $row['id']) ?>"><?= $row['code']; ?></a>
                         </li>
                     <?php endforeach; ?>
                 </ul>
