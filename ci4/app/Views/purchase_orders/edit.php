@@ -1,7 +1,7 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
 <?php 
 $customers = getResultArray("customers", ["supplier" => 1]);
-$templates = getResultArray("templates");
+$templates = getResultArray("templates", ["module_name" => $tableName]);
 $items = getWithOutUuidResultArray("purchase_order_items", ["purchase_orders_id" => @$purchase_order->id], false);
 // $notes = getResultArray("purchase_order_notes", ["purchase_orders_id" => @$purchase_order->id], false);
 // pre($items);

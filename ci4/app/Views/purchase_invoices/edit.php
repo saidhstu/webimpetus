@@ -1,7 +1,7 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
 <?php 
 $customers = getResultArray("customers", ["supplier" => 1]);
-$templates = getResultArray("templates");
+$templates = getResultArray("templates", ["module_name" => $tableName]);
 $items = getResultArray("purchase_invoice_items", ["purchase_invoices_id" => @$purchase_invoice->id], false);
 $notes = getResultArray("purchase_invoice_notes", ["purchase_invoices_id" => @$purchase_invoice->id], false);
 

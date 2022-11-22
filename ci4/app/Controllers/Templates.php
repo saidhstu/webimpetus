@@ -46,7 +46,12 @@ class Templates extends CommonController
         $data = $this->request->getPost();
         $data['is_default'] = isset($data['is_default']) && $data['is_default'] == 'on' ? 1 : 0;
 
+        if ($data['is_default']) {
+            $this->db->table($this->table)->update(array('is_default' => 0), array('module_name' => $data['module_name']));
+        }
+
         $response = $this->model->insertOrUpdate($id, $data);
+
         if (!$response) {
             session()->setFlashdata('message', 'Something wrong!');
             session()->setFlashdata('alert-class', 'alert-danger');
