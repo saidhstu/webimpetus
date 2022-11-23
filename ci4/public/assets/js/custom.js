@@ -215,7 +215,8 @@
                 $("#ajax_load").hide();
                 $('.token-list').empty();
                 $.each(result.blocks_lists, function (i, item) {
-                    $('.token-list').append('<li class="list-group-item list-group-item-action dragtoken" aria-current="true">' + item.code + '</li>');
+                    let href = '<a href="' + baseURL + 'blocks/edit/' + item.id + '" target="_blank">' + item.code + '</a>';
+                    $('.token-list').append('<li class="list-group-item list-group-item-action dragtoken" aria-current="true">' + href + '</li>');
                 });
                 $('.dragtoken').draggable({
                     helper: 'clone'
