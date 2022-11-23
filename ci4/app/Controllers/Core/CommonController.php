@@ -275,7 +275,6 @@ class CommonController extends BaseController
 			$pdf_template_id = !empty($template) ? $template['id'] : 0;
 		}
 
-
 		//Find the template contenet and then search block by code
 
 		$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('id', $pdf_template_id)->get()->getResultArray();
@@ -375,10 +374,18 @@ class CommonController extends BaseController
 		if ($this->table == 'timeslips') {
 			array_push($tables, $this->table);
 			$template_html = str_replace('<*--item-start-loop--*>', '<?php foreach(json_decode($dataVariables)->' . $this->table . ' as $' . $this->rawTblName . '){ ?>', $template_html);
+			$template_html = str_replace('<*--timeslips#total#slip_hours--*>', '<?= @json_decode($dataVariables)->' . $this->table . '_total_slip_hours ?>', $template_html);
+			$template_html = str_replace('<*--timeslips#total#slip_days--*>', '<?= @json_decode($dataVariables)->' . $this->table . '_total_slip_days ?>', $template_html);
 		} else {
 			$item_table = $this->rawTblName . "_items";
 			array_push($tables, $item_table);
 			$template_html = str_replace('<*--item-start-loop--*>', '<?php foreach(json_decode($dataVariables)->' . $item_table . ' as $' . substr($item_table, 0, -1) . '){ ?>', $template_html);
+			$template_html = str_replace('<*--' . $item_table . '#total#hours--*>', '<?= @json_decode($dataVariables)->' . $item_table . '_total_hours ?>', $template_html);
+			$template_html = str_replace('<*--' . $item_table . '#total#days--*>', '<?= @json_decode($dataVariables)->' . $item_table . '_total_days ?>', $template_html);
+			$template_html = str_replace('<*--' . $item_table . '#total#amount--*>', '<?= @json_decode($dataVariables)->' . $item_table . '_total_amount ?>', $template_html);
+			$template_html = str_replace('<*--' . $item_table . '#total#qty--*>', '<?= @json_decode($dataVariables)->' . $item_table . '_total_qty ?>', $template_html);
+			$template_html = str_replace('<*--' . $item_table . '#total#discount--*>', '<?= @json_decode($dataVariables)->' . $item_table . '_total_discount ?>', $template_html);
+			$template_html = str_replace('<*--' . $item_table . '#total#amount_minus_discount--*>', '<?= @json_decode($dataVariables)->' . $item_table . '_total_amount_minus_discount ?>', $template_html);
 		}
 		$template_html = str_replace('<*--item-end-loop--*>', '<?php } ?>', $template_html);
 
@@ -429,10 +436,6 @@ class CommonController extends BaseController
 				}
 			}
 		}
-
-		// Replace data variable which is define manually
-		$template_html = str_replace('<*--timeslips#total#slip_hours--*>', '<?= json_decode($dataVariables)->timeslips_total_slip_hours ?>', $template_html);
-		$template_html = str_replace('<*--timeslips#total#slip_days--*>', '<?= json_decode($dataVariables)->timeslips_total_slip_days ?>', $template_html);
 		return $template_html;
 	}
 
@@ -507,6 +510,14 @@ class CommonController extends BaseController
 		if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
 			$note_table = $this->rawTblName . "_notes";
 			$viewArray[$note_table] = $this->db->table($note_table)->select('*')->where(array($this->table . '_id' => $id))->get()->getResultObject();
+			$viewArray[$item_table . '_total_hours'] = $this->db->table($item_table)->select('COALESCE(SUM(hours),0) as total_hours')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_hours;
+			$viewArray[$item_table . '_total_days'] = $viewArray[$item_table . '_total_hours'] / 8;
+			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_amount;
+		} else {
+			$viewArray[$item_table . '_total_qty'] = $this->db->table($item_table)->select('COALESCE(SUM(qty),0) as total_qty')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_qty;
+			$viewArray[$item_table . '_total_discount'] = $this->db->table($item_table)->select('COALESCE(SUM(discount),0) as total_discount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_discount;
+			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_amount;
+			$viewArray[$item_table . '_total_amount_minus_discount'] = $viewArray[$item_table . '_total_amount'] - $viewArray[$item_table . '_total_discount'];
 		}
 
 		$viewArray = "'" . json_encode($viewArray) . "'";
@@ -568,6 +579,9 @@ class CommonController extends BaseController
 		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
 		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
 		$records = $builder->get()->getRowArray();
+		if (empty($records['total_slip_hours'])) {
+			return 0;
+		}
 		return $records['total_slip_hours'];
 	}
 
