@@ -28,6 +28,7 @@
                             <label for="inputModule">Choose Module</label>
                             <select name="module_name" class="form-control required">
                                 <option value="">--Choose Module--</option>
+                                <option value="timeslips" <?= @$template->module_name == 'timeslips' ? 'selected' : ''; ?>>Timeslips</option>
                                 <option value="sales_invoices" <?= @$template->module_name == 'sales_invoices' ? 'selected' : ''; ?>>Sales Invoices</option>
                                 <option value="purchase_invoices" <?= @$template->module_name == 'purchase_invoices' ? 'selected' : ''; ?>>Purchase Invoices</option>
                                 <option value="purchase_orders" <?= @$template->module_name == 'purchase_orders' ? 'selected' : ''; ?>>Purchase Orders</option>

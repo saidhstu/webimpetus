@@ -42,7 +42,15 @@
                     </select>
                 </div>
                 </div>
+            </div>
 
+            <div class="form-group required">
+                <label>Choose Template</label>
+                <select name="template_id" class="form-control required">
+                <?php foreach(@$templates as $template){?>
+                    <option value="<?php echo $template["id"]; ?>" <?php $template["is_default"] == '1' ? 'selected': '' ?>><?php echo $template["code"];?></option>
+                    <?php } ?>
+                </select>
             </div>
 
         </div>
@@ -55,11 +63,11 @@
     </div>
 </div>
 
+
 <?php require_once (APPPATH.'Views/common/scripts.php'); ?>
 <!-- footer part -->
 <?php require_once (APPPATH.'Views/common/footer_copyright.php'); ?>
 
-</section>
    <script type="text/javascript">
     let startYear = 2000;
     let endYear = new Date().getFullYear();
@@ -75,6 +83,4 @@
         j = ('0'+i).slice(-2);
       $('#monthpicker').append($('<option />').val(j).html(j));
     }
-
-
     </script>

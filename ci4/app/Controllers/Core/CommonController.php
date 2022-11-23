@@ -225,7 +225,6 @@ class CommonController extends BaseController
 		$pdf = $mpdf->load_portait();
 		$uuid_business_id = $this->session->get('uuid_business');
 
-		$pdf_template_code = 'timeslip_export_pdf';
 		$pdf_template_id = 0;
 		$pdf_name_prefix = "workstation";
 
@@ -268,16 +267,19 @@ class CommonController extends BaseController
 		} else if ($this->table == 'timeslips') {
 			$businesses = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
 			$pdf_name_prefix = ucfirst($this->table) . '-' . $businesses['name'];
+			$pdf_template_id = $_POST["template_id"];
+		}
+
+		if (empty($pdf_template_id)) {
+			$template = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('module_name', $this->table)->where('is_default', 1)->get()->getRowArray();
+			$pdf_template_id = !empty($template) ? $template['id'] : 0;
 		}
 
 
 		//Find the template contenet and then search block by code
 
-		if ($this->table == 'timeslips') {
-			$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('code', $pdf_template_code)->get()->getResultArray();
-		} else {
-			$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('id', $pdf_template_id)->get()->getResultArray();
-		}
+		$templates = $this->db->table('templates')->where("uuid_business_id", $uuid_business_id)->where('id', $pdf_template_id)->get()->getResultArray();
+
 
 		// tmp PHP file generation directory
 		$DYNAMIC_SCRIPTS_PATH = getenv('DYNAMIC_SCRIPTS_PATH');
@@ -525,7 +527,7 @@ class CommonController extends BaseController
 	{
 		$employee_id = $post_data["employee"];
 		$requestMonth = $post_data["monthpicker"];
-		$year = $_POST["yearpicker"];
+		$year = $post_data["yearpicker"];
 
 		$builder = $this->db->table("timeslips");
 
