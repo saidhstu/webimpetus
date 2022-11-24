@@ -267,7 +267,7 @@ class CommonController extends BaseController
 		} else if ($this->table == 'timeslips') {
 			$businesses = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
 			$pdf_name_prefix = ucfirst($this->table) . '-' . $businesses['name'];
-			$pdf_template_id = $_POST["template_id"];
+			$pdf_template_id = isset($_POST["template_id"]) ? $_POST["template_id"] : 0;
 		}
 
 		if (empty($pdf_template_id)) {
@@ -396,15 +396,16 @@ class CommonController extends BaseController
 			$template_html = str_replace('<*--' . $note_table . '-item-end-loop--*>', '<?php } ?>', $template_html);
 		}
 
+		// Replace column name with variable for multi record table data
 		foreach ($tables as $table) {
 			$fields = $this->db->getFieldData($table);
 			array_push($fields, 'name_of_task', 'employee_first_name', 'employee_surname');
 			foreach ($fields as $field) {
 				if (isset($field->type)) {
-					if (in_array($field->name, ['slip_start_date']) && $field->type  == 'int') {
-						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("Y-m-d",$' . substr($table, 0, -1) . '->' . $field->name . ') ?>', $template_html);
+					if (in_array($field->name, ['slip_start_date', 'date', 'due_date', 'paid_date']) && $field->type  == 'int') {
+						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",$' . substr($table, 0, -1) . '->' . $field->name . ') ?>', $template_html);
 					} else if ($field->type  == 'datetime') {
-						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("Y-m-d",strtotime($' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
+						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",strtotime($' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
 					} else {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= $' . substr($table, 0, -1) . '->' . $field->name . ' ?>', $template_html);
 					}
@@ -424,10 +425,10 @@ class CommonController extends BaseController
 			$fields = $this->db->getFieldData($table);
 			foreach ($fields as $field) {
 				if (isset($field->type)) {
-					if (in_array($field->name, ['slip_start_date'])) {
-						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("Y-m-d",json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ') ?>', $template_html);
+					if (in_array($field->name, ['slip_start_date', 'date', 'due_date', 'paid_date'])) {
+						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ') ?>', $template_html);
 					} else if ($field->type  == 'datetime') {
-						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("Y-m-d",strtotime(json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
+						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",strtotime(json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
 					} else {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ' ?>', $template_html);
 					}
