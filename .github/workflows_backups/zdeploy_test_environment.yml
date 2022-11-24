@@ -58,10 +58,10 @@ jobs:
 
     - name: Run bash script to build the docker image and deployment
       run: |
-          chmod +x ./release_manager_lnmp_stack.sh
-          ./release_manager_lnmp_stack.sh test test install
+          chmod +x ./webimpetus_kubernetes.sh
+          ./webimpetus_kubernetes.sh test test install
       shell: bash      
-    # For Lamp stack use release_manager_lamp_stack.sh bash script instead of release_manager_lnmp_stack.sh
+    # For Lamp stack use release_manager_lamp_stack.sh bash script instead of webimpetus_kubernetes.sh
     # - name: Run bash script to exec commands in the recently deployed docker containers
     #   run: |
     #       chmod +x ./reset_containers.sh
