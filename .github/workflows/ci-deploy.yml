@@ -1,5 +1,5 @@
 # .github/workflows/deploy.yml
-name: Deploy Workstation CRM to Kubernetes
+name: DevOps CI/CD Deploy Workstation CRM to Prod Env in Kubernetes using Helm
 
 on:
   push:

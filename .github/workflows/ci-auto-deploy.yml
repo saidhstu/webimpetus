@@ -1,5 +1,5 @@
 # .github/workflows/deploy.yml
-name: Auto Deploy Workstation CRM to Kubernetes
+name: DevOps CI Auto Deploy Workstation CRM to Test Env in Kubernetes using Helm
 
 on:
   push:

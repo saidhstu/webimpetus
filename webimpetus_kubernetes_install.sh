@@ -164,9 +164,9 @@ if [[ "$cicd_action" == "install" ]]; then
 #docker rmi -f $(docker images -aq)
 #echo ${WORKSPACE_DIR}/docker-compose.yml
 
-docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
-docker tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
-docker push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
+nerdctl build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
+nerdctl tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
+nerdctl push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 
 # this deploys the image to k3s
 if [[ "$k3s_deployment_tool" == "helm" ]]; then

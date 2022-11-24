@@ -51,10 +51,10 @@ jobs:
 
     - name: Run bash script to build the docker image and deployment
       run: |
-          chmod +x ./release_manager_lnmp_stack.sh
-          ./release_manager_lnmp_stack.sh prod prod install
+          chmod +x ./webimpetus_kubernetes.sh
+          ./webimpetus_kubernetes.sh prod prod install
       shell: bash
-    # For Lamp stack use release_manager_lamp_stack.sh bash script instead of release_manager_lnmp_stack.sh
+    # For Lamp stack use release_manager_lamp_stack.sh bash script instead of webimpetus_kubernetes.sh
     # - name: Healthcheck url my.workstation.co.uk
     #   uses: wei/curl@master
     #   with:
