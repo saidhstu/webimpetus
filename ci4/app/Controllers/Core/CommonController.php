@@ -240,30 +240,6 @@ class CommonController extends BaseController
 				$pdf_template_id = $item_details->template;
 				$pdf_name_prefix .= '-' . $item_details->order_number;
 			}
-
-			$pdf->AddPage(
-				'', // L - landscape, P - portrait
-				'',
-				'',
-				'',
-				'',
-				15, // margin_left
-				15, // margin right
-				10, // margin top
-				15, // margin bottom
-				8, // margin header
-				1, // margin footer
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'A4-P'
-			);
 		} else if ($this->table == 'timeslips') {
 			$businesses = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
 			$pdf_name_prefix = ucfirst($this->table) . '-' . $businesses['name'];
@@ -303,6 +279,35 @@ class CommonController extends BaseController
 
 			foreach ($templates as $template) {
 				$template_html .= $template['template_content'];
+
+				$landscape_block = '<*--show-pdf-landscape--*>';
+				if (strpos($template_html, $landscape_block) !== false) {
+					$pdf->AddPage(
+						'',
+						'',
+						'',
+						'',
+						'',
+						15, // margin_left
+						15, // margin right
+						10, // margin top
+						15, // margin bottom
+						8, // margin header
+						1, // margin footer
+						'',
+						'',
+						'',
+						'',
+						'',
+						'',
+						'',
+						'',
+						'',
+						'A4-L' // L - landscape, P - portrait
+					);
+					$template_html = str_replace($landscape_block, '', $template_html);
+				}
+
 				$template_html = $this->templateReplaceStr($template_html);
 
 				$block_pattern = "/<\*\-\-[A-Za-z0-9-_+*&@!()# ]+\-\-\*\>/i";
@@ -396,14 +401,33 @@ class CommonController extends BaseController
 			$template_html = str_replace('<*--' . $note_table . '-item-end-loop--*>', '<?php } ?>', $template_html);
 		}
 
+
+
+
 		// Replace column name with variable for multi record table data
+		$custom_fields = [
+			'name_of_task',
+			'employee_first_name',
+			'employee_surname',
+			'subtotal',
+			(object) ['name' => 'slip_start_date_day', 'type' => 'int'],
+			(object) ['name' => 'slip_end_date_day', 'type' => 'int'],
+			(object) ['name' => 'date_day', 'type' => 'int'],
+			(object) ['name' => 'due_date_day', 'type' => 'int'],
+			(object) ['name' => 'paid_date_day', 'type' => 'int']
+		];
+
 		foreach ($tables as $table) {
 			$fields = $this->db->getFieldData($table);
-			array_push($fields, 'name_of_task', 'employee_first_name', 'employee_surname');
+			$fields = array_merge($fields, $custom_fields);
 			foreach ($fields as $field) {
 				if (isset($field->type)) {
-					if (in_array($field->name, ['slip_start_date', 'date', 'due_date', 'paid_date']) && $field->type  == 'int') {
-						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",$' . substr($table, 0, -1) . '->' . $field->name . ') ?>', $template_html);
+					if (in_array($field->name, ['slip_start_date', 'slip_end_date', 'date', 'due_date', 'paid_date', 'slip_start_date_day', 'slip_end_date_day', 'date_day', 'due_date_day', 'paid_date_day'])) {
+						if (strpos($field->name, '_day') !== false) {
+							$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("l",$' . substr($table, 0, -1) . '->' . substr($field->name, 0, -4) . ') ?>', $template_html);
+						} else {
+							$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",$' . substr($table, 0, -1) . '->' . $field->name . ') ?>', $template_html);
+						}
 					} else if ($field->type  == 'datetime') {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",strtotime($' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
 					} else {
@@ -425,9 +449,7 @@ class CommonController extends BaseController
 			$fields = $this->db->getFieldData($table);
 			foreach ($fields as $field) {
 				if (isset($field->type)) {
-					if (in_array($field->name, ['slip_start_date', 'date', 'due_date', 'paid_date'])) {
-						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ') ?>', $template_html);
-					} else if ($field->type  == 'datetime') {
+					if ($field->type  == 'datetime') {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",strtotime(json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
 					} else {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ' ?>', $template_html);
@@ -547,7 +569,7 @@ class CommonController extends BaseController
 
 		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year)); // hard-coded '01' for first day
 
-		$builder->select("timeslips.*, tasks.name as name_of_task, employees.first_name as employee_first_name, employees.surname as employee_surname");
+		$builder->select("timeslips.*,truncate((IFNULL(timeslips.slip_hours, 0) * IFNULL(timeslips.slip_rate, 0)),2) as subtotal, tasks.name as name_of_task, employees.first_name as employee_first_name, employees.surname as employee_surname");
 		$builder->join("tasks", "tasks.id = timeslips.task_name", "left");
 		$builder->join("employees", "employees.id = timeslips.employee_name", "left");
 
