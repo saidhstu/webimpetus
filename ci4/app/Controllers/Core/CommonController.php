@@ -409,6 +409,7 @@ class CommonController extends BaseController
 			'name_of_task',
 			'employee_first_name',
 			'employee_surname',
+			'subtotal',
 			(object) ['name' => 'slip_start_date_day', 'type' => 'int'],
 			(object) ['name' => 'slip_end_date_day', 'type' => 'int'],
 			(object) ['name' => 'date_day', 'type' => 'int'],
@@ -568,7 +569,7 @@ class CommonController extends BaseController
 
 		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year)); // hard-coded '01' for first day
 
-		$builder->select("timeslips.*, tasks.name as name_of_task, employees.first_name as employee_first_name, employees.surname as employee_surname");
+		$builder->select("timeslips.*,truncate((IFNULL(timeslips.slip_hours, 0) * IFNULL(timeslips.slip_rate, 0)),2) as subtotal, tasks.name as name_of_task, employees.first_name as employee_first_name, employees.surname as employee_surname");
 		$builder->join("tasks", "tasks.id = timeslips.task_name", "left");
 		$builder->join("employees", "employees.id = timeslips.employee_name", "left");
 
