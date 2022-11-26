@@ -13,6 +13,7 @@ spec:
     requests:
       storage: 1Gi
 status: {}
+
 ---
 # adminer service
 apiVersion: v1
@@ -31,9 +32,8 @@ spec:
     nodePort: 30880
   selector:
     app: adminer-{{ .Values.targetNS }}
-
-
 # phpmyadmin deployment
+
 ---
 apiVersion: apps/v1
 kind: Deployment
