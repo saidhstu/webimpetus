@@ -29,7 +29,7 @@ spec:
   - name: adminer-svc-{{ .Values.targetNS }}
     port: 8080
     targetPort: 8080
-    nodePort: 30880
+    nodePort: {{ .Values.adminer.port }}
   selector:
     app: adminer-{{ .Values.targetNS }}
 # phpmyadmin deployment

@@ -44,6 +44,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+adminer:
+  port: 30881
+
 resources: {}
 
 autoscaling:
