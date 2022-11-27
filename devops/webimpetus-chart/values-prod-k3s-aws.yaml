@@ -1,5 +1,6 @@
 service_name: wsl
 
+targetCluster: awsk3s
 targetEnv: prod
 targetNS: prod
 
