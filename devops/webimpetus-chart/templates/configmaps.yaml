@@ -77,8 +77,10 @@ data:
         export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
         DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
         export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
+        export APP_DEPLOYED_AT=$DATE_GEN_VERSION
         echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> $FILE
         echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
+        export APP_ENVIRONMENT="{{ .Values.targetEnv }}"
         echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> $FILE
         echo DYNAMIC_SCRIPTS_PATH=/tmp >> $FILE
         echo "==========================="
@@ -207,8 +209,10 @@ data:
         export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
         DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
         export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
+        export APP_DEPLOYED_AT=$DATE_GEN_VERSION
         FILE=/var/www/html/.env
         echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> $FILE
+        echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
         echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
         echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> $FILE
         echo DYNAMIC_SCRIPTS_PATH=/tmp >> $FILE

@@ -4,6 +4,7 @@ mariadb:
 
 service_name: wsl
 
+targetCluster: popos
 targetEnv: dev-popos
 targetNS: dev-popos
 

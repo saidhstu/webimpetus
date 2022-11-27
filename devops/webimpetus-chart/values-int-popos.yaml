@@ -4,6 +4,7 @@ mariadb:
 
 service_name: wsl
 # Define Int env and namespace Int
+targetCluster: popos
 targetEnv: int
 targetNS: int
 

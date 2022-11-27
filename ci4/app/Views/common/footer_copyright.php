@@ -15,12 +15,14 @@
                     }
  
                     $appReleaseNotesDocURL = getenv('APP_RELEASE_NOTES_DOC_URL') ?: "https://webimpetus.cloud/";
-                    $appEnvironment = getenv('APP_ENVIRONMENT') ?: "Production";
+                    $appEnvironment = getenv('APP_ENVIRONMENT') ?: "dev";
+                    $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s-rancher-desktop";
 
-                    if ($appEnvironment == "Production") {
-                        $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.";
+                    $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved. " . ucfirst($targetCluster) . " Cluster.";
+                    if ($appEnvironment == "prod" || $appEnvironment == "Prod") {
+                        // Do not add prod env for final production environment
                     } else {
-                        $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved. " . ucfirst($appEnvironment) . " Environment.";
+                        $webImpetusCopyRight = $webImpetusCopyRight . " " . ucfirst($appEnvironment) . " Environment.";
                     }
 
                     ?>

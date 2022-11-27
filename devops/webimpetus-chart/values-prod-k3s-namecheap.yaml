@@ -4,6 +4,7 @@ mariadb:
 
 service_name: wsl
 
+targetCluster: namecheap
 targetEnv: prod
 targetNS: prod
 
