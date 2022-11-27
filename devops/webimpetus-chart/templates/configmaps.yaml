@@ -81,6 +81,8 @@ data:
         echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> $FILE
         echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
         export APP_ENVIRONMENT="{{ .Values.targetEnv }}"
+        echo APP_TARGET_CLUSTER="{{ .Values.targetCluster }}" >> $FILE
+        export APP_TARGET_CLUSTER="{{ .Values.targetCluster }}"
         echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> $FILE
         echo DYNAMIC_SCRIPTS_PATH=/tmp >> $FILE
         echo "==========================="
@@ -213,7 +215,9 @@ data:
         FILE=/var/www/html/.env
         echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> $FILE
         echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
-        echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
+        export APP_ENVIRONMENT="{{ .Values.targetEnv }}"
+        echo APP_TARGET_CLUSTER="{{ .Values.targetCluster }}" >> $FILE
+        export APP_TARGET_CLUSTER="{{ .Values.targetCluster }}"
         echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> $FILE
         echo DYNAMIC_SCRIPTS_PATH=/tmp >> $FILE
         echo "==========================="
