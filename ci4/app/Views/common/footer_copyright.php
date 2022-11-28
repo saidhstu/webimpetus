@@ -18,7 +18,7 @@
                     $appEnvironment = getenv('APP_ENVIRONMENT') ?: "dev";
                     $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s-rancher-desktop";
 
-                    $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved. " . ucfirst($targetCluster) . " Cluster.";
+                    $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.<br />" . ucfirst($targetCluster) . " Cluster.";
                     if ($appEnvironment == "prod" || $appEnvironment == "Prod") {
                         // Do not add prod env for final production environment
                     } else {
@@ -27,7 +27,7 @@
 
                     ?>
                     <p><?php auto_copyright("2009"); ?>&nbsp;&copy;&nbsp;Workstation&nbsp;-&nbsp;Powered&nbsp;by&nbsp;<a href="https://webimpetus.cloud/"> <i class="ti-heart"></i>&nbsp;Webimpetus</a>&nbsp;<?php echo $webImpetusCopyRight; ?></p>
-                    <p><a target="_blank" href="<?php echo $appReleaseNotesDocURL; ?>"> WebImpetus <?php echo getenv('APP_DEPLOYED_AT'); ?></a>
+                    <p><a target="_blank" href="<?php echo $appReleaseNotesDocURL; ?>"> v WebImpetus <?php echo getenv('APP_DEPLOYED_AT'); ?></a>
                     </p>
                 </div>
             </div>
