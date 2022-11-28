@@ -1,12 +1,20 @@
-## DEV ENV
+# DEV ENV IN K3S OR K8S
 
-# To start Dev environment inside k3s using openresty and php docker image run
-./webimpetus_kubernetes.sh dev start
+## USING OPENRESTY PHP-FPM BASE IMAGE
 
-# To start Dev environment inside k3s using apache2 and php docker image run
-./release_manager_lamp_stack.sh dev start
+### Deploy Dev/Test/Acc/Prod environment into the k3s using openresty and php base image and webimpetus ci4 codebase as second layer docker image
 
-#### Install WebImpetus Dev environment on local K3S
+#### These steps below would Install WebImpetus Dev environment on any Kubernetes or local K3S Rancher desktop for development and deploy webimpetus Codeingniter application ready for testing or development in a pod
+
+#### These steps also build docker image using nerdctl (shipped with k3s) or docker cmd line utilities and also install latest codeigniter dependencies into using composer.
+
+#### For more information about code igniter installation please see: `https://codeigniter.com/user_guide/installation/index.html`
+
+#### For more information about code igniter installation please see: `https://codeigniter.com/user_guide/general/environments.html`
+
+### Note: This installation assumes you have mariadb or mysql cluster already and prepared and running. You can refer to official mysql operator if you want to follow the way we deploy webimpetus for our customers here: `https://github.com/mysql/mysql-operator`
+
+#### SO LET'S GET STARTED
 
 1. Clone the repository from git
 2. Create .{yourusername}-env file in you home dir or vault securely outside github workspace to define .env for creating the Image with PHP8 and Apache
@@ -27,12 +35,38 @@ database and other creds name the file "env_webimpetus_myworkstation"
     root	    %	         Yes	     ALL PRIVILEGES
     ```
 
+
+`./webimpetus_kubernetes_install.sh` dev start
+
+`but for more control over the deployment parameters you can run:`
+
+`./webimpetus_kubernetes_install.sh` dev dev install helm /etc/rancher/k3s/k3s.yaml localhost dev-wsl-webserver k3s-rancher-desktop
+
+### where bash parameters are as follows
+
+### $1 = environment name (dev)
+### $2 = target namespace in kubernetes (dev)
+### $3 = action name (install)
+### $4 = tool or cmd ref (helm)
+### $5 = kubeconfig path for the target k3s or k8s cluster (`/etc/rancher/k3s/k3s.yaml`)
+### $6 = hostname (example localhost or www.myworkstation.co.uk - for nginx ingress and the openresty server.conf)
+### $7 = docker image name (dev-wsl-webserver in this case we have dev env name optional in the image name but you can pass any name you would like your image to be named)
+### $8 = 
+### $9 = 
+### $10 = your docker registry host and reference repo urn. Note the image tag will be auto generated based on the data and time and or github if integrated with github actions
+
 5. Run the this cmd in the bash terminal - `./webimpetus_kubernetes.sh dev dev-{yourusername} install helm  ~/.kube/k3s-config.yaml dev-wsl_webserver` where webimpetus_kubernetes.sh $1=env ($1 is required), $2=target namespace (optional) in which to deploy the webimpetus deployment (optional), $3=install (default install) deploy the env (Note it will delete if env already exists), $3=helm use helm, $2 the local docker image name
 
 Voila! Bob is your Uncle!!!
 
 
-#### Install WebImpetus Dev environment on your machine using Docker compose
+
+# APACHE PHP
+# To start Dev environment inside k3s using apache2 and php docker image run
+./release_manager_lamp_stack.sh dev start
+
+
+#### Install WebImpetus Dev environment on your machine using Docker compose (If not using kubernetes then use docker compose purely for development or testing etc)
 
 1. Clone the repository from git
 2. Create .env file in you home dir or vault securely outside github workspace and add the database and other creds name the file "env_webimpetus_myworkstation"
