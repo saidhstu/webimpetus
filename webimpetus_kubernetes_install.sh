@@ -144,6 +144,14 @@ echo "TARGET_CLUSTER is provided, so setting TARGET_CLUSTER $8"
 export TARGET_CLUSTER=$8
 fi
 
+if [[ -z "$9" ]]; then
+echo "Docker build cmd is default, so leaving default set BUILD_IMAGE_APP to whatever it may be (nerdctl)"
+export BUILD_IMAGE_APP="nerdctl"
+else
+echo "BUILD_IMAGE_APP is provided, so setting BUILD_IMAGE_APP $9"
+export BUILD_IMAGE_APP=$9
+fi
+
 VALUES_FILE_PATH=values-${targetNs}.yaml
 
 if [[ "$TARGET_CLUSTER" == "k3s-rancher-desktop" ]]; then
@@ -164,9 +172,9 @@ if [[ "$cicd_action" == "install" ]]; then
 #docker rmi -f $(docker images -aq)
 #echo ${WORKSPACE_DIR}/docker-compose.yml
 
-nerdctl build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
-nerdctl tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
-nerdctl push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
+${BUILD_IMAGE_APP} build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
+${BUILD_IMAGE_APP} tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
+${BUILD_IMAGE_APP} push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 
 # this deploys the image to k3s
 if [[ "$k3s_deployment_tool" == "helm" ]]; then
