@@ -18,7 +18,7 @@
                     $appEnvironment = getenv('APP_ENVIRONMENT') ?: "dev";
                     $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s-rancher-desktop";
 
-                    $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved. " . ucfirst($targetCluster) . " Cluster.";
+                    $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.<br />" . ucfirst($targetCluster) . " Cluster.";
                     if ($appEnvironment == "prod" || $appEnvironment == "Prod") {
                         // Do not add prod env for final production environment
                     } else {
