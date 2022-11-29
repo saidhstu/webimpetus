@@ -26,6 +26,7 @@
                     }
 
                     ?>
+                    <br /><br />
                     <p><?php auto_copyright("2009"); ?>&nbsp;&copy;&nbsp;Workstation&nbsp;-&nbsp;Powered&nbsp;by&nbsp;<a href="https://webimpetus.cloud/"> <i class="ti-heart"></i>&nbsp;Webimpetus</a>&nbsp;<?php echo $webImpetusCopyRight; ?></p>
                     <p><a target="_blank" href="<?php echo $appReleaseNotesDocURL; ?>"> WebImpetus version: <?php echo getenv('APP_DEPLOYED_AT'); ?></a>
                     </p>

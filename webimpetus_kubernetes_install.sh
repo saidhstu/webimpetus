@@ -48,7 +48,7 @@ else
    k3s_deployment_tool=$4
 fi
 
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "int" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
+if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetNs" == "int" || "$targetEnv" == "test" || "$targetEnv" == "acc" || "$targetEnv" == "prod" ]]; then
 echo "The targetEnv is $targetEnv supported by this script"
 else
 echo "Oops! The targetEnv is $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
@@ -91,6 +91,11 @@ fi
 
 if [[ "$targetEnv" == "dev" ]]; then
 echo "No need to load kubeconfig use default var KUBE_CONFIG"
+fi
+
+if [[ "$targetEnv" == "acc" ]]; then
+echo "Load acc env kubeconfig"
+export KUBECONFIG=~/.kube/k3s-acc.yml
 fi
 
 if [[ "$targetEnv" == "test" ]]; then
