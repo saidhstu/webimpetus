@@ -520,7 +520,7 @@ class CommonController extends BaseController
 		$viewArray["employee"] = $employeeData;
 		$viewArray["timeslips_total_slip_hours"] = number_format($this->getTimeslipHours($post_data), 2);
 		$viewArray["timeslips_total_slip_days"] = number_format($viewArray["timeslips_total_slip_hours"] / 8, 2);
-		$viewArray = "'" . json_encode($viewArray) . "'";
+		$viewArray = "'" . json_encode($viewArray, JSON_HEX_APOS) . "'";
 		return '<?php $dataVariables =' . $viewArray . ';?>';
 	}
 
@@ -543,7 +543,7 @@ class CommonController extends BaseController
 			$viewArray[$item_table . '_total_amount_minus_discount'] = $viewArray[$item_table . '_total_amount'] - $viewArray[$item_table . '_total_discount'];
 		}
 
-		$viewArray = "'" . json_encode($viewArray) . "'";
+		$viewArray = "'" . json_encode($viewArray, JSON_HEX_APOS) . "'";
 		return '<?php $dataVariables =' . $viewArray . ';?>';
 	}
 

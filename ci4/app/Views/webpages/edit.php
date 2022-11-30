@@ -477,27 +477,27 @@ $type["YAML"] = "YAML";
 	//     })
 	// })
 
+
+
 	$(document).on('change', ".text_type", function() {
 		var current = $(this);
 		var text_type = $(this).val();
 
-		console.log(current.closest('.each-block').find('.textarea-block'));
+		let typeVal = current.closest('.each-block').find('.hidden_type_value').val();
+		let textVal = current.closest('.each-block').find('.hidden_blocks_text_value').val();
+		if (typeVal != text_type) {
+			textVal = "";
+		}
 
 		if (text_type == 'WYSIWYG') {
 			current.closest('.each-block').find('.textarea-height').addClass('myClassName');
 			//current.closest('.each-block').find('.textarea-block').html("Test Value");
-			CKEDITOR.replaceAll( 'myClassName' ); 
+			CKEDITOR.replaceAll('myClassName');
 			//CKEDITOR.instances['blockckcontent'].insertHtml( '<p>This is a new paragraph.</p>' );
 			//$( '#blockckcontent' ).ckeditor();
-			console.log(CKEDITOR.instances['editor1'].setData('your data'));
+			CKEDITOR.instances['editor1'].setData(textVal)
 		} else {
 			current.closest('.each-block').find('.textarea-block').html("");
-			let typeVal = current.closest('.each-block').find('.hidden_type_value').val();
-			let textVal = current.closest('.each-block').find('.hidden_blocks_text_value').val();
-			if (typeVal != text_type) {
-				textVal = "";
-			}
-			//textVal = "";
 			var html = '<label for="inputEmail4">' + text_type + '</label><textarea class="form-control textarea-height blocks_text" id="editor1" name="blocks_text[]" spellcheck="false">' + textVal + '</textarea>';
 			current.closest('.each-block').find('.textarea-block').html(html);
 		}
