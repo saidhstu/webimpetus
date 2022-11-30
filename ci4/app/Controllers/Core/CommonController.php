@@ -411,10 +411,7 @@ class CommonController extends BaseController
 			'employee_surname',
 			'subtotal',
 			(object) ['name' => 'slip_start_date_day', 'type' => 'int'],
-			(object) ['name' => 'slip_end_date_day', 'type' => 'int'],
-			(object) ['name' => 'date_day', 'type' => 'int'],
-			(object) ['name' => 'due_date_day', 'type' => 'int'],
-			(object) ['name' => 'paid_date_day', 'type' => 'int']
+			(object) ['name' => 'slip_end_date_day', 'type' => 'int']
 		];
 
 		foreach ($tables as $table) {
@@ -422,7 +419,7 @@ class CommonController extends BaseController
 			$fields = array_merge($fields, $custom_fields);
 			foreach ($fields as $field) {
 				if (isset($field->type)) {
-					if (in_array($field->name, ['slip_start_date', 'slip_end_date', 'date', 'due_date', 'paid_date', 'slip_start_date_day', 'slip_end_date_day', 'date_day', 'due_date_day', 'paid_date_day'])) {
+					if (in_array($field->name, ['slip_start_date', 'slip_end_date', 'slip_start_date_day', 'slip_end_date_day'])) {
 						if (strpos($field->name, '_day') !== false) {
 							$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("l",$' . substr($table, 0, -1) . '->' . substr($field->name, 0, -4) . ') ?>', $template_html);
 						} else {
@@ -449,7 +446,7 @@ class CommonController extends BaseController
 			$fields = $this->db->getFieldData($table);
 			foreach ($fields as $field) {
 				if (isset($field->type)) {
-					if ($field->type  == 'datetime') {
+					if ($field->type  == 'datetime' || in_array($field->name, ['date', 'due_date', 'paid_date'])) {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",strtotime(json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
 					} else {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ' ?>', $template_html);
