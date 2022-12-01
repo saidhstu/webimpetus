@@ -221,6 +221,7 @@ class CommonController extends BaseController
 
 	public function exportPDF($id = 0)
 	{
+		set_time_limit(60);
 		$mpdf = new \App\Libraries\Generate_Pdf();
 		$pdf = $mpdf->load_portait();
 		$uuid_business_id = $this->session->get('uuid_business');
