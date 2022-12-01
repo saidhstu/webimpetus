@@ -10,6 +10,31 @@ $type["WYSIWYG"] = "WYSIWYG";
 $type["MARKDOWN"] = "MARKDOWN";
 $type["YAML"] = "YAML";
 
+$data_type_format["TEXT"] = "Your text goes here";
+$data_type_format["JSON"] = '{ "example" : "some data in JSON format goes here"}';
+$data_type_format["LIST"] = "PHP JAVA NoteJs";
+$data_type_format["WYSIWYG"] = "Your text goes here";
+$data_type_format["MARKDOWN"] = "#### The quarterly results look great!- Revenue was off the chart.
+- Profits were higher than ever.
+
+*Everything* is going according to **plan**.";
+$data_type_format["YAML"] = "# Employee records
+- martin:
+    name: Martin D'vloper
+    job: Developer
+    skills:
+      - python
+      - perl
+      - pascal
+- tabitha:
+    name: Tabitha Bitumen
+    job: Developer
+    skills:
+      - lisp
+      - fortran
+      - erlang";
+
+
 ?>
 
 <div class="white_card_body">
@@ -29,7 +54,6 @@ $type["YAML"] = "YAML";
 							<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Pictures</a>
 							<a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Page Setup</a>
 							<a class="nav-item nav-link" id="nav-blocks-tab" data-toggle="tab" href="#nav-blocks" role="tab" aria-controls="nav-blocks" aria-selected="false">Blocks</a>
-
 						</div>
 					</nav>
 					<div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
@@ -70,8 +94,6 @@ $type["YAML"] = "YAML";
 									<textarea class="form-control" name="content" id="content"><?= @$webpage->content ?></textarea>
 								</div>
 
-
-
 								<div class="form-group col-md-12">
 									<div><label for="inputEmail4">Status</label></div>
 
@@ -80,11 +102,9 @@ $type["YAML"] = "YAML";
 									<label class=""><input for="inputEmail4" type="radio" <?= @$webpage->status == 0 ? 'checked' : '' ?> value="0" class="form-control " id="inactive" name="status" placeholder=""> Inactive </label>
 								</div>
 
-
 							</div>
-
-
 						</div>
+
 						<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 							<div class="form-row">
 
@@ -183,7 +203,7 @@ $type["YAML"] = "YAML";
 									for ($jak_i = 0; $jak_i < count($blocks_list); $jak_i++) {
 										$new_id = $jak_i + 1;
 									?>
-										<div class="form-row col-md-12 each-row each-block" style="margin-bottom:30px;" id="  office_address_<?php echo $new_id; ?>">
+										<div class="form-row col-md-12 each-row each-block" style="margin-bottom:30px;" id="office_address_<?php echo $new_id; ?>">
 											<div class="form-group col-md-6">
 												<label for="inputEmail4">Code</label>
 												<input autocomplete="off" type="text" class="form-control blocks_code" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?= $blocks_list[$jak_i]['code'] ?>"><br>
@@ -209,7 +229,7 @@ $type["YAML"] = "YAML";
 											<input type="hidden" class="hidden_blocks_text_value" value="<?= $blocks_list[$jak_i]['text'] ?>">
 
 											<div class="form-group col-md-5 textarea-block">
-												<label for="inputEmail4"><?php echo @$type[$blocks_list[$jak_i]['type']]; ?></label>
+												<label class="textarea_label" for="inputEmail4"><?php echo @$type[$blocks_list[$jak_i]['type']]; ?></label>
 
 												<textarea class="form-control blocks_text <?php if ($blocks_list[$jak_i]['type'] == 'WYSIWYG') {
 																								echo "myClassName";
@@ -220,7 +240,9 @@ $type["YAML"] = "YAML";
 											<input type="hidden" value="<?= $blocks_list[$jak_i]['id'] ?>" id="blocks_id" name="blocks_id[]">
 
 											<div class="form-group col-md-1 change">
-												<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
+												<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;margin-bottom:10px;">-</button>
+												<br>
+												<a href="#" class="tooltip-class" style="margin-left: 23px;" data-toggle="tooltip" title="<?= @$data_type_format[$blocks_list[$jak_i]['type']]; ?>"><i class="fa fa-info-circle"></i></a>
 											</div>
 										</div>
 									<?php
@@ -255,7 +277,7 @@ $type["YAML"] = "YAML";
 										</select>
 									</div>
 									<div class="form-group col-md-5 textarea-section">
-										<label for="inputEmail4">Text</label>
+										<label class="textarea_label" for="inputEmail4">Text</label>
 										<div class=" textarea-block">
 											<textarea class="form-control textarea-height blocks_text" id="ck-content" name="blocks_text[]"></textarea>
 										</div>
@@ -384,17 +406,19 @@ $type["YAML"] = "YAML";
 <script>
 	$(document).ready(function() {
 
+		$('[data-toggle="tooltip"]').tooltip();
+
 		var max_fields_limit = 10; //set limit for maximum input fields
-		var x = $('#total_contacts').val(); //initialize counter for text box
+		total_blocks = parseInt($('#total_blocks').val()); //initialize counter for text box
+
 		$('.add').click(function(e) { //click event on add more fields button having class add_more_button
 
-
-			$('.addresscontainer').append('<div class="form-row col-md-12 each-block" style="margin-bottom:30px;" id="office_address_' + x + '"><div class="form-group col-md-6">' +
+			$('.addresscontainer').append('<div class="form-row col-md-12 each-block" style="margin-bottom:30px;" id="office_address_' + total_blocks + '"><div class="form-group col-md-6">' +
 				'<label for="inputSecretKey">Code</label>' +
-				'<input type="text" class="form-control blocks_code" id="blocks_code' + x + '" name="blocks_code[]" placeholder="" value=""><br>' +
+				'<input type="text" class="form-control blocks_code" id="blocks_code' + total_blocks + '" name="blocks_code[]" placeholder="" value=""><br>' +
 
 				'<label for="inputSecretValue">Title</label>' +
-				'<input type="text" class="form-control" id="blocks_title' + x + '" name="blocks_title[]" placeholder="" value=""><br>' +
+				'<input type="text" class="form-control" id="blocks_title' + total_blocks + '" name="blocks_title[]" placeholder="" value=""><br>' +
 				'<label for="inputEmail4">Sort</label>' +
 				'<input autocomplete="off" type="number" class="form-control"  name="sort[]" placeholder="" value="">' +
 
@@ -403,7 +427,6 @@ $type["YAML"] = "YAML";
 				'<option value="TEXT">TEXT</option>' +
 				'<option value="JSON">JSON</option>' +
 				'<option value="LIST" >LIST</option>' +
-				'<option value="YAML" >YAML</option>' +
 				'<option value="WYSIWYG" >WYSIWYG</option>' +
 				'<option value="MARKDOWN" >MARKDOWN	</option>' +
 				'<option value="YAML">YAML</option>' +
@@ -411,25 +434,28 @@ $type["YAML"] = "YAML";
 
 				'</div>' +
 				'<div class="form-group col-md-5 textarea-block">' +
-				'<label for="inputSecretValue">Text</label>' +
-				'<textarea class="form-control textarea-height blocks_text" id="blocks_text' + x + '" name="blocks_text[]" placeholder="" value="" ></textarea> ' +
+				'<label class="textarea_label" for="inputSecretValue">Text</label>' +
+				'<textarea class="form-control textarea-height blocks_text" id="blocks_text' + total_blocks + '" name="blocks_text[]" placeholder="" value="" ></textarea> ' +
 				'</div> <input type="hidden" value="0" id="blocks_id" name="blocks_id[]">' +
 				'<div class="form-group col-md-1 change">' +
 				'<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>' +
 				'</div></div>'
 			);
 
+			total_blocks++;
+
 			CKEDITOR.replaceAll('myClassName');
 
 			$('.deleteaddress').on("click", function(e) { //user click on remove text links
 
 				$(this).parent().parent().remove();
-				x--;
+				total_blocks--;
+
 			})
 		});
 	});
-	$('.deleteaddress').on("click", function(e) { //user click on remove text links
 
+	$('.deleteaddress').on("click", function(e) { //user click on remove text links
 		var current = $(this);
 		var blocks_id = current.closest(".each-row").find("#blocks_id").val();
 		$.ajax({
@@ -441,11 +467,11 @@ $type["YAML"] = "YAML";
 			success: function(res) {
 				console.log(res)
 				current.parent().parent().remove();
-
 			}
 		})
 
-		x--;
+		total_blocks--;
+
 	})
 
 
@@ -478,6 +504,12 @@ $type["YAML"] = "YAML";
 	// })
 
 
+	$(document).on('click', ".tooltip-class", function() {
+		console.log($(this));
+		let tooltip_current = $(this);
+		let tooltip_value = tooltip_current.closest('.each-block').find('.tooltip-class').attr('title');
+		console.log("tooltip_value", $(this).attr('title'));
+	});
 
 	$(document).on('change', ".text_type", function() {
 		var current = $(this);
@@ -489,17 +521,19 @@ $type["YAML"] = "YAML";
 			textVal = "";
 		}
 
+		let textarea_id = current.closest('.each-block').find('.blocks_text').attr('id');
+		let random_bumber = Math.floor((Math.random() * 999999999) + 1);
+
 		if (text_type == 'WYSIWYG') {
 			current.closest('.each-block').find('.textarea-height').addClass('myClassName');
-			//current.closest('.each-block').find('.textarea-block').html("Test Value");
 			CKEDITOR.replaceAll('myClassName');
-			//CKEDITOR.instances['blockckcontent'].insertHtml( '<p>This is a new paragraph.</p>' );
-			//$( '#blockckcontent' ).ckeditor();
-			CKEDITOR.instances['editor1'].setData(textVal)
+			CKEDITOR.instances[textarea_id].setData(textVal);
+			current.closest('.each-block').find('.textarea_label').html(text_type);
 		} else {
 			current.closest('.each-block').find('.textarea-block').html("");
-			var html = '<label for="inputEmail4">' + text_type + '</label><textarea class="form-control textarea-height blocks_text" id="editor1" name="blocks_text[]" spellcheck="false">' + textVal + '</textarea>';
+			var html = '<label class="textarea_label" for="inputEmail4">' + text_type + '</label><textarea class="form-control textarea-height blocks_text" id="blocks_text' + random_bumber + '" name="blocks_text[]" spellcheck="false">' + textVal + '</textarea>';
 			current.closest('.each-block').find('.textarea-block').html(html);
+			console.log("textVal", textVal);
 		}
 
 
@@ -507,18 +541,27 @@ $type["YAML"] = "YAML";
 			console.log("text_type", text_type);
 			if (text_type == 'TEXT') {
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", 'Your text goes here');
-			} else if (text_type == 'WYSIWYG') {
-				CKEDITOR.replaceAll('myClassName', {
-					placeholder: '<p>Your Styled text goes here</p>'
-				});
-				//current.closest('.each-block').find('.blocks_text').attr("placeholder", '<p>Your Styled text goes here</p>');
 			} else if (text_type == 'YAML') {
-				var html = ``;
+				var html = `# Employee records
+- martin:
+    name: Martin D'vloper
+    job: Developer
+    skills:
+      - python
+      - perl
+      - pascal
+- tabitha:
+    name: Tabitha Bitumen
+    job: Developer
+    skills:
+      - lisp
+      - fortran
+      - erlang`;
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
 			} else if (text_type == 'JSON') {
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", '{ "example" : "some data in JSON format goes here"}');
 			} else if (text_type == 'LIST') {
-				current.closest('.each-block').find('.blocks_text').attr("placeholder", '');
+				current.closest('.each-block').find('.blocks_text').attr("placeholder", 'PHP JAVA NoteJs');
 			} else if (text_type == 'MARKDOWN') {
 				var html = `#### The quarterly results look great!- Revenue was off the chart.
 						- Profits were higher than ever.
