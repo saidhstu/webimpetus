@@ -446,7 +446,10 @@ class CommonController extends BaseController
 			$fields = $this->db->getFieldData($table);
 			foreach ($fields as $field) {
 				if (isset($field->type)) {
-					if ($field->type  == 'datetime' || in_array($field->name, ['date', 'due_date', 'paid_date'])) {
+					if (in_array($field->name, ['date', 'due_date', 'paid_date'])) {
+						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",(json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
+					}
+					else if ($field->type  == 'datetime' || in_array($field->name, ['date', 'due_date', 'paid_date'])) {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",strtotime(json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
 					} else {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ' ?>', $template_html);
@@ -576,6 +579,8 @@ class CommonController extends BaseController
 
 		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
 		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
+		$builder->orderBy("timeslips.slip_start_date DESC");
+
 		$records = $builder->get()->getResultArray();
 		return $records;
 	}
