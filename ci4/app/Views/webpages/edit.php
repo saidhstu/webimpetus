@@ -183,7 +183,7 @@ $type["YAML"] = "YAML";
 									for ($jak_i = 0; $jak_i < count($blocks_list); $jak_i++) {
 										$new_id = $jak_i + 1;
 									?>
-										<div class="form-row col-md-12 each-row each-block" style="margin-bottom:30px;" id="  office_address_<?php echo $new_id; ?>">
+										<div class="form-row col-md-12 each-row each-block" style="margin-bottom:30px;" id="office_address_<?php echo $new_id; ?>">
 											<div class="form-group col-md-6">
 												<label for="inputEmail4">Code</label>
 												<input autocomplete="off" type="text" class="form-control blocks_code" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?= $blocks_list[$jak_i]['code'] ?>"><br>
@@ -209,7 +209,7 @@ $type["YAML"] = "YAML";
 											<input type="hidden" class="hidden_blocks_text_value" value="<?= $blocks_list[$jak_i]['text'] ?>">
 
 											<div class="form-group col-md-5 textarea-block">
-												<label for="inputEmail4"><?php echo @$type[$blocks_list[$jak_i]['type']]; ?></label>
+												<label class="textarea_label" for="inputEmail4"><?php echo @$type[$blocks_list[$jak_i]['type']]; ?></label>
 
 												<textarea class="form-control blocks_text <?php if ($blocks_list[$jak_i]['type'] == 'WYSIWYG') {
 																								echo "myClassName";
@@ -255,7 +255,7 @@ $type["YAML"] = "YAML";
 										</select>
 									</div>
 									<div class="form-group col-md-5 textarea-section">
-										<label for="inputEmail4">Text</label>
+										<label class="textarea_label" for="inputEmail4">Text</label>
 										<div class=" textarea-block">
 											<textarea class="form-control textarea-height blocks_text" id="ck-content" name="blocks_text[]"></textarea>
 										</div>
@@ -385,16 +385,16 @@ $type["YAML"] = "YAML";
 	$(document).ready(function() {
 
 		var max_fields_limit = 10; //set limit for maximum input fields
-		var x = $('#total_contacts').val(); //initialize counter for text box
+		total_blocks = parseInt($('#total_blocks').val()); //initialize counter for text box
+
 		$('.add').click(function(e) { //click event on add more fields button having class add_more_button
 
-
-			$('.addresscontainer').append('<div class="form-row col-md-12 each-block" style="margin-bottom:30px;" id="office_address_' + x + '"><div class="form-group col-md-6">' +
+			$('.addresscontainer').append('<div class="form-row col-md-12 each-block" style="margin-bottom:30px;" id="office_address_' + total_blocks + '"><div class="form-group col-md-6">' +
 				'<label for="inputSecretKey">Code</label>' +
-				'<input type="text" class="form-control blocks_code" id="blocks_code' + x + '" name="blocks_code[]" placeholder="" value=""><br>' +
+				'<input type="text" class="form-control blocks_code" id="blocks_code' + total_blocks + '" name="blocks_code[]" placeholder="" value=""><br>' +
 
 				'<label for="inputSecretValue">Title</label>' +
-				'<input type="text" class="form-control" id="blocks_title' + x + '" name="blocks_title[]" placeholder="" value=""><br>' +
+				'<input type="text" class="form-control" id="blocks_title' + total_blocks + '" name="blocks_title[]" placeholder="" value=""><br>' +
 				'<label for="inputEmail4">Sort</label>' +
 				'<input autocomplete="off" type="number" class="form-control"  name="sort[]" placeholder="" value="">' +
 
@@ -411,25 +411,28 @@ $type["YAML"] = "YAML";
 
 				'</div>' +
 				'<div class="form-group col-md-5 textarea-block">' +
-				'<label for="inputSecretValue">Text</label>' +
-				'<textarea class="form-control textarea-height blocks_text" id="blocks_text' + x + '" name="blocks_text[]" placeholder="" value="" ></textarea> ' +
+				'<label class="textarea_label" for="inputSecretValue">Text</label>' +
+				'<textarea class="form-control textarea-height blocks_text" id="blocks_text' + total_blocks + '" name="blocks_text[]" placeholder="" value="" ></textarea> ' +
 				'</div> <input type="hidden" value="0" id="blocks_id" name="blocks_id[]">' +
 				'<div class="form-group col-md-1 change">' +
 				'<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>' +
 				'</div></div>'
 			);
 
+			total_blocks++;
+
 			CKEDITOR.replaceAll('myClassName');
 
 			$('.deleteaddress').on("click", function(e) { //user click on remove text links
 
 				$(this).parent().parent().remove();
-				x--;
+				total_blocks--;
+
 			})
 		});
 	});
-	$('.deleteaddress').on("click", function(e) { //user click on remove text links
 
+	$('.deleteaddress').on("click", function(e) { //user click on remove text links
 		var current = $(this);
 		var blocks_id = current.closest(".each-row").find("#blocks_id").val();
 		$.ajax({
@@ -441,11 +444,11 @@ $type["YAML"] = "YAML";
 			success: function(res) {
 				console.log(res)
 				current.parent().parent().remove();
-
 			}
 		})
 
-		x--;
+		total_blocks--;
+
 	})
 
 
@@ -489,17 +492,19 @@ $type["YAML"] = "YAML";
 			textVal = "";
 		}
 
+		let textarea_id = current.closest('.each-block').find('.blocks_text').attr('id');
+		let random_bumber = Math.floor((Math.random() * 999999999) + 1);
+
 		if (text_type == 'WYSIWYG') {
 			current.closest('.each-block').find('.textarea-height').addClass('myClassName');
-			//current.closest('.each-block').find('.textarea-block').html("Test Value");
 			CKEDITOR.replaceAll('myClassName');
-			//CKEDITOR.instances['blockckcontent'].insertHtml( '<p>This is a new paragraph.</p>' );
-			//$( '#blockckcontent' ).ckeditor();
-			CKEDITOR.instances['editor1'].setData(textVal)
+			CKEDITOR.instances[textarea_id].setData(textVal);
+			current.closest('.each-block').find('.textarea_label').html(text_type);			
 		} else {
 			current.closest('.each-block').find('.textarea-block').html("");
-			var html = '<label for="inputEmail4">' + text_type + '</label><textarea class="form-control textarea-height blocks_text" id="editor1" name="blocks_text[]" spellcheck="false">' + textVal + '</textarea>';
+			var html = '<label class="textarea_label" for="inputEmail4">' + text_type + '</label><textarea class="form-control textarea-height blocks_text" id="blocks_text' + random_bumber + '" name="blocks_text[]" spellcheck="false">' + textVal + '</textarea>';
 			current.closest('.each-block').find('.textarea-block').html(html);
+			console.log("textVal", textVal);
 		}
 
 
@@ -507,11 +512,6 @@ $type["YAML"] = "YAML";
 			console.log("text_type", text_type);
 			if (text_type == 'TEXT') {
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", 'Your text goes here');
-			} else if (text_type == 'WYSIWYG') {
-				CKEDITOR.replaceAll('myClassName', {
-					placeholder: '<p>Your Styled text goes here</p>'
-				});
-				//current.closest('.each-block').find('.blocks_text').attr("placeholder", '<p>Your Styled text goes here</p>');
 			} else if (text_type == 'YAML') {
 				var html = ``;
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
