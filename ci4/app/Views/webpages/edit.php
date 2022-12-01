@@ -54,7 +54,6 @@ $data_type_format["YAML"] = "# Employee records
 							<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Pictures</a>
 							<a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Page Setup</a>
 							<a class="nav-item nav-link" id="nav-blocks-tab" data-toggle="tab" href="#nav-blocks" role="tab" aria-controls="nav-blocks" aria-selected="false">Blocks</a>
-
 						</div>
 					</nav>
 					<div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
@@ -95,8 +94,6 @@ $data_type_format["YAML"] = "# Employee records
 									<textarea class="form-control" name="content" id="content"><?= @$webpage->content ?></textarea>
 								</div>
 
-
-
 								<div class="form-group col-md-12">
 									<div><label for="inputEmail4">Status</label></div>
 
@@ -105,11 +102,9 @@ $data_type_format["YAML"] = "# Employee records
 									<label class=""><input for="inputEmail4" type="radio" <?= @$webpage->status == 0 ? 'checked' : '' ?> value="0" class="form-control " id="inactive" name="status" placeholder=""> Inactive </label>
 								</div>
 
-
 							</div>
-
-
 						</div>
+
 						<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 							<div class="form-row">
 
@@ -247,7 +242,7 @@ $data_type_format["YAML"] = "# Employee records
 											<div class="form-group col-md-1 change">
 												<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;margin-bottom:10px;">-</button>
 												<br>
-												<a href="#" style="margin-left: 23px;" data-toggle="tooltip" title="<?php echo @$data_type_format[$blocks_list[$jak_i]['type']]; ?>"><i class="fa fa-info-circle"></i></a>
+												<a href="#" class="tooltip-class" style="margin-left: 23px;" data-toggle="tooltip" title="<?= @$data_type_format[$blocks_list[$jak_i]['type']]; ?>"><i class="fa fa-info-circle"></i></a>
 											</div>
 										</div>
 									<?php
@@ -509,6 +504,12 @@ $data_type_format["YAML"] = "# Employee records
 	// })
 
 
+	$(document).on('click', ".tooltip-class", function() {
+		console.log($(this));
+		let tooltip_current = $(this);
+		let tooltip_value = tooltip_current.closest('.each-block').find('.tooltip-class').attr('title');
+		console.log("tooltip_value", $(this).attr('title'));
+	});
 
 	$(document).on('change', ".text_type", function() {
 		var current = $(this);
