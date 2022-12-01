@@ -10,6 +10,31 @@ $type["WYSIWYG"] = "WYSIWYG";
 $type["MARKDOWN"] = "MARKDOWN";
 $type["YAML"] = "YAML";
 
+$data_type_format["TEXT"] = "Your text goes here";
+$data_type_format["JSON"] = '{ "example" : "some data in JSON format goes here"}';
+$data_type_format["LIST"] = "PHP JAVA NoteJs";
+$data_type_format["WYSIWYG"] = "Your text goes here";
+$data_type_format["MARKDOWN"] = "#### The quarterly results look great!- Revenue was off the chart.
+- Profits were higher than ever.
+
+*Everything* is going according to **plan**.";
+$data_type_format["YAML"] = "# Employee records
+- martin:
+    name: Martin D'vloper
+    job: Developer
+    skills:
+      - python
+      - perl
+      - pascal
+- tabitha:
+    name: Tabitha Bitumen
+    job: Developer
+    skills:
+      - lisp
+      - fortran
+      - erlang";
+
+
 ?>
 
 <div class="white_card_body">
@@ -220,7 +245,9 @@ $type["YAML"] = "YAML";
 											<input type="hidden" value="<?= $blocks_list[$jak_i]['id'] ?>" id="blocks_id" name="blocks_id[]">
 
 											<div class="form-group col-md-1 change">
-												<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;">-</button>
+												<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;margin-bottom:10px;">-</button>
+												<br>
+												<a href="#" style="margin-left: 23px;" data-toggle="tooltip" title="<?php echo @$data_type_format[$blocks_list[$jak_i]['type']]; ?>"><i class="fa fa-info-circle"></i></a>
 											</div>
 										</div>
 									<?php
@@ -384,6 +411,8 @@ $type["YAML"] = "YAML";
 <script>
 	$(document).ready(function() {
 
+		$('[data-toggle="tooltip"]').tooltip();
+
 		var max_fields_limit = 10; //set limit for maximum input fields
 		total_blocks = parseInt($('#total_blocks').val()); //initialize counter for text box
 
@@ -403,7 +432,6 @@ $type["YAML"] = "YAML";
 				'<option value="TEXT">TEXT</option>' +
 				'<option value="JSON">JSON</option>' +
 				'<option value="LIST" >LIST</option>' +
-				'<option value="YAML" >YAML</option>' +
 				'<option value="WYSIWYG" >WYSIWYG</option>' +
 				'<option value="MARKDOWN" >MARKDOWN	</option>' +
 				'<option value="YAML">YAML</option>' +
@@ -499,7 +527,7 @@ $type["YAML"] = "YAML";
 			current.closest('.each-block').find('.textarea-height').addClass('myClassName');
 			CKEDITOR.replaceAll('myClassName');
 			CKEDITOR.instances[textarea_id].setData(textVal);
-			current.closest('.each-block').find('.textarea_label').html(text_type);			
+			current.closest('.each-block').find('.textarea_label').html(text_type);
 		} else {
 			current.closest('.each-block').find('.textarea-block').html("");
 			var html = '<label class="textarea_label" for="inputEmail4">' + text_type + '</label><textarea class="form-control textarea-height blocks_text" id="blocks_text' + random_bumber + '" name="blocks_text[]" spellcheck="false">' + textVal + '</textarea>';
@@ -513,12 +541,26 @@ $type["YAML"] = "YAML";
 			if (text_type == 'TEXT') {
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", 'Your text goes here');
 			} else if (text_type == 'YAML') {
-				var html = ``;
+				var html = `# Employee records
+- martin:
+    name: Martin D'vloper
+    job: Developer
+    skills:
+      - python
+      - perl
+      - pascal
+- tabitha:
+    name: Tabitha Bitumen
+    job: Developer
+    skills:
+      - lisp
+      - fortran
+      - erlang`;
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
 			} else if (text_type == 'JSON') {
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", '{ "example" : "some data in JSON format goes here"}');
 			} else if (text_type == 'LIST') {
-				current.closest('.each-block').find('.blocks_text').attr("placeholder", '');
+				current.closest('.each-block').find('.blocks_text').attr("placeholder", 'PHP JAVA NoteJs');
 			} else if (text_type == 'MARKDOWN') {
 				var html = `#### The quarterly results look great!- Revenue was off the chart.
 						- Profits were higher than ever.

@@ -27,3 +27,7 @@
 .tokenlist {
     height: 504px;
 }
+
+.tooltip-inner {
+    text-align: left;
+}

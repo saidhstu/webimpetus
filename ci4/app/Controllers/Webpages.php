@@ -72,6 +72,7 @@ class Webpages extends CommonController
 			"categories" => json_encode($this->request->getPost('categories'))
 		);
 		$post = $this->request->getPost();
+
 		$i = 0;
 		foreach($post["blocks_code"] as $code){
 			if($post["type"][$i]=='JSON')
@@ -104,7 +105,6 @@ class Webpages extends CommonController
 		}
 		$i = 0;
 
-// prd($data);
 		$files = $this->request->getPost("file");
 
 		if(!empty($id)){
@@ -172,7 +172,7 @@ class Webpages extends CommonController
 					if(empty($blocks["sort"])){
 						$blocks["sort"] = $blocks_id;
 					}
-					
+
 					$blocks_id = $this->insertOrUpdate("blocks_list",$blocks_id, $blocks);
 					
 					if(empty($blocks["sort"])){
