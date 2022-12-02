@@ -37,7 +37,7 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4"> rate</label>
+                        <label for="inputEmail4"> Charge Rate</label>
                         <input type="number" class="form-control" id="rate" name="rate" placeholder=""  value="<?= @$project->rate ?>">
                     </div>
 
