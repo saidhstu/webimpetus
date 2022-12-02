@@ -276,11 +276,9 @@ $data_type_format["YAML"] = "# Employee records
 											<option value="YAML">YAML</option>
 										</select>
 									</div>
-									<div class="form-group col-md-5 textarea-section">
+									<div class="form-group col-md-5 textarea-block">
 										<label class="textarea_label" for="inputEmail4">Text</label>
-										<div class=" textarea-block">
-											<textarea class="form-control textarea-height blocks_text" id="ck-content" name="blocks_text[]"></textarea>
-										</div>
+										<textarea class="form-control textarea-height blocks_text" id="ck-content" name="blocks_text[]"></textarea>
 									</div>
 								</div>
 								<input type="hidden" value="0" id="contact_id" name="contact_id">
@@ -505,10 +503,14 @@ $data_type_format["YAML"] = "# Employee records
 
 
 	$(document).on('click', ".tooltip-class", function() {
-		console.log($(this));
-		let tooltip_current = $(this);
-		let tooltip_value = tooltip_current.closest('.each-block').find('.tooltip-class').attr('title');
-		console.log("tooltip_value", $(this).attr('title'));
+		let this_tooltip = $(this);
+		let tooltip_value = this_tooltip.attr('data-original-title');
+		if (this_tooltip.closest('.each-block').find('.text_type').val() == 'WYSIWYG') {
+			let textarea_id = this_tooltip.closest('.each-block').find('.blocks_text').attr('id');
+			CKEDITOR.instances[textarea_id].setData(tooltip_value);
+		} else {
+			this_tooltip.closest('.each-block').find('.blocks_text').val(tooltip_value);
+		}
 	});
 
 	$(document).on('change', ".text_type", function() {
@@ -533,14 +535,13 @@ $data_type_format["YAML"] = "# Employee records
 			current.closest('.each-block').find('.textarea-block').html("");
 			var html = '<label class="textarea_label" for="inputEmail4">' + text_type + '</label><textarea class="form-control textarea-height blocks_text" id="blocks_text' + random_bumber + '" name="blocks_text[]" spellcheck="false">' + textVal + '</textarea>';
 			current.closest('.each-block').find('.textarea-block').html(html);
-			console.log("textVal", textVal);
 		}
 
 
 		if (!current.closest('.each-block').find('.blocks_text').val()) {
-			console.log("text_type", text_type);
 			if (text_type == 'TEXT') {
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", 'Your text goes here');
+				current.closest('.each-block').find('.tooltip-class').attr("data-original-title", 'Your text goes here');
 			} else if (text_type == 'YAML') {
 				var html = `# Employee records
 - martin:
@@ -558,16 +559,19 @@ $data_type_format["YAML"] = "# Employee records
       - fortran
       - erlang`;
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
+				current.closest('.each-block').find('.tooltip-class').attr("data-original-title", html);
 			} else if (text_type == 'JSON') {
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", '{ "example" : "some data in JSON format goes here"}');
 			} else if (text_type == 'LIST') {
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", 'PHP JAVA NoteJs');
+				current.closest('.each-block').find('.tooltip-class').attr("data-original-title", 'PHP JAVA NoteJs');
 			} else if (text_type == 'MARKDOWN') {
 				var html = `#### The quarterly results look great!- Revenue was off the chart.
 						- Profits were higher than ever.
 
 						*Everything* is going according to **plan**.`;
 				current.closest('.each-block').find('.blocks_text').attr("placeholder", html);
+				current.closest('.each-block').find('.tooltip-class').attr("data-original-title", html);
 			}
 		}
 	})

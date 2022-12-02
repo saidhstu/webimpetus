@@ -382,6 +382,7 @@ class CommonController extends BaseController
 			$template_html = str_replace('<*--item-start-loop--*>', '<?php foreach(json_decode($dataVariables)->' . $this->table . ' as $' . $this->rawTblName . '){ ?>', $template_html);
 			$template_html = str_replace('<*--timeslips#total#slip_hours--*>', '<?= @json_decode($dataVariables)->' . $this->table . '_total_slip_hours ?>', $template_html);
 			$template_html = str_replace('<*--timeslips#total#slip_days--*>', '<?= @json_decode($dataVariables)->' . $this->table . '_total_slip_days ?>', $template_html);
+			$template_html = str_replace('<*--timeslips#total#subtotal--*>', '<?= @json_decode($dataVariables)->' . $this->table . '_total_subtotal ?>', $template_html);
 		} else {
 			$item_table = $this->rawTblName . "_items";
 			array_push($tables, $item_table);
@@ -401,9 +402,6 @@ class CommonController extends BaseController
 			$template_html = str_replace('<*--' . $note_table . '-item-start-loop--*>', '<?php foreach(json_decode($dataVariables)->' . $note_table . ' as $' . substr($note_table, 0, -1) . '){ ?>', $template_html);
 			$template_html = str_replace('<*--' . $note_table . '-item-end-loop--*>', '<?php } ?>', $template_html);
 		}
-
-
-
 
 		// Replace column name with variable for multi record table data
 		$custom_fields = [
@@ -449,8 +447,7 @@ class CommonController extends BaseController
 				if (isset($field->type)) {
 					if (in_array($field->name, ['date', 'due_date', 'paid_date'])) {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",(json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
-					}
-					else if ($field->type  == 'datetime' || in_array($field->name, ['date', 'due_date', 'paid_date'])) {
+					} else if ($field->type  == 'datetime' || in_array($field->name, ['date', 'due_date', 'paid_date'])) {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= date("d/m/Y",strtotime(json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ')) ?>', $template_html);
 					} else {
 						$template_html = str_replace('<*--' . $table . '#' . $field->name . '--*>', '<?= json_decode($dataVariables)->' . substr($table, 0, -1) . '->' . $field->name . ' ?>', $template_html);
@@ -521,6 +518,7 @@ class CommonController extends BaseController
 		$viewArray["employee"] = $employeeData;
 		$viewArray["timeslips_total_slip_hours"] = number_format($this->getTimeslipHours($post_data), 2);
 		$viewArray["timeslips_total_slip_days"] = number_format($viewArray["timeslips_total_slip_hours"] / 8, 2);
+		$viewArray["timeslips_total_subtotal"] = number_format($this->getTimeslipTotalSubtotal($post_data), 2);
 		$viewArray = "'" . json_encode($viewArray, JSON_HEX_APOS) . "'";
 		return '<?php $dataVariables =' . $viewArray . ';?>';
 	}
@@ -580,10 +578,34 @@ class CommonController extends BaseController
 
 		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
 		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
-		$builder->orderBy("timeslips.slip_start_date DESC");
+
+		if (isset($post_data['order_by']) && $post_data['order_by']) {
+			$builder->orderBy("timeslips.slip_start_date DESC");
+		}
 
 		$records = $builder->get()->getResultArray();
 		return $records;
+	}
+
+	public function getTimeslipTotalSubtotal($post_data)
+	{
+		$employee_id = $post_data["employee"];
+		$requestMonth = $post_data["monthpicker"];
+		$year = $_POST["yearpicker"];
+
+		$builder = $this->db->table("timeslips");
+		$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
+		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
+		$builder->select("truncate(SUM(IFNULL(timeslips.slip_hours, 0) * IFNULL(timeslips.slip_rate, 0)),2) as total_subtotal");
+
+		if ($employee_id != "-1") {
+			$builder->where("timeslips.employee_name", $employee_id);
+		}
+
+		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
+		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
+		$records = $builder->get()->getRowArray();
+		return $records['total_subtotal'];
 	}
 
 	public function getTimeslipHours($post_data)
@@ -596,7 +618,7 @@ class CommonController extends BaseController
 
 		$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
 		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
-		$builder->select("SUM(slip_hours) as total_slip_hours");
+		$builder->select("COALESCE(SUM(slip_hours),0) as total_slip_hours");
 
 		if ($employee_id != "-1") {
 			$builder->where("timeslips.employee_name", $employee_id);
@@ -605,9 +627,6 @@ class CommonController extends BaseController
 		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
 		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
 		$records = $builder->get()->getRowArray();
-		if (empty($records['total_slip_hours'])) {
-			return 0;
-		}
 		return $records['total_slip_hours'];
 	}
 
