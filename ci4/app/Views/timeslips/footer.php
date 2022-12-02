@@ -53,6 +53,11 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <input type="checkbox" value="1" name="order_by"/> 
+                <label> Order By Latest</label>
+            </div>
+
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -69,7 +74,7 @@
 
 </section>
    <script type="text/javascript">
-    let startYear = 2000;
+    let startYear = 2020;
     let endYear = new Date().getFullYear();
     for (i = endYear; i > startYear; i--)
     {
@@ -81,8 +86,19 @@
     for (i = startMonth; i <= endMonth; i++)
     {
         j = ('0'+i).slice(-2);
-      $('#monthpicker').append($('<option />').val(j).html(j));
+      $('#monthpicker').append($('<option />').val(j).html(toMonthName(j)));
     }
 
+
+    function toMonthName(monthNumber) {
+        const date = new Date();
+        date.setMonth(monthNumber - 1);
+        return date.toLocaleString('en-US', {
+            month: 'long',
+        });
+    }
+
+    let currentMonth = new Date().getMonth() + 1;
+    $('#monthpicker').val(currentMonth);
 
     </script>
