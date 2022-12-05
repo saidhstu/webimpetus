@@ -19,7 +19,7 @@
                     $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s-rancher-desktop";
                     $hostName = getenv('HOSTNAME') ?: "hostname-env-var-not-set";
 
-                    $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.&nbsp; Cluster: " . ucfirst($targetCluster) . ".";
+                    $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.&nbsp;";
                     $webImpetusCopyRight .= "<br />";
                     $webImpetusCopyRight .= "Cluster: " . ucfirst($targetCluster) . ".";
                     if ($appEnvironment == "prod" || $appEnvironment == "Prod") {
