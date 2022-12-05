@@ -6,7 +6,7 @@
             <form id="addcustomer" method="post" action=<?php echo "/".$tableName."/update";?> enctype="multipart/form-data">
                 <div class="form-row">
                     <div class="form-group required col-md-6">
-                        <label for="inputEmail4">Client Name</label>
+                        <label for="inputEmail4">Customer Name</label>
                         <select id="customers_id" name="customers_id" class="form-control required dashboard-dropdown">
                             <option value="" selected="">--Selected--</option>
                             <?php foreach($customers as $row):?>

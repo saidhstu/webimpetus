@@ -22,14 +22,14 @@ $categories = getResultArray("categories");
 
             <div class="form-row">
                 <div class="form-group required col-md-4">
-                    <label for="selectCustomer">Company Name</label>
+                    <label for="selectCustomer">Customer / Company Name</label>
                     <input autocomplete="off" type="text" class="form-control required" id="company_name" name="company_name" placeholder=""  value="<?= @$customer->company_name ?>">
                 </div>
 
                   
 
                 <div class="form-group required col-md-4">
-                    <label for="inputEmail4">Account No</label>
+                    <label for="inputEmail4">Customer Account No</label>
                     <input autocomplete="off" type="text" class="form-control required" id="acc_no" name="acc_no" placeholder=""  value="<?= @$customer->acc_no ?>">
                 </div>
                 <div class="form-check col-md-1">
