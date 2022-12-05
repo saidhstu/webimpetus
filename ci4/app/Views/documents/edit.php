@@ -10,7 +10,7 @@ $customers = getResultArray("customers");
                 <div class="col-md-8">
                     <div class="row form-group required">
                         <div class="col-md-4">
-                            <label for="inputEmail4">Client Name</label>
+                            <label for="inputEmail4">Customer Name</label>
                         </div>
                         <div class="col-md-6">
                             <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">

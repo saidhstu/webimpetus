@@ -4,6 +4,8 @@ $row = getRowArray("blocks_list", ["code" => "contact_types_list_json"]);
 if (isset($row)) {
 $contact_type = json_decode(@$row->text);
 $customers = getResultArray("customers");
+} else {
+    $customers = getResultArray("customers");
 }
 ?>
     <div class="white_card_body">
@@ -24,7 +26,7 @@ $customers = getResultArray("customers");
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="form-row">
                             <div class="form-group required col-md-6">
-                                <label for="inputEmail4">Client Name</label>
+                                <label for="inputEmail4">Customer Name</label>
                                 <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
                                     <option value="" selected="">--Selected--</option>
                                     <?php if(isset($customers)) { foreach($customers as $row):?>

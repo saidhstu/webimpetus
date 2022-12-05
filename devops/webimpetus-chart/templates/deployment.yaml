@@ -6,13 +6,14 @@ metadata:
     type: local
     app: wsl-{{ .Values.targetEnv }}
 spec:
-  storageClassName: manual
+  storageClassName: local-path
   capacity:
     storage: 10Gi
   accessModes:
     - ReadWriteMany
   hostPath:
     path: "/wsl/data"
+  persistentVolumeReclaimPolicy: Retain
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -22,7 +23,7 @@ metadata:
   name: wsl-{{ .Values.targetEnv }}-pvc
 spec:
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
       storage: 10Gi    
