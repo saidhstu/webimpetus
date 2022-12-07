@@ -44,10 +44,10 @@ but for more control over the deployment parameters you can run:
 ```./webimpetus_kubernetes_install.sh` dev dev install helm /etc/rancher/k3s/k3s.yaml localhost dev-wsl-webserver k3s-rancher-desktop```
 
 Note: TEST Env could be updated by running something like:
-```./webimpetus_kubernetes_install.sh test test install helm ~/.kube/kubeconfig.yaml localhost test-wsl-webserver k3s-namecheap nerdctl```
+```./webimpetus_kubernetes_install.sh test test install helm ~/.kube/kubeconfig.yaml localhost test-wsl-webserver k3s-K3S3 nerdctl```
 
 Note: ACC Env could be updated by running something like:
-```./webimpetus_kubernetes_install.sh acc acc install helm ~/.kube/kubeconfig.yaml localhost acc-wsl-webserver k3s-namecheap docker```
+```./webimpetus_kubernetes_install.sh acc acc install helm ~/.kube/kubeconfig.yaml localhost acc-wsl-webserver k3s-K3S3 docker```
 
 ### Passing parameters install script
 
