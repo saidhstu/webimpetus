@@ -1,6 +1,6 @@
 service_name: wsl
 
-targetCluster: awsk3s
+targetCluster: k3s1
 targetEnv: test
 targetNS: test
 
