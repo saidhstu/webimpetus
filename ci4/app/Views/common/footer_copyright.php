@@ -21,7 +21,7 @@
 
                     $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.&nbsp;";
                     $webImpetusCopyRight .= "<br />";
-                    $webImpetusCopyRight .= "Cluster: " . ucfirst($targetCluster) . ".";
+                    $webImpetusCopyRight .= "Cluster: " . $targetCluster . ".";
                     if ($appEnvironment == "prod" || $appEnvironment == "Prod") {
                         // Do not add prod env for final production environment
                     } else {
