@@ -1,6 +1,6 @@
 service_name: wsl
 
-targetCluster: namecheap
+targetCluster: k3s3
 targetEnv: acc
 targetNS: acc
 

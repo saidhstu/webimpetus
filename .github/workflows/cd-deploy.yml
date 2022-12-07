@@ -39,13 +39,13 @@ jobs:
         docker tag wsl-${{ env.TARGET_STACK }} registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}:${{ env.SHA }}
         docker push registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}:${{ env.SHA }}
 
-    - name: Helm Deploy - Release onto K3S1 AWS
+    - name: Helm Deploy - Release onto K3S1
       uses: koslib/helm-eks-action@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_K3S1 }}
       with:
         #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
-        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s-aws.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s1.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
 
     - uses: actions-hub/kubectl@master
       env:
@@ -59,23 +59,51 @@ jobs:
       with:
         args: get pods -A
 
-    - name: Helm Deploy - Release K3S Namecheap
+    - name: Helm Deploy - Release onto K3S2
       uses: koslib/helm-eks-action@master
       env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_NC }}
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_K3S2 }}
       with:
         #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
-        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s-namecheap.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s1.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
 
     - uses: actions-hub/kubectl@master
       env:
-        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA_NC }}
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA_K3S2 }}
       with:
         args: rollout restart deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
 
     - uses: actions-hub/kubectl@master
       env:
-        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA_NC }}
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA_K3S2 }}
+      with:
+        args: get pods -A
+
+    - name: Helm Deploy - Release K3S3
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_K3S3 }}
+      with:
+        #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s3.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+
+    - name: Helm Deploy - Release K3S3
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_K3S3 }}
+      with:
+        #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s3.yaml --set-string targetImage="registry.workstation.co.uk/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.SHA }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+
+    - uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA_K3S3 }}
+      with:
+        args: rollout restart deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
+
+    - uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA_K3S3 }}
       with:
         args: get pods -A
 
