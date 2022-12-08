@@ -224,26 +224,35 @@ class CommonController extends BaseController
 		set_time_limit(60);
 		$mpdf = new \App\Libraries\Generate_Pdf();
 		$pdf = $mpdf->load_portait();
-		$uuid_business_id = $this->session->get('uuid_business');
 
 		$pdf_template_id = 0;
 		$pdf_name_prefix = "workstation";
+		$uuid_business_id = $this->session->get('uuid_business');
+		$business = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
 
 		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
 
 			$item_details = $this->getInvoiceItem($id);
-			$pdf_name_prefix = ucfirst($this->table) . '-' . $item_details->company_name . '-' . $item_details->contact_firstname . '-' . $item_details->contact_lastname;
+			$pdf_name_prefix = $business['business_code'];
 
 			if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
 				$pdf_template_id = $item_details->print_template_code;
-				$pdf_name_prefix .= '-' . $item_details->invoice_number;
+				$pdf_name_prefix .= '-Invoice-' . $item_details->invoice_number . '-';
 			} else if ($this->table == 'purchase_orders' || $this->table == 'work_orders') {
 				$pdf_template_id = $item_details->template;
-				$pdf_name_prefix .= '-' . $item_details->order_number;
+				$pdf_name_prefix .= '-Order-' . $item_details->order_number . '-';
 			}
+			$pdf_name_prefix .= date('M', $item_details->date) . '-' . date('Y', $item_details->date);
 		} else if ($this->table == 'timeslips') {
-			$businesses = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
-			$pdf_name_prefix = ucfirst($this->table) . '-' . $businesses['name'];
+			$employee_id = $_POST["employee"];
+			$month = $_POST["monthpicker"];
+			$year = $_POST["yearpicker"];
+			$employee_name = "All";
+			if ($employee_id != "-1") {
+				$employeeData = $this->db->table('employees')->select('CONCAT_WS(" ", saludation, first_name, surname) as name')->getWhere(array('id' => $employee_id))->getFirstRow();
+				$employee_name = trim($employeeData->name);
+			}
+			$pdf_name_prefix = $business['business_code'] . '-Timesheet-' . $employee_name . '-' . date('M', mktime(0, 0, 0, $month, 10)) . '-' . $year;
 			$pdf_template_id = isset($_POST["template_id"]) ? $_POST["template_id"] : 0;
 		}
 
@@ -368,7 +377,7 @@ class CommonController extends BaseController
 		ob_end_clean();
 
 		$pdf->WriteHTML($html);
-		$pdf->Output($pdf_name_prefix . '-' . date('M-Y') . ".pdf", "D");
+		$pdf->Output(str_replace(' ', '-', $pdf_name_prefix) . ".pdf", "D");
 	}
 
 
