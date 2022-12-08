@@ -238,7 +238,7 @@ if (isset($sales_invoice->id)) {
                                                                 </span></td>
                                                             <td data-th="Description"><span class="bt-content">
                                                                     <span class="s_description" style="display: inline;"><?= $eachItems->description ?></span>
-                                                                    <textarea class="description form-control" style="display: none;"><?= $eachItems->description ?></textarea>
+                                                                    <textarea maxlength="1023" class="description form-control" style="display: none;"><?= $eachItems->description ?></textarea>
                                                                 </span></td>
                                                             <td data-th="Rate"><span class="bt-content">
                                                                     <span class="s_rate" style="display: inline;"><?= $eachItems->rate ?></span>
