@@ -120,11 +120,7 @@ function calculationAmount(saveData = true) {
         totalHour += hours;
         var amount = rate * hours;
         totalAmount += amount;
-
         $(this).find(".price").val(amount);
-
-        console.log(rate);
-        console.log(hours);
     })
 
     $("#total_due").val(totalAmount);
