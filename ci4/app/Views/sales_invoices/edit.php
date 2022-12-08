@@ -134,7 +134,7 @@ if (isset($sales_invoice->id)) {
                                             <label for="customInvoiceNumber">Custom Invoice Number*</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" autocomplete="off" class="form-control required" value="<?= @$business->business_code . @$sales_invoice->invoice_number ?>" id="custom_invoice_number" name="custom_invoice_number" placeholder="">
+                                            <input type="text" autocomplete="off" class="form-control required" value="<?= empty(@$sales_invoice->custom_invoice_number) ? @$business->business_code .  @$sales_invoice->invoice_number : @$sales_invoice->custom_invoice_number ?>" id="custom_invoice_number" name="custom_invoice_number" placeholder="">
                                         </div>
                                     </div>
 

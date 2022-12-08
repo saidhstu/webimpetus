@@ -3,6 +3,8 @@
 $customers = getResultArray("customers");
 $templates = getResultArray("templates", ["module_name" => $tableName]);
 $items = getWithOutUuidResultArray("work_order_items", ["work_orders_id" => @$work_order->id], false);
+$business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
+
 $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delivered", "Completed", "Proforma Invoice"];
 ?>
 
@@ -73,10 +75,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                             <label for="inputEmail4">Comments </label>
                                         </div>
                                         <div class="col-md-6">
-                                            <textarea name="comments" id="comments" class="form-control" cols="15" rows="5">
-                                                <?= @$work_order->comments ?>
-                                            </textarea>
-
+                                            <textarea name="comments" id="comments" class="form-control" cols="15" rows="5"><?= @$work_order->comments ?></textarea>
                                         </div>
                                     </div>
 
@@ -130,6 +129,15 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
 
                                 <div class="col-md-6">
+
+                                    <div class="row form-group">
+                                        <div class="col-md-4">
+                                            <label for="customInvoiceNumber">Custom Order Number*</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" autocomplete="off" class="form-control required" value="<?= empty(@$work_order->custom_order_number) ? @$business->business_code .  @$work_order->order_number : @$work_order->custom_order_number ?>" id="custom_order_number" name="custom_order_number" placeholder="">
+                                        </div>
+                                    </div>
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">

@@ -1,15 +1,17 @@
-<?php 
-namespace App\Controllers; 
+<?php
+
+namespace App\Controllers;
+
 use App\Controllers\Core\CommonController;
 use App\Libraries\UUID;
 use App\Models\Core\Common_model;
 use App\Models\Purchase_invoice_model;
 use stdClass;
 
- ini_set("display errors", 1);
+ini_set("display errors", 1);
 class Purchase_invoices extends CommonController
-{	
-	private $purchase_invoice_model;
+{
+    private $purchase_invoice_model;
 
     function __construct()
     {
@@ -20,83 +22,85 @@ class Purchase_invoices extends CommonController
         $this->purchase_invoice_items = "purchase_invoice_items";
         $this->purchase_invoice_notes = "purchase_invoice_notes";
         $this->purchase_invoices = "purchase_invoices";
-	}
-    
+    }
+
     public function index()
-    {        
+    {
 
         $data[$this->table] = $this->purchase_invoice_model->getInvoice();
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
 
-        echo view($this->table."/list",$data);
+        echo view($this->table . "/list", $data);
     }
-   
+
     public function edit($id = 0)
     {
-		$data['tableName'] = $this->table;
+        $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
-		$data["users"] = $this->model->getUser();
-		$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
+        $data["users"] = $this->model->getUser();
+        $data[$this->rawTblName] = $this->model->getRows($id)->getRow();
 
         if (empty($id)) {
-         
+
             $insert['date'] = time();
             $insert['status'] = 'Invoiced';
 
             $invoice_number = findMaxFieldValue($this->purchase_invoices, "invoice_number");
 
-            if(empty($invoice_number)){
+            if (empty($invoice_number)) {
                 $invoice_number = 1001;
-            }else{
+            } else {
                 $invoice_number += 1;
             }
 
             $insert['invoice_number'] = $invoice_number;
             $insert['uuid_business_id'] = session('uuid_business');
 
-            $id = $this->purchase_invoice_model->insertData( $insert);
+            $id = $this->purchase_invoice_model->insertData($insert);
 
-            if($id){
-                return redirect()->to('/'.$this->table.'/edit/'.$id);
+            if ($id) {
+                return redirect()->to('/' . $this->table . '/edit/' . $id);
             }
         }
-		// if there any special cause we can overried this function and pass data to add or edit view
-		$data['additional_data'] = $this->getAdditionalData($id);
+        // if there any special cause we can overried this function and pass data to add or edit view
+        $data['additional_data'] = $this->getAdditionalData($id);
 
-        echo view($this->table."/edit", $data);
+        echo view($this->table . "/edit", $data);
     }
 
     public function update()
-    {        
+    {
         $id = $this->request->getPost('id');
 
-		$data = $this->request->getPost();
+        $data = $this->request->getPost();
         $itemIds = @$data['item_id'];
         unset($data['item_id']);
 
         $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
 
-        if(empty($id)){
+        if (empty($id)) {
             $data['invoice_number'] = findMaxFieldValue($this->purchase_invoices, "invoice_number");
 
-            if(empty($data['invoice_number'])){
+            if (empty($data['invoice_number'])) {
                 $data['invoice_number'] = 1001;
-            }else{
+            } else {
                 $data['invoice_number'] += 1;
             }
+
+            $data['custom_invoice_number'] = $data['custom_invoice_number'] . $data['invoice_number'];
         }
-     
-		$response = $this->model->insertOrUpdate($id, $data);
-		if(!$response){
-			session()->setFlashdata('message', 'Something wrong!');
-			session()->setFlashdata('alert-class', 'alert-danger');	
-		} else {
+
+        $response = $this->model->insertOrUpdate($id, $data);
+        if (!$response) {
+            session()->setFlashdata('message', 'Something wrong!');
+            session()->setFlashdata('alert-class', 'alert-danger');
+        } else {
 
             $id = $response;
-            if($itemIds){
+            if ($itemIds) {
                 foreach ($itemIds as $itemId) {
 
                     $this->db->table($this->purchase_invoice_items)->where('id', $itemId)->update(array(
@@ -104,27 +108,27 @@ class Purchase_invoices extends CommonController
                     ));
                 }
             }
-           
         }
 
-        return redirect()->to('/'.$this->table);
+        return redirect()->to('/' . $this->table);
     }
 
-    public function removeInvoiceItem(){
+    public function removeInvoiceItem()
+    {
 
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
 
-        if( $id > 0){
+        if ($id > 0) {
 
-            $this->model->deleteTableData( $this->purchase_invoice_items, $id);
+            $this->model->deleteTableData($this->purchase_invoice_items, $id);
             $response['status'] = true;
         }
 
         echo json_encode($response);
-
     }
-    public function updateInvoice(){
+    public function updateInvoice()
+    {
 
         $mainTableId = $this->request->getPost('mainTableId');
         $data['balance_due'] = $this->request->getPost('totalAmountWithTax');
@@ -142,18 +146,18 @@ class Purchase_invoices extends CommonController
         $response['data'] = $res;
 
         echo json_encode($response);
-
     }
-    public function saveNotes(){
+    public function saveNotes()
+    {
 
         $id = $this->request->getPost('id');
         $data['notes'] = $this->request->getPost('notes');
         $data['purchase_invoices_id'] = $this->request->getPost('mainTableId');
-     
-        if( $id > 0){
+
+        if ($id > 0) {
 
             $res = $this->model->updateTableData($id, $data, $this->purchase_invoice_notes);
-        }else{
+        } else {
 
             $data['created_by'] = $_SESSION['uuid'];
             $data['uuid_business_id'] = session('uuid_business');
@@ -167,7 +171,8 @@ class Purchase_invoices extends CommonController
 
         echo json_encode($response);
     }
-    public function addInvoiceItem(){
+    public function addInvoiceItem()
+    {
 
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
@@ -175,51 +180,51 @@ class Purchase_invoices extends CommonController
         $data['rate'] = $this->request->getPost('rate');
         $data['hours'] = $this->request->getPost('hours');
         $data['amount'] = $data['rate'] * $data['hours'];
-         $data['uuid_business_id'] = session('uuid_business');
+        $data['uuid_business_id'] = session('uuid_business');
 
-// echo $this->purchase_invoice_items;die;
+        // echo $this->purchase_invoice_items;die;
 
-        if( $id > 0){
+        if ($id > 0) {
 
             $this->model->updateTableData($id, $data, $this->purchase_invoice_items);
             $response['status'] = true;
-        }else{
+        } else {
 
             $data['uuid_business_id'] = session('uuid_business');
             $data['purchase_invoices_id'] = $mainTableId;
             $data['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoice_items');
-            $id = $this->model->insertTableData( $data, $this->purchase_invoice_items);
+            $id = $this->model->insertTableData($data, $this->purchase_invoice_items);
 
-            if( $id > 0){
+            if ($id > 0) {
                 $response['msg'] = "Data added successfully";
                 $response['status'] = true;
-            }else{
+            } else {
                 $response['msg'] = "Data insertion failed";
                 $response['status'] = false;
             }
         }
 
-        $response['data'] = getRowArray( $this->purchase_invoice_items, ["id" => $id]);
+        $response['data'] = getRowArray($this->purchase_invoice_items, ["id" => $id]);
 
         echo json_encode($response);
-
     }
 
-    public function deleteNote(){
+    public function deleteNote()
+    {
 
         $id = $this->request->getPost('id');
         $res = $this->model->deleteTableData($this->purchase_invoice_notes, $id);
 
         $response['id'] = $id;
-        if($res){
+        if ($res) {
 
             $response['status'] = true;
             $response['msg'] = "Data deleted successfully";
-        }else{
+        } else {
             $response['status'] = false;
             $response['msg'] = "Failed";
         }
-        
+
 
         echo json_encode($response);
     }
