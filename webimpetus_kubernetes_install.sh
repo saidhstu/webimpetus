@@ -180,7 +180,7 @@ if [[ "$cicd_action" == "install" ]]; then
 #docker rmi -f $(docker images -aq)
 #echo ${WORKSPACE_DIR}/docker-compose.yml
 
-${BUILD_IMAGE_APP} build -f ${CWD}/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
+${BUILD_IMAGE_APP} build -f devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${TARGET_STACK} . --no-cache
 ${BUILD_IMAGE_APP} tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 ${BUILD_IMAGE_APP} push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
 
