@@ -4,13 +4,24 @@ name: DevOps CI/CD Deploy Workstation CRM to Prod Env in Kubernetes using Helm
 on:
   push:
     branches: [ dummy ]
+
   workflow_dispatch:
+    inputs:
+      ENV_REF:
+        type: choice
+        description: 'Please choose the Target Environment'
+        default: 'test'
+        required: true
+        options:
+        - test
+        - acc
+        - prod
 
 env:
   IMAGE_TAG: ${{ github.ref_name }}
   TARGET_STACK: openresty_php
   IMAGE_NAME: webimpetus
-  TARGET_ENV: prod
+  TARGET_ENV: ${{ github.event.inputs.ENV_REF }}
 
 jobs:
   deployment:

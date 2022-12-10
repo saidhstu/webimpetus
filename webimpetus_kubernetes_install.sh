@@ -151,7 +151,7 @@ fi
 
 if [[ -z "$9" ]]; then
 echo "Docker build cmd is default, so leaving default set BUILD_IMAGE_APP to whatever it may be (nerdctl)"
-export BUILD_IMAGE_APP="nerdctl"
+export BUILD_IMAGE_APP="docker"
 else
 echo "BUILD_IMAGE_APP is provided, so setting BUILD_IMAGE_APP $9"
 export BUILD_IMAGE_APP=$9
