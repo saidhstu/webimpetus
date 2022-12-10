@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\Core\CommonController;
-use App\Models\Core\Common_model;
 use App\Models\Sprints_model;
 
 class Sprints extends CommonController

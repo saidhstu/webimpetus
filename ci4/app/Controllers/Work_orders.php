@@ -87,6 +87,8 @@ class Work_orders extends CommonController
             }else{
                 $data['order_number'] += 1;
             }
+
+            $data['custom_order_number'] = $data['custom_order_number'] . $data['order_number'];
         }
      
 		$response = $this->model->insertOrUpdate($id, $data);
