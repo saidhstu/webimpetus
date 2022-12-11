@@ -42,6 +42,8 @@ class Purchase_invoices extends CommonController
         $data["users"] = $this->model->getUser();
         $data[$this->rawTblName] = $this->model->getRows($id)->getRow();
 
+
+        /* // This just create entry on table when click on add button
         if (empty($id)) {
 
             $insert['date'] = time();
@@ -63,7 +65,16 @@ class Purchase_invoices extends CommonController
             if ($id) {
                 return redirect()->to('/' . $this->table . '/edit/' . $id);
             }
+        } */
+
+        if (empty($id)) {
+            if (empty($data[$this->rawTblName])) {
+                $data[$this->rawTblName] = new stdClass();
+            }
+            $data[$this->rawTblName]->date = time();
+            $data[$this->rawTblName]->status = 'Invoiced';
         }
+
         // if there any special cause we can overried this function and pass data to add or edit view
         $data['additional_data'] = $this->getAdditionalData($id);
 

@@ -5,12 +5,9 @@ $templates = getResultArray("templates", ["module_name" => $tableName]);
 $items = getResultArray("purchase_invoice_items", ["purchase_invoices_id" => @$purchase_invoice->id], false);
 $notes = getResultArray("purchase_invoice_notes", ["purchase_invoices_id" => @$purchase_invoice->id], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
-
-if (isset($purchase_invoice->id)) {
-
-    $is_tax_readonly = "disabled";
-}
+$taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 ?>
+
 <div class="white_card_body">
     <div class="card-body">
 
@@ -282,20 +279,13 @@ if (isset($purchase_invoice->id)) {
                                         <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right; margin-left: 14px;">+ Add a invoice item</button>
                                     </div>
 
-
-
-
-
-
                                     <div class="row form-group">
                                         <label class="col-md-4 control-label">Tax Code</label>
-
                                         <div class="col-md-6">
-                                            <select id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown" <?php echo @$is_tax_readonly; ?>>
-                                                <option value="UK" <?= @$purchase_invoice->status == 'UK' ? 'selected' : '' ?>>UK</option>
-                                                <option value="US" <?= @$purchase_invoice->status == 'US' ? 'selected' : '' ?>>US</option>
-                                                <option value="EU" <?= @$purchase_invoice->status == 'EU' ? 'selected' : '' ?>>EU</option>
-                                                <option value="Rest of the world" <?= @$purchase_invoice->status == 'Rest of the world' ? 'selected' : '' ?>>Rest of the world</option>
+                                            <select id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown">
+                                                <?php foreach ($taxes as $tax) { ?>
+                                                    <option data-val="<?= $tax->tax_rate ?>" value="<?= $tax->tax_code ?>" <?= @$sales_invoice->inv_tax_code == $tax->tax_code ? 'selected' : '' ?>><?= $tax->tax_code ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>

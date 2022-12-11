@@ -6,12 +6,8 @@ $items = getResultArray("sales_invoice_items", ["sales_invoices_id" => @$sales_i
 $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_invoice->id], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
 $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
-
-if (isset($sales_invoice->id)) {
-
-    $is_tax_readonly = "disabled";
-}
 ?>
+
 <div class="white_card_body">
     <div class="card-body">
 
