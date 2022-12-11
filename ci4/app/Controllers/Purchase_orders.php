@@ -74,6 +74,7 @@ class Purchase_orders extends CommonController
             $data['custom_order_number'] = $data['custom_order_number'] . $data['order_number'];
         }
 
+        $data['is_locked'] = isset($data['is_locked']) ? 1 : 0;
         $response = $this->model->insertOrUpdate($id, $data);
         if (!$response) {
             session()->setFlashdata('message', 'Something wrong!');

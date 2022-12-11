@@ -4,7 +4,7 @@ $customers = getResultArray("customers", ["supplier" => 1]);
 $templates = getResultArray("templates", ["module_name" => $tableName]);
 $items = getWithOutUuidResultArray("purchase_order_items", ["purchase_orders_id" => @$purchase_order->id], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
-
+$taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delivered", "Completed", "Proforma Invoice"];
 ?>
 
@@ -204,7 +204,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                                         <th data-th="Description"><span class="bt-content">Description</span></th>
                                                         <th data-th="Rate"><span class="bt-content">Rate</span></th>
                                                         <th data-th="qty"><span class="bt-content">qty</span></th>
-                                                        <th data-th="discount"><span class="bt-content">Discount</span></th>
+                                                        <th data-th="discount"><span class="bt-content">Discount(%)</span></th>
                                                         <th data-th="Amount"><span class="bt-content">Amount</span></th>
                                                         <th class="td_edit" data-th="Edit/Save"><span class="bt-content">Edit/Save</span></th>
                                                         <th class="td_remove" data-th="Cancel/Remove"><span class="bt-content">Cancel/Remove</span></th>
@@ -229,7 +229,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                                                 </span></td>
                                                             <td data-th="Qty"><span class="bt-content">
                                                                     <span class="s_qty" style="display: inline;"><?= $eachItems->qty ?></span>
-                                                                    <input type="text" autocomplete="off" class="qty num form-control" style="display: none;" value="<?= $eachItems->qty ?>">
+                                                                    <input type="number" autocomplete="off" class="qty num form-control" style="display: none;" value="<?= $eachItems->qty ?>">
                                                                 </span></td>
                                                             <td data-th="Discount"><span class="bt-content">
                                                                     <span class="s_discount" style="display: inline;"><?= $eachItems->discount ?></span>
@@ -256,11 +256,6 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                                         </tr>
                                                     <?php } ?>
-
-
-
-
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -269,12 +264,6 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                     <div class="row form-group row-space hidden-xs" style="margin-bottom:5px;margin-left: 5px;">
                                         <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right;">+ Add a new item</button>
                                     </div>
-
-
-
-
-
-
 
                                     <div class="row form-group row-space">
                                         <label class="col-sm-2 control-label">Total Qty</label>
@@ -285,7 +274,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         <div class="col-sm-3"><input class="form-control" type="text" autocomplete="off" value="<?= @$purchase_order->subtotal ?>" name="subtotal" id="subtotal" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label">Discount (%)</label>
+                                        <label class="col-sm-2 control-label">Discount Amount</label>
                                         <div class="col-sm-3"><input class="form-control" type="text" autocomplete="off" value="<?= @$purchase_order->discount ?>" name="discount" id="totalDiscount" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
@@ -294,10 +283,11 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                     </div>
                                     <div class="row form-group row-space">
                                         <label class="col-sm-2 control-label">Tax Code</label>
-
                                         <div class="col-sm-3">
                                             <select id="tax_code" name="tax_code" class="form-control">
-                                                <option value="UK" selected="">UK</option>
+                                                <?php foreach ($taxes as $tax) { ?>
+                                                    <option data-val="<?= $tax->tax_rate ?>" value="<?= $tax->tax_code ?>" <?= @$sales_invoice->inv_tax_code == $tax->tax_code ? 'selected' : '' ?>><?= $tax->tax_code ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -369,7 +359,6 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?= @$purchase_order->base_currency_code ?>">
-
                                         </div>
                                     </div>
                                     <div class="row form-group row-space ">
@@ -378,7 +367,12 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control" id="exchange_rate" name="exchange_rate" placeholder="" value="<?= @$purchase_order->exchange_rate ?>">
-
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label class="col-sm-4 control-label">Lock Order</label>
+                                        <div class="col-sm-6">
+                                            <input type="checkbox" value="1" name="is_locked" id="is_locked" <?= @$purchase_order->is_locked ? 'checked' : '' ?> />
                                         </div>
                                     </div>
                                 </div>
@@ -419,6 +413,16 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
 <script>
     var baseUrl = "<?php echo base_url(); ?>";
+
+    var is_locked = "<?= @$purchase_order->is_locked ?>";
+    var user_role = "<?= session('role') ?>";
+    if (is_locked == "1" && (user_role != "1" && user_role != "2")) {
+        $(".editlink").addClass("d-none");
+        $(".removelink").addClass("d-none");
+        $("#addrow").addClass("d-none");
+        $("button[type='submit']").addClass("d-none");
+    }
+
     $(document).on("click", ".form-check-input", function() {
         if ($(this).prop("checked") == false) {
             $(this).val(0);

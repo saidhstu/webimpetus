@@ -114,46 +114,43 @@ function calculationAmount(saveData = true) {
 
     $("#table-breakpoint .item-row").each(function () {
 
-        var rate = $(this).find(".rate").val();
-        var hours = parseInt($(this).find(".hours").val());
+        var rate = parseFloat($(this).find(".rate").val());
+        var hours = parseFloat($(this).find(".hours").val());
 
         totalHour += hours;
         var amount = rate * hours;
         totalAmount += amount;
         $(this).find(".price").val(amount);
-    })
+    });
+
+    let inv_tax_code_val = parseFloat($("#inv_tax_code").find(':selected').data('val'));
+    var tax = (totalAmount / 100) * inv_tax_code_val;
+    var totalAmountWithTax = totalAmount + tax;
+
+    totalAmount = totalAmount.toFixed(2);
+    totalHour = totalHour.toFixed(2);
+    tax = tax.toFixed(2);
+    totalAmountWithTax = totalAmountWithTax.toFixed(2);
 
     $("#total_due").val(totalAmount);
-
-    var inv_tax_code = $("#inv_tax_code").val();
-    var totalAmountWithTax = 0
-    if (inv_tax_code == "UK") {
-        var tax = (totalAmount / 100) * 20;
-        totalAmountWithTax = totalAmount + tax;
-    }
     $("#total_hours").val(totalHour);
     $("#total_tax").val(tax);
-
     $("#total_due_with_tax").val(totalAmountWithTax);
     $("#balance_due").val(totalAmountWithTax);
     $("#total").val(totalAmountWithTax);
 
     if (saveData) {
-
         $.ajax({
             url: baseUrl + "/sales_invoices/updateInvoice",
             data: { totalAmount: totalAmount, mainTableId: mainTableId, totalHour: totalHour, totalAmountWithTax: totalAmountWithTax, total_tax: tax },
             method: 'post',
             success: function (res) {
 
-
             }
         })
     }
-
-
-
 }
+
 $(document).on("click", "#addrow", function () {
     var html = '<tr class="item-row"><td class="item-id"><span class="item_id"></span><input name="item_id[]" type="hidden"></td><td><span class="s_description" style="display:none"></span><textarea maxlength="1023" class="description form-control"></textarea></td><td><span class="s_rate" style="display:none"></span><input type="text" class="rate num form-control" value="0" style="width:50px"></td><td><span class="s_hours" style="display:none"></span><input type="text" class="hours num form-control" value="0" style="width:50px"></td><td><span class="price">0</span></td><td><a href="javascript:void(0)" class="editlink" style="display:none " title="Edit"><i class="fa fa-edit"></i></a><a href="javascript:void(0)" class="savelink" title="Save"><i class="fa fa-save"></i></a></td><td><a href="javascript:void(0)" class="removelink" style="display:none" title="Remove"><i class="fa fa-trash"></i></a><a href="javascript:void(0)" class="cancellink" title="Cancel"><i class="fa fa-remove"></i></a></td></tr>';
 

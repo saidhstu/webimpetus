@@ -83,6 +83,7 @@ class Sales_invoices extends CommonController
 
         $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
+        $data['paid_date'] = strtotime($data['paid_date']);
 
         if (empty($id)) {
             $data['invoice_number'] = findMaxFieldValue($this->sales_invoices, "invoice_number");
@@ -94,7 +95,8 @@ class Sales_invoices extends CommonController
             }
             $data['custom_invoice_number'] = $data['custom_invoice_number'] . $data['invoice_number'];
         }
-
+        
+        $data['is_locked'] = isset($data['is_locked']) ? 1 : 0;
         $response = $this->model->insertOrUpdate($id, $data);
         if (!$response) {
             session()->setFlashdata('message', 'Something wrong!');
@@ -149,18 +151,17 @@ class Sales_invoices extends CommonController
 
         echo json_encode($response);
     }
+
     public function saveNotes()
     {
-
         $id = $this->request->getPost('id');
         $data['notes'] = $this->request->getPost('notes');
         $data['sales_invoices_id'] = $this->request->getPost('mainTableId');
+        $data['uuid_business_id'] = session('uuid_business');
 
         if ($id > 0) {
-
             $res = $this->model->updateTableData($id, $data, $this->sales_invoice_notes);
         } else {
-
             $data['created_by'] = $_SESSION['uuid'];
             $id = $this->model->insertTableData($data, $this->sales_invoice_notes);
         }
@@ -172,6 +173,7 @@ class Sales_invoices extends CommonController
 
         echo json_encode($response);
     }
+
     public function addInvoiceItem()
     {
 

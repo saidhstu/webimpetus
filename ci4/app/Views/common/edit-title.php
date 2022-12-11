@@ -28,16 +28,16 @@
                 </div>
                 <div class="page_title_right">   
                     <?php if($tableName == "sales_invoices") { ?>
-                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$sales_invoice->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
+                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$sales_invoice->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
                     <?php } ?>
                     <?php if($tableName == "purchase_invoices") { ?>
-                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
+                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
                     <?php } ?>
                     <?php if($tableName == "purchase_orders") { ?>
-                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_order->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
+                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_order->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
                     <?php } ?>
                     <?php if($tableName == "work_orders") { ?>
-                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
+                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
                     <?php } ?>
                     <a href="/<?php echo strtolower($tableName); ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php 
                         if(isset($menuName)){

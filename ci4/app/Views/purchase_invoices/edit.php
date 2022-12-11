@@ -5,12 +5,9 @@ $templates = getResultArray("templates", ["module_name" => $tableName]);
 $items = getResultArray("purchase_invoice_items", ["purchase_invoices_id" => @$purchase_invoice->id], false);
 $notes = getResultArray("purchase_invoice_notes", ["purchase_invoices_id" => @$purchase_invoice->id], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
-
-if (isset($purchase_invoice->id)) {
-
-    $is_tax_readonly = "disabled";
-}
+$taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 ?>
+
 <div class="white_card_body">
     <div class="card-body">
 
@@ -282,20 +279,13 @@ if (isset($purchase_invoice->id)) {
                                         <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right; margin-left: 14px;">+ Add a invoice item</button>
                                     </div>
 
-
-
-
-
-
                                     <div class="row form-group">
                                         <label class="col-md-4 control-label">Tax Code</label>
-
                                         <div class="col-md-6">
-                                            <select id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown" <?php echo @$is_tax_readonly; ?>>
-                                                <option value="UK" <?= @$purchase_invoice->status == 'UK' ? 'selected' : '' ?>>UK</option>
-                                                <option value="US" <?= @$purchase_invoice->status == 'US' ? 'selected' : '' ?>>US</option>
-                                                <option value="EU" <?= @$purchase_invoice->status == 'EU' ? 'selected' : '' ?>>EU</option>
-                                                <option value="Rest of the world" <?= @$purchase_invoice->status == 'Rest of the world' ? 'selected' : '' ?>>Rest of the world</option>
+                                            <select id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown">
+                                                <?php foreach ($taxes as $tax) { ?>
+                                                    <option data-val="<?= $tax->tax_rate ?>" value="<?= $tax->tax_code ?>" <?= @$sales_invoice->inv_tax_code == $tax->tax_code ? 'selected' : '' ?>><?= $tax->tax_code ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -411,7 +401,12 @@ if (isset($purchase_invoice->id)) {
                                         <label class="col-sm-4 control-label">Exchange Customer Currency to Base Currency</label>
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control" id="inv_exchange_rate" name="inv_exchange_rate" placeholder="" value="<?= @$purchase_invoice->inv_exchange_rate ?>">
-
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label class="col-sm-4 control-label">Lock Invoice</label>
+                                        <div class="col-sm-6">
+                                            <input type="checkbox" value="1" name="is_locked" id="is_locked" <?= @$purchase_invoice->is_locked ? 'checked' : '' ?> />
                                         </div>
                                     </div>
                                 </div>
@@ -429,13 +424,13 @@ if (isset($purchase_invoice->id)) {
                                         <?php foreach ($notes as $eachNotes) { ?>
                                             <div class="form-group each-notes-div-<?php echo $eachNotes->id; ?>">
                                                 <label for="inputEmail4" class="notes-lebel"><?php echo getUserInfo()->name . ' (' . $eachNotes->created_at . " )"; ?></label>
-                                                <button type="button" id="add" data-id="<?php echo $eachNotes->id; ?>" class="btn btn-danger btn-color btn-sm float-right" style="" onclick="deleteNote(<?php echo $eachNotes->id; ?>)">Delete Note</button>
+                                                <button type="button" data-id="<?php echo $eachNotes->id; ?>" class="btn btn-danger btn-color btn-sm float-right delete-note" style="" onclick="deleteNote(<?php echo $eachNotes->id; ?>)">Delete Note</button>
                                                 <textarea name="" class="form-control each-notes" id="" data-id="<?php echo $eachNotes->id; ?>" cols="10" rows="5"><?php echo $eachNotes->notes; ?></textarea>
                                             </div>
                                         <?php } ?>
                                     </div>
 
-                                    <button type="button" id="add" class="btn btn-primary btn-color btn-sm" style="margin-bottom:10px;margin-left: 5px" onclick="addCustomerNote()">Add Note</button>
+                                    <button type="button" id="addNote" class="btn btn-primary btn-color btn-sm" style="margin-bottom:10px;margin-left: 5px" onclick="addCustomerNote()">Add Note</button>
                                 </div>
 
                             </div>
@@ -470,6 +465,18 @@ if (isset($purchase_invoice->id)) {
 
 <script>
     var baseUrl = "<?php echo base_url(); ?>";
+
+    var is_locked = "<?= @$purchase_invoice->is_locked ?>";
+    var user_role = "<?= session('role') ?>";
+    if (is_locked == "1" && (user_role != "1" && user_role != "2")) {
+        $(".editlink").addClass("d-none");
+        $(".removelink").addClass("d-none");
+        $("#addrow").addClass("d-none");
+        $("button[type='submit']").addClass("d-none");
+        $(".delete-note").addClass("d-none");
+        $("#addNote").addClass("d-none");
+    }
+
     $(document).on("click", ".form-check-input", function() {
         if ($(this).prop("checked") == false) {
             $(this).val(0);
