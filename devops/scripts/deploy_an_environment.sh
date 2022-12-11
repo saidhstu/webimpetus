@@ -19,16 +19,16 @@ else
 fi
 
 if [[ -z "$3" ]]; then
-   echo "DOCKER_IMAGE is empty, so setting DOCKER_IMAGE to install (default)"
-   DOCKER_IMAGE="registry.workstation.co.uk/webimpetus"
+   echo "IMAGE_REGISTRY is empty, so setting IMAGE_REGISTRY to docker.io (default)"
+   IMAGE_REGISTRY="docker.io"
 else
-   echo "DOCKER_IMAGE is provided, DOCKER_IMAGE is set to $3"
-   DOCKER_IMAGE=$3
+   echo "IMAGE_REGISTRY is provided, IMAGE_REGISTRY is set to $3"
+   IMAGE_REGISTRY=$3
 fi
 
 if [[ -z "$4" ]]; then
-   echo "DOCKER_IMAGE is empty, so setting DOCKER_IMAGE to install (default)"
-   DOCKER_IMAGE="registry.workstation.co.uk/webimpetus"
+   echo "DOCKER_IMAGE is empty, so setting DOCKER_IMAGE to webimpetus (default)"
+   DOCKER_IMAGE="webimpetus"
 else
    echo "DOCKER_IMAGE is provided, DOCKER_IMAGE is set to $4"
    DOCKER_IMAGE=$4
@@ -52,6 +52,10 @@ DOCKER_CONRAINER_NAME=kube-runner-workstation
 # fi
 
 docker run --name $DOCKER_CONRAINER_NAME -v $(pwd)/devops/webimpetus-chart:/helm-charts/webimpetus-chart \
+--env TARGET_ENV=$TARGET_ENV \
+--env CLUSTER_NAME=$CLUSTER_NAME \
+--env IMAGE_REGISTRY=$IMAGE_REGISTRY \
+--env DOCKER_IMAGE=$DOCKER_IMAGE \
 --env KUBECONFIG_BASE64=$TARGET_CLUSTER_KUBECONFIG \
 --env RUN_BASH_BASE64=$(cat $BASH_FILE_TO_RUN | base64) \
 registry.workstation.co.uk/kube-runner:stable
