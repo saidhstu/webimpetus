@@ -66,4 +66,4 @@ echo $BASH_FILE_TO_RUN
 # --env DOCKER_IMAGE=$DOCKER_IMAGE \
 # --env KUBECONFIG_BASE64=$TARGET_CLUSTER_KUBECONFIG \
 # --env RUN_BASH_BASE64=$(cat $BASH_FILE_TO_RUN | base64) \
-# registry.workstation.co.uk/kube-runner:stable
+# registry.workstation.co.uk/kube-runner:latest
