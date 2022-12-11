@@ -5,6 +5,7 @@ $templates = getResultArray("templates", ["module_name" => $tableName]);
 $items = getResultArray("sales_invoice_items", ["sales_invoices_id" => @$sales_invoice->id], false);
 $notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_invoice->id], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
+$taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 
 if (isset($sales_invoice->id)) {
 
@@ -282,20 +283,13 @@ if (isset($sales_invoice->id)) {
                                         <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right; margin-left: 14px;">+ Add a invoice item</button>
                                     </div>
 
-
-
-
-
-
                                     <div class="row form-group">
                                         <label class="col-md-4 control-label">Tax Code</label>
-
                                         <div class="col-md-6">
-                                            <select id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown" <?php echo @$is_tax_readonly; ?>>
-                                                <option value="UK" <?= @$sales_invoice->status == 'UK' ? 'selected' : '' ?>>UK</option>
-                                                <option value="US" <?= @$sales_invoice->status == 'US' ? 'selected' : '' ?>>US</option>
-                                                <option value="EU" <?= @$sales_invoice->status == 'EU' ? 'selected' : '' ?>>EU</option>
-                                                <option value="Rest of the world" <?= @$sales_invoice->status == 'Rest of the world' ? 'selected' : '' ?>>Rest of the world</option>
+                                            <select id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown">
+                                                <?php foreach ($taxes as $tax) { ?>
+                                                    <option data-val="<?= $tax->tax_rate ?>" value="<?= $tax->tax_code ?>" <?= @$sales_invoice->inv_tax_code == $tax->tax_code ? 'selected' : '' ?>><?= $tax->tax_code ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
