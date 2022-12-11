@@ -1,0 +1,83 @@
+name: Docker images and tags matrix
+
+on:
+  push:
+    branches: [ dummy ]
+  workflow_dispatch:
+    inputs:
+      BRANCH_REF:
+        type: choice
+        description: 'Please choose the Target Environment'
+        default: 'main'
+        required: true
+        options:
+        - main
+        - test
+        - dev
+
+      IMAGE_REGISTRY:
+        type: choice
+        description: 'Please choose docker image registry to push'
+        default: 'registry.workstation.co.uk'
+        required: true
+        options:
+        - docker.io
+        - ghcr.io
+        - registry.workstation.co.uk
+
+      IMAGE_NAME:
+        type: choice
+        description: 'Please choose docker image name to push'
+        default: 'webimpetus'
+        required: true
+        options:
+        - webimpetus
+        - workstation
+
+      IMAGE_TAG:
+        type: choice
+        description: 'Please choose docker image tag to push'
+        default: 'latest'
+        required: true
+        options:
+        - latest
+        - stable
+        - prod
+        - acc
+        - test
+        - dev
+
+env:
+  IMAGE_REGISTRY: ${{ github.event.inputs.IMAGE_REGISTRY }}
+  IMAGE_NAME: ${{ github.event.inputs.IMAGE_NAME }}
+  IMAGE_TAG: ${{ github.event.inputs.IMAGE_TAG }}
+  BRANCH_REF: ${{ github.event.inputs.BRANCH_REF }}
+
+jobs:
+  deployment:
+    runs-on: 'ubuntu-latest'
+    steps:
+
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ env.BRANCH_REF }}
+
+    - name: short-sha
+      uses: benjlevesque/short-sha@v1.2
+      with:
+        length: 6
+
+    - run: echo $SHA
+      env:
+       SHA: ${{ steps.short-sha.outputs.sha }}
+
+    - run: echo $SHA
+      env:
+       SHA: ${{ env.SHA }}
+        
+    - name: Build, tag, and push image to Workstation Docker Registry
+      run: |
+        docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t ${{ env.IMAGE_NAME }} . --no-cache
+        docker tag ${{ env.IMAGE_NAME }} ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        docker push ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
