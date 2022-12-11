@@ -401,7 +401,12 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                         <label class="col-sm-4 control-label">Exchange Customer Currency to Base Currency</label>
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control" id="inv_exchange_rate" name="inv_exchange_rate" placeholder="" value="<?= @$purchase_invoice->inv_exchange_rate ?>">
-
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label class="col-sm-4 control-label">Lock Invoice</label>
+                                        <div class="col-sm-6">
+                                            <input type="checkbox" value="1" name="is_locked" id="is_locked" <?= @$purchase_invoice->is_locked ? 'checked' : '' ?> />
                                         </div>
                                     </div>
                                 </div>
@@ -419,13 +424,13 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                         <?php foreach ($notes as $eachNotes) { ?>
                                             <div class="form-group each-notes-div-<?php echo $eachNotes->id; ?>">
                                                 <label for="inputEmail4" class="notes-lebel"><?php echo getUserInfo()->name . ' (' . $eachNotes->created_at . " )"; ?></label>
-                                                <button type="button" id="add" data-id="<?php echo $eachNotes->id; ?>" class="btn btn-danger btn-color btn-sm float-right" style="" onclick="deleteNote(<?php echo $eachNotes->id; ?>)">Delete Note</button>
+                                                <button type="button" data-id="<?php echo $eachNotes->id; ?>" class="btn btn-danger btn-color btn-sm float-right delete-note" style="" onclick="deleteNote(<?php echo $eachNotes->id; ?>)">Delete Note</button>
                                                 <textarea name="" class="form-control each-notes" id="" data-id="<?php echo $eachNotes->id; ?>" cols="10" rows="5"><?php echo $eachNotes->notes; ?></textarea>
                                             </div>
                                         <?php } ?>
                                     </div>
 
-                                    <button type="button" id="add" class="btn btn-primary btn-color btn-sm" style="margin-bottom:10px;margin-left: 5px" onclick="addCustomerNote()">Add Note</button>
+                                    <button type="button" id="addNote" class="btn btn-primary btn-color btn-sm" style="margin-bottom:10px;margin-left: 5px" onclick="addCustomerNote()">Add Note</button>
                                 </div>
 
                             </div>
@@ -460,6 +465,18 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
 <script>
     var baseUrl = "<?php echo base_url(); ?>";
+
+    var is_locked = "<?= @$purchase_invoice->is_locked ?>";
+    var user_role = "<?= session('role') ?>";
+    if (is_locked == "1" && (user_role != "1" && user_role != "2")) {
+        $(".editlink").addClass("d-none");
+        $(".removelink").addClass("d-none");
+        $("#addrow").addClass("d-none");
+        $("button[type='submit']").addClass("d-none");
+        $(".delete-note").addClass("d-none");
+        $("#addNote").addClass("d-none");
+    }
+
     $(document).on("click", ".form-check-input", function() {
         if ($(this).prop("checked") == false) {
             $(this).val(0);

@@ -91,6 +91,7 @@ class Purchase_invoices extends CommonController
 
         $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
+        $data['paid_date'] = strtotime($data['paid_date']);
 
         if (empty($id)) {
             $data['invoice_number'] = findMaxFieldValue($this->purchase_invoices, "invoice_number");
@@ -103,7 +104,8 @@ class Purchase_invoices extends CommonController
 
             $data['custom_invoice_number'] = $data['custom_invoice_number'] . $data['invoice_number'];
         }
-
+        
+        $data['is_locked'] = isset($data['is_locked']) ? 1 : 0;
         $response = $this->model->insertOrUpdate($id, $data);
         if (!$response) {
             session()->setFlashdata('message', 'Something wrong!');

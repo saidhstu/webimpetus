@@ -359,7 +359,6 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?= @$purchase_order->base_currency_code ?>">
-
                                         </div>
                                     </div>
                                     <div class="row form-group row-space ">
@@ -368,7 +367,12 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control" id="exchange_rate" name="exchange_rate" placeholder="" value="<?= @$purchase_order->exchange_rate ?>">
-
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label class="col-sm-4 control-label">Lock Order</label>
+                                        <div class="col-sm-6">
+                                            <input type="checkbox" value="1" name="is_locked" id="is_locked" <?= @$purchase_order->is_locked ? 'checked' : '' ?> />
                                         </div>
                                     </div>
                                 </div>
@@ -409,6 +413,16 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
 <script>
     var baseUrl = "<?php echo base_url(); ?>";
+
+    var is_locked = "<?= @$purchase_order->is_locked ?>";
+    var user_role = "<?= session('role') ?>";
+    if (is_locked == "1" && (user_role != "1" && user_role != "2")) {
+        $(".editlink").addClass("d-none");
+        $(".removelink").addClass("d-none");
+        $("#addrow").addClass("d-none");
+        $("button[type='submit']").addClass("d-none");
+    }
+
     $(document).on("click", ".form-check-input", function() {
         if ($(this).prop("checked") == false) {
             $(this).val(0);
