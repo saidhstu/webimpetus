@@ -106,8 +106,9 @@ jobs:
           echo "FINAL_TARGET_CLUSTER is NOT k3s3"
         fi
         ./devops/scripts/deploy_an_environment.sh ${{ env.TARGET_ENV }} ${{ env.TARGET_CLUSTER }} ${{ env.IMAGE_REGISTRY }} ${{ env.IMAGE_NAME }} $FINAL_TARGET_CLUSTER 
-        echo "Run bash script done!"
-        
+        echo "Run bash script to pull a stable or latest docker image and deploy to the selected environment - done!"
+      shell: bash
+
     - name: Slack Notification for Workstation CRM release 
       uses: rtCamp/action-slack-notify@v2
       env:
