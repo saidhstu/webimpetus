@@ -85,29 +85,40 @@ jobs:
       with:
         ref: "main"
 
-    - name: Run bash script to pull a stable or latest docker image and deploy to the selected environment
+    - name: Run bash script to perform Cluster kubeconfig mapping
       run: |
-        chmod +x ./devops/scripts/deploy_an_environment.sh
         if [ "${{ env.TARGET_CLUSTER }}" == "k3s1" ]; then
-          FINAL_TARGET_CLUSTER=${{ env.KUBE_CONFIG_DATA_K3S1 }}
+          TARGET_CLUSTER_DATA=${{ env.KUBE_CONFIG_DATA_K3S1 }}
         else
-          echo "FINAL_TARGET_CLUSTER is NOT k3s1"
+          echo "TARGET_CLUSTER_DATA is NOT k3s1"
         fi
-
         if [ "${{ env.TARGET_CLUSTER }}" == "k3s2" ]; then
-          FINAL_TARGET_CLUSTER=${{ env.KUBE_CONFIG_DATA_K3S2 }}
+          TARGET_CLUSTER_DATA=${{ env.KUBE_CONFIG_DATA_K3S2 }}
         else
-          echo "FINAL_TARGET_CLUSTER is NOT k3s2"
+          echo "TARGET_CLUSTER_DATA is NOT k3s2"
         fi
-
         if [ "${{ env.TARGET_CLUSTER }}" == "k3s3" ]; then
-          FINAL_TARGET_CLUSTER=${{ env.KUBE_CONFIG_DATA_K3S3 }}
+          TARGET_CLUSTER_DATA=${{ env.KUBE_CONFIG_DATA_K3S3 }}
         else
-          echo "FINAL_TARGET_CLUSTER is NOT k3s3"
+          echo "TARGET_CLUSTER_DATA is NOT k3s3"
         fi
-        ./devops/scripts/deploy_an_environment.sh ${{ env.TARGET_ENV }} ${{ env.TARGET_CLUSTER }} ${{ env.IMAGE_REGISTRY }} ${{ env.IMAGE_NAME }} $FINAL_TARGET_CLUSTER 
-        echo "Run bash script to pull a stable or latest docker image and deploy to the selected environment - done!"
+        echo "Cluster kubeconfig mapping - done!"
       shell: bash
+
+    - name: Helm Delete - Release
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ TARGET_CLUSTER_DATA }}
+      with:
+        command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
+
+    - name: Helm Deploy - Release
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ TARGET_CLUSTER_DATA }}
+      with:
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ eenv.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+
 
     - name: Slack Notification for Workstation CRM release 
       uses: rtCamp/action-slack-notify@v2
