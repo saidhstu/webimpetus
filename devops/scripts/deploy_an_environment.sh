@@ -46,16 +46,24 @@ BASH_FILE_TO_RUN=devops/scripts/kube_runner_deploy_env.sh
 
 DOCKER_CONRAINER_NAME=kube-runner-workstation
 
+echo $TARGET_ENV
+echo $CLUSTER_NAME
+echo $IMAGE_REGISTRY
+echo $DOCKER_IMAGE
+echo $TARGET_CLUSTER_KUBECONFIG
+echo $BASH_FILE_TO_RUN
+
+
 # if [[ $TRIGGER_ENV == "dev" ]]; then
 # docker container stop $DOCKER_CONRAINER_NAME
 # docker container rm $DOCKER_CONRAINER_NAME
 # fi
 
-docker run --name $DOCKER_CONRAINER_NAME -v $(pwd)/devops/webimpetus-chart:/helm-charts/webimpetus-chart \
---env TARGET_ENV=$TARGET_ENV \
---env CLUSTER_NAME=$CLUSTER_NAME \
---env IMAGE_REGISTRY=$IMAGE_REGISTRY \
---env DOCKER_IMAGE=$DOCKER_IMAGE \
---env KUBECONFIG_BASE64=$TARGET_CLUSTER_KUBECONFIG \
---env RUN_BASH_BASE64=$(cat $BASH_FILE_TO_RUN | base64) \
-registry.workstation.co.uk/kube-runner:stable
+# docker run --name $DOCKER_CONRAINER_NAME -v $(pwd)/devops/webimpetus-chart:/helm-charts/webimpetus-chart \
+# --env TARGET_ENV=$TARGET_ENV \
+# --env CLUSTER_NAME=$CLUSTER_NAME \
+# --env IMAGE_REGISTRY=$IMAGE_REGISTRY \
+# --env DOCKER_IMAGE=$DOCKER_IMAGE \
+# --env KUBECONFIG_BASE64=$TARGET_CLUSTER_KUBECONFIG \
+# --env RUN_BASH_BASE64=$(cat $BASH_FILE_TO_RUN | base64) \
+# registry.workstation.co.uk/kube-runner:stable
