@@ -69,9 +69,9 @@ env:
   IMAGE_TAG: ${{ github.event.inputs.IMAGE_TAG }}
   TARGET_STACK: openresty_php
 
-  KUBE_CONFIG_DATA_K3S1: ${{ secrets.KUBE_CONFIG_DATA_K3S1 }}
-  KUBE_CONFIG_DATA_K3S2: ${{ secrets.KUBE_CONFIG_DATA_K3S2 }}
-  KUBE_CONFIG_DATA_K3S3: ${{ secrets.KUBE_CONFIG_DATA_K3S3 }}
+  # KUBE_CONFIG_DATA_K3S1: ${{ secrets.KUBE_CONFIG_DATA_K3S1 }}
+  # KUBE_CONFIG_DATA_K3S2: ${{ secrets.KUBE_CONFIG_DATA_K3S2 }}
+  # KUBE_CONFIG_DATA_K3S3: ${{ secrets.KUBE_CONFIG_DATA_K3S3 }}
 
 jobs:
   # This workflow contains a single job called "build"
@@ -88,36 +88,34 @@ jobs:
     - name: Run bash script to perform Cluster kubeconfig mapping
       run: |
         if [ "${{ env.TARGET_CLUSTER }}" == "k3s1" ]; then
-          TARGET_CLUSTER_DATA=${{ env.KUBE_CONFIG_DATA_K3S1 }}
+          echo "KUBE_CONFIG_DATA=${{ secrets.KUBE_CONFIG_DATA_K3S1 }}" >> $GITHUB_ENV
         else
-          echo "TARGET_CLUSTER_DATA is NOT k3s1"
+          echo "KUBE_CONFIG_DATA is NOT k3s1"
         fi
         if [ "${{ env.TARGET_CLUSTER }}" == "k3s2" ]; then
-          TARGET_CLUSTER_DATA=${{ env.KUBE_CONFIG_DATA_K3S2 }}
+          echo "KUBE_CONFIG_DATA=${{ secrets.KUBE_CONFIG_DATA_K3S2 }}" >> $GITHUB_ENV
         else
-          echo "TARGET_CLUSTER_DATA is NOT k3s2"
+          echo "KUBE_CONFIG_DATA is NOT k3s2"
         fi
         if [ "${{ env.TARGET_CLUSTER }}" == "k3s3" ]; then
-          TARGET_CLUSTER_DATA=${{ env.KUBE_CONFIG_DATA_K3S3 }}
+          echo "KUBE_CONFIG_DATA=${{ secrets.KUBE_CONFIG_DATA_K3S3 }}" >> $GITHUB_ENV
         else
-          echo "TARGET_CLUSTER_DATA is NOT k3s3"
+          echo "KUBE_CONFIG_DATA is NOT k3s3"
         fi
         echo "Cluster kubeconfig mapping - done!"
       shell: bash
 
     - name: Helm Delete - Release
       uses: koslib/helm-eks-action@master
-      env:
-        KUBE_CONFIG_DATA: ${{ TARGET_CLUSTER_DATA }}
       with:
         command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
 
-    - name: Helm Deploy - Release
-      uses: koslib/helm-eks-action@master
-      env:
-        KUBE_CONFIG_DATA: ${{ TARGET_CLUSTER_DATA }}
-      with:
-        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ eenv.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+    # - name: Helm Deploy - Release
+    #   uses: koslib/helm-eks-action@master
+    #   env:
+    #     KUBE_CONFIG_DATA: ${{ TARGET_CLUSTER_DATA }}
+    #   with:
+        # command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ eenv.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
 
 
     - name: Slack Notification for Workstation CRM release 
