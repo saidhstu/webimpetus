@@ -4,7 +4,7 @@ $customers = getResultArray("customers", ["supplier" => 1]);
 $templates = getResultArray("templates", ["module_name" => $tableName]);
 $items = getWithOutUuidResultArray("purchase_order_items", ["purchase_orders_id" => @$purchase_order->id], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
-
+$taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delivered", "Completed", "Proforma Invoice"];
 ?>
 
@@ -204,7 +204,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                                         <th data-th="Description"><span class="bt-content">Description</span></th>
                                                         <th data-th="Rate"><span class="bt-content">Rate</span></th>
                                                         <th data-th="qty"><span class="bt-content">qty</span></th>
-                                                        <th data-th="discount"><span class="bt-content">Discount</span></th>
+                                                        <th data-th="discount"><span class="bt-content">Discount(%)</span></th>
                                                         <th data-th="Amount"><span class="bt-content">Amount</span></th>
                                                         <th class="td_edit" data-th="Edit/Save"><span class="bt-content">Edit/Save</span></th>
                                                         <th class="td_remove" data-th="Cancel/Remove"><span class="bt-content">Cancel/Remove</span></th>
@@ -229,7 +229,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                                                 </span></td>
                                                             <td data-th="Qty"><span class="bt-content">
                                                                     <span class="s_qty" style="display: inline;"><?= $eachItems->qty ?></span>
-                                                                    <input type="text" autocomplete="off" class="qty num form-control" style="display: none;" value="<?= $eachItems->qty ?>">
+                                                                    <input type="number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" autocomplete="off" class="qty num form-control" style="display: none;" value="<?= $eachItems->qty ?>">
                                                                 </span></td>
                                                             <td data-th="Discount"><span class="bt-content">
                                                                     <span class="s_discount" style="display: inline;"><?= $eachItems->discount ?></span>
@@ -285,7 +285,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         <div class="col-sm-3"><input class="form-control" type="text" autocomplete="off" value="<?= @$purchase_order->subtotal ?>" name="subtotal" id="subtotal" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label">Discount (%)</label>
+                                        <label class="col-sm-2 control-label">Discount</label>
                                         <div class="col-sm-3"><input class="form-control" type="text" autocomplete="off" value="<?= @$purchase_order->discount ?>" name="discount" id="totalDiscount" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
@@ -294,10 +294,11 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                     </div>
                                     <div class="row form-group row-space">
                                         <label class="col-sm-2 control-label">Tax Code</label>
-
                                         <div class="col-sm-3">
                                             <select id="tax_code" name="tax_code" class="form-control">
-                                                <option value="UK" selected="">UK</option>
+                                                <?php foreach ($taxes as $tax) { ?>
+                                                    <option data-val="<?= $tax->tax_rate ?>" value="<?= $tax->tax_code ?>" <?= @$sales_invoice->inv_tax_code == $tax->tax_code ? 'selected' : '' ?>><?= $tax->tax_code ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
