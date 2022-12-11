@@ -229,7 +229,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                                                 </span></td>
                                                             <td data-th="Qty"><span class="bt-content">
                                                                     <span class="s_qty" style="display: inline;"><?= $eachItems->qty ?></span>
-                                                                    <input type="number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" autocomplete="off" class="qty num form-control" style="display: none;" value="<?= $eachItems->qty ?>">
+                                                                    <input type="number" autocomplete="off" class="qty num form-control" style="display: none;" value="<?= $eachItems->qty ?>">
                                                                 </span></td>
                                                             <td data-th="Discount"><span class="bt-content">
                                                                     <span class="s_discount" style="display: inline;"><?= $eachItems->discount ?></span>
@@ -256,11 +256,6 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                                         </tr>
                                                     <?php } ?>
-
-
-
-
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -269,12 +264,6 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                     <div class="row form-group row-space hidden-xs" style="margin-bottom:5px;margin-left: 5px;">
                                         <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right;">+ Add a new item</button>
                                     </div>
-
-
-
-
-
-
 
                                     <div class="row form-group row-space">
                                         <label class="col-sm-2 control-label">Total Qty</label>
@@ -285,7 +274,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         <div class="col-sm-3"><input class="form-control" type="text" autocomplete="off" value="<?= @$purchase_order->subtotal ?>" name="subtotal" id="subtotal" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label">Discount</label>
+                                        <label class="col-sm-2 control-label">Discount Amount</label>
                                         <div class="col-sm-3"><input class="form-control" type="text" autocomplete="off" value="<?= @$purchase_order->discount ?>" name="discount" id="totalDiscount" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">

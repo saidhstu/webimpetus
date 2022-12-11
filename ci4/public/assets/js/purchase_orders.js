@@ -60,7 +60,7 @@ $(document).on("click", ".editlink", function () {
     var description = $(this).closest(".item-row").find('.description').val();
     var rate = $(this).closest(".item-row").find('.rate').val();
     var discount = $(this).closest(".item-row").find('.discount').val();
-    var qty = $(this).closest(".item-row").find('.qty').val();
+    var qty = parseInt($(this).closest(".item-row").find('.qty').val());
     var id = $(this).closest(".item-row").attr('id');
     var mainTableId = $("#mainTableId").val();
 
@@ -112,12 +112,12 @@ $(document).on("change", "#tax_code", function () {
 })
 
 function calculationAmount(saveData = true) {
-
     var totalQty = 0;
     var mainTableId = $("#mainTableId").val();
     var totalAmount = 0;
     var tax = 0;
     var totalDiscount = 0;
+    var subTotal = 0;
 
     $("#table-breakpoint .item-row").each(function () {
 
@@ -126,6 +126,7 @@ function calculationAmount(saveData = true) {
         var discount = parseFloat($(this).find(".discount").val());
         var discount_amount = (rate * qty) / 100 * discount;
         var amount = (rate * qty) - discount_amount;
+        subTotal += rate * qty;
 
         totalQty += qty;
         totalAmount += amount;
@@ -141,6 +142,7 @@ function calculationAmount(saveData = true) {
     tax = tax.toFixed(2);
     totalAmountWithTax = totalAmountWithTax.toFixed(2);
     totalDiscount = totalDiscount.toFixed(2);
+    subTotal = subTotal.toFixed(2);
 
     $("#total_due").val(totalAmount);
     $("#total_qty").val(totalQty);
@@ -149,23 +151,20 @@ function calculationAmount(saveData = true) {
     $("#balance_due").val(totalAmountWithTax);
     $("#total").val(totalAmountWithTax);
     $("#totalDiscount").val(totalDiscount);
-    $("#subtotal").val(totalAmount);
+    $("#subtotal").val(subTotal);
 
     if (saveData) {
-
         $.ajax({
             url: baseUrl + "/purchase_orders/updateInvoice",
-            data: { totalAmount: totalAmount, mainTableId: mainTableId, totalQty: totalQty, totalAmountWithTax: totalAmountWithTax, total_tax: tax, subtotal: totalAmount, discount: totalDiscount },
+            data: { totalAmount: totalAmount, mainTableId: mainTableId, totalQty: totalQty, totalAmountWithTax: totalAmountWithTax, total_tax: tax, subtotal: subTotal, discount: totalDiscount },
             method: 'post',
             success: function (res) {
 
             }
         })
     }
-
-
-
 }
+
 $(document).on("click", "#addrow", function () {
     var html = '<tr class="item-row"><td class="item-id"><span class="item_id"></span><input name="item_id[]" type="hidden"></td><td><span class="s_description" style="display:none"></span><textarea maxlength="1023" class="description form-control"></textarea></td><td><span class="s_rate" style="display:none;width:100%"></span><input type="text" class="rate num form-control" value="0" style="width:100%"></td><td><span class="s_qty" style="display:none;width:100%"></span><input type="number" class="qty num form-control" value="0" style="width:100%"></td><td><span class="s_discount" style="display:none"></span><input type="text" class="discount num form-control" value="0" style="width:100%"></td><td><span class="price">0</span></td><td><a href="javascript:void(0)" class="editlink" style="display:none " title="Edit"><i class="fa fa-edit"></i></a><a href="javascript:void(0)" class="savelink" title="Save"><i class="fa fa-save"></i></a></td><td><a href="javascript:void(0)" class="removelink" style="display:none" title="Remove"><i class="fa fa-trash"></i></a><a href="javascript:void(0)" class="cancellink" title="Cancel"><i class="fa fa-remove"></i></a></td></tr>';
 
