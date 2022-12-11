@@ -1,5 +1,10 @@
 #!/bin/bash
 
+    CLUSTER_NAME=k3s3
+    TARGET_ENV=test
+    DOCKER_IMAGE=registry.workstation.co.uk/wsl-openresty_php
+    IMAGE_TAG=1e8ed5
+
     # clear; kubectl get pods,ing,svc -A
     clear; ls -altr /helm-charts/
 
