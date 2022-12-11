@@ -35,19 +35,11 @@ else
 fi
 
 if [[ -z "$5" ]]; then
-   echo "IMAGE_TAG is empty, so setting IMAGE_TAG to install (default)"
-   IMAGE_TAG="latest"
-else
-   echo "IMAGE_TAG is provided, IMAGE_TAG is set to $5"
-   IMAGE_TAG=$5
-fi
-
-if [[ -z "$6" ]]; then
    echo "TARGET_CLUSTER_KUBECONFIG is empty, so setting TARGET_CLUSTER_KUBECONFIG to empty (default)"
    TARGET_CLUSTER_KUBECONFIG=""
 else
    echo "TARGET_CLUSTER_KUBECONFIG is provided, TARGET_CLUSTER_KUBECONFIG is set to $5"
-   TARGET_CLUSTER_KUBECONFIG=$6
+   TARGET_CLUSTER_KUBECONFIG=$5
 fi
 
 BASH_FILE_TO_RUN=devops/scripts/kube_runner_deploy_env.sh
@@ -60,6 +52,6 @@ DOCKER_CONRAINER_NAME=kube-runner-workstation
 # fi
 
 docker run --name $DOCKER_CONRAINER_NAME -v $(pwd)/devops/webimpetus-chart:/helm-charts/webimpetus-chart \
---env KUBECONFIG_BASE64=$(cat $TARGET_CLUSTER_KUBECONFIG) \
+--env KUBECONFIG_BASE64=$TARGET_CLUSTER_KUBECONFIG \
 --env RUN_BASH_BASE64=$(cat $BASH_FILE_TO_RUN | base64) \
 registry.workstation.co.uk/kube-runner:stable
