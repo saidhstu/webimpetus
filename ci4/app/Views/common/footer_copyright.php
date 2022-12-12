@@ -16,7 +16,7 @@
  
                     $appReleaseNotesDocURL = getenv('APP_RELEASE_NOTES_DOC_URL') ?: "https://webimpetus.cloud/";
                     $appEnvironment = getenv('APP_ENVIRONMENT') ?: "dev";
-                    $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s-rancher-desktop";
+                    $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s0";
                     $hostName = getenv('HOSTNAME') ?: "hostname-env-var-not-set";
 
                     $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.&nbsp;";
@@ -24,9 +24,9 @@
                     $webImpetusCopyRight .= "Cluster: " . $targetCluster . ".";
                     if ($appEnvironment == "prod" || $appEnvironment == "Prod") {
                         // in production hide environment details
-                        $webImpetusCopyRight .= "<!-- Environment: " . ucfirst($appEnvironment) . "-->.";
-                        $webImpetusCopyRight .= "<!-- CodeIgniter Version: " . \CodeIgniter\CodeIgniter::CI_VERSION . "-->.";
-                        $webImpetusCopyRight .= "<!-- Hostname: " . $hostName . "-->.";
+                        $webImpetusCopyRight .= " Environment: " . ucfirst($appEnvironment) . ".";
+                        //$webImpetusCopyRight .= " CodeIgniter Version: " . \CodeIgniter\CodeIgniter::CI_VERSION . ".";
+                        $webImpetusCopyRight .= " Hostname: " . $hostName . ".";
 
                     } else {
                         $webImpetusCopyRight .= " Environment: " . ucfirst($appEnvironment) . ".";

@@ -16,7 +16,7 @@
  
                     $appReleaseNotesDocURL = getenv('APP_RELEASE_NOTES_DOC_URL') ?: "https://webimpetus.cloud/";
                     $appEnvironment = getenv('APP_ENVIRONMENT') ?: "dev";
-                    $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s-rancher-desktop";
+                    $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s0";
                     $hostName = getenv('HOSTNAME') ?: "hostname-env-var-not-set";
 
                     $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.&nbsp;";

@@ -1,6 +1,6 @@
 service_name: wsl
 
-targetCluster: k3s-rancher-desktop
+targetCluster: k3s0
 targetEnv: dev
 targetNS: dev
 

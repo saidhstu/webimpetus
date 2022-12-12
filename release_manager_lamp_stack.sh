@@ -12,7 +12,7 @@ DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
 HTTP_SERVER_TYPE="apache2"
 TARGET_STACK="apache_php"
-TARGET_CLUSTER="k3s-rancher-desktop"
+TARGET_CLUSTER="k3s0"
 IMAGE_BUILD_TYPE="docker"
 IMAGE_BUILD_NAME="wsl_webserver"
 

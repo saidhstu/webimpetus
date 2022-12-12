@@ -41,7 +41,7 @@ Let's get started with deployment to the kubernetes cluster using a simple bash 
 
 ```./webimpetus_kubernetes_install.sh dev start```
 but for more control over the deployment parameters you can run:
-```./webimpetus_kubernetes_install.sh` dev dev install helm /etc/rancher/k3s/k3s.yaml localhost dev-wsl-webserver k3s-rancher-desktop```
+```./webimpetus_kubernetes_install.sh` dev dev install helm /etc/rancher/k3s/k3s.yaml localhost dev-wsl-webserver k3s0```
 
 Note: TEST Env could be updated by running something like:
 ```./webimpetus_kubernetes_install.sh test test install helm ~/.kube/kubeconfig.yaml localhost test-wsl-webserver k3s-K3S3 nerdctl```
