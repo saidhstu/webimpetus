@@ -12,7 +12,7 @@ DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
 HTTP_SERVER_TYPE="openresty"
 TARGET_STACK="openresty_php"
-TARGET_CLUSTER="k3s-rancher-desktop"
+TARGET_CLUSTER="k3s0"
 
 echo "Techstack: $TARGET_STACK"
 
@@ -162,7 +162,7 @@ echo "CWD: $CWD"
 
 VALUES_FILE_PATH=values-${targetNs}.yaml
 
-if [[ "$TARGET_CLUSTER" == "k3s-rancher-desktop" ]]; then
+if [[ "$TARGET_CLUSTER" == "k3s0" ]]; then
 VALUES_FILE_PATH=values-${targetNs}.yaml
 else
 echo "VALUES_FILE_PATH is not local dev, so setting VALUES_FILE_PATH to values-${targetNs}-${TARGET_CLUSTER}.yaml"

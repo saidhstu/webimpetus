@@ -10,7 +10,7 @@ SVC_NODEPORT=32080
 
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
-TARGET_CLUSTER="k3s-rancher-desktop"
+TARGET_CLUSTER="k3s0"
 
 if [[ -z "$1" ]]; then
    echo "env is empty, so setting targetEnv to development (default)"
