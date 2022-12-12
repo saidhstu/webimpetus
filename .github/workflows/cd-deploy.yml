@@ -105,17 +105,15 @@ jobs:
         echo "Cluster kubeconfig mapping - done!"
       shell: bash
 
-    - name: Helm Delete - Release
+    # - name: Helm Delete - Release
+    #   uses: koslib/helm-eks-action@master
+    #   with:
+    #     command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
+
+    - name: Helm Deploy - Release
       uses: koslib/helm-eks-action@master
       with:
-        command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
-
-    # - name: Helm Deploy - Release
-    #   uses: koslib/helm-eks-action@master
-    #   env:
-    #     KUBE_CONFIG_DATA: ${{ TARGET_CLUSTER_DATA }}
-    #   with:
-        # command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ eenv.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ eenv.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
 
 
     - name: Slack Notification for Workstation CRM release 
