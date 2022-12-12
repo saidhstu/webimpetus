@@ -102,7 +102,7 @@ $(document).on("click", ".removelink", function () {
 });
 
 $(document).on("change", "#inv_tax_code", function () {
-    calculationAmount()
+    calculationAmount(false)
 })
 
 function calculationAmount(saveData = true) {
