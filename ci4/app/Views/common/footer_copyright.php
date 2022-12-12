@@ -24,9 +24,9 @@
                     $webImpetusCopyRight .= "Cluster: " . $targetCluster . ".";
                     if ($appEnvironment == "prod" || $appEnvironment == "Prod") {
                         // in production hide environment details
-                        $webImpetusCopyRight .= "<!-- Environment: " . ucfirst($appEnvironment) . "-->.";
-                        $webImpetusCopyRight .= "<!-- CodeIgniter Version: " . \CodeIgniter\CodeIgniter::CI_VERSION . "-->.";
-                        $webImpetusCopyRight .= "<!-- Hostname: " . $hostName . "-->.";
+                        $webImpetusCopyRight .= " Environment: " . ucfirst($appEnvironment) . ".";
+                        //$webImpetusCopyRight .= " CodeIgniter Version: " . \CodeIgniter\CodeIgniter::CI_VERSION . ".";
+                        $webImpetusCopyRight .= " Hostname: " . $hostName . ".";
 
                     } else {
                         $webImpetusCopyRight .= " Environment: " . ucfirst($appEnvironment) . ".";
