@@ -7,8 +7,11 @@ WORKDIR /var/www/html
 
 RUN apk update && apk upgrade \
      jq
-     
+
 COPY ci4 /src
+
+#updated ci4 to ci4.2.10 on 12 Dec 2022 BW/HS Testing 4.2.10 but issues with cors and s3 extension
+#COPY ci4.2.10-test /src 
 
 #COPY ./config/php/php.ini /usr/local/etc/php/php.ini
 COPY ./config/vhosts/webimpetus.conf /etc/nginx/sites-enabled/webimpetus.conf

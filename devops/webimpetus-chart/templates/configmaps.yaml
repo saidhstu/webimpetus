@@ -10,6 +10,10 @@ data:
     bootstrap-apache2.sh: |
         #!/bin/bash
         set -x
+        # # Set Timezone
+        # FILE=/usr/local/etc/php-fpm.d/www.conf
+        # echo "date.timezone = '{{ .Values.envPreferences.timeZone }}'" >> $FILE
+
         FILE=/etc/resolv.conf
         WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----
         echo "Workstation On Starting Pod Bootstrap Script"
@@ -118,6 +122,9 @@ data:
     bootstrap-openresty.sh: |
         #!/bin/bash
         set -x
+        # Set Timezone
+        FILE=/usr/local/etc/php-fpm.d/www.conf
+        #echo "date.timezone = '{{ .Values.envPreferences.timeZone }}'" >> $FILE
         FILE=/etc/resolv.conf
         echo "Workstation On Starting Pod Bootstrap Script"
             # Set DNS to cloudflare Name servers for faster DNS resolution
@@ -251,6 +258,7 @@ data:
         fastcgi_index  index.php;
         include        fastcgi_params;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param CI_ENVIRONMENT "";
         #fastcgi_pass   unix:/var/run/php-fpm/php8-fpm.sock;
         fastcgi_pass 127.0.0.1:9000;
         location ~ /\. {
