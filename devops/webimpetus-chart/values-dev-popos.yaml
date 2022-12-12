@@ -8,6 +8,10 @@ targetCluster: popos
 targetEnv: dev-popos
 targetNS: dev-popos
 
+envPreferences:
+  timeZone: Europe/London
+  codeIgniterEnv: development
+
 architecture:
   http_server_type: openresty   # apache2 | openresty are supported
 

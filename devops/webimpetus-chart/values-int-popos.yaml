@@ -3,6 +3,10 @@ service_name: wsl
 targetEnv: int
 targetNS: int
 
+envPreferences:
+  timeZone: Europe/London
+  codeIgniterEnv: development
+
 architecture:
   http_server_type: openresty   # apache2 | openresty are supported
 
