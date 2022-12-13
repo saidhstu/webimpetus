@@ -64,12 +64,8 @@ jobs:
 
     - name: Checkout WebImpetus Repository
       uses: actions/checkout@v3
-    - run: |
-        if [ "${{ env.BRANCH_REF }}" == "" ]; then
-          echo "BRANCH_REF=main" >> $GITHUB_ENV
-        fi
       with:
-        ref: ${{ env.BRANCH_REF }}
+        ref: main
 
     - name: Generate a short-sha based on the git commit
       uses: benjlevesque/short-sha@v1.2
