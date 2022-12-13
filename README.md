@@ -39,15 +39,15 @@ database and other creds name the file "env_webimpetus_myworkstation"
 
 Let's get started with deployment to the kubernetes cluster using a simple bash script provided herewith:
 
-```./webimpetus_kubernetes_install.sh dev start```
+```./build_deploy.sh dev start```
 but for more control over the deployment parameters you can run:
-```./webimpetus_kubernetes_install.sh` dev dev install helm /etc/rancher/k3s/k3s.yaml localhost dev-wsl-webserver k3s0```
+```./build_deploy.sh` dev dev install helm /etc/rancher/k3s/k3s.yaml localhost dev-wsl-webserver k3s0```
 
 Note: TEST Env could be updated by running something like:
-```./webimpetus_kubernetes_install.sh test test install helm ~/.kube/kubeconfig.yaml localhost test-wsl-webserver k3s-K3S3 nerdctl```
+```./build_deploy.sh test test install helm ~/.kube/kubeconfig.yaml localhost test-wsl-webserver k3s-K3S3 nerdctl```
 
 Note: ACC Env could be updated by running something like:
-```./webimpetus_kubernetes_install.sh acc acc install helm ~/.kube/kubeconfig.yaml localhost acc-wsl-webserver k3s-K3S3 docker```
+```./build_deploy.sh acc acc install helm ~/.kube/kubeconfig.yaml localhost acc-wsl-webserver k3s-K3S3 docker```
 
 ### Passing parameters install script
 

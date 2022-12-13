@@ -261,7 +261,14 @@ class Api extends BaseController
 
 		$name = $this->request->getVar('name');
 		$ccEmail = $this->request->getVar('email');
-		if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+		$toEmail = !empty(getenv('ADMINISTRATOR_EMAIL')) ? getenv('ADMINISTRATOR_EMAIL') : 'balinder.walia@gmail.com';
+		// BW/HS: we add block query here to fetch email address from block table customer field
+		if (strlen(trim($toEmail)) < 1) {
+			$data['status'] = 'error';
+			$data['msg']    = 'Please contact website administrator!';
+			echo json_encode($data); die;
+		}
+		if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
 			$data['status'] = 'error';
 			$data['msg']    = 'Please Enter a valid email!';
 			echo json_encode($data); die;
@@ -269,13 +276,16 @@ class Api extends BaseController
 
 		$message = $this->request->getVar('message');
 		$organisation = $this->request->getVar('organisation');
+		$organisation = isset($organisation) && !empty($organisation) ? $organisation : 'Organization not provided';
 		
 		$phone = $this->request->getVar('phone');
 
-		if (strlen(trim($message)) < 1) {
+		if (isset($message) && !empty($message) && strlen(trim($message)) < 1) {
 	
 			$message    = 'Email Sent by user '.$name."<br> Phone ".$phone. "<br> Organization :".$organisation;
 			echo json_encode($data); die;
+		} else {
+			$message    = 'Email Sent by user '.$name."<br> Phone ".$phone. "<br> Organization :".$organisation;
 		}
 
 

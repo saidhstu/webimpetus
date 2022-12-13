@@ -1,7 +1,7 @@
-ARG TAG=latest
+ARG BASE_TAG=latest
 
 #FROM registry.workstation.co.uk/openresty-php:$TAG
-FROM bwalia/openresty-php:$TAG
+FROM bwalia/openresty-php:$BASE_TAG
 
 WORKDIR /var/www/html
 

@@ -175,7 +175,7 @@ class Email extends BaseConfig
         $this->SMTPHost =  getenv('SMTP_HOST');
         $this->SMTPUser =  getenv('SMTP_USER');
         $this->SMTPPass =  getenv('SMTP_PASSWORD');
-
+        $this->SMTPPort =  getenv('SMTP_PORT');
     }
 
 
