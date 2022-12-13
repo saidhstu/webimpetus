@@ -82,21 +82,21 @@ jobs:
         
     - name: Build, tag, and push WebImpetus Docker image to the Docker Registry Provided
       run: |
-        if [ "${{ env.IMAGE_REGISTRY }}" == "" ]; then
-          echo "IMAGE_REGISTRY=registry.workstation.co.uk" >> $GITHUB_ENV
+        if [ -z "${{ env.IMAGE_REGISTRY }}" ]; then
+          IMAGE_REGISTRY=registry.workstation.co.uk
         fi
-        if [ "${{ env.IMAGE_NAME }}" == "" ]; then
-          echo "IMAGE_NAME=webimpetus" >> $GITHUB_ENV
+        if [ -z "${{ env.IMAGE_NAME }}" ]; then
+          IMAGE_NAME=webimpetus
         fi
-        if [ "${{ env.IMAGE_TAG }}" == "" ]; then
-          echo "IMAGE_TAG=latest" >> $GITHUB_ENV
+        if [ -z "${{ env.IMAGE_TAG }}" ]; then
+          IMAGE_TAG=latest
         fi
-        if [ "${{ env.BRANCH_REF }}" == "" ]; then
+        if [ -z "${{ env.BRANCH_REF }}" ]; then
           echo "BRANCH_REF=main" >> $GITHUB_ENV
         fi
-        docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t ${{ env.IMAGE_NAME }} . --no-cache
-        docker tag ${{ env.IMAGE_NAME }} ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-        docker push ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        docker build -f $(pwd)/devops/docker/Dockerfile --build-arg BASE_TAG=latest -t $IMAGE_NAME . --no-cache
+        docker tag $IMAGE_NAME $IMAGE_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+        docker push $IMAGE_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
 
   # tag_update:
   #   runs-on: ubuntu-latest
