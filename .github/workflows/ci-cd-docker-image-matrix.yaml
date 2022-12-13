@@ -1,4 +1,5 @@
-name: Docker images and tags matrix
+name: Docker Image matrix - Creates a new Docker images and tags them
+run-name: Creates a new Docker image, pushes it, and tags it - ${{ github.event.inputs.IMAGE_NAME }} tag ${{ github.event.inputs.IMAGE_TAG }} from ${{ github.event.inputs.BRANCH_REF }} branch
 
 on:
   push:
@@ -51,42 +52,70 @@ on:
         - dev
 
 env:
-  IMAGE_REGISTRY: ${{ github.event.inputs.IMAGE_REGISTRY:-registry.workstation.co.uk }}
-  IMAGE_NAME: ${{ github.event.inputs.IMAGE_NAME:-webimpetus }}
-  IMAGE_TAG: ${{ github.event.inputs.IMAGE_TAG:-latest }}
-  BRANCH_REF: ${{ github.event.inputs.BRANCH_REF:-main }}
+  IMAGE_REGISTRY: ${{ github.event.inputs.IMAGE_REGISTRY }}
+  IMAGE_NAME: ${{ github.event.inputs.IMAGE_NAME }}
+  IMAGE_TAG: ${{ github.event.inputs.IMAGE_TAG }}
+  BRANCH_REF: ${{ github.event.inputs.BRANCH_REF }}
 
 jobs:
   deployment:
     runs-on: 'ubuntu-latest'
     steps:
 
-    - name: Checkout this repo
+    - name: Checkout WebImpetus Repository
       uses: actions/checkout@v3
+    - run: |
+        if [ "${{ env.BRANCH_REF }}" == "" ]; then
+          echo "BRANCH_REF=main" >> $GITHUB_ENV
+        fi
       with:
         ref: ${{ env.BRANCH_REF }}
 
-    - name: short-sha
+    - name: Generate a short-sha based on the git commit
       uses: benjlevesque/short-sha@v1.2
       with:
         length: 6
 
-    - run: echo $SHA
+    - run: Log the short-sha based on the git commit - $SHA
       env:
        SHA: ${{ steps.short-sha.outputs.sha }}
 
-    - run: echo $SHA
+    - run: Save the short-sha based as environment var - $SHA
       env:
        SHA: ${{ env.SHA }}
-        
-    - name: Build, tag, and push image to Workstation Docker Registry
+
+    - name: Build, tag, and push WebImpetus Docker image to the Docker Registry Provided
       run: |
-        # set default value above now: if [ "${{ env.IMAGE_NAME }}" == "" ]; then
-        #   echo "IMAGE_NAME=webimpetus" >> $GITHUB_ENV
-        # fi
+        if [ "${{ env.IMAGE_REGISTRY }}" == "" ]; then
+          echo "IMAGE_REGISTRY=registry.workstation.co.uk" >> $GITHUB_ENV
+        fi
+        if [ "${{ env.IMAGE_NAME }}" == "" ]; then
+          echo "IMAGE_NAME=webimpetus" >> $GITHUB_ENV
+        fi
+        if [ "${{ env.IMAGE_TAG }}" == "" ]; then
+          echo "IMAGE_TAG=latest" >> $GITHUB_ENV
+        fi
+        if [ "${{ env.BRANCH_REF }}" == "" ]; then
+          echo "BRANCH_REF=main" >> $GITHUB_ENV
+        fi
         docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t ${{ env.IMAGE_NAME }} . --no-cache
         docker tag ${{ env.IMAGE_NAME }} ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         docker push ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+  # tag_update:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #     with:
+  #       fetch-depth: 0
+  #   - name: Git config
+  #     run: |
+  #       git config user.name github-actions
+  #       git config user.email github-actions@github.com
+  #   - name: Tag new target
+  #     run: git tag -f ${{ env.SHA }} ${{ github.event.inputs.target }}
+  #   - name: Push new tag
+  #     run: git push origin ${{ github.event.inputs.main_version }} --force
 
     - name: Slack Notification for Webimpetus - Docker Images Matrix Manager 
       uses: rtCamp/action-slack-notify@v2
