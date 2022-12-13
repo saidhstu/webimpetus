@@ -4,6 +4,10 @@ targetCluster: k3s3
 targetEnv: acc
 targetNS: acc
 
+envPreferences:
+  timeZone: Europe/London
+  codeIgniterEnv: development
+
 architecture:
   http_server_type: openresty   # apache2 | openresty are supported
 
