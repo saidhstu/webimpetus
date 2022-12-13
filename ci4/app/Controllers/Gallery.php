@@ -59,7 +59,7 @@ class Gallery extends CommonController
 
 		$id = $this->request->getPost('id');
 		$file = $this->request->getPost('file');
-		if(strlen($file) > 0){
+		if(isset($file) && strlen($file) > 0){
 			$data['name'] = $file;
 		}
 		if( $id > 0 ){
