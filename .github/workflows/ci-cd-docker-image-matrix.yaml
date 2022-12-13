@@ -72,14 +72,14 @@ jobs:
       with:
         length: 6
 
-    - run: Log the short-sha based on the git commit - $SHA
+    - run: echo $SHA
       env:
        SHA: ${{ steps.short-sha.outputs.sha }}
 
-    - run: Save the short-sha based as environment var - $SHA
+    - run: echo $SHA
       env:
        SHA: ${{ env.SHA }}
-
+        
     - name: Build, tag, and push WebImpetus Docker image to the Docker Registry Provided
       run: |
         if [ "${{ env.IMAGE_REGISTRY }}" == "" ]; then
