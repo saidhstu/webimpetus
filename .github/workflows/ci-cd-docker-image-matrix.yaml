@@ -2,7 +2,7 @@ name: Docker images and tags matrix
 
 on:
   push:
-    branches: [ dummy ]
+    branches: [ main ]
   schedule:
     - cron: "0 0 * * *"
 
@@ -51,10 +51,10 @@ on:
         - dev
 
 env:
-  IMAGE_REGISTRY: ${{ github.event.inputs.IMAGE_REGISTRY }}
-  IMAGE_NAME: ${{ github.event.inputs.IMAGE_NAME }}
-  IMAGE_TAG: ${{ github.event.inputs.IMAGE_TAG }}
-  BRANCH_REF: ${{ github.event.inputs.BRANCH_REF }}
+  IMAGE_REGISTRY: ${{ github.event.inputs.IMAGE_REGISTRY:-registry.workstation.co.uk }}
+  IMAGE_NAME: ${{ github.event.inputs.IMAGE_NAME:-webimpetus }}
+  IMAGE_TAG: ${{ github.event.inputs.IMAGE_TAG:-latest }}
+  BRANCH_REF: ${{ github.event.inputs.BRANCH_REF:-main }}
 
 jobs:
   deployment:
@@ -81,6 +81,9 @@ jobs:
         
     - name: Build, tag, and push image to Workstation Docker Registry
       run: |
+        # set default value above now: if [ "${{ env.IMAGE_NAME }}" == "" ]; then
+        #   echo "IMAGE_NAME=webimpetus" >> $GITHUB_ENV
+        # fi
         docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t ${{ env.IMAGE_NAME }} . --no-cache
         docker tag ${{ env.IMAGE_NAME }} ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         docker push ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
