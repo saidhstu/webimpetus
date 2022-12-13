@@ -6,7 +6,7 @@ targetNS: acc
 
 envPreferences:
   timeZone: Europe/London
-  codeIgniterEnv: development
+  codeIgniterEnv: acceptance
 
 architecture:
   http_server_type: openresty   # apache2 | openresty are supported
