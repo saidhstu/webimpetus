@@ -1,5 +1,5 @@
 # .github/workflows/deploy.yml
-name: CD - Helm 1-Click Deploy Workstation CRM to an ENV - to Kubernetes
+name: CD - Helm 1-Click Manual Deploy Workstation CRM to any given ENV into a given Kubernetes cluster
 
 on:
   push:

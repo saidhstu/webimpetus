@@ -1,4 +1,3 @@
-# .github/workflows/deploy.yml
 name: CI - 1-Click Helm Auto Deploy - Workstation CRM to the Test ENV into a given Kubernetes cluster
 
 on:
