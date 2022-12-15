@@ -12,7 +12,7 @@ env:
   TARGET_STACK: openresty_php
   IMAGE_NAME: webimpetus
   TARGET_ENV: test
-  IMAGE_REGISTRY: ""
+  IMAGE_REGISTRY: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}
 
 jobs:
   deployment:
@@ -37,11 +37,6 @@ jobs:
 
     - name: Run bash script to perform Cluster kubeconfig mapping and resetting env vars if necessary
       run: |
-        if [ "${{ env.IMAGE_REGISTRY }}" == "" ]; then
-          echo "IMAGE_REGISTRY=${{ secrets.DOCKER_REGISTRY_SERVER_URL }}" >> $GITHUB_ENV
-        else
-          echo "IMAGE_REGISTRY: ${{ env.IMAGE_REGISTRY }}"
-        fi
         if [ "${{ env.IMAGE_NAME }}" == "" ]; then
           echo "IMAGE_NAME=${{ secrets.DOCKER_IMAGE_NAME }}" >> $GITHUB_ENV
         else
@@ -51,7 +46,7 @@ jobs:
           echo "TARGET_IMAGE_TAG=${{ env.SHA }}" >> $GITHUB_ENV
         else
           echo "TARGET_IMAGE_TAG: ${{ env.TARGET_IMAGE_TAG }}"
-        fi
+        fi  
 
         echo "Docker image and k3s cluster kubeconfig mapping - done!"
         echo "Build, tag, and push image to the given Docker Registry"
