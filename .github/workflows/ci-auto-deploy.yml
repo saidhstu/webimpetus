@@ -50,7 +50,7 @@ jobs:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_K3S2 }}
       with:
         #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
-        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s2.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.TARGET_IMAGE_TAG }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s2.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
 
     - uses: actions-hub/kubectl@master
       env:
