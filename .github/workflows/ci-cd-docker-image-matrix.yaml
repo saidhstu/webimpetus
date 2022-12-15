@@ -3,9 +3,9 @@ run-name: Creates a new Docker image, pushes it, and tags it - ${{ github.event.
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dummy ]
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * *" # Every midnight let's build a fresh docker image from the main branch
 
   workflow_dispatch:
     inputs:
@@ -88,6 +88,7 @@ jobs:
         if [ -z "${{ env.IMAGE_NAME }}" ]; then
           IMAGE_NAME=webimpetus
         fi
+        
         if [ -z "${{ env.IMAGE_TAG }}" ]; then
           IMAGE_TAG=latest
         fi

@@ -85,8 +85,18 @@ jobs:
       with:
         ref: "main"
 
-    - name: Run bash script to perform Cluster kubeconfig mapping
+    - name: Run bash script to perform Cluster kubeconfig mapping and resetting env vars if necessary
       run: |
+        if [ "${{ env.IMAGE_REGISTRY }}" == "" ]; then
+          echo "IMAGE_REGISTRY=${{ secrets.DOCKER_REGISTRY_SERVER_URL }}" >> $GITHUB_ENV
+        else
+          echo "IMAGE_REGISTRY is provided : ${{ env.IMAGE_REGISTRY }}"
+        fi
+        if [ "${{ env.IMAGE_NAME }}" == "" ]; then
+          echo "IMAGE_NAME=${{ secrets.DOCKER_IMAGE_NAME }}" >> $GITHUB_ENV
+        else
+          echo "IMAGE_NAME is provided : ${{ env.IMAGE_NAME }}"
+        fi
         if [ "${{ env.TARGET_CLUSTER }}" == "k3s1" ]; then
           echo "KUBE_CONFIG_DATA=${{ secrets.KUBE_CONFIG_DATA_K3S1 }}" >> $GITHUB_ENV
         else
@@ -102,7 +112,7 @@ jobs:
         else
           echo "KUBE_CONFIG_DATA is NOT k3s3"
         fi
-        echo "Cluster kubeconfig mapping - done!"
+        echo "Docker image and k3s cluster kubeconfig mapping - done!"
       shell: bash
 
     # - name: Helm Delete - Release
@@ -114,7 +124,6 @@ jobs:
       uses: koslib/helm-eks-action@master
       with:
         command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
-
 
     - name: Slack Notification for Workstation CRM release 
       uses: rtCamp/action-slack-notify@v2
