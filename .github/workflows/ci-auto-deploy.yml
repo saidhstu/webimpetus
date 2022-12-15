@@ -1,9 +1,9 @@
 # .github/workflows/deploy.yml
-name: CI - Helm Auto Deploy Workstation CRM to the Test ENV or 1-Click - to Kubernetes
+name: CI - 1-Click Helm Auto Deploy - Workstation CRM to the Test ENV into a given Kubernetes cluster
 
 on:
   push:
-    branches: [ devops/bwalia-workflow-optimisations ]
+    branches: [ main ]
   workflow_dispatch:
 
 env:
@@ -70,7 +70,7 @@ jobs:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_K3S3 }}
       with:
         #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
-        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s3.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/wsl-${{ env.TARGET_STACK }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s3.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
 
     - uses: actions-hub/kubectl@master
       env:
