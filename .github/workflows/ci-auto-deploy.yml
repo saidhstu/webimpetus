@@ -8,7 +8,7 @@ on:
 
 env:
   IMAGE_TAG: "main"
-  TARGET_IMAGE_TAG: "auto_set_to_hash_git_commit"
+  TARGET_IMAGE_TAG: "auto"
   TARGET_STACK: openresty_php
   IMAGE_NAME: webimpetus
   TARGET_ENV: test
@@ -47,7 +47,7 @@ jobs:
         else
           echo "IMAGE_NAME: ${{ env.IMAGE_NAME }}"
         fi
-        if [ "${{ env.TARGET_IMAGE_TAG }}" == "auto_set_to_hash_git_commit" ]; then
+        if [ "${{ env.TARGET_IMAGE_TAG }}" == "auto" ]; then
           echo "TARGET_IMAGE_TAG=${{ env.SHA }}" >> $GITHUB_ENV
         else
           echo "TARGET_IMAGE_TAG: ${{ env.TARGET_IMAGE_TAG }}"
