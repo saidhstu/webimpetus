@@ -18,7 +18,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                     <nav>
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Invoice Details</a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Internal Notes & Other Details</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Invoice Settings</a>
                             <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="false">Notes</a>
 
 
@@ -324,7 +324,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
 
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label">Template</label>
+                                        <label class="col-sm-4 control-label">Invoice Type</label>
                                         <div class="col-sm-6">
                                             <select name="inv_template" id="inv_template" class="form-control dashboard-dropdown">
                                                 <option value="">--Please Select--</option>
@@ -335,7 +335,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label">Print Template Code</label>
+                                        <label class="col-sm-4 control-label">Invoice Template</label>
                                         <div class="col-sm-6">
                                             <select id="print_template_code" name="print_template_code" class="form-control  dashboard-dropdown">
                                                 <option value="" selected="">--Please Selected--</option>

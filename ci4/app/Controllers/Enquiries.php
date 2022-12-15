@@ -38,10 +38,9 @@ class Enquiries extends CommonController
 	{
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
-		$data['content'] = $this->enquries_model->getRows($id)->getRow();
+		$data['enquiries'] = $this->enquries_model->getRows($id)->getRow();
 		$data['users'] = $this->user_model->getUser();
 		$data['cats'] = $this->cat_model->getRows();
-		
 		$array1 = $this->cat_model->getCatIds($id);
 		
 		$arr = array_map (function($value){

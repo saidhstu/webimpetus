@@ -81,7 +81,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4">Print Template Code</label>
+                                            <label for="inputPassword4">Order Template</label>
                                         </div>
                                         <div class="col-md-6">
                                             <select id="template" name="template" class="form-control  dashboard-dropdown">

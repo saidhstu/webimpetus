@@ -56,6 +56,7 @@
 					td.attr("title", td.html());
 				},
 				scrollX: true,
+				order: [[0, 'desc']],
 			});
 		}
 		
