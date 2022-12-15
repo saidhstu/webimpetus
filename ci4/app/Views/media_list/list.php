@@ -43,7 +43,7 @@
 
                                          <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/gallery/delete/<?= $row['id']; ?>"> <i class="ti-trash"></i> Delete</a>
                                          <a class="dropdown-item" href="/gallery/edit/<?= $row['id']; ?>"> <i class="fas fa-edit"></i> Edit</a>
-                                         <a class="dropdown-item" id="copyToClipBoard" link='<?= $row['name']; ?>'> <i class="fas fa-copy"></i> Copy</a>
+                                         <a class="dropdown-item" id="copyToClipBoard" link='<?= $row['name']; ?>'> <i class="fas fa-copy"></i> Copy Link</a>
                                      </div>
                                  </div>
                              </div>

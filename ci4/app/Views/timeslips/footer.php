@@ -100,5 +100,5 @@
 
     let currentMonth = new Date().getMonth() + 1;
     $('#monthpicker').val(currentMonth);
-
+    
     </script>

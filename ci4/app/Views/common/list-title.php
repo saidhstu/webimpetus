@@ -34,6 +34,7 @@
                 <div class="page_title_right">
                     
                     <div class="header_more_tool setDropDownBlk">
+                        <a href="javascript:void(0)" onClick="window.location.reload();" class="btn btn-primary"><i class="ti-reload"></i> Refresh</a>
                         <?php if(isset($is_add_permission) && $is_add_permission == 0){?>
 
                         <?php }else{?>

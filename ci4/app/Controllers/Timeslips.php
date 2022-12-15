@@ -34,8 +34,6 @@ class Timeslips extends CommonController
         $data['identifierKey'] = 'uuid';
         $data["employees"] = $this->timeSlipsModel->getEmployeesData();
         $data['templates'] = $this->templateModel->getMatchRows(['module_name' => $this->table]);
-        // echo "<pre>";
-        // print_r($data);exit;
         $viewPath = "timeslips/list";
         return view($viewPath, $data);
     }

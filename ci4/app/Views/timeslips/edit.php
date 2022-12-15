@@ -1,13 +1,13 @@
-<?php require_once (APPPATH.'Views/common/edit-title.php'); 
+<?php require_once(APPPATH . 'Views/common/edit-title.php');
 
-if(empty(@$timeslips['slip_start_date'])){
+if (empty(@$timeslips['slip_start_date'])) {
     $startDate = time();
-}else{
+} else {
     $startDate = @$timeslips['slip_start_date'];
 }
-if(empty(@$timeslips['slip_timer_started'])){
+if (empty(@$timeslips['slip_timer_started'])) {
     $slip_timer_started = date("H:i:s", time());
-}else{
+} else {
     $slip_timer_started = @$timeslips['slip_timer_started'];
 }
 
@@ -21,13 +21,13 @@ if(empty(@$timeslips['slip_timer_started'])){
 
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('task_name'); ?>
-                    <span class="redstar">*</span> 
+                    <span class="redstar">*</span>
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="task_name" name="task_name" class="form-control required dashboard-dropdown">
                         <option value="">--Selected--</option>
-                        <?php foreach($tasks as $row) { ?>
-                            <option value="<?= $row['id'];?>" <?=($row['id']== @$timeslips['task_name'])?'selected':'' ?>><?= $row['name'];?></option>
+                        <?php foreach ($tasks as $row) { ?>
+                            <option value="<?= $row['id']; ?>" <?= ($row['id'] == @$timeslips['task_name']) ? 'selected' : '' ?>><?= $row['name']; ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -35,51 +35,44 @@ if(empty(@$timeslips['slip_timer_started'])){
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('week_no'); ?>
                 </div>
                 <div class="form-group col-md-4">
-                    <input id="week_no" readonly name="week_no" class="form-control" value="<?php  if( empty($timeslips['week_no']) ){echo date("W");}else{echo $timeslips['week_no'];}; ?>">
+                    <input id="week_no" readonly name="week_no" class="form-control" value="<?= empty($timeslips['week_no']) ? date("W") : $timeslips['week_no'] ?>">
                 </div>
-
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('employee_name'); ?>
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="employee_name" name="employee_name" class="form-control required dashboard-dropdown">
                         <option value="">--Selected--</option>
-                        <?php foreach($employees as $row) { ?>
-                            <option value="<?= $row['id'];?>" <?=($row['id']== @$timeslips['employee_name'])?'selected':'' ?>><?= $row['name'];?></option>
+                        <?php foreach ($employees as $row) { ?>
+                            <option value="<?= $row['id']; ?>" <?= ($row['id'] == @$timeslips['employee_name']) ? 'selected' : '' ?>><?= $row['name']; ?></option>
                         <?php } ?>
                     </select>
                 </div>
-
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('slip_start_date'); ?>
-                    <span class="redstar">*</span> 
+                    <span class="redstar">*</span>
                 </div>
                 <div class="form-group col-md-4">
                     <div class="input-group">
-                        <input type="text" id="slip_start_date" name="slip_start_date" class="form-control required datepicker" value="<?php  echo render_date($startDate); ?>">
+                        <input type="text" id="slip_start_date" name="slip_start_date" class="form-control required datepicker" value="<?php echo render_date($startDate); ?>">
                         <span class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                         </span>
                     </div>
                 </div>
-
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('slip_timer_started'); ?>
                 </div>
@@ -98,7 +91,6 @@ if(empty(@$timeslips['slip_timer_started'])){
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('slip_end_date'); ?>
                 </div>
@@ -110,11 +102,9 @@ if(empty(@$timeslips['slip_timer_started'])){
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('slip_timer_end'); ?>
                 </div>
@@ -133,7 +123,6 @@ if(empty(@$timeslips['slip_timer_started'])){
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('break_time'); ?>
                 </div>
@@ -143,7 +132,7 @@ if(empty(@$timeslips['slip_timer_started'])){
                 </div>
 
             </div>
-            <?php 
+            <?php
             $showBreakStartAndEndTimer = 'display: none;';
             if (@$timeslips['break_time'] == 1) {
                 $showBreakStartAndEndTimer = '';
@@ -170,7 +159,6 @@ if(empty(@$timeslips['slip_timer_started'])){
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('slip_hours'); ?>
                 </div>
@@ -181,7 +169,6 @@ if(empty(@$timeslips['slip_timer_started'])){
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('slip_description'); ?>
                     <span class="redstar">*</span>
@@ -193,7 +180,6 @@ if(empty(@$timeslips['slip_timer_started'])){
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('slip_rate'); ?>
                 </div>
@@ -204,7 +190,6 @@ if(empty(@$timeslips['slip_timer_started'])){
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('slip_timer_accumulated_seconds'); ?>
                 </div>
@@ -215,16 +200,15 @@ if(empty(@$timeslips['slip_timer_started'])){
             </div>
 
             <div class="form-row">
-
                 <div class="form-group col-md-3">
                     <?php echo readableFieldName('Charge Code'); ?>
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="billing_status" name="billing_status" class="form-control dashboard-dropdown">
                         <option value="">--Selected--</option>
-                        <option value="SLA" <?=('SLA'== @$timeslips['billing_status'])?'selected':'' ?>>SLA</option>
-                        <option value="chargeable" <?=('chargeable'== @$timeslips['billing_status'])?'selected':'' ?>>chargeable</option>
-                        <option value="Billed" <?=('Billed'== @$timeslips['billing_status'])?'selected':'' ?>>Billed</option>
+                        <option value="SLA" <?= ('SLA' == @$timeslips['billing_status']) ? 'selected' : '' ?>>SLA</option>
+                        <option value="chargeable" <?= ('chargeable' == @$timeslips['billing_status']) ? 'selected' : '' ?>>chargeable</option>
+                        <option value="Billed" <?= ('Billed' == @$timeslips['billing_status']) ? 'selected' : '' ?>>Billed</option>
                     </select>
                 </div>
 
@@ -242,10 +226,10 @@ if(empty(@$timeslips['slip_timer_started'])){
 </div>
 
 
-<?php require_once (APPPATH.'Views/common/footer.php'); ?>
+<?php require_once(APPPATH . 'Views/common/footer.php'); ?>
 <script>
-    $(function(){
-        $("#break_time").change(function(){
+    $(function() {
+        $("#break_time").change(function() {
             var el = $(this);
             if (el.is(':checked')) {
                 el.closest('.form-row').next().slideDown('slow');
@@ -260,8 +244,7 @@ if(empty(@$timeslips['slip_timer_started'])){
         });
     })
 
-    function setCurrentTime(el, callback)
-    {
+    function setCurrentTime(el, callback) {
         var d = new Date();
         var h = d.getHours();
         h = h < 10 ? '0' + h : h;
@@ -275,8 +258,7 @@ if(empty(@$timeslips['slip_timer_started'])){
         callback();
     }
 
-    function calculateTime()
-    {
+    function calculateTime() {
         var startDate = $("#slip_start_date").val();
         var startTime = $("#slip_timer_started").val();
         var endDate = $("#slip_end_date").val();
@@ -308,10 +290,21 @@ if(empty(@$timeslips['slip_timer_started'])){
     var toPlainString = function(num) {
         return ('' + num).replace(/(-?)(\d*)\.?(\d+)e([+-]\d+)/,
             function(a, b, c, d, e) {
-                return e < 0
-                ? b + '0.' + Array(1 - e - c.length).join(0) + c + d
-                : b + c + d + Array(e - d.length + 1).join(0);
+                return e < 0 ?
+                    b + '0.' + Array(1 - e - c.length).join(0) + c + d :
+                    b + c + d + Array(e - d.length + 1).join(0);
             }
-            );
+        );
     }
+
+    $("#slip_start_date").change(function() {
+        var slip_start_date = $(this).val();
+        var start_date = new Date(slip_start_date);
+        var onejan = new Date(start_date.getFullYear(), 0, 1);
+        var today = new Date(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
+        var dayOfYear = ((today - onejan + 86400000) / 86400000); // 24*60*60*1000
+        var week_no = Math.ceil(dayOfYear / 7);
+        week_no = week_no > 52 ? 52 : week_no;
+        $("#week_no").val(week_no);
+    });
 </script>
