@@ -19,14 +19,15 @@
                         <?php foreach ($fields as $field) { ?>
                             <?php if ($field == "user_business_id") {
                                 if (!is_null($row[$field])) {
-                                    $array = json_decode($row[$field]);
+                                    $field_data = json_decode($row[$field]);
                                     $nameArray = [];
-                                    foreach ($array as $arr) {
-
-                                        $nameArray[] = $businessNameArr[$arr];
+                                    if (!is_null($field_data) && (is_array($field_data) || is_object($field_data))) {
+                                        foreach ($field_data as $arr) {
+                                            $nameArray[] = $businessNameArr[$arr];
+                                        }
+                                        $businessName = implode(",", $nameArray);
+                                        $row[$field] = $businessName;
                                     }
-                                    $businessName = implode(",", $nameArray);
-                                    $row[$field] = $businessName;
                                 }
                             } else if ($field == "user_id") {
                                 $row[$field] = $userNameArray[$row[$field]];
