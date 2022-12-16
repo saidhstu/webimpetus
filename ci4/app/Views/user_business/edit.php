@@ -11,7 +11,6 @@
                     <label for="inputState">Select User</label>
                     <select id="user_id" name="user_id" class="form-control select2">
                         <?php
-
                         foreach ($allUsers as $row) : ?>
                             <option value="<?= $row->id; ?>" <?php
                                                                 if ($row->id == @$result[0]->user_id) {
@@ -23,9 +22,10 @@
             </div>
             <input type="hidden" name="id" value="<?php echo @$result[0]->id; ?>" />
             <?php
-            $arr = json_decode(@$result[0]->user_business_id);
-
-
+            $arr = [];
+            if (isset($result[0]->user_business_id) && !is_null($result[0]->user_business_id)) {
+                $arr = json_decode(@$result[0]->user_business_id);
+            }
             ?>
             <div class="form-row">
                 <div class="form-group col-md-12">
@@ -35,7 +35,7 @@
 
                         foreach ($userBusiness as $row) : ?>
                             <option value="<?= $row->uuid; ?>" <?php
-                                                                if ($arr && in_array($row->uuid, $arr)) {
+                                                                if (is_array($arr) && in_array($row->uuid, $arr)) {
                                                                     echo "selected";
                                                                 } ?>><?= $row->name; ?></option>
                         <?php endforeach; ?>
