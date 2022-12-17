@@ -49,6 +49,11 @@ Note: TEST Env could be updated by running something like:
 Note: ACC Env could be updated by running something like:
 ```./build_deploy.sh acc acc install helm ~/.kube/kubeconfig.yaml localhost acc-wsl-webserver k3s-K3S3 docker```
 
+Environment: INT
+
+./build_deploy.sh int int install helm ~/.kube/k3s-popos.yaml popos webimpetus popos
+
+
 ### Passing parameters install script
 
 Passing parameters to the deployment bash file can be referred as follows
