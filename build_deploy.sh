@@ -131,15 +131,17 @@ fi
 if [[ -z "$7" ]]; then
    echo "docker base image is empty, so setting docker base image to dev-wsl-webserver (default)"
    docker_base_image="${targetEnv}-wsl-webserver"
+   
 else
    echo "docker base image type is provided, docker base image is set to $7"
    docker_base_image=$7
+   IMAGE_NAME=$7
 fi
 
 if [[ "$targetEnv" == "dev" ]]; then
 echo "No need to move env files in case local dev env"
 else
-cp ${WORKSPACE_DIR}/${targetEnv}.env ${WORKSPACE_DIR}/.env
+cp "${WORKSPACE_DIR}/${targetEnv}.env" "${WORKSPACE_DIR}/.env"
 fi
 
 if [[ -z "$8" ]]; then
@@ -148,6 +150,7 @@ export TARGET_CLUSTER=${TARGET_CLUSTER}
 else
 echo "TARGET_CLUSTER is provided, so setting TARGET_CLUSTER $8"
 export TARGET_CLUSTER=$8
+TARGET_CLUSTER=$8
 fi
 
 if [[ -z "$9" ]]; then
@@ -169,6 +172,7 @@ else
 echo "VALUES_FILE_PATH is not local dev, so setting VALUES_FILE_PATH to values-${targetNs}-${TARGET_CLUSTER}.yaml"
 VALUES_FILE_PATH=values-${targetNs}-${TARGET_CLUSTER}.yaml
 fi
+echo "VALUES_FILE_PATH: $VALUES_FILE_PATH"
 
 cd ${WORKSPACE_DIR}/
 
