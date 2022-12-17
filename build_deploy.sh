@@ -11,10 +11,11 @@ SVC_NODEPORT=31178
 DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
 
 HTTP_SERVER_TYPE="openresty"
-TARGET_STACK="openresty_php"
+IMAGE_NAME="webimpetus"
 TARGET_CLUSTER="k3s0"
+IMAGE_TAG="latest"
 
-echo "Techstack: $TARGET_STACK"
+echo "Techstack: $IMAGE_NAME"
 
 if [[ -z "$1" ]]; then
    echo "env is empty, so setting targetEnv to development (default)"
@@ -175,21 +176,26 @@ if [[ "$cicd_action" == "delete" ]]; then
 kubectl delete -f devops/kubernetes/wsldeployment.yaml
 fi
 
-if [[ "$cicd_action" == "install" ]]; then
 # this builds the image name 
 #docker rmi -f $(docker images -aq)
 #echo ${WORKSPACE_DIR}/docker-compose.yml
 
-${BUILD_IMAGE_APP} build -f devops/docker/Dockerfile --build-arg BASE_TAG=latest -t wsl-${TARGET_STACK} . --no-cache
-${BUILD_IMAGE_APP} tag wsl-${TARGET_STACK} registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
-${BUILD_IMAGE_APP} push registry.workstation.co.uk/wsl-${TARGET_STACK}:${DATE_GEN_VERSION}
+if [[ "$cicd_action" == "build-install" ]]; then
+
+${BUILD_IMAGE_APP} build -f devops/docker/Dockerfile --build-arg BASE_TAG=latest -t local-${IMAGE_NAME} . --no-cache
+${BUILD_IMAGE_APP} tag local-${IMAGE_NAME} registry.workstation.co.uk/${IMAGE_NAME}:${IMAGE_TAG}
+${BUILD_IMAGE_APP} push registry.workstation.co.uk/${IMAGE_NAME}:${IMAGE_TAG}
+
+fi
+
+if [[ "$cicd_action" == "install" ]]; then
 
 # this deploys the image to k3s
 if [[ "$k3s_deployment_tool" == "helm" ]]; then
-#helm upgrade --install workstation --set image.tag=${DATE_GEN_VERSION} --set image.repository=registry.workstation.co.uk/workstation --set ingress.hosts[0].host=${HOST_ENDPOINT_UNSECURE_URL} --set ingress.hosts[0].paths[0]=/ --set ingress.hosts[0].paths[1]=/docs --set ingress.hosts[0].paths[2]=/docs/app_release_notes --set ingress.hosts[0].paths[3]=/docs/app_release_notes/${DATE_GEN_VERSION} --set ingress.hosts[0].paths[4]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus --set ingress.hosts[0].paths[5]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[6]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[7]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[8]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[9]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[10]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[11]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[12]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[13]=/docs/app_release_notes/${DATE_GEN_VERSION}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/web
+#helm upgrade --install workstation --set image.tag=${IMAGE_TAG} --set image.repository=registry.workstation.co.uk/workstation --set ingress.hosts[0].host=${HOST_ENDPOINT_UNSECURE_URL} --set ingress.hosts[0].paths[0]=/ --set ingress.hosts[0].paths[1]=/docs --set ingress.hosts[0].paths[2]=/docs/app_release_notes --set ingress.hosts[0].paths[3]=/docs/app_release_notes/${IMAGE_TAG} --set ingress.hosts[0].paths[4]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus --set ingress.hosts[0].paths[5]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[6]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[7]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[8]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[9]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[10]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[11]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv} --set ingress.hosts[0].paths[12]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/webimpetus --set ingress.hosts[0].paths[13]=/docs/app_release_notes/${IMAGE_TAG}/webimpetus/${targetEnv}/webimpetus/${targetEnv}/web
 #helm uninstall wsl-${targetEnv} -n ${targetEnv}
-###helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set image=registry.workstation.co.uk/workstation:${DATE_GEN_VERSION} --namespace ${targetEnv}
-helm_cmd=$(echo upgrade --install -f devops/webimpetus-chart/${VALUES_FILE_PATH} wsl-${targetNs} devops/webimpetus-chart/ --set-string targetImage="registry.workstation.co.uk/wsl-${TARGET_STACK}" --set-string targetImageTag="${DATE_GEN_VERSION}" --namespace ${targetNs} --create-namespace)
+###helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set image=registry.workstation.co.uk/workstation:${IMAGE_TAG} --namespace ${targetEnv}
+helm_cmd=$(echo upgrade --install -f devops/webimpetus-chart/${VALUES_FILE_PATH} wsl-${targetNs} devops/webimpetus-chart/ --set-string targetImage="registry.workstation.co.uk/${IMAGE_NAME}" --set-string targetImageTag="${IMAGE_TAG}" --namespace ${targetNs} --create-namespace)
 echo "helm $helm_cmd"
 # exit 0
 helm $helm_cmd
