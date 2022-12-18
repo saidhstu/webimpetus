@@ -220,51 +220,66 @@ class Api extends BaseController
     public function sendEmail() {
         $name = $this->request->getVar('name');
         $ccEmail = $this->request->getVar('email');
-        $toEmail = !empty(getenv('ADMINISTRATOR_EMAIL')) ? getenv('ADMINISTRATOR_EMAIL') : 'balinder.walia@gmail.com';
-        // BW/HS: we add block query here to fetch email address from block table customer field
-        if (strlen(trim($toEmail)) < 1) {
-            $data['status'] = 'error';
-            $data['msg']    = 'Please contact website administrator!';
-            echo json_encode($data); die;
-        }
-        if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
-            $data['status'] = 'error';
-            $data['msg']    = 'Please Enter a valid email!';
-            echo json_encode($data); die;
-        }
-        $message = $this->request->getVar('message');
-        $organisation = $this->request->getVar('organisation');
-        $organisation = isset($organisation) ? $organisation : 'Organization not provided';
-        $phone = $this->request->getVar('phone');
-        if (isset($message)) {
-            $emailMessage =
-                'Email Sent by user ' .
-                $name . "<br>
-                Phone: " . $phone . "<br>
-                Organization: " . $organisation . "<br>
-                Message: " . $message;
-        } else {
-            $emailMessage = 'Email Sent by user '.$name."<br> Phone ".$phone. "<br> Organization :".$organisation;
-        }
-        $uuid_business_id = $this->request->getVar('uuid_business_id') ? $this->request->getVar('uuid_business_id') : 6;
-        $subject = "Odin contact email";
-        $name = $name ? $name : "";
-        $from_email = "info@odincm.com";
-        $is_send = $this->emailModel->send_mail($from_email, $name, $from_email, $emailMessage, $subject, [], "", $ccEmail);
-        if($is_send){
-            $data['status'] = 'success';
-            $data['msg']    = 'Email send successfully!';
-            $insertArray["uuid_business_id"] = $uuid_business_id;
-            $insertArray["name"] = $name;
-            $insertArray["email"] = $ccEmail;
-            $insertArray["phone"] = $phone;
-            $insertArray["message"] = $emailMessage;
-            $insertArray["type"] = 1;
-            $this->emodel->saveData($insertArray);
-        }else{
-            $data['status'] = 'error';
-            $data['msg']    = 'Email send failed!';
-        }
-        echo json_encode($data); die;
+        $token = $this->request->getVar('token');
+		$secretKey = getenv('CAPTCHA_SECRET_KEY');
+		$verifyCaptchaUrl = "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$token";
+		
+		$client = \Config\Services::curlrequest();
+		$response = $client->request('GET', $verifyCaptchaUrl, [
+			'auth' => ['user', 'pass'],
+		]);
+
+		$responseBody = json_decode($response->getBody());
+		if ($responseBody->success) {
+			$toEmail = !empty(getenv('ADMINISTRATOR_EMAIL')) ? getenv('ADMINISTRATOR_EMAIL') : 'balinder.walia@gmail.com';
+			// BW/HS: we add block query here to fetch email address from block table customer field
+			if (strlen(trim($toEmail)) < 1) {
+				$data['status'] = 'error';
+				$data['msg']    = 'Please contact website administrator!';
+				echo json_encode($data); die;
+			}
+			if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
+				$data['status'] = 'error';
+				$data['msg']    = 'Please Enter a valid email!';
+				echo json_encode($data); die;
+			}
+			$message = $this->request->getVar('message');
+			$organisation = $this->request->getVar('organisation');
+			$organisation = isset($organisation) ? $organisation : 'Organization not provided';
+			$phone = $this->request->getVar('phone');
+			if (isset($message)) {
+				$emailMessage =
+					'Email Sent by user ' .
+					$name . "<br>
+					Phone: " . $phone . "<br>
+					Organization: " . $organisation . "<br>
+					Message: " . $message;
+			} else {
+				$emailMessage = 'Email Sent by user '.$name."<br> Phone ".$phone. "<br> Organization :".$organisation;
+			}
+			$uuid_business_id = $this->request->getVar('uuid_business_id') ? $this->request->getVar('uuid_business_id') : 6;
+			$subject = "Odin contact email";
+			$name = $name ? $name : "";
+			$from_email = "info@odincm.com";
+			$is_send = $this->emailModel->send_mail($from_email, $name, $from_email, $emailMessage, $subject, [], "", $ccEmail);
+			if($is_send){
+				$data['status'] = 'success';
+				$data['msg']    = 'Email send successfully!';
+				$insertArray["uuid_business_id"] = $uuid_business_id;
+				$insertArray["name"] = $name;
+				$insertArray["email"] = $ccEmail;
+				$insertArray["phone"] = $phone;
+				$insertArray["message"] = $emailMessage;
+				$insertArray["type"] = 1;
+				$this->emodel->saveData($insertArray);
+			}else{
+				$data['status'] = 'error';
+				$data['msg']    = 'Email send failed!';
+			}
+		} else {
+			$data['status'] = 'error';
+			$data['msg']    = 'Captcha failed!';
+		}
+		echo json_encode($data); die;
     }
 }
