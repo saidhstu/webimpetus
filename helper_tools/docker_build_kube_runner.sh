@@ -16,8 +16,8 @@ fi
 DOCKER_REGISTRY=registry.workstation.co.uk
 TARGET_STACK=kube-runner
 
-BUILD_IMAGE_APP=docker
+BUILD_IMAGE_TOOL=docker
 
-${BUILD_IMAGE_APP} build -f devops/docker/Dockerfile-kubectl-runner --build-arg ALPINE_VERSION=3.17 -t ${TARGET_STACK} . --no-cache
-${BUILD_IMAGE_APP} tag ${TARGET_STACK} ${DOCKER_REGISTRY}/${TARGET_STACK}:${BUILD_IMAGE_TAG}
-${BUILD_IMAGE_APP} push ${DOCKER_REGISTRY}/${TARGET_STACK}:${BUILD_IMAGE_TAG}
+${BUILD_IMAGE_TOOL} build -f devops/docker/Dockerfile-kubectl-runner --build-arg ALPINE_VERSION=3.17 -t ${TARGET_STACK} . --no-cache
+${BUILD_IMAGE_TOOL} tag ${TARGET_STACK} ${DOCKER_REGISTRY}/${TARGET_STACK}:${BUILD_IMAGE_TAG}
+${BUILD_IMAGE_TOOL} push ${DOCKER_REGISTRY}/${TARGET_STACK}:${BUILD_IMAGE_TAG}

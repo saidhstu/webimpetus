@@ -55,19 +55,19 @@ export VIRTUAL_HOST=$6
 fi
 
 if [[ -z "$7" ]]; then
-echo "Docker build cmd is default, so leaving default set BUILD_IMAGE_APP to whatever it may be (nerdctl)"
-export BUILD_IMAGE_APP="docker"
+echo "Docker build cmd is default, so leaving default set BUILD_IMAGE_TOOL to whatever it may be (nerdctl)"
+export BUILD_IMAGE_TOOL="docker"
 else
-echo "BUILD_IMAGE_APP is provided, so setting BUILD_IMAGE_APP $7"
-export BUILD_IMAGE_APP=$7
+echo "BUILD_IMAGE_TOOL is provided, so setting BUILD_IMAGE_TOOL $7"
+export BUILD_IMAGE_TOOL=$7
 fi
 
 if [[ -z "$8" ]]; then
    echo "action is empty, so setting action to install (default)"
-   cicd_action="install"
+   deployment_stage="install"
 else
    echo "action is provided, action is set to $8"
-   cicd_action=$8
+   deployment_stage=$8
 fi
 
 VALUES_FILE_PATH=values-${targetNs}-${TARGET_CLUSTER}.yaml
