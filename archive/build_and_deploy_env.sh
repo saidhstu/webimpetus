@@ -15,10 +15,10 @@ fi
 
 if [[ -z "$2" ]]; then
    echo "action is empty, so setting action to start (default)"
-   cicd_action="start"
+   deployment_stage="start"
 else
    echo "action is NOT empty, so setting action to start (default)"
-   cicd_action=$2
+   deployment_stage=$2
 fi
 
 if [[ "$targetEnv" == "dev" || "$targetEnv" == "test" || "$targetEnv" == "prod" ]]; then
@@ -51,22 +51,22 @@ mv ${WORKSPACE_DIR}/${targetEnv}.env ${WORKSPACE_DIR}/.env
 fi
 cd ${WORKSPACE_DIR}/
 
-if [[ "$cicd_action" == "stop" ]]; then
+if [[ "$deployment_stage" == "stop" ]]; then
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" down
 fi
 
-if [[ "$cicd_action" == "start" ]]; then
+if [[ "$deployment_stage" == "start" ]]; then
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" down
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" up -d --build
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" ps
 fi
 
-if [[ "$cicd_action" == "start" ]]; then
+if [[ "$deployment_stage" == "start" ]]; then
 chmod +x reset_containers.sh
 /bin/bash reset_containers.sh $targetEnv
 fi
 
-if [[ "$targetEnv" == "dev" && "$cicd_action" == "start" ]]; then
+if [[ "$targetEnv" == "dev" && "$deployment_stage" == "start" ]]; then
 
 sleep 2
 

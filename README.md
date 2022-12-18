@@ -4,6 +4,12 @@
 
 ### Deploy Dev/Test/Acc/Prod environment into the k3s using openresty and php base image and webimpetus ci4 codebase as second layer docker image
 
+`sh ./build.sh`
+
+`sh ./install.sh`
+
+
+
 #### These steps below would Install WebImpetus Dev environment on any Kubernetes or local K3S Rancher desktop for development and deploy webimpetus Codeingniter application ready for testing or development in a pod
 
 #### These steps also build docker image using nerdctl (shipped with k3s) or docker cmd line utilities and also install latest codeigniter dependencies into using composer.
@@ -39,19 +45,19 @@ database and other creds name the file "env_webimpetus_myworkstation"
 
 Let's get started with deployment to the kubernetes cluster using a simple bash script provided herewith:
 
-```./build_deploy.sh dev start```
+```./webimpetus.sh dev start```
 but for more control over the deployment parameters you can run:
-```./build_deploy.sh` dev dev install helm /etc/rancher/k3s/k3s.yaml localhost dev-wsl-webserver k3s0```
+```./webimpetus.sh` dev dev install helm /etc/rancher/k3s/k3s.yaml localhost dev-wsl-webserver k3s0```
 
 Note: TEST Env could be updated by running something like:
-```./build_deploy.sh test test install helm ~/.kube/kubeconfig.yaml localhost test-wsl-webserver k3s-K3S3 nerdctl```
+```./webimpetus.sh test test install helm ~/.kube/kubeconfig.yaml localhost test-wsl-webserver k3s-K3S3 nerdctl```
 
 Note: ACC Env could be updated by running something like:
-```./build_deploy.sh acc acc install helm ~/.kube/kubeconfig.yaml localhost acc-wsl-webserver k3s-K3S3 docker```
+```./webimpetus.sh acc acc install helm ~/.kube/kubeconfig.yaml localhost acc-wsl-webserver k3s-K3S3 docker```
 
 Environment: INT
 
-./build_deploy.sh int int install helm ~/.kube/k3s-popos.yaml popos webimpetus popos
+./webimpetus.sh int int install helm ~/.kube/k3s-popos.yaml popos webimpetus popos
 
 
 ### Passing parameters install script
@@ -104,7 +110,7 @@ Voila! Bob is your Uncle!!!
     ```
 
 
-5. Run the this cmd in the bash terminal - `./build_and_deploy_env.sh dev start`
+5. Run the this cmd in the bash terminal - `./install.sh dev`
 
 6. If you would like to use docker based database, you can install docker compose by running:
 

@@ -1,4 +1,4 @@
-targetCluster: popos
+targetCluster: k3s8
 
 service_name: wsl
 # Define Int env and namespace Int
@@ -52,7 +52,7 @@ ingress:
   #      - chart-example.local
   
 adminer:
-  port: 30880
+  port: 30882
 
 resources: {}
 
