@@ -45,8 +45,8 @@ exit 0
 #IMAGE_TAG="dev"
 
 if [ "$targetEnv" == "int" ]; then
- echo "Helper tool helm deploy"
  ./helper_tools/helm_deploy_webimpetus.sh $targetEnv $targetEnv install $IMAGE_TAG
+ echo "Helper tool helm deploy"
 else
  echo "Environment $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
 fi
