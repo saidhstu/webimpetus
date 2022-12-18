@@ -37,13 +37,12 @@ else
    build_environment=$4
 fi
 
-if [ "$build_environment" == "build" ] || [ "$build_environment" == "build_install" ]; then
-./build.sh $targetEnv $targetEnv $deployment_tooling
+if [ "$build_environment" == "delete" ] || [ "$build_environment" == "uninstall" ]; then
 echo "$build_environment is also requested"
 fi
 
 if [ "$targetEnv" == "dev" ] || [ "$targetEnv" == "test" ] || [ "$targetEnv" == "int" ] || [ "$targetEnv" == "acc" ] || [ "$targetEnv" == "prod" ]; then
- ./helper_tools/helm_deploy_webimpetus.sh $targetEnv $targetEnv install $IMAGE_TAG
+ ./helper_tools/helm_deploy_webimpetus.sh $targetEnv $targetEnv delete $IMAGE_TAG
  echo "Helper tool helm deploy"
 else
  echo "Environment $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
