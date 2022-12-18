@@ -39,7 +39,7 @@ fi
 
 if [ "$build_environment" == "build" ]; then
 sh ./build.sh $targetEnv $targetEnv $deployment_tooling
-echo "build"
+echo "build is also requested"
 fi
 
 IMAGE_TAG="dev"
