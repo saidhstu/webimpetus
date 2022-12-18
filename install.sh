@@ -5,7 +5,7 @@
 
 #  set -x
 
-if [[ -z "$1" ]]; then
+if [ -z "$1" ]; then
    echo "env is empty, so setting targetEnv to development (default)"
    targetEnv="dev"
 else
@@ -13,7 +13,7 @@ else
    targetEnv=$1
 fi
 
-if [[ -z "$2" ]]; then
+if [ -z "$2" ]; then
    echo "targetNs is empty, so setting it to default (dev)"
    targetNs="dev"
 else
@@ -21,7 +21,7 @@ else
    targetNs=$2
 fi
 
-if [[ -z "$3" ]]; then
+if [ -z "$3" ]; then
    echo "IMAGE_TAG is empty, so setting it to default (latest)"
    IMAGE_TAG=""
 else
@@ -29,22 +29,24 @@ else
    IMAGE_TAG=$3
 fi
 
-if [[ -z "$4" ]]; then
+if [ -z "$4" ]; then
    echo "build_environment is empty, so setting it to default (empty)"
-   build_environment=""
+   build_environment="install"
 else
    echo "build_environment is provided, so setting it to $4"
    build_environment=$4
 fi
 
-if [[ "$build_environment" == "build" ]]; then
-   sh ./build.sh $targetEnv $targetEnv $deployment_tooling
+if [ "$build_environment" == "build" ]; then
+sh ./build.sh $targetEnv $targetEnv $deployment_tooling
+echo "build"
 fi
 
 IMAGE_TAG="dev"
 
-if [[ "$targetEnv" == "dev" || "$targetEnv" == "dev-bwalia" || "$targetEnv" == "int" || "$targetNs" == "test" || "$targetEnv" == "acc" || "$targetEnv" == "prod" ]]; then
-   sh ./helper_tools/helm_deploy_webimpetus.sh $targetEnv $targetEnv install $IMAGE_TAG
+if [ "$targetEnv" == "int" ]; then
+ echo "Helper tool helm deploy"
+ ./helper_tools/helm_deploy_webimpetus.sh $targetEnv $targetEnv install $IMAGE_TAG
 else
-   echo "Environment $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
+ echo "Environment $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
 fi
