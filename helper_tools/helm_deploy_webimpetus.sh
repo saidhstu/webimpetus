@@ -99,22 +99,22 @@ fi
 
 if [ $targetEnv = "int" ]; then
 echo "Load int env kubeconfig"
-export KUBECONFIG=~/.kube/k3s8.yml
+export KUBECONFIG=~/.kube/k3s8.yaml
 fi
 
 if [ $targetEnv = "acc" ]; then
 echo "Load acc env kubeconfig"
-export KUBECONFIG=~/.kube/k3s3.yml
+export KUBECONFIG=~/.kube/k3s3.yaml
 fi
 
 if [ $targetEnv = "test" ]; then
 echo "Load test env kubeconfig"
-export KUBECONFIG=~/.kube/k3s2.yml
+export KUBECONFIG=~/.kube/k3s2.yaml
 fi
 
 if [ $targetEnv = "prod" ]; then
 echo "Load prod env kubeconfig"
-export KUBECONFIG=~/.kube/k3s1.yml
+export KUBECONFIG=~/.kube/k3s1.yaml
 fi
 
 if [ $targetEnv = "dev" ]; then

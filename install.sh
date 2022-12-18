@@ -37,12 +37,12 @@ else
    build_environment=$4
 fi
 
-if [ "$build_environment" == "build" ]; then
-sh ./build.sh $targetEnv $targetEnv $deployment_tooling
+if [ "$build_environment" == "build" ] || [ "$build_environment" == "build_install" ]; then
+./build.sh $targetEnv $targetEnv $deployment_tooling
 echo "build is also requested"
 fi
-
-IMAGE_TAG="dev"
+exit 0
+#IMAGE_TAG="dev"
 
 if [ "$targetEnv" == "int" ]; then
  echo "Helper tool helm deploy"
