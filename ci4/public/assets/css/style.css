@@ -10184,12 +10184,9 @@ div.dataTables_wrapper div.dataTables_paginate {
   overflow: hidden;
 }
 
-/* line 12, /scss/_accordian_box.scss */
 .card_box .box_body {
   padding: 50px;
 }
-
-/* line 14, /scss/_accordian_box.scss */
 .card_box .box_body .card {
   margin-bottom: 40px;
   border: 0px;
@@ -10201,12 +10198,9 @@ div.dataTables_wrapper div.dataTables_paginate {
   box-shadow: 0px 0px 25px 0px rgba(126, 55, 216, 0.05);
 }
 
-/* line 23, /scss/_accordian_box.scss */
 .card_box .box_body .card:last-child {
   margin-bottom: 0;
 }
-
-/* line 26, /scss/_accordian_box.scss */
 .card_box .box_body .card .card-header {
   background-color: #fff;
   padding: 50px;
@@ -10227,13 +10221,12 @@ div.dataTables_wrapper div.dataTables_paginate {
   margin-bottom: 2px;
 }
 
-/* line 41, /scss/_accordian_box.scss */
 .card_box .box_body .card .card-header h5 button {
   font-weight: 600;
   color: #1b3155;
 }
 
-/* line 47, /scss/_accordian_box.scss */
+
 .card_box .box_body .card .card-body {
   padding: 50px;
   background-color: rgba(0, 0, 0, 0);
@@ -10250,7 +10243,6 @@ div.dataTables_wrapper div.dataTables_paginate {
   font-size: 14px;
 }
 
-/* line 64, /scss/_accordian_box.scss */
 .default-according.arrow_style button.collapsed::before {
   right: 25px;
   position: absolute;
@@ -10261,14 +10253,11 @@ div.dataTables_wrapper div.dataTables_paginate {
   font-size: 14px;
 }
 
-/* line 75, /scss/_accordian_box.scss */
 .typography small {
   padding-left: 10px;
   color: #2c323f;
 }
 
-/*! PhotoSwipe Default UI CSS by Dmitry Semenov | photoswipe.com | MIT license */
-/* line 3, /scss/_photoswip.scss */
 .pswp__button {
   width: 44px;
   height: 44px;
@@ -14251,31 +14240,21 @@ color: #52c4f9;
     background-color: #cfeffe!important;
     border-color: #81d5fc;
 }
-
 .textColor--primary-7 {
     color: #99ddff;
 }
-
 .bgcolor--primary-8 {
     background-color: #cceeff !important;
 }
-
 .textColor--primary-8 {
     color: #cceeff;
 }
-
-.bgcolor--primary-9 {
-    
-}
-
 .textColor--primary-9 {
     color: #e8f7ff;
 }
-
 .bgcolor--primary-10 {
     background-color: #002233 !important;
 }
-
 .textColor--primary-10 {
     color: #002233;
 }
@@ -14340,11 +14319,9 @@ color: #52c4f9;
     background-color: #d4f3cc !important;
     border-color: #9bd38d;
 }
-
 .textColor--success-8 {
     color: #d4f3cc;
 }
-
 .bgcolor--success-9 {
     background-color: lavender;
     border-color: #bebefb;
@@ -14479,19 +14456,15 @@ color: #52c4f9;
 .bgcolor--danger-7 {
     background-color: #ffb2b2 !important;
 }
-
 .textColor--danger-7 {
     color: #ffb2b2;
 }
-
 .bgcolor--danger-8 {
     background-color: #ffcccc !important;
 }
-
 .textColor--danger-8 {
     color: #ffcccc;
 }
-
 .bgcolor--danger-9 {
     background-color: #ffe5e5 !important;
     border-color: #fda6a6;
@@ -14500,7 +14473,6 @@ color: #52c4f9;
 .textColor--danger-9 {
     color: #ffe5e5;
 }
-
 .dashboard-card--count__info .counter-number {
     display: inline-block;
     margin-bottom: 8px;
@@ -14508,7 +14480,6 @@ color: #52c4f9;
 .text--heading-2 {
     line-height: 40px;
 }
-
 
 .dashBrdIcon {
     background: #fff;
@@ -14534,7 +14505,6 @@ p.dashTitle {
     height: calc(100vh - 380px);
 }
 
-
 @media (min-width: 2200px) {
 .dsbrdIconsRow .col-xxl-2 {
     -ms-flex: 0 0 16.666667%;
@@ -14542,7 +14512,6 @@ p.dashTitle {
     max-width: 16.666667%;
 }
 }
-
 
 /*date-picker*/
 .datepicker-days td.day {
@@ -14777,7 +14746,6 @@ p.dashTitle {
     padding: 0;
 }
 
-
 .social_media_card .col-md-4 .card-body.card-body-custom .items.add-dropzone .card.draggable {
     margin: 0;
     box-shadow: none !important;
@@ -14798,7 +14766,6 @@ p.dashTitle {
 .social_media_card > div {
     padding: 0 !important;
 }
-
 .add-dropzone .bg-danger {
     background-color: rgba(242, 17, 54, 0.12) !important;
     color: #e63c3c !important;
@@ -14818,7 +14785,6 @@ p.dashTitle {
     font-weight: 700 !important;
     color: #000;
 }
-
 .add-dropzone .card-title a:hover {
 	text-decoration: none !important;
 }
@@ -14827,11 +14793,41 @@ p.dashTitle {
     background: #586066;
     border-color: #586066;
 }
-
 .social_media_card .col-md-4 .card-body.card-body-custom .items.add-dropzone .card.draggable .card-body.card-body-custom p {
     color: #000;
 }
-
 .social_media_card .col-md-4 .card-body.card-body-custom .card.draggable {
     border-radius: 12px;
+}
+.add-dropzone  .card-title {
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #ddd;
+    margin: 0 -13px;
+    padding-left: 12px;
+    margin-top: -4px;
+    font-size: 14px;
+    padding-bottom: 5px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.add-dropzone .card-title a::before {
+    position: absolute;
+    right: 13px;
+    width: 15px;
+    height: 15px;
+    content: "\e656";
+    font-family: 'themify';
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.add-dropzone .card-title a {
+    font-weight: 700 !important;
+    color: #000;
+    font-size: 14px!important;
+}
+
+.header_right .business-uuid-selector .select2.select2-container:nth-child(3) {
+    display: none;
 }
