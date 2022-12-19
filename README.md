@@ -34,7 +34,7 @@ Use the package manager [pip](https://webimpetus.io/en/stable/) to install WebIm
 
 ```http://localhost:{your port number}```
 
-![Landing Page](https://user-images.githubusercontent.com/43859895/141092846-905eae39-0169-4fd7-911f-9ff32c48b7e8.png)
+![Landing Page](https://github.com/bwalia/webimpetus/blob/fbe14861c236e35687c573cd9470521598afd260/webimpetus_login_page_v1_2022.png)
 
 ## Contributing
 
