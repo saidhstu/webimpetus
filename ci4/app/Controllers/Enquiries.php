@@ -24,7 +24,7 @@ class Enquiries extends CommonController
 	}
     public function index()
     {        
-        $data[$this->table] = $this->enquries_model->where([ 'uuid_business_id' => $this->businessUuid])->findAll();
+        $data[$this->table] = $this->enquries_model->findAll();
 		$data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
