@@ -10,7 +10,7 @@ spec:
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   hostPath:
     path: "/wsl/data/{{ .Values.targetEnv }}"
   persistentVolumeReclaimPolicy: Retain
@@ -23,7 +23,7 @@ metadata:
   name: wsl-{{ .Values.targetEnv }}-pvc
 spec:
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
       storage: 10Gi    
