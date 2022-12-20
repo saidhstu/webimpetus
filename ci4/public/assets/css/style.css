@@ -14009,32 +14009,32 @@ form#loginform .form-group {
     border: 1px solid;
 }
 .user_crm_wrapper > div > div:nth-child(6n+1) .dashboard-card{
-    background-color: #e8f7ff !important;
-    border-color: #c4dbe7
+    background-color: #ffe5e5 !important;
+    border-color: #ff004e;
 }
 .user_crm_wrapper > div > div:nth-child(6n+1) .fa{
 color: #00aaff;
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+2) .dashboard-card{
-        background-color: lavender;
-    border-color: #bebefb;
+        background-color: #cfeffe!important;
+        border-color: #42a5f5;
 }
 .user_crm_wrapper > div > div:nth-child(6n+2) .fa{
 color: #7373fd;
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+3) .dashboard-card{
-    background-color: #ffe5e5 !important;
-    border-color: #fda6a6;
+    background-color: #f7f1de !important;
+    border-color: #ffb300;
 }
 .user_crm_wrapper > div > div:nth-child(6n+3) .fa{
 color: rgb(255, 79, 79)
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+4) .dashboard-card{
-       background-color: #fff2cc !important;
-    border-color: #fbda7a;
+       background-color: #edf7ee !important;
+       border-color: #4caf50;
 }
 .user_crm_wrapper > div > div:nth-child(6n+4) .fa {
     color: #f7c637;
@@ -14042,22 +14042,48 @@ color: rgb(255, 79, 79)
 
 .user_crm_wrapper > div > div:nth-child(6n+5) .dashboard-card{
       background-color: #f1f1f1;
-    border-color: #bbb8b8;
+      border-color: #838282;
 }
 .user_crm_wrapper > div > div:nth-child(6n+5) .fa{
 color: #444;
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+6) .dashboard-card{
-    background-color: #cfeffe!important;
-    border-color: #81d5fc;
+    background-color: lavender;
+    border-color: #7373d3;
 }
 .user_crm_wrapper > div > div:nth-child(6n+6) .fa{
 color: #52c4f9;
 }
 
 
+.user_crm_wrapper > div > div:nth-child(6n+1) .dashboard-card .dashBrdIcon {
+    background: #ff004e;
+}
 
+.user_crm_wrapper > div > div:nth-child(6n+2) .dashboard-card .dashBrdIcon {
+    background: #42a5f5;
+}
+
+.user_crm_wrapper > div > div:nth-child(6n+3) .dashboard-card .dashBrdIcon {
+    background: #ffb300;
+}
+
+.user_crm_wrapper > div > div:nth-child(6n+4) .dashboard-card .dashBrdIcon {
+    background: #4caf50;
+}
+
+.user_crm_wrapper > div > div:nth-child(6n+5) .dashboard-card .dashBrdIcon {
+    background: #838282;
+}
+
+.user_crm_wrapper > div > div:nth-child(6n+6) .dashboard-card .dashBrdIcon {
+    background: #7373d3;
+}
+
+.user_crm_wrapper > div > div .dashboard-card .dashBrdIcon i {
+    color: #fff !important;
+}
 
 
 
@@ -14786,7 +14812,11 @@ p.dashTitle {
     color: #000;
 }
 .add-dropzone .card-title a:hover {
-	text-decoration: none !important;
+  text-decoration: none !important;
+}
+
+.header_right .business-uuid-selector .select2.select2-container:nth-child(3) {
+    display: none;
 }
 
 .social_media_card .add-dropzone .btn.btn-success.btn-sm:hover {
@@ -14826,8 +14856,4 @@ p.dashTitle {
     font-weight: 700 !important;
     color: #000;
     font-size: 14px!important;
-}
-
-.header_right .business-uuid-selector .select2.select2-container:nth-child(3) {
-    display: none;
 }
