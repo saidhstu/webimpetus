@@ -12,7 +12,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/wsl/data"
+    path: "/wsl/data/{{ .Values.targetEnv }}"
   persistentVolumeReclaimPolicy: Retain
 ---
 apiVersion: v1
