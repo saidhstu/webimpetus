@@ -19,7 +19,7 @@ class Enquiries_model extends Model
         if($id === false){
             return $this->where($this->whereCond)->findAll();
         }else{
-            $whereCond = array_merge(['id' => $id], $this->whereCond);
+            $whereCond = array_merge(['id' => $id]);
             return $this->getWhere($whereCond);
         }   
     }
