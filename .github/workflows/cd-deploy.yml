@@ -125,7 +125,9 @@ jobs:
     - name: Helm Deploy - Release
       uses: koslib/helm-eks-action@master
       with:
-        command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace && kubectl rollout restart deployment deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
+        command: |
+          helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+          kubectl rollout restart deployment deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
         # && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_EXEC_STR}} && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_RUN_STR}}
         
     - name: Slack Notification for Workstation CRM release 
