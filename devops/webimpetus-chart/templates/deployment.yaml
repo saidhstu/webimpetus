@@ -35,11 +35,11 @@ metadata:
   # namespace: {{ .Values.targetNS }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas }}
- strategy:
-   rollingUpdate:
-     maxSurge: 1         # <2>
-     maxUnavailable: 0   # <3>
-   type: RollingUpdate   # <1>
+  strategy:
+    rollingUpdate:
+      maxSurge: 1         # <2>
+      maxUnavailable: 0   # <3>
+    type: RollingUpdate   # <1>
   selector:
     matchLabels:
       app: wsl-{{ .Values.targetEnv }}
