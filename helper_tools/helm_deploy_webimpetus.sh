@@ -5,6 +5,10 @@
 
 #   set -x
 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+
 SVC_HOST=localhost
 SVC_NODEPORT=31178
 
@@ -18,15 +22,15 @@ IMAGE_REPO="registry.workstation.co.uk"
 TARGET_NAMESPACE="dev"
 
 if [ -z "$1" ]; then
-   echo "env is empty, so setting targetEnv to development (default)"
+   echo -e "$GREEN env is empty, so setting targetEnv to development (default)"
    targetEnv="dev"
 else
-   echo "env is provided, so setting targetEnv to $1"
+   echo -e "$RED env is provided, so setting targetEnv to $1"
    targetEnv=$1
 fi
 
 if [ -z "$2" ]; then
-   echo "namespace is empty, so setting namespace to dev (default)"
+   echo -e "$RED namespace is empty, so setting namespace to dev (default)"
    TARGET_NAMESPACE=""
 else
    echo "namespace is provided, so setting namespace to $2"
@@ -34,7 +38,7 @@ else
 fi
 
 if [ -z "$3" ]; then
-   echo "action is empty, so setting action to install (default)"
+   echo -e "$RED action is empty, so setting action to install (default)"
    deployment_stage="install"
 else
    echo "action is provided, action is set to $3"
@@ -42,15 +46,15 @@ else
 fi
 
 if [ -z "$4" ]; then
-   echo "k3s IMAGE_TAG is empty, so setting IMAGE_TAG to latest (default)"
+   echo -e "$RED k3s IMAGE_TAG is empty, so setting IMAGE_TAG to latest (default)"
 else
    echo "IMAGE_TAG is provided, IMAGE_TAG is set to $4"
    IMAGE_TAG=$4
 fi
 
-#if [ $targetEnv = "dev" || $targetEnv = "dev-bwalia" || $targetEnv = "int" || $targetEnv = "test" || $targetEnv = "acc" || $targetEnv = "prod" ];
-if [ $targetEnv = "int" ]; then
-echo "The targetEnv is $targetEnv supported by this script"
+if [ $targetEnv = "dev" ] || [ $targetEnv = "dev-bwalia" ] || [ $targetEnv = "int" ] || [ $targetEnv = "test" ] || [ $targetEnv = "acc" ] || [ $targetEnv = "prod" ]; then
+#if [ $targetEnv = "int" ]; then
+echo -e "$RED The targetEnv is $targetEnv supported by this script"
 else
 echo "Oops! The targetEnv is $targetEnv is not supported by this script, check the README.md and try again! (Hint: Try default value is dev)"
 exit 1
@@ -94,35 +98,35 @@ fi
 
 if [ $targetEnv = "dev" ];
 then
-echo "No need to load kubeconfig use default rancher config"
+echo -e "$RED No need to load kubeconfig use default rancher config"
 fi
 
 if [ $targetEnv = "int" ]; then
-echo "Load int env kubeconfig"
+echo -e "$RED Load int env kubeconfig"
 export KUBECONFIG=~/.kube/k3s8.yaml
 fi
 
 if [ $targetEnv = "acc" ]; then
-echo "Load acc env kubeconfig"
+echo -e "$RED Load acc env kubeconfig"
 export KUBECONFIG=~/.kube/k3s3.yaml
 fi
 
 if [ $targetEnv = "test" ]; then
-echo "Load test env kubeconfig"
+echo -e "$RED Load test env kubeconfig"
 export KUBECONFIG=~/.kube/k3s2.yaml
 fi
 
 if [ $targetEnv = "prod" ]; then
-echo "Load prod env kubeconfig"
+echo -e "$RED Load prod env kubeconfig"
 export KUBECONFIG=~/.kube/k3s1.yaml
 fi
 
 if [ $targetEnv = "dev" ]; then
-echo "No need to load kubeconfig use default var KUBE_CONFIG"
+echo -e "$RED No need to load kubeconfig use default var KUBE_CONFIG"
 elif [ -z "$5" ]; then
 echo "KUBECONFIG is empty, but mapped KUBECONFIG to $KUBECONFIG"
 else
-echo "KUBECONFIG is provided, so setting KUBECONFIG $5"
+echo -e "$RED KUBECONFIG is provided, so setting KUBECONFIG $5"
 export KUBECONFIG=$5
 fi
 
@@ -130,7 +134,7 @@ if [ -z "$6" ]; then
 echo "VIRTUAL_HOST is empty, so leaving default set VIRTUAL_HOST to whatever it may be (default ${SVC_HOST})"
 export VIRTUAL_HOST=${SVC_HOST}
 else
-echo "VIRTUAL_HOST is provided, so setting VIRTUAL_HOST $6"
+echo -e "$RED VIRTUAL_HOST is provided, so setting VIRTUAL_HOST $6"
 export VIRTUAL_HOST=$6
 fi
 
@@ -139,7 +143,7 @@ if [ -z "$7" ]; then
    docker_base_image="${targetEnv}-wsl-webserver"
    
 else
-   echo "docker base image type is provided, docker base image is set to $7"
+   echo -e "$RED docker base image type is provided, docker base image is set to $7"
    docker_base_image=$7
    IMAGE_NAME=$7
 fi
@@ -151,10 +155,10 @@ cp "${WORKSPACE_DIR}/${targetEnv}.env" "${WORKSPACE_DIR}/.env"
 fi
 
 if [ -z "$8" ]; then
-echo "TARGET_CLUSTER is default, so leaving default set TARGET_CLUSTER to whatever it may be (default ${TARGET_CLUSTER})"
+echo -e "$GREEN TARGET_CLUSTER is default, so leaving default set TARGET_CLUSTER to whatever it may be (default ${TARGET_CLUSTER})"
 export TARGET_CLUSTER=${TARGET_CLUSTER}
 else
-echo "TARGET_CLUSTER is provided, so setting TARGET_CLUSTER $8"
+echo -e "$GREEN TARGET_CLUSTER is provided, so setting TARGET_CLUSTER $8"
 export TARGET_CLUSTER=$8
 TARGET_CLUSTER=$8
 fi
@@ -163,7 +167,7 @@ if [ -z "$9" ]; then
 echo "Docker build cmd is default, so leaving default set BUILD_IMAGE_TOOL to whatever it may be (nerdctl)"
 export BUILD_IMAGE_TOOL="docker"
 else
-echo "BUILD_IMAGE_TOOL is provided, so setting BUILD_IMAGE_TOOL $9"
+echo -e "$RED BUILD_IMAGE_TOOL is provided, so setting BUILD_IMAGE_TOOL $9"
 export BUILD_IMAGE_TOOL=$9
 fi
 
@@ -171,16 +175,16 @@ VALUES_FILE_PATH=values-${TARGET_NAMESPACE}.yaml
 
 if [ $targetEnv = "dev" ] || [ $targetEnv = "dev-bwalia" ]; then
 TARGET_CLUSTER="k3s0"
-echo "TARGET_CLUSTER: $TARGET_CLUSTER"
+echo -e "$GREEN TARGET_CLUSTER: $TARGET_CLUSTER"
 elif [ $targetEnv = "int" ]; then
 TARGET_CLUSTER="k3s8"
 else
-echo "TARGET_CLUSTER: $TARGET_CLUSTER"
+echo -e "$GREEN TARGET_CLUSTER: $TARGET_CLUSTER"
 fi
 
-echo "VALUES_FILE_PATH is not local dev, so setting VALUES_FILE_PATH to values-${TARGET_NAMESPACE}-${TARGET_CLUSTER}.yaml"
+echo -e "$GREEN VALUES_FILE_PATH is not local dev, so setting VALUES_FILE_PATH to values-${TARGET_NAMESPACE}-${TARGET_CLUSTER}.yaml"
 VALUES_FILE_PATH=values-${TARGET_NAMESPACE}-${TARGET_CLUSTER}.yaml
-echo "VALUES_FILE_PATH: $VALUES_FILE_PATH"
+echo -e "$GREEN VALUES_FILE_PATH: $VALUES_FILE_PATH"
 
 cd ${WORKSPACE_DIR}/
 
@@ -197,7 +201,7 @@ if [ $deployment_stage = "install" ]; then
          #helm uninstall wsl-${targetEnv} -n ${targetEnv}
          ###helm upgrade --install -f devops/webimpetus-chart/values-${targetEnv}.yaml wsl-${targetEnv} ./devops/webimpetus-chart --set image=${IMAGE_REPO}/workstation:${IMAGE_TAG} --namespace ${targetEnv}
    helm_cmd=$(echo upgrade --install -f devops/webimpetus-chart/${VALUES_FILE_PATH} wsl-${TARGET_NAMESPACE} devops/webimpetus-chart/ --set-string targetImage="${IMAGE_REPO}/${IMAGE_NAME}" --set-string targetImageTag="${IMAGE_TAG}" --namespace ${TARGET_NAMESPACE} --create-namespace)
-   echo "helm $helm_cmd"
+   echo -e "$GREEN helm $helm_cmd"
    helm $helm_cmd
 
 sleep 60 # wait for 60 seconds for the k3s deployment to be ready
@@ -209,7 +213,7 @@ echo "$targetEnv env installation completed..."
 
 sleep 10 # wait for 10 seconds for the dev deployment to be ready
 
-echo "Waiting for services to install..."
+echo "$YELLLOW Waiting for services to install..."
 
 curl -IL $HOST_ENDPOINT_UNSECURE_URL -H "Host: ${VIRTUAL_HOST}"
 os_type=$(uname -s)
