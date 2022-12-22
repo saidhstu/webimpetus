@@ -205,11 +205,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                             </div>
                             <div class="row">
 
-                                <div class="col-md-10">
-
-
-
-
+                                <div class="col-md-12">
                                     <div class=" table-responsive table-full-width">
                                         <div class="table-responsive" style="border:none;">
                                             <table class="table table-striped  table-bordered table-hover custom-tbl-st" id="table-breakpoint" style="background-color: rgb(255, 255, 255); border-radius: 4px;">
@@ -251,13 +247,13 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                                             <td class="td_edit" data-th="Edit/Save"><span class="bt-content">
 
-                                                                    <a href="javascript:void(0)" class="editlink" title="Edit" style=""><i class="fa fa-edit"></i></a>
+                                                                    <a href="javascript:void(0)" class="editlink btn btn-success" title="Edit" style=""><i class="fa fa-edit"></i></a>
 
-                                                                    <a href="javascript:void(0)" class="savelink" style="display:none" title="" aria-describedby="ui-tooltip-1"><i class="fa fa-save"></i></a>
+                                                                    <a href="javascript:void(0)" class="savelink btn btn-success" style="display:none" title="" aria-describedby="ui-tooltip-1"><i class="fa fa-save"></i></a>
                                                                 </span></td>
                                                             <td class="td_remove" data-th="Cancel/Remove"><span class="bt-content">
-                                                                    <a href="javascript:void(0)" class="removelink" title="Rmove" style=""><i class="fa fa-trash"></i></a>
-                                                                    <a href="javascript:void(0)" class="cancellink" style="" title="Cancel"><i class="fa fa-remove"></i></a>
+                                                                    <a href="javascript:void(0)" class="removelink btn btn-danger" title="Rmove" style=""><i class="fa fa-trash"></i></a>
+                                                                    <a href="javascript:void(0)" class="cancellink btn btn-danger" style="" title="Cancel"><i class="fa fa-remove"></i></a>
                                                                 </span>
                                                             </td>
 
@@ -268,7 +264,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                         </div>
                                     </div>
 
-                                    <div class="row form-group hidden-xs" style="margin-bottom:5px;">
+                                    <div class="row form-group hidden-xs" style="margin-bottom:20px;">
                                         <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right; margin-left: 14px;">+ Add a invoice item</button>
                                     </div>
 

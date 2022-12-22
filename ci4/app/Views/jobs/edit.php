@@ -21,15 +21,15 @@
 
 						</div>
 					</nav>
-					<div class="tab-content py-3 px-3 px-sm-0 col-md-9" id="nav-tabContent">
+					<div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
 						<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 							<div class="form-row">
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-6">
 									<label for="inputEmail4">Title*</label>
 									<input type="text" class="form-control" value="<?=@$content->title?>" id="title" name="title" placeholder="">
 								</div>
 
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-6">
 									<label for="inputEmail4">Sub Title</label>
 									<input type="text" class="form-control" id="sub_title" name="sub_title" placeholder="" value="<?=@$content->sub_title?>">
 								</div>
@@ -52,12 +52,12 @@
 									<label for="inputEmail4"><input type="radio" <?=@$content->status==0?'checked':''?> value="0" class="form-control" id="status" name="status" placeholder=""> No</label>
 								</div>
 								<?php $json = json_decode(@$content->custom_fields); ?>
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-4">
 									<label for="inputEmail4">Reference</label>
 									<input type="text" class="form-control" id="reference" name="reference" placeholder="" value="<?=@$json->reference?>">
 								</div>
 
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-4">
 									<label for="inputEmail4">Job Type*</label>
 									<select onchange=""  class="form-control" name="job_type" id="job_type">
 										<option value="">-- Select Job Type--</option>
@@ -72,18 +72,18 @@
 								</div>
 
 
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-4">
 									<label for="inputEmail4">Salary*</label>
 									<input type="text" class="form-control" id="salary" name="salary" placeholder="" value="<?=@$json->salary?>">
 								</div>
 
 
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-6">
 									<label for="inputEmail4">Employer</label>
 									<input type="text" class="form-control" id="employer" name="employer" placeholder="" value="<?=@$json->employer?>">
 								</div>
 
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-6">
 									<label for="inputEmail4">Location</label>
 									<input type="text" class="form-control" id="location" name="location" placeholder="" value="<?=isset($json->location)?$json->location:''?>">
 								</div>
@@ -111,10 +111,11 @@
 									<label for="inputEmail4">URL Code*</label>
 									<input type="text" class="form-control" id="code" name="code" placeholder="" readonly="readonly" value="<?=@$content->code?>" onchange="format_manual_code('Code')">
 									<span class="help-block">URL (SEO friendly)</span><br>
-
-									<span class="help-block">
-										<input type="checkbox" name="chk_manual" id="chk_manual">
-									I want to manually enter code</span>
+									<div class="mt-3">
+										<span class="help-block">
+											<input type="checkbox" name="chk_manual" id="chk_manual">
+											I want to manually enter code</span>
+									</div>
 
 
 								</div>
@@ -142,7 +143,7 @@
 							</div>
 						</div>
 
-						<div class=" fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+						<div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label for="inputState">Choose User</label>
@@ -153,25 +154,24 @@
 										<?php endforeach;?>
 									</select>
 								</div>
-
 								<div class="form-group col-md-12">
-									<label for="inputState">Choose Category</label>
-									<select id="catid" name="catid[]" multiple class="form-control js-example-basic-multiple">                                            
-										<?php foreach($cats as $row):?>
-											<option value="<?= $row['id'];?>" <?=in_array($row['id'],$selected_cats)?'selected':''?>><?= $row['name'];?></option>
-										<?php endforeach;?>
-									</select>
+									<div class="row">
+										<div class="col-md-12">
+											<label for="inputState">Choose Category</label>
+										</div>
+										<div class="col-md-12">
+											<select id="catid" name="catid[]" multiple class="form-control js-example-basic-multiple">
+												<?php foreach($cats as $row):?>
+													<option value="<?= $row['id'];?>" <?=in_array($row['id'],$selected_cats)?'selected':''?>><?= $row['name'];?></option>
+												<?php endforeach;?>
+											</select>
+										</div>
+									</div>
 								</div>
-
-
 								<div class="form-group col-md-12">
 									<label for="inputState">Publish Date</label>
-
 									<input id="" class="form-control datepicker" name="publish_date" width="250" type="text"  value="<?=render_date(@$content->publish_date);?>" />
-
 								</div>
-
-
 							</div>
 						</div>
 					</div>

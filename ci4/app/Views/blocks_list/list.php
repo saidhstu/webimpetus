@@ -27,7 +27,8 @@
                         <td class="f_s_12 f_w_400"><?= $row['code'];?>
                         <td class="f_s_12 f_w_400"><?= $row['title'];?>
 
-                        <td class="f_s_12 f_w_400 <?=$row['status']==0?'text_color_1':'text_color_2'?> "><?=$row['status']==0?'inactive':'active'?>
+                        <td class="f_s_12 f_w_400 <?=$row['status']==0?'text_color_1':'text_color_2'?> ">
+                            <span class="stsSpan"><?=$row['status']==0?'inactive':'active'?></span>
                     </td>
 
 
