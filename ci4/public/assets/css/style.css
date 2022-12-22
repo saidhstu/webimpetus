@@ -10,7 +10,6 @@
   background: linear-gradient(90deg, #7C32FF 0%, #A235EC 70%, #C738D8 100%);
 }
 
-
 .profile_info .profile_info_iner .profile_author_name {
   background-image: linear-gradient(to bottom right, #863ee2, #571f9e);
 }
@@ -27,7 +26,6 @@ body {
 }
 
 @media (min-width: 1200px) {
-
   .container {
     max-width: 1310px;
   }
@@ -5500,7 +5498,7 @@ body::-webkit-scrollbar {
 
 /* line 247, /scss/_main_content.scss */
 .page_title_box {
-    padding-bottom: 16px;
+    padding-bottom: 25px;
 }
 
 /* line 251, /scss/_main_content.scss */
@@ -5548,9 +5546,10 @@ body::-webkit-scrollbar {
 
 /* line 286, /scss/_main_content.scss */
 .page_title_left h3 {
-  color: #15132b;
-  font-size:26px;
-  font-weight: 700;
+    color: #15132b;
+    font-size: 26px;
+    font-weight: 700;
+    padding-top: 5px;
 }
 
 /* line 293, /scss/_main_content.scss */
@@ -14856,4 +14855,64 @@ p.dashTitle {
     font-weight: 700 !important;
     color: #000;
     font-size: 14px!important;
+}
+
+.all-media-image-files {
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.all-media-image-files img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    padding: 2px;
+}
+
+.tokenlist li a {
+    color: #ff004e;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.table .text_color_1 .stsSpan {
+    background-color: rgba(242, 17, 54, 0.12) !important;
+    color: #e63c3c !important;
+    padding: 8px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid;
+    letter-spacing: 0.2px;
+    min-width: 65px;
+    display: inline-block;
+    text-align: center;
+}
+
+.table .text_color_2 .stsSpan {
+    background-color: rgba(15, 183, 107, 0.12) !important;
+    color: #26af48 !important;
+    padding: 8px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid;
+    letter-spacing: 0.2px;
+    min-width: 65px;
+    display: inline-block;
+    text-align: center;
+}
+.table td {
+    color: #212529;
+    font-size: 16px;
+    font-weight: 400;
+}
+.all-media-image-files2 img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    padding: 2px;
 }

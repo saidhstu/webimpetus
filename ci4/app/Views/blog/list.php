@@ -25,7 +25,8 @@
                 <td class="f_s_12 f_w_400"><?= $row['title'];?>
                 <td class="f_s_12 f_w_400"><?= $row['sub_title'];?>
                 </td>
-                <td class="f_s_12 f_w_400 <?=$row['status']==0?'text_color_1':'text_color_2'?> "><?=$row['status']==0?'inactive':'active'?>
+                <td class="f_s_12 f_w_400 <?=$row['status']==0?'text_color_1':'text_color_2'?> ">
+                    <span class="stsSpan"> <?=$row['status']==0?'inactive':'active'?></span>
                 </td>
                 <?php /* ?><td class="f_s_12 f_w_400  ">
                 <?php if(!empty($row['image_logo'])) { ?>
@@ -50,23 +51,14 @@
                                 
                                 <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/blog/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
                                 <a class="dropdown-item" href="/blog/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
-                                
-                                
                             </div>
                         </div>
                     </div>
-                </td>   
-                                                
-            </tr>
-            
-            <?php endforeach;?>  
-            
-
-                
-                
+                </td>
+                </tr>
+                <?php endforeach;?>  
             </tbody>
         </table>
     </div>
 </div>
-
 <?php require_once (APPPATH.'Views/common/footer.php'); ?>
