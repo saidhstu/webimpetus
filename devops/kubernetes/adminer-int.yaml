@@ -8,7 +8,7 @@ metadata:
     app: adminer
 spec:
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
