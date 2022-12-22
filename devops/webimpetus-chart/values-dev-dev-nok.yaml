@@ -55,7 +55,7 @@ resources: {}
 
 autoscaling:
   enabled: false
-  minReplicas: 0
+  minReplicas: 2
   maxReplicas: 10
   maxUnavailable: 1
   targetCPUUtilizationPercentage: 80
