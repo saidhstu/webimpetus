@@ -11,6 +11,7 @@ env:
   TARGET_STACK: openresty_php
   IMAGE_NAME: webimpetus
   TARGET_ENV: test
+  minReplicas: ${{ secrets.minReplicas_test }}
   IMAGE_REGISTRY: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}
   KUBECTL_CMD_FILE_EXEC_STR: "chmod +x /usr/local/bin/bootstrap-openresty.sh"
   KUBECTL_CMD_FILE_RUN_STR: "/usr/local/bin/bootstrap-openresty.sh"
@@ -54,6 +55,7 @@ jobs:
         #command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s2.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
         command: |
           helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+          kubectl scale deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} --replicas=${{ secrets.minReplicas }} -n ${{ env.TARGET_ENV }}
           kubectl rollout restart deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
         # && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_EXEC_STR}} && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_RUN_STR}}
 
@@ -78,6 +80,7 @@ jobs:
         #command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s3.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
         command: |
           helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+          kubectl scale deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} --replicas=${{ secrets.minReplicas }} -n ${{ env.TARGET_ENV }}
           kubectl rollout restart deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
         # && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_EXEC_STR}} && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_RUN_STR}}
 
