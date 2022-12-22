@@ -51,15 +51,9 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_K3S2 }}
       with:
-        #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
-        #command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s2.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
         command: |
-          kubectl rollout pause deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
           helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
-          kubectl scale deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} --replicas=${{ secrets.minReplicas }} -n ${{ env.TARGET_ENV }}
-          kubectl rollout resume deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
           kubectl rollout history deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
-        # && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_EXEC_STR}} && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_RUN_STR}}
 
     - uses: actions-hub/kubectl@master
       env:
@@ -80,13 +74,13 @@ jobs:
       with:
         #command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
         #command: helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-k3s3.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
-        command: |
-          kubectl rollout pause deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
-          helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
-          kubectl scale deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} --replicas=${{ secrets.minReplicas }} -n ${{ env.TARGET_ENV }}
-          kubectl rollout resume deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
-          kubectl rollout history deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
+#          kubectl rollout pause deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
+          # kubectl scale deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} --replicas=${{ secrets.minReplicas }} -n ${{ env.TARGET_ENV }}
+          # kubectl rollout resume deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
         # && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_EXEC_STR}} && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_RUN_STR}}
+        command: |
+          helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+          kubectl rollout history deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
 
     - uses: actions-hub/kubectl@master
       env:
