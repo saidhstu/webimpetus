@@ -31,6 +31,8 @@
                                 }
                             } else if ($field == "user_id") {
                                 $row[$field] = $userNameArray[$row[$field]];
+                            } else if ($field == "primary_business_uuid") {
+                                $row[$field] = isset($businessNameArr[$row[$field]]) ? $businessNameArr[$row[$field]] : '';
                             }
                             ?>
                             <td class="f_s_12 f_w_400"><?= $row[$field]; ?></td>
