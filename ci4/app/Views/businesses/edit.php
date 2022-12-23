@@ -88,10 +88,9 @@ $businessContacts = getResultArray("business_contacts");
                             <?php endforeach;
                             } ?>
                         </select>
-
                     </div>
                     <div class="form-group col-md-12">
-                        <br><span class="help-block">Default Business</span><br>
+                        <br><span class="help-block">Primary Business</span><br>
                         <span class="help-block">
                             <input type="checkbox" name="default_business" id="default_business" <?= !empty(@$businesse->default_business) ? "checked" : ''; ?>>
                         </span>

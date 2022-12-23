@@ -71,6 +71,11 @@ class User_business extends CommonController
         $data["user_id"] = $user_id;
         $data["id"] = $id;
         $data["user_business_id"] = json_encode($user_business_id);
+        $primary_business_uuid = $this->request->getPost('primary_business_uuid');
+        $data["primary_business_uuid"] = '';
+        if (!is_null($user_business_id) && in_array($primary_business_uuid, $user_business_id)) {
+            $data["primary_business_uuid"] = $primary_business_uuid;
+        }
 
         $data['business'] = $this->User_business_model->insertOrUpdate($id, $data);
         return redirect()->to('/user_business');
