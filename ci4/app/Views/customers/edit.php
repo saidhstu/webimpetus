@@ -40,7 +40,7 @@ $categories = getResultArray("categories");
                     <input class="form-check-input" type="checkbox" name="status" id="status"  <?php if(@$customer->status == "1"){echo 
                         "checked"; }?> value="<?php echo @$customer->status; ?>" >
                     <label class="form-check-label" for="flexCheckIndeterminate">
-                        Active
+                    <?php if(@$customer->status == "1"){ echo "Inactive"; } else { echo "Active"; } ?>
                     </label>
                     </div>
                 </div>
