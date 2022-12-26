@@ -14005,10 +14005,11 @@ form#loginform .form-group {
     padding: 20px 10px;
     border-radius: 10px;
     margin-bottom: 20px;
-    border: 1px solid;
+    border-left: 4px solid;
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)
 }
 .user_crm_wrapper > div > div:nth-child(6n+1) .dashboard-card{
-    background-color: #ffe5e5 !important;
+    background-color: #ffffff !important;
     border-color: #ff004e;
 }
 .user_crm_wrapper > div > div:nth-child(6n+1) .fa{
@@ -14016,7 +14017,7 @@ color: #00aaff;
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+2) .dashboard-card{
-        background-color: #cfeffe!important;
+        background-color: #ffffff !important;
         border-color: #42a5f5;
 }
 .user_crm_wrapper > div > div:nth-child(6n+2) .fa{
@@ -14024,7 +14025,7 @@ color: #7373fd;
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+3) .dashboard-card{
-    background-color: #f7f1de !important;
+    background-color: #ffffff !important;
     border-color: #ffb300;
 }
 .user_crm_wrapper > div > div:nth-child(6n+3) .fa{
@@ -14032,7 +14033,7 @@ color: rgb(255, 79, 79)
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+4) .dashboard-card{
-       background-color: #edf7ee !important;
+       background-color: #ffffff !important;
        border-color: #4caf50;
 }
 .user_crm_wrapper > div > div:nth-child(6n+4) .fa {
@@ -14040,7 +14041,7 @@ color: rgb(255, 79, 79)
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+5) .dashboard-card{
-      background-color: #f1f1f1;
+      background-color: #ffffff;
       border-color: #838282;
 }
 .user_crm_wrapper > div > div:nth-child(6n+5) .fa{
@@ -14048,7 +14049,7 @@ color: #444;
 }
 
 .user_crm_wrapper > div > div:nth-child(6n+6) .dashboard-card{
-    background-color: lavender;
+    background-color: #ffffff;
     border-color: #7373d3;
 }
 .user_crm_wrapper > div > div:nth-child(6n+6) .fa{
@@ -14508,8 +14509,8 @@ color: #52c4f9;
 
 .dashBrdIcon {
     background: #fff;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     line-height: 70px;
     text-align: center;
     display: flex;
@@ -14520,6 +14521,21 @@ color: #52c4f9;
     font-size: 27px;
     transition: all ease 0.5s;
 }
+
+.badge-total-count {
+  position: absolute;
+  right: 0;
+  top: -10px;
+  font-size: 16px;
+  width: 35px;
+  height: auto;
+  line-height: unset;
+}
+
+.iconsBG {
+  background: transparent !important;
+}
+
 p.dashTitle {
     font-size: 20px;
     color: #444;
