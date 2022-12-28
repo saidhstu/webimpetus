@@ -445,6 +445,11 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
         $("button[type='submit']").addClass("d-none");
         $(".delete-note").addClass("d-none");
         $("#addNote").addClass("d-none");
+        $(".cancellink").addClass("d-none");
+        $("input").prop("disabled", true);
+        $("textarea").prop("disabled", true);
+        $("select.form-control").attr("disabled", true);
+        $("select#uuidBusinessIdSwitcher").attr("disabled", false);
     }
 
     $(document).on("click", ".form-check-input", function() {

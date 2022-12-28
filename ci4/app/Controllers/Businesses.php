@@ -74,6 +74,7 @@ class Businesses extends CommonController
 		$data[$this->rawTblName] = getRowArray($this->table, ['id' => $id]);
 		// if there any special cause we can overried this function and pass data to add or edit view
 		$data['additional_data'] = $this->getAdditionalData($id);
+		$data['role'] = $this->session->get('role');
 
 		echo view($this->table . "/edit", $data);
 	}

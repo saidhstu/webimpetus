@@ -421,6 +421,11 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
         $(".removelink").addClass("d-none");
         $("#addrow").addClass("d-none");
         $("button[type='submit']").addClass("d-none");
+        $(".cancellink").addClass("d-none");
+        $("input").prop("disabled", true);
+        $("textarea").prop("disabled", true);
+        $("select.form-control").attr("disabled", true);
+        $("select#uuidBusinessIdSwitcher").attr("disabled", false);
     }
 
     $(document).on("click", ".form-check-input", function() {

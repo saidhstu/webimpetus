@@ -36,7 +36,7 @@ class Home extends BaseController
 				$logo = $this->meta_model->getWhere(['meta_key' => 'site_logo'])->getRow();
 				$uuid_business_id = $this->request->getPost('uuid_business_id');
 
-				$uuid_business = @$this->meta_model->getBusinessRow($uuid_business_id)->uuid;
+				$uuid_business = @$this->meta_model->getBusinessRow($uuid_business_id, $row->id)->uuid;
 
 				$this->session->set('uemail',$row->email);
 				$this->session->set('uuid',$row->id);

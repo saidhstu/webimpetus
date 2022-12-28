@@ -219,7 +219,7 @@ class CommonController extends BaseController
 	}
 
 
-	public function exportPDF($id = 0)
+	public function exportPDF($id = 0, $view = '')
 	{
 		set_time_limit(60);
 		$mpdf = new \App\Libraries\Generate_Pdf();
@@ -375,6 +375,11 @@ class CommonController extends BaseController
 		include($pdf_path . "/dynamic_body.php");
 		$html = ob_get_contents();
 		ob_end_clean();
+
+		if ($view == 'view') {
+			echo $html;
+			die;
+		}
 
 		$pdf->WriteHTML($html);
 		$pdf->Output(str_replace(' ', '-', $pdf_name_prefix) . ".pdf", "D");
