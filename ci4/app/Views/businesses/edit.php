@@ -89,12 +89,15 @@ $businessContacts = getResultArray("business_contacts");
                             } ?>
                         </select>
                     </div>
-                    <div class="form-group col-md-12">
-                        <br><span class="help-block">Primary Business</span><br>
-                        <span class="help-block">
-                            <input type="checkbox" name="default_business" id="default_business" <?= !empty(@$businesse->default_business) ? "checked" : ''; ?>>
-                        </span>
-                    </div>
+
+                    <?php if (in_array($role, [1, 2])) { ?>
+                        <div class="form-group col-md-12">
+                            <br><span class="help-block">Primary Business</span><br>
+                            <span class="help-block">
+                                <input type="checkbox" name="default_business" id="default_business" <?= !empty(@$businesse->default_business) ? "checked" : ''; ?>>
+                            </span>
+                        </div>
+                    <?php } ?>
 
                 </div>
 
