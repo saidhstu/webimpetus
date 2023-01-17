@@ -32,29 +32,29 @@
                 <div class="col-xl-12 ">
                     <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
                         <div class="row">
-                            <?php foreach ($tableList as $table => $eachInfo) { ?>
-                                <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                    <div class="dashboard-card">
-                                        <a href="<?php echo @$eachInfo['url']; ?>">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="col">
-                                                    <div class="dashContent">
-                                                        <h4 class="dashCount"><?= @$eachInfo['total'] ?></h4>
-                                                        <p class="dashTitle"><?= @$eachInfo['menu']['name'] ?></p>
+                            <?php foreach ($tableList as $table => $eachInfo) {
+                                if (in_array(@$eachInfo['menu']['name'], $user_permissions)) { ?>
+                                    <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
+                                        <div class="dashboard-card">
+                                            <a href="<?php echo @$eachInfo['url']; ?>">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="col">
+                                                        <div class="dashContent">
+                                                            <h4 class="dashCount"><?= @$eachInfo['total'] ?></h4>
+                                                            <p class="dashTitle"><?= @$eachInfo['menu']['name'] ?></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="dashBrdIcon">
+                                                            <i class="<?= @$eachInfo['menu']['icon'] ?>"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-auto">
-                                                    <div class="dashBrdIcon">
-                                                        <i class="<?= @$eachInfo['menu']['icon'] ?>"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php } ?>
-
+                            <?php }
+                            } ?>
                         </div>
                     </div>
                 </div>
@@ -63,29 +63,29 @@
                 <div class="col-xl-12 ">
                     <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
                         <div class="row">
-                            <?php foreach ($allList as $table => $eachInfo) { ?>
-                                <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                    <div class="dashboard-card">
-                                        <a href="<?php echo @$eachInfo['url']; ?>">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="col">
-                                                    <div class="dashContent">
-                                                        <h4 class="dashCount"><?= @$eachInfo['total'] ?></h4>
-                                                        <p class="dashTitle"><?= @$eachInfo['menu']['name'] ?></p>
+                            <?php foreach ($allList as $table => $eachInfo) {
+                                if (in_array(@$eachInfo['menu']['name'], $user_permissions)) { ?>
+                                    <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
+                                        <div class="dashboard-card">
+                                            <a href="<?php echo @$eachInfo['url']; ?>">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="col">
+                                                        <div class="dashContent">
+                                                            <h4 class="dashCount"><?= @$eachInfo['total'] ?></h4>
+                                                            <p class="dashTitle"><?= @$eachInfo['menu']['name'] ?></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="dashBrdIcon">
+                                                            <i class="<?= @$eachInfo['menu']['icon'] ?>"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-auto">
-                                                    <div class="dashBrdIcon">
-                                                        <i class="<?= @$eachInfo['menu']['icon'] ?>"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php } ?>
-
+                            <?php }
+                            } ?>
                         </div>
                     </div>
                 </div>
@@ -266,7 +266,7 @@
                         <div class="white_card_header">
                             <div class="box_header m-0">
                                 <div class="main-title">
-                                    <h3 class="m-0">Employees asdf</h3>
+                                    <h3 class="m-0">Employees</h3>
                                 </div>
                             </div>
                         </div>
@@ -283,8 +283,8 @@
                                     <tbody>
                                         <?php foreach ($recent_employees as $employee) { ?>
                                             <tr>
-                                                <td class="f_s_12 f_w_400 color_text_6"><?= $employee->first_name . ' ' . $employee->title; ?></td>
-                                                <td class="f_s_12 f_w_400 text-left"><a href="#" class="text_color_1"><?= $employee->email; ?></a>
+                                                <td scope="col" class="text_color_red"><?= $employee->first_name . ' ' . $employee->title; ?></td>
+                                                <td scope="col" class="color_text_6"><?= $employee->email; ?>
                                                     <a href="/employees/edit/<?php echo $employee->id; ?>" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
                                                 </td>
                                             </tr>

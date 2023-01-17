@@ -48,7 +48,7 @@
         </div>
         <div class="col-lg-4 d-flex justify-content-center bg-light pt-3">
             <div class="card-body">
-                <h5>Drag and drop tokens in "Content"</h5>
+                <h5>Drag and drop Blocks in "Content"</h5>
                 <div class="input-group mb-3">
                     <input type="text" name="search-token" class="form-control" placeholder="Search here.." aria-label="Search here.." aria-describedby="basic-addon2">
                     <div class="input-group-append">
