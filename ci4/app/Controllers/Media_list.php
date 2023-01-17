@@ -14,7 +14,7 @@ class Media_list extends CommonController
         parent::__construct();
 
         $this->table = strtolower($this->getTableNameFromUri());
-		$this->rawTblName =  $this->table; 
+		$this->rawTblName =  $this->table;
 
 	}
 

@@ -5,7 +5,6 @@
          <table id="example" class="table table-listing-items tableDocument table-striped table-bordered">
              <thead>
                  <tr>
-
                      <th scope="col">Id</th>
                      <th scope="col">Code</th>
                      <th scope="col">Image</th>
@@ -26,7 +25,7 @@
                                                     } ?>
                          </td>
                          <td class="f_s_12 f_w_400 <?= $row['status'] == 0 ? 'text_color_1' : 'text_color_2' ?> ">
-                         <span class="stsSpan"><?= $row['status'] == 0 ? 'inactive' : 'active' ?></span>
+                             <span class="stsSpan"><?= $row['status'] == 0 ? 'inactive' : 'active' ?></span>
                          </td>
 
 
@@ -43,14 +42,12 @@
 
                                          <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/gallery/delete/<?= $row['id']; ?>"> <i class="ti-trash"></i> Delete</a>
                                          <a class="dropdown-item" href="/gallery/edit/<?= $row['id']; ?>"> <i class="fas fa-edit"></i> Edit</a>
-                                         <a class="dropdown-item" id="copyToClipBoard" link='<?= $row['name']; ?>'> <i class="fas fa-copy"></i> Copy Link</a>
+                                         <a class="dropdown-item" id="copyToClipBoard" link='<?= str_replace("https://webimpetus-images.s3.eu-west-2.amazonaws.com", base_url(), $row['name']); ?>'> <i class="fas fa-copy"></i> Copy Link</a>
                                      </div>
                                  </div>
                              </div>
                          </td>
-
                      </tr>
-
                  <?php endforeach; ?>
              </tbody>
          </table>
