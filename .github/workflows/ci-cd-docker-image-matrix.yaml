@@ -3,7 +3,7 @@ run-name: Creates a new Docker image, pushes it, and tags it - ${{ github.event.
 
 on:
   push:
-    branches: [ dummy ]
+    branches: [ main ]
   schedule:
     - cron: "0 0 * * *" # Every midnight let's build a fresh docker image from the main branch
 
