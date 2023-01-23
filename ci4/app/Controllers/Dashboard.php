@@ -185,7 +185,11 @@ class Dashboard extends BaseController
 
 		$data['tableList'] = $tableInfo;
 		$data['allList'] = $moreInfo;
-		// prd($data);
+		$permissions = $this->session->get('permissions');
+		$data['user_permissions'] = array_map(function ($perm) {
+			return $perm['name'];
+		}, $permissions);
+		
         return view('dashboard', $data);
     }
 	

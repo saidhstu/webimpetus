@@ -1,26 +1,26 @@
 <?php include('common/header.php'); ?>
 <!-- main content part here -->
- 
+
 
 <?php include('common/sidebar.php'); ?>
 
 <section class="main_content dashboard_part large_header_bg full_main_content">
-       <?php include('common/top-header.php'); ?> 
-   <div class="main_content_iner overly_inner ">
+    <?php include('common/top-header.php'); ?>
+    <div class="main_content_iner overly_inner ">
         <div class="container-fluid p-0 ">
             <!-- page title  -->
             <div class="row">
                 <div class="col-12">
                     <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
                         <div class="page_title_left d-flex align-items-center">
-                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >Dashboard</h3>
+                            <h3 class="f_s_25 f_w_700 dark_text mr_30">Dashboard</h3>
                             <ol class="breadcrumb page_bradcam mb-0">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
                                 <li class="breadcrumb-item active">Analytic</li>
                             </ol>
                         </div>
                         <div class="page_title_right">
-                            <div class="page_date_button d-flex align-items-center"> 
+                            <div class="page_date_button d-flex align-items-center">
                                 <img src="/img/icon/calender_icon.svg" alt="">
                                 August 1, 2020 - August 31, 2020
                             </div>
@@ -30,62 +30,62 @@
             </div>
             <div class="row">
                 <div class="col-xl-12 ">
-                  <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
+                    <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
                         <div class="row">
-                            <?php foreach( $tableList as $table => $eachInfo){?>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card">
-                                     <a href="<?php echo @$eachInfo['url'];?>">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="col">
-                                            <div class="dashContent">
-                                                <h4 class="dashCount"><?=@$eachInfo['total']?></h4>
-                                                <p class="dashTitle"><?=@$eachInfo['menu']['name']?></p>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="dashBrdIcon">
-                                           <i class="<?=@$eachInfo['menu']['icon']?>"></i>
-                                            </div>
+                            <?php foreach ($tableList as $table => $eachInfo) {
+                                if (in_array(@$eachInfo['menu']['name'], $user_permissions)) { ?>
+                                    <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
+                                        <div class="dashboard-card">
+                                            <a href="<?php echo @$eachInfo['url']; ?>">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="col">
+                                                        <div class="dashContent">
+                                                            <h4 class="dashCount"><?= @$eachInfo['total'] ?></h4>
+                                                            <p class="dashTitle"><?= @$eachInfo['menu']['name'] ?></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="dashBrdIcon">
+                                                            <i class="<?= @$eachInfo['menu']['icon'] ?>"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
-                                </a>
-                                    
-                                </div>
-                            </div>
-                            <?php } ?>
-                            
+                            <?php }
+                            } ?>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row" id="view_more_list" style="display:none">
                 <div class="col-xl-12 ">
-                  <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
+                    <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
                         <div class="row">
-                            <?php foreach( $allList as $table => $eachInfo){?>
-                            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
-                                <div class="dashboard-card">
-                                     <a href="<?php echo @$eachInfo['url'];?>">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="col">
-                                            <div class="dashContent">
-                                                <h4 class="dashCount"><?=@$eachInfo['total']?></h4>
-                                                <p class="dashTitle"><?=@$eachInfo['menu']['name']?></p>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="dashBrdIcon">
-                                           <i class="<?=@$eachInfo['menu']['icon']?>"></i>
-                                            </div>
+                            <?php foreach ($allList as $table => $eachInfo) {
+                                if (in_array(@$eachInfo['menu']['name'], $user_permissions)) { ?>
+                                    <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
+                                        <div class="dashboard-card">
+                                            <a href="<?php echo @$eachInfo['url']; ?>">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="col">
+                                                        <div class="dashContent">
+                                                            <h4 class="dashCount"><?= @$eachInfo['total'] ?></h4>
+                                                            <p class="dashTitle"><?= @$eachInfo['menu']['name'] ?></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="dashBrdIcon">
+                                                            <i class="<?= @$eachInfo['menu']['icon'] ?>"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
-                                </a>
-                                    
-                                </div>
-                            </div>
-                            <?php } ?>
-                            
+                            <?php }
+                            } ?>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                         <a href="#" class="btn_1 radius_btn  text-center view_more" style="padding:15px 20px;">View More</a>
                     </div>
                 </div>
-            </div>        
+            </div>
             <div class="row">
                 <div class="col-xl-4">
                     <div class="white_card c mb_30">
@@ -104,7 +104,7 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-4">
                                     <div class="main-title">
-                                        <h3 class="m-0">New Users</h3>
+                                        <h3 class="m-0">Users</h3>
                                     </div>
                                 </div>
                                 <!-- <div class="col-lg-8 d-flex justify-content-end">
@@ -115,21 +115,21 @@
                                     </select>
                                 </div> -->
                             </div>
-                         
+
                         </div>
-                        <?php foreach($recent_users as $users){?>
+                        <?php foreach ($recent_users as $users) { ?>
                             <div class="white_card_body ">
                                 <div class="single_user_pil d-flex align-items-center justify-content-between">
                                     <div class="user_pils_thumb d-flex align-items-center">
                                         <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_red"><?php echo $users->name?></span>
+                                        <span class="f_s_14 f_w_400 text_color_red"><?php echo $users->name ?></span>
                                     </div>
                                     <div class="user_info">
-                                    <?php echo $users->email;?>
+                                        <?php echo $users->email; ?>
                                     </div>
                                     <div class="action_btns d-flex">
-                                        <a href="/users/edit/<?php echo $users->id;?>" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                    
+                                        <a href="/users/edit/<?php echo $users->id; ?>" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+
                                     </div>
                                 </div>
                             </div>
@@ -146,16 +146,16 @@
                                 <div class="header_more_tool dropInr">
                                     <div class="dropdown">
                                         <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
-                                          <i class="ti-more-alt"></i>
+                                            <i class="ti-more-alt"></i>
                                         </span>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
-                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
-                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
-                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
-                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                            <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                            <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
                                         </div>
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -209,16 +209,16 @@
                                 <div class="header_more_tool dropInr">
                                     <div class="dropdown">
                                         <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
-                                          <i class="ti-more-alt"></i>
+                                            <i class="ti-more-alt"></i>
                                         </span>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
-                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
-                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
-                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
-                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                            <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                            <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
                                         </div>
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -259,16 +259,15 @@
                         </div>
                     </div>
                 </div>
-               
-             
+
+
                 <div class="col-lg-4">
                     <div class="white_card  mb_20 ">
                         <div class="white_card_header">
                             <div class="box_header m-0">
                                 <div class="main-title">
-                                    <h3 class="m-0">Employees Detail</h3>
+                                    <h3 class="m-0">Employees</h3>
                                 </div>
-                
                             </div>
                         </div>
                         <div class="white_card_body QA_section">
@@ -277,27 +276,19 @@
                                 <table class="table lms_table_active2 p-0">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Id</th>
-                                            <th scope="col">First Name</th>
-                                            <th scope="col">Title </th>
+                                            <th scope="col">Name</th>
                                             <th scope="col">Email</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($recent_employees as $employee){?>
-                                        <tr>
-                                            <td>
-                                                <div class="customer d-flex align-items-center">
-                                                  
-                                                    <span class="f_s_12 f_w_600 color_text_5" ><?= $employee->id; ?></span>
-                                                </div>
-                                                
-                                            </td>
-                                            <td class="f_s_12 f_w_400 color_text_6"><?= $employee->first_name; ?></td>
-                                            <td class="f_s_12 f_w_400 color_text_6"><?= $employee->title; ?></td>
-                                            <td class="f_s_12 f_w_400 text-left"><a href="#" class="text_color_1"><?= $employee->email; ?></a></td>
-                                        </tr>
-                                            <?php } ?>
+                                        <?php foreach ($recent_employees as $employee) { ?>
+                                            <tr>
+                                                <td scope="col" class="text_color_red"><?= $employee->first_name . ' ' . $employee->title; ?></td>
+                                                <td scope="col" class="color_text_6"><?= $employee->email; ?>
+                                                    <a href="/employees/edit/<?php echo $employee->id; ?>" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -314,16 +305,16 @@
                                 <div class="header_more_tool dropInr">
                                     <div class="dropdown">
                                         <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
-                                          <i class="ti-more-alt"></i>
+                                            <i class="ti-more-alt"></i>
                                         </span>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
-                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
-                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
-                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
-                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                            <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                            <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
                                         </div>
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -386,16 +377,16 @@
                                 <div class="header_more_tool dropInr">
                                     <div class="dropdown">
                                         <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
-                                          <i class="ti-more-alt"></i>
+                                            <i class="ti-more-alt"></i>
                                         </span>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
-                                          <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
-                                          <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
-                                          <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
-                                          <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
+                                            <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
+                                            <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
+                                            <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
                                         </div>
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -422,7 +413,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
-                                            <select class="select2 col-md-2 " >
+                                            <select class="select2 col-md-2 ">
                                                 <option value="1">Role</option>
                                                 <option value="1">Role 1</option>
                                                 <option value="1">Role2</option>
@@ -439,58 +430,57 @@
                         </div>
                     </div>
                 </div>
-             
+
             </div>
         </div>
     </div>
 
-<?php include('common/footer.php'); ?>
+    <?php include('common/footer.php'); ?>
 </section>
 <!-- main content part end -->
 
 <?php require_once('common/scripts.php'); ?>
 
-    <script>
+<script>
+    $(".view_more").click(function() {
+        $("#view_more_list").show();
+        $(".view_more").hide();
+    })
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
 
-        $(".view_more").click( function(){
-            $("#view_more_list").show();
-            $(".view_more").hide();
-        })
-		// Add the following code if you want the name of the file appear on select
-		$(".custom-file-input").on("change", function() {
-		  var fileName = $(this).val().split("\\").pop();
-		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-		});
-	</script>
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
- <script>
-   if ($("#addcat").length > 0) {
-      $("#addcat").validate({
-    rules: {
-      name: {
-        required: true,
-      }, 
-      uuid: {
-        required: true,
-      },   
-    },
-    messages: {
-      name: {
-        required: "Please enter name",
-      },      
-     uuid: {
-        required: "Please select userid",
-      },
-        
-    },
-  })
-}
+<script>
+    if ($("#addcat").length > 0) {
+        $("#addcat").validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                uuid: {
+                    required: true,
+                },
+            },
+            messages: {
+                name: {
+                    required: "Please enter name",
+                },
+                uuid: {
+                    required: "Please select userid",
+                },
+
+            },
+        })
+    }
 </script>
 
 <style>
-.white_card .white_card_body {
-    padding: 10px !important;
-}
+    .white_card .white_card_body {
+        padding: 10px !important;
+    }
 </style>

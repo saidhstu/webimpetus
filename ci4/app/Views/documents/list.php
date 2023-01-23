@@ -37,11 +37,10 @@
                                     <i class="ti-more-alt"></i>
                                 </span>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    
                                     <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/".$tableName."/delete/".$row['id'];?>>
                                     <i class="ti-trash"></i> Delete</a>
                                     <a class="dropdown-item" href="<?= "/".$tableName."/edit/".$row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
-                                    <a class="dropdown-item" id="copyToClipBoard" link='<?= $row['file'];?>'> <i class="fas fa-copy"></i> Copy</a>
+                                    <a class="dropdown-item" id="copyToClipBoard" link='<?= str_replace("https://webimpetus-images.s3.eu-west-2.amazonaws.com", base_url(), $row['file']) ;?>'> <i class="fas fa-copy"></i> Copy Link</a>
                                 </div>
                             </div>
                         </div>

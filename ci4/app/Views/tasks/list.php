@@ -37,7 +37,7 @@
                     <td class="f_s_12 f_w_400  "><?= $row['rate'];?></td>
                     <td class="f_s_12 f_w_400  "><?= 1;?></td>
                     <td class="f_s_12 f_w_400  "><?= getStatus($row['active']);?></td>
-                    <td class="f_s_12 f_w_400  "><?= $row['status'];?></td>
+                    <td class="f_s_12 f_w_400  "><?= @ucfirst($row['status']);?></td>
                     <td class="f_s_12 f_w_400 text-right">
                         <div class="header_more_tool">
                             <div class="dropdown">

@@ -31,15 +31,23 @@ class CommonController extends BaseController
 		$this->table = $this->getTableNameFromUri();
 		$this->rawTblName =  substr($this->table, 0, -1);
 		if (isset($_GET['cat']) && $_GET['cat'] == 'strategies') {
-
 			$this->menucode = $this->getMenuCode("/" . $this->table . "?cat=strategies");
 		} else {
 			$this->menucode = $this->getMenuCode("/" . $this->table);
 		}
-
-
 		$this->session->set("menucode", $this->menucode);
 		$this->notAllowedFields = array('uuid_business_id', "uuid");
+
+		$permissions = $this->session->get('permissions');
+		if (!empty($permissions)) {
+			$user_permissions = array_map(function ($perm) {
+				return strtolower($perm['name']);
+			}, $permissions);
+			if (!in_array($this->table, $user_permissions)) {
+				echo view("errors/html/error_404");
+				die;
+			}
+		}
 	}
 
 	public function getTableNameFromUri()
