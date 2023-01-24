@@ -41,12 +41,15 @@ class CommonController extends BaseController
 		$permissions = $this->session->get('permissions');
 		if (!empty($permissions)) {
 			$user_permissions = array_map(function ($perm) {
-				return strtolower($perm['name']);
+				return strtolower(str_replace("/", "", $perm['link']));
 			}, $permissions);
 			if (!in_array($this->table, $user_permissions)) {
 				echo view("errors/html/error_404");
 				die;
 			}
+		} else {
+			echo view("errors/html/error_404");
+			die;
 		}
 	}
 
