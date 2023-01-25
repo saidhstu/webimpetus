@@ -110,7 +110,7 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build, tag, and push WebImpetus Docker image to the AWS ECR Provided
+    - name: Build, tag, and push WebImpetus Docker image to the AWS ECR mentioned 
       run: |
         if [ -z "${{ env.IMAGE_REGISTRY }}" ]; then
           IMAGE_REGISTRY=public.ecr.aws/w2f7y4p9
