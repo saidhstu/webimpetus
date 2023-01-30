@@ -116,7 +116,7 @@ jobs:
           IMAGE_REGISTRY=public.ecr.aws/w2f7y4p9
         fi
         if [ -z "${{ env.IMAGE_NAME }}" ]; then
-          IMAGE_NAME=webimpetus
+          IMAGE_NAME=webimpetus_private
         fi
 
         if [ -z "${{ env.IMAGE_TAG }}" ]; then
