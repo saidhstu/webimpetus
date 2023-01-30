@@ -145,8 +145,8 @@ if [[ "$deployment_stage" == "install" ]]; then
 echo ${WORKSPACE_DIR}/docker-compose.yml
 
 docker-compose -f "${WORKSPACE_DIR}/docker-compose.yml" build           #up -d --build
-docker tag ${docker_base_image} registry.workstation.co.uk/webimpetus:${TARGET_STACK}-${DATE_GEN_VERSION}
-docker push registry.workstation.co.uk/webimpetus:${TARGET_STACK}-${DATE_GEN_VERSION}
+docker tag ${docker_base_image} bwalia/webimpetus:${TARGET_STACK}-${DATE_GEN_VERSION}
+docker push bwalia/webimpetus:${TARGET_STACK}-${DATE_GEN_VERSION}
 
 #docker build -f devops/kubernetes/Dockerfile -t registry.workstation.co.uk/workstation:latest .
 docker build -f devops/docker/Dockerfile-apache2-php --build-arg TAG=${TARGET_STACK}-${DATE_GEN_VERSION} -t wsl-${TARGET_STACK} . --no-cache
