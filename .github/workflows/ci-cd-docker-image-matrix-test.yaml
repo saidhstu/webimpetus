@@ -1,4 +1,4 @@
-name: Stable Docker images matrix
+name: Test Docker images matrix
 run-name: Create Docker image, push it & tag it - ${{ github.event.inputs.IMAGE_NAME }} tag ${{ github.event.inputs.IMAGE_TAG }} from ${{ github.event.inputs.BRANCH_REF }} branch to ECR and Private Repo and Docker Public Repo
 
 on:
@@ -10,23 +10,31 @@ on:
       BRANCH_REF:
         type: choice
         description: 'Please choose the Target Environment'
-        default: 'prod'
+        default: 'test'
         required: true
         options:
         - prod
         - test
         - dev
 
+      PUSH_TO_DOCKER_REGISTRY_PUBLIC:
+        type: choice
+        description: 'Push image it to Docker public repository as well?'
+        default: 'No'
+        required: true
+        options:
+        - Yes
+        - No 
+
       IMAGE_REGISTRY:
         type: choice
         description: 'Please choose docker image registry to push'
-        default: 'docker.io/bwalia'
+        default: '123154119074.dkr.ecr.eu-west-2.amazonaws.com'
         required: true
         options:
-        - docker.io/bwalia
-        - ghcr.io
-        - registry.workstation.co.uk
         - 123154119074.dkr.ecr.eu-west-2.amazonaws.com 
+        - registry.workstation.co.uk
+        - docker.io/bwalia
 
       IMAGE_NAME:
         type: choice
@@ -40,7 +48,7 @@ on:
       IMAGE_TAG:
         type: choice
         description: 'Please choose docker image tag to push'
-        default: 'latest'
+        default: 'test'
         required: true
         options:
         - latest
@@ -51,6 +59,7 @@ on:
         - dev
 
 env:
+  PUSH_TO_DOCKER_REGISTRY_PUBLIC: ${{ github.event.inputs.PUSH_TO_DOCKER_REGISTRY_PUBLIC }}
   IMAGE_REGISTRY: ${{ github.event.inputs.IMAGE_REGISTRY }}
   IMAGE_NAME: ${{ github.event.inputs.IMAGE_NAME }}
   IMAGE_TAG: ${{ github.event.inputs.IMAGE_TAG }}
@@ -79,24 +88,19 @@ jobs:
       env:
        SHA: ${{ env.SHA }}
         
-    - name: Build, tag, and push WebImpetus Docker image to the Docker Hub Public Registry
+    - name: Build, tag, and push WebImpetus Docker image to the Docker Public Registry
       run: |
+        if [ "${{ env.PUSH_TO_DOCKER_REGISTRY_PUBLIC }}" == "Yes" ]; then
         IMAGE_REGISTRY=docker.io/bwalia
-        if [ -z "${{ env.IMAGE_NAME }}" ]; then
-          IMAGE_NAME=webimpetus
-        fi
-        
-        if [ -z "${{ env.IMAGE_TAG }}" ]; then
-          IMAGE_TAG=latest
-        fi
+        IMAGE_NAME=webimpetus
+        IMAGE_TAG=test
         if [ -z "${{ env.BRANCH_REF }}" ]; then
           echo "BRANCH_REF=main" >> $GITHUB_ENV
         fi
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWD }}
         docker build -f $(pwd)/devops/docker/Dockerfile --build-arg BASE_TAG=latest -t $IMAGE_NAME . --no-cache
         docker tag $IMAGE_NAME $IMAGE_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
         docker push $IMAGE_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
-
+        fi
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -112,20 +116,14 @@ jobs:
     - name: Build, tag, and push WebImpetus Docker image to the AWS ECR mentioned 
       run: |
         IMAGE_REGISTRY=123154119074.dkr.ecr.eu-west-2.amazonaws.com
-        if [ -z "${{ env.IMAGE_NAME }}" ]; then
-          IMAGE_NAME=webimpetus
-        fi
-
-        if [ -z "${{ env.IMAGE_TAG }}" ]; then
-          IMAGE_TAG=latest
-        fi
+        IMAGE_NAME=webimpetus
+        IMAGE_TAG=test
         if [ -z "${{ env.BRANCH_REF }}" ]; then
           echo "BRANCH_REF=main" >> $GITHUB_ENV
         fi
         docker build -f $(pwd)/devops/docker/Dockerfile --build-arg BASE_TAG=latest -t $IMAGE_NAME . --no-cache
         docker tag $IMAGE_NAME $IMAGE_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
         docker push $IMAGE_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
-
 
   # tag_update:
   #   runs-on: ubuntu-latest
