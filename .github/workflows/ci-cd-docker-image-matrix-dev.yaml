@@ -1,4 +1,4 @@
-name: Docker Image matrix - Creates a new Docker images and tags them
+name: Amazon ECR Image matrix : Creates a new Docker images and tags them
 run-name: Creates a new Docker image, pushes it, and tags it - ${{ github.event.inputs.IMAGE_NAME }} tag ${{ github.event.inputs.IMAGE_TAG }} from ${{ github.event.inputs.BRANCH_REF }} branch
 
 on:
@@ -26,7 +26,7 @@ on:
         - docker.io
         - ghcr.io
         - registry.workstation.co.uk
-        - public.ecr.aws/w2f7y4p9
+        - 123154119074.dkr.ecr.eu-west-2.amazonaws.com 
 
       IMAGE_NAME:
         type: choice
@@ -34,7 +34,7 @@ on:
         default: 'webimpetus'
         required: true
         options:
-        - webimpetus
+        - webimpetus_private
         - workstation
     
       IMAGE_TAG:
@@ -113,7 +113,7 @@ jobs:
     - name: Build, tag, and push WebImpetus Docker image to the AWS ECR mentioned 
       run: |
         if [ -z "${{ env.IMAGE_REGISTRY }}" ]; then
-          IMAGE_REGISTRY=public.ecr.aws/w2f7y4p9
+          IMAGE_REGISTRY=123154119074.dkr.ecr.eu-west-2.amazonaws.com
         fi
         if [ -z "${{ env.IMAGE_NAME }}" ]; then
           IMAGE_NAME=webimpetus_private
