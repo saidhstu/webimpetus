@@ -27,14 +27,26 @@ class Kanban_board extends CommonController
         $data['sprints_list'] = $this->sprintModel->getSprintList();
         $sprint = $_GET['sprint'] ?? "";
         $current_sprint = $this->sprintModel->getCurrentSprint();
+        $next_sprint = $this->sprintModel->getNextSprint($current_sprint);
+
         $categories = ['todo', 'in-progress', 'review', 'done'];
 
         foreach ($categories as $category) {
-            $data['tasks'][$category] = $sprint === "backlog"
-                ? $this->taskModel->getTaskList("category = '$category' AND (sprint_id = null OR (sprint_id < $current_sprint AND tasks.status != 'done'))")
-                : ($sprint && is_numeric($sprint)
-                    ? $this->taskModel->getTaskList(['category' => $category, 'sprint_id' => $sprint])
-                    : $this->taskModel->getTaskList(['category' => $category]));
+
+            if ($sprint === "backlog") {
+                if ($category == "done") {
+                    $data['tasks'][$category] = [];
+                } else {
+                    $sprintCondition = $current_sprint > 0 ? "sprint_id < $current_sprint AND" : "sprint_id < $next_sprint AND";
+                    $data['tasks'][$category] = $this->taskModel->getTaskList("category = '$category' AND (sprint_id = null OR (" . $sprintCondition . " tasks.status != 'done'))");
+                }
+            } else {
+                if ($sprint && is_numeric($sprint)) {
+                    $data['tasks'][$category] = $this->taskModel->getTaskList(['category' => $category, 'sprint_id' => $sprint]);
+                } else {
+                    $data['tasks'][$category] = $this->taskModel->getTaskList(['category' => $category]);
+                }
+            }
         }
 
         return view(file_exists(APPPATH . 'Views/' . $this->table . '/list.php') ? $this->table . '/list' : 'common/list', $data);
