@@ -91,7 +91,7 @@ jobs:
     - name: Build, tag, and push WebImpetus Docker image to the Docker Public Registry
       run: |
         if [ "${{ env.PUSH_TO_DOCKER_REGISTRY_PUBLIC }}" == "Yes" ]; then
-        IMAGE_REGISTRY=docker.io/bwalia
+        IMAGE_REGISTRY=bwalia
         IMAGE_NAME=webimpetus
         IMAGE_TAG=test
         if [ -z "${{ env.BRANCH_REF }}" ]; then

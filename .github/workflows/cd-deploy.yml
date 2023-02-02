@@ -34,9 +34,10 @@ on:
         default: 'registry.workstation.co.uk'
         required: true
         options:
-        - docker.io
+        - bwalia
         - ghcr.io
         - registry.workstation.co.uk
+        - 123154119074.dkr.ecr.eu-west-2.amazonaws.com 
 
       IMAGE_NAME:
         type: choice
