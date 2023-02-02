@@ -1,6 +1,6 @@
 ARG TAG=latest
 
-FROM registry.workstation.co.uk/webimpetus:$TAG
+FROM bwalia/webimpetus:$TAG
 
 WORKDIR /var/www/html
 
