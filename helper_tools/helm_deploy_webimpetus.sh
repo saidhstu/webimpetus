@@ -18,7 +18,7 @@ HTTP_SERVER_TYPE="openresty"
 IMAGE_NAME="webimpetus"
 TARGET_CLUSTER="k3s0"
 IMAGE_TAG="latest"
-IMAGE_REPO="registry.workstation.co.uk"
+IMAGE_REPO="bwalia"
 TARGET_NAMESPACE="dev"
 
 if [ -z "$1" ]; then
@@ -175,6 +175,9 @@ VALUES_FILE_PATH=values-${TARGET_NAMESPACE}.yaml
 
 if [ $targetEnv = "dev" ] || [ $targetEnv = "dev-bwalia" ]; then
 TARGET_CLUSTER="k3s0"
+echo -e "$GREEN TARGET_CLUSTER: $TARGET_CLUSTER"
+elif [ $targetEnv = "test" ]; then
+TARGET_CLUSTER="k3s2"
 echo -e "$GREEN TARGET_CLUSTER: $TARGET_CLUSTER"
 elif [ $targetEnv = "int" ]; then
 TARGET_CLUSTER="k3s8"

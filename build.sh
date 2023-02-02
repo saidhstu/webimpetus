@@ -62,7 +62,7 @@ echo "next_step is provided, so setting action to $4"
 next_step=$4
 fi
 
-if [ $targetEnv == "dev" || $targetEnv == "dev-bwalia" ]; then
+if [ $targetEnv == "dev" ] || [ $targetEnv == "dev-bwalia" ]; then
    if [ $IMAGE_TAG == "" ]; then
    IMAGE_TAG=$targetEnv
       echo "$GREEN IMAGE_TAG is set to $targetEnv"
@@ -74,9 +74,12 @@ fi
 if [ $build_process == "disabled" ]; then
    echo "Temporary added to disable image build process"
 else
-   ${BUILD_IMAGE_TOOL} build -f devops/docker/Dockerfile --build-arg BASE_TAG=latest -t local-${IMAGE_NAME} . --no-cache
-   ${BUILD_IMAGE_TOOL} tag local-${IMAGE_NAME} ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
+   ${BUILD_IMAGE_TOOL} build -f devops/docker/Dockerfile --build-arg BASE_TAG=latest -t ${IMAGE_NAME} . --no-cache
+   ${BUILD_IMAGE_TOOL} tag ${IMAGE_NAME} ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
    ${BUILD_IMAGE_TOOL} push  ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
+
+# Push to docker public registry as well
+${BUILD_IMAGE_TOOL} tag ${IMAGE_NAME} bwalia/webimpetus:latest && ${BUILD_IMAGE_TOOL} push bwalia/webimpetus:latest   
 fi
 
 if [ $next_step == "install" ]; then
