@@ -20,10 +20,10 @@ on:
       IMAGE_REGISTRY:
         type: choice
         description: 'Please choose docker image registry to push'
-        default: 'docker.io/bwalia'
+        default: 'bwalia'
         required: true
         options:
-        - docker.io/bwalia
+        - bwalia
         - ghcr.io
         - registry.workstation.co.uk
         - 123154119074.dkr.ecr.eu-west-2.amazonaws.com 
@@ -81,7 +81,7 @@ jobs:
         
     - name: Build, tag, and push WebImpetus Docker image to the Docker Hub Public Registry
       run: |
-        IMAGE_REGISTRY=docker.io/bwalia
+        IMAGE_REGISTRY=bwalia
         if [ -z "${{ env.IMAGE_NAME }}" ]; then
           IMAGE_NAME=webimpetus
         fi
