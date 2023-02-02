@@ -2,6 +2,7 @@
 namespace App\Controllers; 
 use App\Controllers\Core\CommonController; 
 use App\Models\Projects_model;
+use App\Models\Tasks_model;
 use App\Models\Core\Common_model;
  
 class Projects extends CommonController
@@ -12,6 +13,7 @@ class Projects extends CommonController
         parent::__construct();
 
         $this->projects_model = new Projects_model();
+        $this->tasks_model = new Tasks_model;
 
 	}
     
@@ -22,7 +24,8 @@ class Projects extends CommonController
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
-
+        $data['task_progress'] = $this->tasks_model->progress();
+        
         echo view($this->table."/list",$data);
     }
     public function edit($id = 0)

@@ -205,9 +205,9 @@ if (empty(@$timeslips['slip_timer_started'])) {
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="billing_status" name="billing_status" class="form-control dashboard-dropdown">
-                        <option value="">--Selected--</option>
+                        <!-- <option value="">--Selected--</option> -->
                         <option value="SLA" <?= ('SLA' == @$timeslips['billing_status']) ? 'selected' : '' ?>>SLA</option>
-                        <option value="chargeable" <?= ('chargeable' == @$timeslips['billing_status']) ? 'selected' : '' ?>>chargeable</option>
+                        <option value="chargeable" <?= ('chargeable' == @$timeslips['billing_status']) ? 'selected' : '' ?>>Chargeable</option>
                         <option value="Billed" <?= ('Billed' == @$timeslips['billing_status']) ? 'selected' : '' ?>>Billed</option>
                     </select>
                 </div>

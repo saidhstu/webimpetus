@@ -224,4 +224,17 @@ class Common_model extends Model
             'value' => '',
         );
     }
+
+    public function getCategories($id = false)
+    {
+        $whereCond = $this->whereCond;
+        $builder = $this->db->table("categories");
+        if($id === false){
+            //$whereCond = array_merge(['role!='=>1], $whereCond);
+            return $builder->get()->getResultArray();
+        }else{
+            $whereCond = array_merge(['id' => $id], $whereCond);
+            return $builder->getWhere($whereCond)->getRowArray();
+        }   
+    }
 }
