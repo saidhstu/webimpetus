@@ -1,4 +1,4 @@
-name: CI - 1-Click Helm Auto Deploy - Workstation CRM to the Test ENV into a given Kubernetes cluster
+name: CI - 1-Click Helm Auto Deploy - Workstation CRM to the Test ENV into a default K3S Kubernetes cluster
 
 on:
   push:
@@ -37,12 +37,13 @@ jobs:
       env:
        SHA: ${{ env.SHA }}
 
-    - name: Run bash script to perform Cluster kubeconfig mapping and resetting env vars if necessary
+    - name: Build Docker image based on the TARGET PLATFORM Image and push to Docker Hub
       run: |
-        echo "Docker image and k3s cluster kubeconfig mapping - done!"
-        echo "Build, tag, and push image to the given Docker Registry"
+        echo "WebImpetus Docker image builder!"
+        echo "Build, tag, and push image to the given Docker Registry."
         docker build -f $(pwd)/devops/docker/Dockerfile --build-arg TAG=latest -t wsl-${{ env.TARGET_STACK }} . --no-cache
         docker tag wsl-${{ env.TARGET_STACK }} ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TARGET_IMAGE_TAG }}
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWD }}
         docker push ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TARGET_IMAGE_TAG }}
       shell: bash
 
