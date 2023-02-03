@@ -1,9 +1,11 @@
-name: Test Docker images matrix
-run-name: Create Docker image, push it & tag it - ${{ github.event.inputs.IMAGE_NAME }} tag ${{ github.event.inputs.IMAGE_TAG }} from ${{ github.event.inputs.BRANCH_REF }} branch to ECR and Private Repo and Docker Public Repo
+name: Nightly Test Docker images matrix
+run-name: Nightly Create WebImpetus Docker image, push it & create tags
 
 on:
   push:
     branches: [ main ]
+  schedule:
+    - cron: "0 0 * * *"
 
   workflow_dispatch:
     inputs:
@@ -29,7 +31,7 @@ on:
       IMAGE_REGISTRY:
         type: choice
         description: 'Please choose docker image registry to push'
-        default: '123154119074.dkr.ecr.eu-west-2.amazonaws.com'
+        default: 'docker.io/bwalia'
         required: true
         options:
         - 123154119074.dkr.ecr.eu-west-2.amazonaws.com 
