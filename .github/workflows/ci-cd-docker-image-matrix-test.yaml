@@ -3,7 +3,7 @@ run-name: Nightly Create WebImpetus Docker image, push it & create tags
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dummy ]
   schedule:
     - cron: "0 0 * * *"
 
