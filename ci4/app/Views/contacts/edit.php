@@ -99,13 +99,29 @@ $customers = getResultArray("customers");
 
                             
                                 <div class="form-group col-md-3">
-                                    <label for="inputEmail4">Contact Type</label>
+                                    
+                                    <!-- <label for="inputEmail4">Contact Type</label>
                                     <select id="contact_type" name="contact_type" class="form-control dashboard-dropdown">
                                         <option value="" selected="">--Selected--</option>
                                         <?php if(isset($contact_type) && is_array($contact_type)){ foreach(@$contact_type as $key => $value):?>
                                         <option value="<?= $value;?>" <?php if($value == @$contact->contact_type){ echo "selected"; }?>><?= $value;?></option>
                                         <?php endforeach; }?>
+                                </select> -->
+
+                                
+
+                                <label for="inputEmail4">Category</label>
+                                <!-- previous data was $contact_type -->
+                                    <select id="contact_type" name="contact_type" class="form-control dashboard-dropdown">
+                                        <option value="" selected="">--Selected--</option>
+                                        <?php 
+                                        if(isset($categories) && is_array($categories)){ 
+                                            foreach(@$categories as $category):?>
+                                        <option <?php if($category["id"] == @$contact->contact_type){ echo "selected"; }?> value="<?php echo($category["id"])?>" ><?php echo($category["name"])?></option>
+                                        <?php endforeach; }?>
                                 </select>
+
+
                             </div>
                             <div class="form-group col-md-1">
                             </div>

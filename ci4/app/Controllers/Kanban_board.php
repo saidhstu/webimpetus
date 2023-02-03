@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\Core\CommonController;
 use App\Models\Tasks_model;
+use App\Models\Sprints_model;
 
 class Kanban_board extends CommonController
 {
@@ -13,6 +14,7 @@ class Kanban_board extends CommonController
     {
         parent::__construct();
         $this->taskModel = new Tasks_model();
+        $this->sprintModel = new Sprints_model();
     }
 
     /**
@@ -20,21 +22,34 @@ class Kanban_board extends CommonController
      */
     public function index()
     {
-        $table = 'tasks';
-        $data['tableName'] = $table;
 
-        $viewPath = "common/list";
-        if (file_exists(APPPATH . 'Views/' . $this->table . "/list.php")) {
-            $viewPath = $this->table . "/list";
+        $data['tableName'] = 'tasks';
+        $data['sprints_list'] = $this->sprintModel->getSprintList();
+        $sprint = $_GET['sprint'] ?? "";
+        $current_sprint = $this->sprintModel->getCurrentSprint();
+        $next_sprint = $this->sprintModel->getNextSprint($current_sprint);
+
+        $categories = ['todo', 'in-progress', 'review', 'done'];
+
+        foreach ($categories as $category) {
+
+            if ($sprint === "backlog") {
+                if ($category == "done") {
+                    $data['tasks'][$category] = [];
+                } else {
+                    $sprintCondition = $current_sprint > 0 ? "sprint_id < $current_sprint AND" : "sprint_id < $next_sprint AND";
+                    $data['tasks'][$category] = $this->taskModel->getTaskList("category = '$category' AND (sprint_id = null OR (" . $sprintCondition . " tasks.status != 'done'))");
+                }
+            } else {
+                if ($sprint && is_numeric($sprint)) {
+                    $data['tasks'][$category] = $this->taskModel->getTaskList(['category' => $category, 'sprint_id' => $sprint]);
+                } else {
+                    $data['tasks'][$category] = $this->taskModel->getTaskList(['category' => $category]);
+                }
+            }
         }
 
-        $data['tasks'] = [
-            'todo' => $this->taskModel->getTaskList(['category' => 'todo']),
-            'in-progress' => $this->taskModel->getTaskList(['category' => 'in-progress']),
-            'review' => $this->taskModel->getTaskList(['category' => 'review']),
-            'done' => $this->taskModel->getTaskList(['category' => 'done']),
-        ];
-        return view($viewPath, $data);
+        return view(file_exists(APPPATH . 'Views/' . $this->table . '/list.php') ? $this->table . '/list' : 'common/list', $data);
     }
 
     /**

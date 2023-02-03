@@ -41,4 +41,39 @@ class Sprints_model extends Model
         $query = $this->db->table($this->table)->update($data, array('id' => $id));
         return $query;
     }
+
+    public function getCurrentSprint()
+    {
+        $builder = $this->db->table($this->table);
+        $builder->where($this->table . ".uuid_business_id",  $this->businessUuid);
+        $today_min = date("Y-m-d 00:00:00");
+
+        $array = ['start_date <=' => $today_min, 'end_date >=' => $today_min];
+
+        $builder->where($array);
+        $builder->orderBy('id', 'DESC');
+
+        $result =  $builder->get()->getResultArray();
+        $sprint_id = 0;
+
+        if (sizeof($result) > 0) {
+            $sprint_id = $result[0]["id"];
+        }
+
+        return $sprint_id;
+    }
+
+
+    public function getNextSprint($currentSprint)
+    {
+        $today = date("Y-m-d 00:00:00");
+        $result = $this->db->table($this->table)
+            ->where($this->table . ".uuid_business_id",  $this->businessUuid)
+            ->where('start_date >=', $today)
+            ->orderBy('id', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        return sizeof($result) > 0 ? $result[0]["id"] : $currentSprint;
+    }
 }

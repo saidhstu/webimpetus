@@ -37,6 +37,9 @@ class Tasks_model extends Model
         if (!empty($whereConditions)) {
             $builder->where($whereConditions);
         }
+
+        // echo $this->db->getLastQuery();
+
         return $builder->get()->getResultArray();
     }
 
@@ -44,5 +47,24 @@ class Tasks_model extends Model
     {
         $query = $this->db->table($this->table)->update($data, array('id' => $id));
         return $query;
+    }
+
+    public function progress()
+    {
+        //$db = db_connect();
+        $sql = 'SELECT t.projects_id,IFNULL(t.total,0) AS total,IFNULL(c.done,0) AS completed
+        FROM (SELECT projects_id,COUNT(id) AS total FROM tasks GROUP BY projects_id) AS t LEFT JOIN (SELECT projects_id,COUNT(id) AS done FROM tasks WHERE status = "completed"  GROUP BY projects_id) AS c 
+        ON t.projects_id = c.projects_id
+        ORDER BY t.projects_id';
+
+        $query = $this->db->query($sql);
+        
+        $result = [];
+
+        foreach ($query->getResult() as $row) {
+           $result[$row->projects_id] = ($row->completed/$row->total)*100;
+        }
+
+        return $result;
     }
 }

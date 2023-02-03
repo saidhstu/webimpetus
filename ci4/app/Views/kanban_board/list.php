@@ -2,8 +2,12 @@
 
 <div class="row flex-row flex-sm-nowrap py-3">
 
+
+
     <?php foreach ($tasks as $key => $values) { ?>
         <div class="col-sm-6 col-md-4 col-xl-3">
+
+
             <div class="card bg-light">
                 <div class="card-body card-body-custom" data-category="<?= $key ?>">
                     <h6 class="card-title text-uppercase text-truncate py-2"><?= $key ?></h6>
@@ -129,4 +133,17 @@
     }
 </script>
 
+
 <?php require_once(APPPATH . 'Views/common/footer.php'); ?>
+<script>
+    var base_url = '<?php echo base_url('/kanban_board') ?>';
+    $(document).ready(function() {
+        $("#kanban_sprint").on("change", function(e) {
+            var redirect_to = base_url;
+            if ($(this).val() != "") {
+                redirect_to = base_url + "?sprint=" + $(this).val();
+            }
+            window.location.replace(redirect_to);
+        });
+    });
+</script>

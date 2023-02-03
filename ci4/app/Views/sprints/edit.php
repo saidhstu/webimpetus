@@ -10,7 +10,8 @@
                             <label for="sprint_name">Sprint Name</label>
                         </div>
                         <div class="col-md-6">
-                            <input type="input" autocomplete="off" class="form-control required" name="sprint_name" value="<?= @$sprint->sprint_name ?>">
+                            <input type="input" autocomplete="off" class="form-control required" name="sprint_name" 
+                            value="<?= empty($sprint->sprint_name) ? "Sprint Week ".date("W") : $sprint->sprint_name ?>" />
                         </div>
                     </div>
                     <div class="row form-group required">
