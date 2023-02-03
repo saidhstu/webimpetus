@@ -37,7 +37,7 @@ jobs:
       env:
        SHA: ${{ env.SHA }}
 
-    - name: Build Docker image based on the TARGET PLATFORM Image and push to Docker Hub
+    - name: Build WebImpetus Docker image based on the TARGET PLATFORM Image and push to Docker Hub
       run: |
         echo "WebImpetus Docker image builder!"
         echo "Build, tag, and push image to the given Docker Registry."
@@ -81,7 +81,7 @@ jobs:
           # kubectl rollout resume deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
         # && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_EXEC_STR}} && kubectl exec -it deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }} -- ${{ env.KUBECTL_CMD_FILE_RUN_STR}}
         command: |
-          helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
+          helm upgrade -i wsl-${{ env.TARGET_ENV }} ./devops/webimpetus-chart -f devops/webimpetus-chart/values-${{ env.TARGET_ENV }}-${{ env.TARGET_CLUSTER}}.yaml --set-string targetImage="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}" --set-string targetImageTag="${{ env.TARGET_IMAGE_TAG }}" --namespace ${{ env.TARGET_ENV }} --create-namespace
           kubectl rollout restart deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
           kubectl rollout history deployment/wsl-${{ env.TARGET_ENV }} -n ${{ env.TARGET_ENV }}
 
