@@ -92,7 +92,7 @@ jobs:
     - name: Run bash script to perform Cluster kubeconfig mapping and resetting env vars if necessary
       run: |
         if [ "${{ env.IMAGE_REGISTRY }}" == "" ]; then
-          echo "IMAGE_REGISTRY=${{ secrets.DOCKER_REGISTRY_SERVER_URL }}" >> $GITHUB_ENV
+          echo "IMAGE_REGISTRY=${{ secrets.DOCKER_REGISTRY }}" >> $GITHUB_ENV
         else
           echo "IMAGE_REGISTRY is provided : ${{ env.IMAGE_REGISTRY }}"
         fi
