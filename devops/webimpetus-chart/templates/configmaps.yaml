@@ -92,6 +92,8 @@ data:
         export APP_FULL_BUILD_NO="${webimpetus_array[$i]}"
         fi
         done
+        echo APP_FULL_VERSION_NO=$APP_FULL_VERSION_NO >> $FILE
+        echo APP_FULL_BUILD_NO=$APP_FULL_BUILD_NO >> $FILE
         APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
         export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
         DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
@@ -244,6 +246,8 @@ data:
         export APP_FULL_BUILD_NO="${webimpetus_array[$i]}"
         fi
         done
+        echo APP_FULL_VERSION_NO=$APP_FULL_VERSION_NO >> $FILE
+        echo APP_FULL_BUILD_NO=$APP_FULL_BUILD_NO >> $FILE
         APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
         export APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL
         DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
