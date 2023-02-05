@@ -2,7 +2,6 @@
 #!/usr/bin/env bash
 
 declare -a webimpetus_array # declare the array                                                                                                                                                                  
-
 # Read each line and use regex parsing (with Bash's `=~` operator)
 # to extract the value.
 while read -r line; do
