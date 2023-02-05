@@ -60,6 +60,11 @@ class CreateProductTable extends Migration
                 'constraint' => '11',
                 'null' => true,
             ],
+            'uuid_business_id' => [
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ],
             'created_at datetime default current_timestamp',
             'updated_at' => [
                 'type' => 'datetime',
