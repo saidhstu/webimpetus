@@ -31,7 +31,7 @@ on:
       IMAGE_REGISTRY:
         type: choice
         description: 'Please choose docker image registry to push'
-        default: 'registry.workstation.co.uk'
+        default: '123154119074.dkr.ecr.eu-west-2.amazonaws.com'
         required: true
         options:
         - bwalia
