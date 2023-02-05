@@ -80,7 +80,7 @@ data:
         declare -a webimpetus_array # declare the array                                                                                                                                                                  
         while read -r line; do
         [[ $line =~ :[[:blank:]]+\"(.*)\" ]] && webimpetus_array+=( "${BASH_REMATCH[1]}" )
-        done < webimpetus.json                                                                                                                                          
+        done < /var/www/html/webimpetus.json                                                                                                                                          
         #declare -p webimpetus_array # print the array
         for i in ${!webimpetus_array[@]}; do
         if [ $i -eq "1" ]; then
@@ -234,7 +234,7 @@ data:
         declare -a webimpetus_array # declare the array                                                                                                                                                                  
         while read -r line; do
         [[ $line =~ :[[:blank:]]+\"(.*)\" ]] && webimpetus_array+=( "${BASH_REMATCH[1]}" )
-        done < webimpetus.json                                                                                                                                          
+        done < /var/www/html/webimpetus.json                                                                                                                                          
         #declare -p webimpetus_array # print the array
         for i in ${!webimpetus_array[@]}; do
         if [ $i -eq "1" ]; then
