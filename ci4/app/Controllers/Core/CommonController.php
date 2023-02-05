@@ -20,7 +20,6 @@ class CommonController extends BaseController
 	function __construct()
 	{
 		parent::__construct();
-
 		$this->businessUuid = session('uuid_business');
 		$this->whereCond['uuid_business_id'] = $this->businessUuid;
 
@@ -695,4 +694,5 @@ class CommonController extends BaseController
 		$records = $builder->get()->getRowArray();
 		return (object)$records;
 	}
+
 }
