@@ -8,7 +8,7 @@ while read -r line; do
   # Extract the value from between the double quotes
   # and add it to the array.
   [[ $line =~ :[[:blank:]]+\"(.*)\" ]] && webimpetus_array+=( "${BASH_REMATCH[1]}" )
-done < webimpetus.json                                                                                                                                          
+done </var/www/html/webimpetus.json                                                                                                                                 
 
 #declare -p webimpetus_array # print the array
 for i in ${!webimpetus_array[@]}; do
@@ -21,3 +21,6 @@ for i in ${!webimpetus_array[@]}; do
   export APP_FULL_BUILD_NO="${webimpetus_array[$i]}"
   fi
 done
+
+echo $APP_FULL_VERSION_NO
+echo $APP_FULL_BUILD_NO
