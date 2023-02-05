@@ -25,6 +25,11 @@ class CreateProductCategoriesTable extends Migration
                 'constraint' => '127',
                 'null' => true,
             ],
+            'uuid_business_id' => [
+                'type' => 'VARCHAR',
+                'constraint' => '150',
+                'null' => true,
+            ],
             'created_at datetime default current_timestamp',
             'updated_at' => [
                 'type' => 'datetime',

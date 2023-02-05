@@ -10,7 +10,7 @@
             <form id="addcustomer" method="post" action=<?php echo "/".$tableName."/update";?> enctype="multipart/form-data">
                 <div class="form-row">
                     <div class="form-group  col-md-6">
-                        <label for="inputEmail4">Businesses Pop</label>
+                        <label for="inputEmail4">Employee Business Access List</label>
                         <select id="businesses" name="businesses[]" multiple class="form-control select2">                                            
                             <?php 
                             if (isset($employee) && (!empty($employee->businesses))) {
