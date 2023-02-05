@@ -15,7 +15,8 @@ env:
   IMAGE_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
   KUBECTL_CMD_FILE_EXEC_STR: "chmod +x /usr/local/bin/bootstrap-openresty.sh"
   KUBECTL_CMD_FILE_RUN_STR: "/usr/local/bin/bootstrap-openresty.sh"
-
+  TARGET_CLUSTER: "k3s2"
+  
 jobs:
   deployment:
     runs-on: 'ubuntu-latest'
