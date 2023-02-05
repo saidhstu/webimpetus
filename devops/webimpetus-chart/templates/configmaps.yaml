@@ -246,6 +246,7 @@ data:
         export APP_FULL_BUILD_NO="${webimpetus_array[$i]}"
         fi
         done
+        FILE=/var/www/html/.env
         echo APP_FULL_VERSION_NO=$APP_FULL_VERSION_NO >> $FILE
         echo APP_FULL_BUILD_NO=$APP_FULL_BUILD_NO >> $FILE
         APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
@@ -253,7 +254,6 @@ data:
         DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
         export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
         export APP_DEPLOYED_AT=$DATE_GEN_VERSION
-        FILE=/var/www/html/.env
         echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> $FILE
         echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
         export APP_ENVIRONMENT="{{ .Values.targetEnv }}"
