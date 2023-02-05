@@ -19,9 +19,7 @@
                     $targetCluster = getenv('APP_TARGET_CLUSTER') ?: "k3s0";
                     $hostName = getenv('HOSTNAME') ?: "hostname-env-var-not-set";
 
-                    $webImpetusCopyRight = "© " . auto_copyright() . " All rights reserved.&nbsp;";
-                    $webImpetusCopyRight .= "<br />";
-                    $webImpetusCopyRight .= "Cluster: " . $targetCluster . ".";
+                    $webImpetusCopyRight = "Cluster: " . $targetCluster . ".";
                     if ($appEnvironment == "prod" || $appEnvironment == "Prod") {
                         // in production hide environment details
                         $webImpetusCopyRight .= " Environment: " . ucfirst($appEnvironment) . ".";
@@ -34,10 +32,13 @@
                         $webImpetusCopyRight .= " Hostname: " . $hostName . ".";
                     }
                     ?>
-                    <p><?php auto_copyright("2009"); ?>&nbsp;&copy;&nbsp;Workstation&nbsp;-&nbsp;Powered&nbsp;by&nbsp;<a href="https://webimpetus.cloud/"> <i class="ti-heart"></i>&nbsp;Webimpetus</a>&nbsp;<?php echo $webImpetusCopyRight; ?></p>
-                    <p>
-                    <a target="_blank" href="<?php echo $appReleaseNotesDocURL; ?>">WebImpetus Version: <?php echo getenv('APP_FULL_VERSION_NO') . " build " . getenv('APP_FULL_BUILD_NO'); ?></a>,&nbsp;Deployment Timestamp: <?php echo getenv('APP_DEPLOYED_AT'); ?>
-                    </p>
+                    <p><?php auto_copyright("2009"); ?>&nbsp;&copy;&nbsp;Workstation</p>
+                    <p>© All rights reserved.<br /></p>
+                    <p><br /></p>
+                    <p>Powered&nbsp;by&nbsp;<a href="https://webimpetus.cloud/"> <i class="ti-heart"></i>&nbsp;Webimpetus</a></p>
+                    <p><a target="_blank" href="<?php echo $appReleaseNotesDocURL; ?>">WebImpetus Version: <?php echo getenv('APP_FULL_VERSION_NO') . " build " . getenv('APP_FULL_BUILD_NO'); ?></a>,&nbsp;Release Timestamp: <?php echo getenv('APP_DEPLOYED_AT'); ?></p>
+                    <p><br /></p>
+                    <p><?php echo $webImpetusCopyRight; ?></p>
                 </div>
             </div>
         </div>
