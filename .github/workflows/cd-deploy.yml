@@ -31,7 +31,7 @@ on:
       IMAGE_REGISTRY:
         type: choice
         description: 'Please choose docker image registry to push'
-        default: '123154119074.dkr.ecr.eu-west-2.amazonaws.com'
+        default: 'bwalia'
         required: true
         options:
         - bwalia
@@ -124,7 +124,7 @@ jobs:
     #   with:
     #     command: helm delete wsl-$TARGET_ENV -n $TARGET_ENV
 
-    - name: Helm Deploy - Release
+    - name: Helm Deploy - Release to selected K3S cluster
       uses: koslib/helm-eks-action@master
       with:
         command: |
