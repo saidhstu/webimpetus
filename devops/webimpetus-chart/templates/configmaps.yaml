@@ -77,11 +77,10 @@ data:
         chmod 777 -R /var/www/html/writable/
         chmod 777 -R /var/www/html/writable/cache/
         chmod 777 -R /var/www/html/writable/session/
-        declare -a webimpetus_array # declare the array                                                                                                                                                                  
+        webimpetus_array=( )  # declare the array                                                                                                                                                                  
         while read -r line; do
         [[ $line =~ :[[:blank:]]+\"(.*)\" ]] && webimpetus_array+=( "${BASH_REMATCH[1]}" )
         done < /var/www/html/webimpetus.json                                                                                                                                          
-        #declare -p webimpetus_array # print the array
         for i in ${!webimpetus_array[@]}; do
         if [ $i -eq "1" ]; then
         APP_FULL_VERSION_NO="${webimpetus_array[$i]}"
@@ -233,11 +232,10 @@ data:
             echo "$FILE exists."
             chmod 777 -R $FILE
         fi                
-        declare -a webimpetus_array # declare the array                                                                                                                                                                  
+        webimpetus_array=( )  # declare the array                                                                                                                                                                  
         while read -r line; do
         [[ $line =~ :[[:blank:]]+\"(.*)\" ]] && webimpetus_array+=( "${BASH_REMATCH[1]}" )
         done < /var/www/html/webimpetus.json                                                                                                                                          
-        #declare -p webimpetus_array # print the array
         for i in ${!webimpetus_array[@]}; do
         if [ $i -eq "1" ]; then
         APP_FULL_VERSION_NO="${webimpetus_array[$i]}"
