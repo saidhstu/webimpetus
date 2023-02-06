@@ -15,19 +15,14 @@ class CreateProductCategoriesTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'category_code' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '24',
+            'uuid_product' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
                 'null' => true,
             ],
-            'category_name' => [
+            'uuid_category' => [
                 'type' => 'VARCHAR',
-                'constraint' => '127',
-                'null' => true,
-            ],
-            'uuid_business_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => '150',
+                'constraint' => '100',
                 'null' => true,
             ],
             'created_at datetime default current_timestamp',

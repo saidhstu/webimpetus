@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ProductSpecification extends Model
+class ProductKeyValue extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'product_specifications';
+    protected $table            = 'key_values';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;

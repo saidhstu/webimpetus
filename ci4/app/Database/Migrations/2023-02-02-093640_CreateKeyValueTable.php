@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateProductSpecificationTable extends Migration
+class CreateKeyValueTable extends Migration
 {
     public function up()
     {
@@ -15,24 +15,24 @@ class CreateProductSpecificationTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'product_id' => [
-                'type'       => 'INT',
-                'constraint' => '11',
+            'uuid_product' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
                 'null' => true,
             ],
-            'name' => [
+            'key_name' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '127',
                 'null' => true,
             ],
-            'value' => [
+            'key_value' => [
                 'type' => 'VARCHAR',
                 'constraint' => '24',
                 'null' => true,
             ],
             'note' => [
                 'type' => 'VARCHAR',
-                'constraint' => '64',
+                'constraint' => '127',
                 'null' => true,
             ],
             'created_at datetime default current_timestamp',
@@ -42,11 +42,11 @@ class CreateProductSpecificationTable extends Migration
             ],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('product_specifications');
+        $this->forge->createTable('key_values');
     }
 
     public function down()
     {
-        $this->forge->dropTable('product_specifications');
+        $this->forge->dropTable('key_values');
     }
 }
