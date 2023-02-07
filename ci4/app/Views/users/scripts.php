@@ -89,7 +89,7 @@
 						type: "post",
 						data: formData,
 						success: function(d) {
-							alert('status changed successfully!!');
+							alert('The status updated successfully!');
 						}
 				});
 				
