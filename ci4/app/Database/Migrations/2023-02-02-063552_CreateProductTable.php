@@ -15,27 +15,27 @@ class CreateProductTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'product_name' => [
+            'uuid' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+                'null' => true,
+            ],
+            'name' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '127',
                 'null' => true,
             ],
-            'product_code' => [
+            'code' => [
                 'type' => 'VARCHAR',
                 'constraint' => '23',
                 'null' => true,
             ],
-            'product_description' => [
+            'description' => [
                 'type'       => 'text',
                 'constraint' => '2048',
                 'null' => true,
             ],
-            'product_category' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '64',
-                'null' => true,
-            ],
-            'product_sku' => [
+            'sku' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '64',
                 'null' => true,

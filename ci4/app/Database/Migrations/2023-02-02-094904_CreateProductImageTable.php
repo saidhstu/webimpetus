@@ -15,9 +15,9 @@ class CreateProductImageTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'product_id' => [
-                'type'       => 'INT',
-                'constraint' => '11',
+            'uuid_product' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
                 'null' => true,
             ],
             'file' => [
@@ -27,7 +27,7 @@ class CreateProductImageTable extends Migration
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => '24',
+                'constraint' => '127',
                 'null' => true,
             ],
             'title' => [

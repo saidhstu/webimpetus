@@ -64,7 +64,7 @@ class Users extends CommonController
 						$data = array(
 							'name'  => $this->request->getPost('name'),
 							'email' => $this->request->getPost('email'),
-							'password' => md5($this->request->getPost('password')),
+							//'password' => md5($this->request->getPost('password')),
 							'address' => $this->request->getPost('address'),
 							'notes' => $this->request->getPost('notes'),
 							'uuid' => $uuid,
