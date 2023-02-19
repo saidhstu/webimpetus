@@ -329,7 +329,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4">Customer ref or PO</label>
+                                            <label for="inputEmail4">Transfer No.</label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" class="form-control" id="customer_ref_po" name="customer_ref_po" placeholder="" value="<?= @$work_order->customer_ref_po ?>">

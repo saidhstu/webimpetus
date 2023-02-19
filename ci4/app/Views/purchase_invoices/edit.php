@@ -370,7 +370,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                 <div class="form-group col-md-6">
                                     <div class="row form-group">
 
-                                        <label class="col-sm-4 control-label">Customer ref or PO</label>
+                                        <label class="col-sm-4 control-label">Transfer No.</label>
                                         <div class="col-sm-6">
                                             <input type="text" autocomplete="off" class="form-control" id="inv_customer_ref_po" name="inv_customer_ref_po" placeholder="" value="<?= @$purchase_invoice->inv_customer_ref_po ?>">
                                         </div>
