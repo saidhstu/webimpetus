@@ -14,7 +14,7 @@ $customers = getResultArray("customers");
                         </div>
                         <div class="col-md-6">
                             <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
-                                <option value="" selected="">--Selected--</option>
+                                <option value="" selected="">--Select--</option>
                                 <?php foreach ($customers as $row) : ?>
                                     <option value="<?= $row['id']; ?>" <?php if ($row['id'] == @$document->client_id) {
                                                                             echo "selected";
@@ -57,7 +57,7 @@ $customers = getResultArray("customers");
                         </div>
                         <div class="col-md-6">
                             <select name="category_id" class="form-control required dashboard-dropdown">
-                                <option value="">--Selected--</option>
+                                <option value="">--Select--</option>
                                 <?php foreach ($categories as $row) : ?>
                                     <option value="<?= $row['id'] ?>" <?= ($row['id'] == @$document->category_id ? 'selected' : '') ?>>
                                         <?= $row['name'] ?>

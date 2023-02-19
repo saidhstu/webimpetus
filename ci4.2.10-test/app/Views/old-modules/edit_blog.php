@@ -169,7 +169,7 @@
 									<div class="form-group col-md-12">
                                             <label for="inputState">Choose User</label>
                                             <select id="uuid" name="uuid" class="form-control">
-                                                <option value="0" selected="">--Selected--</option>
+                                                <option value="0" selected="">--Select--</option>
 												<?php foreach($users as $row):?>
                                                 <option value="<?= $row['uuid'];?>"  <?=($row['uuid']==$content->uuid)?'selected':''?>><?= $row['name'];?></option>
                                                <?php endforeach;?>

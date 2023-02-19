@@ -28,7 +28,7 @@ $customers = getResultArray("customers");
                             <div class="form-group required col-md-6">
                                 <label for="inputEmail4">Customer Name</label>
                                 <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
-                                    <option value="" selected="">--Selected--</option>
+                                    <option value="" selected="">--Select--</option>
                                     <?php if(isset($customers)) { foreach($customers as $row):?>
                                     <option value="<?= $row['id'];?>" <?php if($row['id'] == @$contact->client_id){ echo "selected"; }?>><?= $row['company_name'];?></option>
                                     <?php endforeach; } ?>
@@ -102,7 +102,7 @@ $customers = getResultArray("customers");
                                     
                                     <!-- <label for="inputEmail4">Contact Type</label>
                                     <select id="contact_type" name="contact_type" class="form-control dashboard-dropdown">
-                                        <option value="" selected="">--Selected--</option>
+                                        <option value="" selected="">--Select--</option>
                                         <?php if(isset($contact_type) && is_array($contact_type)){ foreach(@$contact_type as $key => $value):?>
                                         <option value="<?= $value;?>" <?php if($value == @$contact->contact_type){ echo "selected"; }?>><?= $value;?></option>
                                         <?php endforeach; }?>
@@ -113,7 +113,7 @@ $customers = getResultArray("customers");
                                 <label for="inputEmail4">Category</label>
                                 <!-- previous data was $contact_type -->
                                     <select id="contact_type" name="contact_type" class="form-control dashboard-dropdown">
-                                        <option value="" selected="">--Selected--</option>
+                                        <option value="" selected="">--Select--</option>
                                         <?php 
                                         if(isset($categories) && is_array($categories)){ 
                                             foreach(@$categories as $category):?>

@@ -8,7 +8,7 @@
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Customer Name</label>
                         <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <?php foreach($customers as $row):?>
                             <option value="<?= $row['id'];?>" <?php if($row['id'] == @$business_contact->client_id){ echo "selected"; }?>><?= $row['company_name'];?></option>
                             <?php endforeach;?>

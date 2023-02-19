@@ -40,7 +40,7 @@
 									<div class="form-group col-md-12">
                                             <label for="inputState">Choose User</label>
                                             <select id="uuid" name="uuid" class="form-control">
-                                                <option value="" selected="">--Selected--</option>
+                                                <option value="" selected="">--Select--</option>
 												<?php foreach($users as $row):?>
                                                 <option value="<?= $row['uuid'];?>" <?=($row['uuid']==$category->uuid)?'selected':'' ?>><?= $row['name'];?></option>
                                                <?php endforeach;?>
@@ -51,7 +51,7 @@
 										<div class="form-group col-md-12">
                                             <label for="inputState">Choose Service</label>
                                             <select id="sid" name="sid" class="form-control">
-                                                <option value="" selected="">--Selected--</option>
+                                                <option value="" selected="">--Select--</option>
 												<?php foreach($services as $row):?>
                                                 <option value="<?= $row['id'];?>" <?=($row['id']==$category->sid)?'selected':'' ?>><?= $row['name'];?></option>
                                                <?php endforeach;?>
