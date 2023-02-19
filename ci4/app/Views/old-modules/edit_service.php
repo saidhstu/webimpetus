@@ -54,7 +54,7 @@
 														<div class="form-group col-md-6">
 															<label for="inputState">Choose User</label>
 															<select id="uuid" name="uuid" class="form-control">
-																<option value="" selected="">--Selected--</option>
+																<option value="" selected="">--Select--</option>
 																<?php foreach($users as $row):?>
 																<option value="<?= $row['uuid'];?>" <?=($row['uuid']==$service->uuid)?'selected':'' ?> ><?= $row['name'];?></option>
 															   <?php endforeach;?>
@@ -67,7 +67,7 @@
 														<div class="form-group col-md-6">
 															<label for="inputState">Choose Category</label>
 															<select id="cid" name="cid" class="form-control">
-																<option value="" selected="">--Selected--</option>
+																<option value="" selected="">--Select--</option>
 																<?php foreach($category as $row):?>
 																<option value="<?= $row['id'];?>" <?=($row['id']==$service->cid)?'selected':'' ?>><?= $row['name'];?></option>
 															   <?php endforeach;?>
@@ -77,7 +77,7 @@
 														<div class="form-group col-md-6">
 															<label for="inputState">Choose Tenant</label>
 															<select id="tid" name="tid" class="form-control">
-																<option value="" selected="">--Selected--</option>
+																<option value="" selected="">--Select--</option>
 																<?php foreach($tenants as $row):?>
 																<option value="<?= $row['id'];?>" <?=($row['id']==$service->tid)?'selected':'' ?>><?= $row['name'];?></option>
 															   <?php endforeach;?>

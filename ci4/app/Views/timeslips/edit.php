@@ -25,7 +25,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="task_name" name="task_name" class="form-control required dashboard-dropdown">
-                        <option value="">--Selected--</option>
+                        <option value="">--Select--</option>
                         <?php foreach ($tasks as $row) { ?>
                             <option value="<?= $row['id']; ?>" <?= ($row['id'] == @$timeslips['task_name']) ? 'selected' : '' ?>><?= $row['name']; ?></option>
                         <?php } ?>
@@ -49,7 +49,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="employee_name" name="employee_name" class="form-control required dashboard-dropdown">
-                        <option value="">--Selected--</option>
+                        <option value="">--Select--</option>
                         <?php foreach ($employees as $row) { ?>
                             <option value="<?= $row['id']; ?>" <?= ($row['id'] == @$timeslips['employee_name']) ? 'selected' : '' ?>><?= $row['name']; ?></option>
                         <?php } ?>
@@ -205,7 +205,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="billing_status" name="billing_status" class="form-control dashboard-dropdown">
-                        <!-- <option value="">--Selected--</option> -->
+                        <!-- <option value="">--Select--</option> -->
                         <option value="SLA" <?= ('SLA' == @$timeslips['billing_status']) ? 'selected' : '' ?>>SLA</option>
                         <option value="chargeable" <?= ('chargeable' == @$timeslips['billing_status']) ? 'selected' : '' ?>>Chargeable</option>
                         <option value="Billed" <?= ('Billed' == @$timeslips['billing_status']) ? 'selected' : '' ?>>Billed</option>

@@ -51,7 +51,7 @@
                                         <div class="form-group col-md-4">
                                             <label for="inputState">Choose User</label>
                                             <select id="uuid" name="uuid" class="form-control">
-                                                <option value="" selected="">--Selected--</option>
+                                                <option value="" selected="">--Select--</option>
 												<?php foreach($users as $row):?>
                                                 <option value="<?= $row['uuid'];?>"><?= $row['name'];?></option>
                                                <?php endforeach;?>

@@ -44,7 +44,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         </div>
                                         <div class="col-md-6">
                                             <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
-                                                <option value="" selected="">--Selected--</option>
+                                                <option value="" selected="">--Select--</option>
                                                 <?php foreach ($customers as $row) : ?>
                                                     <option value="<?= $row['id']; ?>" <?php if ($row['id'] == @$purchase_order->client_id) {
                                                                                             echo "selected";

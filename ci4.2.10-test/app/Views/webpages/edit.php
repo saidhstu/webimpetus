@@ -184,9 +184,9 @@ $data_type_format["YAML"] = "# Employee records
 						<div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
 							<div class="form-row">
 								<div class="form-group col-md-12">
-									<label for="inputState">Choose User</label>
+									<label for="inputState">Choose Owner</label>
 									<select id="uuid" name="uuid" class="form-control">
-										<option value="0" selected="">--Selected--</option>
+										<option value="0" selected="">--Select--</option>
 										<?php foreach ($users as $row) : ?>
 											<option value="<?= $row['uuid']; ?>"><?= $row['name']; ?></option>
 										<?php endforeach; ?>

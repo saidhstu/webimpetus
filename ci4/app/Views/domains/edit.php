@@ -8,7 +8,7 @@
             <div class="form-group required col-md-12">
                     <label for="inputState">Choose User</label>
                     <select id="uuid" name="uuid" class="form-control required">
-                        <option value="" selected="">--Selected--</option>
+                        <option value="" selected="">--Select--</option>
                         <?php foreach($users as $row):?>
                         <option value="<?= $row['uuid'];?>" <?=($row['uuid']==@$domain->uuid)?'selected':'' ?>><?= $row['name'];?></option>
                         <?php endforeach;?>
@@ -19,7 +19,7 @@
                 <div class="form-group required col-md-12">
                     <label for="inputState">Choose Service</label>
                     <select id="sid" name="sid" class="form-control required">
-                        <option value="" selected="">--Selected--</option>
+                        <option value="" selected="">--Select--</option>
                         <?php foreach($services as $row):?>
                         <option value="<?= $row['id'];?>" <?=($row['id']==@$domain->sid)?'selected':'' ?>><?= $row['name'];?></option>
                         <?php endforeach;?>

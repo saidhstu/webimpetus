@@ -202,7 +202,7 @@ var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
                 Task Name <sup class="required">*</sup>
                 <div class="ui-widget">
                     <select name="task_name" id="task_name" class="form-control dashboard-dropdown">
-                        <option value="">--Selected--</option>
+                        <option value="">--Select--</option>
                         <?php foreach ($tasks as $task) { ?>
                             <option value="<?php echo $task['id'] ?>"><?php echo $task['name']; ?></option>
                         <?php } ?>
@@ -213,7 +213,7 @@ var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
                 Employee Name <sup class="required">*</sup>
                 <div class="ui-select">
                     <select name="employee_name" id="employee_name" class="form-control dashboard-dropdown">
-                        <option value="">--Selected--</option>
+                        <option value="">--Select--</option>
                         <?php foreach ($employees as $employee) { ?>
                             <option value="<?php echo $employee['id'] ?>"><?php echo $employee['name']; ?></option>
                         <?php } ?>

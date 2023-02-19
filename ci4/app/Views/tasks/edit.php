@@ -18,7 +18,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group   required col-md-12">
                         <label for="inputEmail4">Project Name </label>
                         <select id="projects_id" name="projects_id" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <?php foreach ($projects as $row) : ?>
                                 <option customer_id="<?= $row['customers_id']; ?>" value="<?= $row['id']; ?>" <?php if ($row['id'] == @$task->projects_id) {
                                                                                                                     echo "selected";
@@ -29,7 +29,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group  required col-md-12">
                         <label for="inputEmail4">Customer Name </label>
                         <select id="customers_id" name="customers_id" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <?php foreach ($customers as $row) : ?>
                                 <option value="<?= $row['id']; ?>" <?php if ($row['id'] == @$task->customers_id) {
                                                                         echo "selected";
@@ -40,7 +40,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group  required col-md-12">
                         <label for="inputEmail4">Contacts </label>
                         <select id="contacts_id" name="contacts_id" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <?php foreach ($contacts as $row) : ?>
                                 <option value="<?= $row['id']; ?>" <?php if ($row['id'] == @$task->contacts_id) {
                                                                         echo "selected";
@@ -60,7 +60,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group  required col-md-12">
                         <label for="inputEmail4">Reported By </label>
                         <select id="reported_by" name="reported_by" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <?php foreach ($employees as $row) : ?>
                                 <option value="<?= $row['id']; ?>" <?php if ($row['id'] == @$task->reported_by) {
                                                                         echo "selected";
@@ -94,7 +94,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group  col-md-12 ">
                         <label for="inputEmail4">Status</label>
                         <select id="status" name="status" class="form-control  dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <option value="assigned" <?= ("assigned" == @$task->status ? 'selected' : '') ?>>
                                 Assigned
                             </option>
@@ -113,7 +113,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group col-md-12">
                         <label for="inputEmail4">Assigned To </label>
                         <select id="assigned_to" name="assigned_to" class="form-control dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <?php foreach ($users as $row) : ?>
                                 <option value="<?= $row['id']; ?>" <?php if ($row['id'] == @$task->assigned_to) {
                                                                         echo "selected";
@@ -133,7 +133,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group required col-md-12 ">
                         <label for="category">Category</label>
                         <select name="category" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <option value="todo" <?= ("assigned" == @$task->category ? 'selected' : '') ?>>
                                 Todo
                             </option>
@@ -151,7 +151,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group required  col-md-12 ">
                         <label for="priority">Priority</label>
                         <select name="priority" class="form-control required  dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <option value="low" <?= ("low" == @$task->priority ? 'selected' : '') ?>>
                                 Low
                             </option>
@@ -166,7 +166,7 @@ $sprints = getResultArray("sprints");
                     <div class="form-group  required col-md-12">
                         <label for="sprint_id">Sprint </label>
                         <select name="sprint_id" class="form-control required dashboard-dropdown">
-                            <option value="" selected="">--Selected--</option>
+                            <option value="" selected="">--Select--</option>
                             <?php foreach ($sprints as $row) : ?>
                                 <option value="<?= $row['id'] ?>" <?= ($row['id'] == @$task->sprint_id ? 'selected' : '') ?>>
                                     <?= $row['sprint_name'] ?>
