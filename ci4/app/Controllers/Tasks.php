@@ -6,6 +6,7 @@ use App\Controllers\Core\CommonController;
 use App\Models\Tasks_model;
 use App\Models\Users_model;
 use App\Models\Email_model;
+use App\Models\Sprints_model;
 
 class Tasks extends CommonController
 {
@@ -17,13 +18,61 @@ class Tasks extends CommonController
         $this->Tasks_model = new Tasks_model();
         $this->Users_model = new Users_model();
         $this->Email_model = new Email_model();
+        $this->sprintModel = new Sprints_model();
     }
+
     public function index()
     {
-
-        $data[$this->table] = $this->Tasks_model->getTaskList();
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
+
+        $taskStatusList = $this->Tasks_model->allTaskStatus();
+
+        $blank_item = array("key" => "", "value" => "--Choose Status--");
+        array_unshift($taskStatusList, $blank_item);
+        $backlog_item = array("key" => "backlog", "value" => "Backlog");
+        array_push($taskStatusList, $backlog_item);
+
+        $data['taskStatusList'] = $taskStatusList;
+        $status = $_GET['status'] ?? "";
+
+
+
+        // $condition = array();
+        // foreach ($statusList as $status) {
+
+        //     if ($status === "backlog") {
+
+        //         //$condition = []
+
+        //     } else {
+        //         $condition = [$this->table . ".status" => $status];
+        //         continue;
+        //         // if ($sprint) {
+        //         //     $data['tasks'][$category] = $this->taskModel->getTaskList(['category' => $category, 'sprint_id' => $sprint]);
+        //         // } else {
+        //         //     $data['tasks'][$category] = $this->taskModel->getTaskList(['category' => $category]);
+        //         // }
+        //     }
+        // }
+        // print_r($condition);
+        $condition = array();
+
+        if ($status === "") {
+        } elseif ($status === "backlog") {
+            $current_sprint = $this->sprintModel->getCurrentSprint();
+            $next_sprint = $this->sprintModel->getNextSprint($current_sprint);
+
+            $sprintCondition = $current_sprint > 0 ? "sprint_id < $current_sprint AND" : "sprint_id < $next_sprint AND";
+            $condition = "(sprint_id = null OR (" . $sprintCondition . " tasks.status != 'done'))";
+        } else {
+            $condition = [$this->table . ".status" => $status];
+        }
+
+
+        $data[$this->table] = $this->Tasks_model->getTaskList($condition);
+
+
         $data['is_add_permission'] = 1;
 
         echo view($this->table . "/list", $data);

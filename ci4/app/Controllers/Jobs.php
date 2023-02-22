@@ -1,65 +1,99 @@
-<?php 
+<?php
+
 namespace App\Controllers;
+
 use App\Controllers\BaseController;
- 
+
 use CodeIgniter\Controller;
 use App\Models\Content_model;
+
 use App\Models\Users_model;
 use App\Models\Cat_model;
-use App\Controllers\Core\CommonController; 
+use App\Models\ContentImage;
+use App\Controllers\Core\CommonController;
+use App\Models\Core\Common_model;
+
 ini_set('display_errors', 1);
 
 class Jobs extends CommonController
-{	
+{
 	public function __construct()
 	{
 		parent::__construct();
-		$this->model = new Content_model();
+		$this->content_model = new Content_model();
 		$this->user_model = new Users_model();
 		$this->cat_model = new Cat_model();
+		$this->contentImage = new ContentImage();
+		// $this->commonModel = new Common_model();
 	}
-    public function index()
-    {        
-        $data['content'] = $this->model->where(['type' => 4, "uuid_business_id" => $this->businessUuid])->findAll();
+	public function index()
+	{
+		$data['content'] = $this->content_model->where(['type' => 4, "uuid_business_id" => $this->businessUuid])->findAll();
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
 		$data['is_add_permission'] = 1;
-		echo view($this->table."/list", $data);
-    }
+		echo view($this->table . "/list", $data);
+	}
 	public function edit($id = 0)
-    {
+	{
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
-		$data['content'] = $this->model->getRows($id)->getRow();
+		$data['content'] = $this->content_model->getRows($id)->getRow();
+
+		$data['images'] = [];
+		$data["blocks_list"] = [];
+		if ($id > 0) {
+			$data['images'] = $this->model->getDataWhere("content_images", $id, "content_id");
+			$data["blocks_list"] = $this->model->getDataWhere("content_blocks_list", $id, "content_id");
+		}
+
+
 		$data['users'] = $this->user_model->getUser();
 		$data['cats'] = $this->cat_model->getCats();
-		
+
 		$array1 = $this->cat_model->getCatIds($id);
-		
-		$arr = array_map (function($value){
+
+		$arr = array_map(function ($value) {
 			return $value['categoryid'];
-		} , $array1);
+		}, $array1);
+
+
 		$data['selected_cats'] = $arr;
 
-		echo view($this->table."/edit", $data);
-    }
-	
-	public function rmimg($id)
-    {
-		if(!empty($id)){
-			$data['custom_assets'] = null;
-			$this->model->updateData($id,$data);
-			session()->setFlashdata('message', 'Image deleted Successfully!');
-			session()->setFlashdata('alert-class', 'alert-success');
-			
-		}
-		return redirect()->to('//jobs/edit/'.$id);
-		
+		echo view($this->table . "/edit", $data);
 	}
-	
-    public function update()
-    {        
-        $id = $this->request->getPost('id');
+
+	public function insertOrUpdate($table, $id = null, $data = null)
+	{
+		unset($data["id"]);
+
+		if (@$id > 0) {
+
+			$builder = $this->db->table($table);
+			$builder->where('id', $id);
+			$result = $builder->update($data);
+
+			if ($result) {
+				session()->setFlashdata('message', 'Data updated Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+				return $id;
+			}
+		} else {
+			$query = $this->db->table($table)->insert($data);
+			if ($query) {
+				session()->setFlashdata('message', 'Data updated Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+				return $this->db->insertID();
+			}
+		}
+
+		return false;
+	}
+
+
+	public function update()
+	{
+		$id = $this->request->getPost('id');
 		$cus_fields = [];
 		$cus_fields['reference'] = $this->request->getPost('reference');
 		$cus_fields['job_type'] = $this->request->getPost('job_type');
@@ -68,93 +102,212 @@ class Jobs extends CommonController
 		$cus_fields['jobstatus'] = $this->request->getPost('jobstatus');
 		$cus_fields['location'] = $this->request->getPost('location');
 		$data = array(
-			'title'  => $this->request->getPost('title'),				
+			'title'  => $this->request->getPost('title'),
 			'sub_title' => $this->request->getPost('sub_title'),
 			'content' => $this->request->getPost('content'),
-			'code' => $this->request->getPost('code')?$this->model->format_uri($this->request->getPost('code'),'-',$id):$this->model->format_uri($this->request->getPost('title'),'-',$id),
+			//'code' => $this->request->getPost('code') ? $this->content_model->format_uri($this->request->getPost('code'), '-', $id) : $this->content_model->format_uri($this->request->getPost('title'), '-', $id),
+			'code' => $this->request->getPost('code'),
 			'meta_keywords' => $this->request->getPost('meta_keywords'),
 			'meta_title' => $this->request->getPost('meta_title'),
 			'meta_description' => $this->request->getPost('meta_description'),
 			'status' => $this->request->getPost('status'),
-			'publish_date' => ($this->request->getPost('publish_date')?strtotime($this->request->getPost('publish_date')):strtotime(date('Y-m-d H:i:s'))),
+			'publish_date' => ($this->request->getPost('publish_date') ? strtotime($this->request->getPost('publish_date')) : strtotime(date('Y-m-d H:i:s'))),
 			'custom_fields' => json_encode($cus_fields),
-			'type' => ($this->request->getPost('type')?$this->request->getPost('type'):1),
+			'type' => ($this->request->getPost('type') ? $this->request->getPost('type') : 1),
+			//'type' => 4,
 			//'image_logo' => $filepath
 		);
-		
-		if(!empty($this->request->getPost('uuid'))){
+
+
+		if (!empty($this->request->getPost('uuid'))) {
 			$data['uuid'] = $this->request->getPost('uuid');
 		}
 
-		if(!empty($id)){
-			
-			$this->model->updateData($id, $data);
-			
-			if(!empty($id) && !empty($this->request->getPost('catid'))){
-				$this->cat_model->deleteCatData($id);		
-				foreach($this->request->getPost('catid') as $val) {
+		if (!empty($id)) {
+
+			$this->content_model->updateData($id, $data);
+			if (!empty($id) && !empty($this->request->getPost('catid'))) {
+				$this->cat_model->deleteCatData($id);
+				foreach ($this->request->getPost('catid') as $val) {
 					$cat_data = [];
 					$cat_data['categoryid'] = $val;
 					$cat_data['contentid'] = $id;
-					$this->cat_model->saveData2($cat_data);					
-				}			
-				
+					$cat_data['uuid_business_id'] = session('uuid_business');
+
+					$this->cat_model->saveData2($cat_data);
+				}
 			}
-			
+
 			session()->setFlashdata('message', 'Data updated Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
-		}else {
-			
+		} else {
 
-			$bid = $this->model->saveData($data); 
-					
-			if(!empty($bid) && !empty($this->request->getPost('catid'))){
-				
-				foreach($this->request->getPost('catid') as $val) {
+			$bid = $this->content_model->saveData($data);
+
+
+			if (!empty($bid) && !empty($this->request->getPost('catid'))) {
+				foreach ($this->request->getPost('catid') as $val) {
 					$cat_data = [];
 					$cat_data['categoryid'] = $val;
 					$cat_data['contentid'] = $bid;
 					$this->cat_model->saveData2($cat_data);
-					
 				}
 			}
-			
+
 			session()->setFlashdata('message', 'Data entered Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		}
-        return redirect()->to('/'.$this->table);
-    }
-	
-	
-	public function upload($filename = null){
+
+		$files = $this->request->getPost("file");
+		if (!empty($id)) {
+			$row = $this->content_model->getRows($id)->getRow();
+			$filearr = ($row->custom_assets != "") ? json_decode($row->custom_assets) : [];
+			$count = !empty($filearr) ? count($filearr) : 0;
+
+			if (is_array($files)) {
+				foreach ($files as $key => $filePath) {
+					$job_images = [];
+					$job_images['uuid_business_id'] =  session('uuid_business');
+					$job_images['image'] = $filePath;
+					$job_images['content_id'] = $id;
+					$this->content_model->saveDataInTable($job_images, "content_images");
+				}
+			}
+			$this->content_model->updateData($id, $data);
+			session()->setFlashdata('message', 'Data updated Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		} else {
+
+			$id = $this->content_model->saveData($data);
+			if (is_array($files)) {
+				foreach ($files as $key => $filePath) {
+					$job_images = [];
+					$job_images['uuid_business_id'] =  session('uuid_business');
+					$job_images['image'] = $filePath;
+					$job_images['content_id'] = $id;
+
+					$this->content_model->saveDataInTable($job_images, "content_images");
+				}
+			}
+			session()->setFlashdata('message', 'Data entered Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		}
+
+		if ($id > 0) {
+			$i = 0;
+			$post = $this->request->getPost();
+			if (isset($post["blocks_code"])) {
+
+
+				foreach ($post["blocks_code"] as $code) {
+
+					$blocks = [];
+					$blocks["code"] = $code;
+					$blocks["content_id"] = $id;
+					$blocks["text"] = $post["blocks_text"][$i];
+					$blocks["title"] = $post["blocks_title"][$i];
+					$blocks["sort"] = $post["sort"][$i];
+					$blocks["type"] = $post["block_type"][$i];
+
+					$blocks["uuid_business_id"] = session('uuid_business');
+					$blocks_id =  @$post["blocks_id"][$i];
+					if (empty($blocks["sort"])) {
+						$blocks["sort"] = $blocks_id;
+					}
+
+					$blocks_id = $this->insertOrUpdate("content_blocks_list", $blocks_id, $blocks);
+
+					if (empty($blocks["sort"])) {
+
+						$this->insertOrUpdate("content_blocks_list", $blocks_id, ["sort" => $blocks_id]);
+					}
+
+					$i++;
+				}
+			} else {
+				$this->model->deleteTableData("content_blocks_list", $id, "content_id");
+			}
+
+			// $this->model->deleteTableData("webpage_categories", $id, "content_id");
+			// if (isset($post["categories"])) {
+			// 	foreach ($post["categories"] as $key => $categories_id) {
+			// 		$c_data = [];
+			// 		$c_data['content_id'] = $id;
+			// 		$c_data['categories_id'] = $categories_id;
+			// 		$this->model->insertTableData($c_data, "webpage_categories");
+			// 	}
+			// }
+		}
+
+
+		return redirect()->to('/' . $this->table);
+	}
+
+
+	public function upload($filename = null)
+	{
 		$input = $this->validate([
 			$filename => "uploaded[$filename]|max_size[$filename,1024]|ext_in[$filename,jpg,jpeg,docx,pdf],"
-		 ]);
+		]);
 
-		 if (!$input) { // Not valid
+		if (!$input) { // Not valid
 			return '';
-		 }else{ // Valid
+		} else { // Valid
 
-			 if($file = $this->request->getFile($filename)) {
-				if ($file->isValid() && ! $file->hasMoved()) {
-				   // Get file name and extension
-				   $name = $file->getName();
-				   $ext = $file->getClientExtension();
+			if ($file = $this->request->getFile($filename)) {
+				if ($file->isValid() && !$file->hasMoved()) {
+					// Get file name and extension
+					$name = $file->getName();
+					$ext = $file->getClientExtension();
 
-				   // Get random file name
-				   $newName = $file->getRandomName(); 
+					// Get random file name
+					$newName = $file->getRandomName();
 
-				   // Store file in public/uploads/ folder
-				   $file->move('../public/uploads', $newName);
+					// Store file in public/uploads/ folder
+					$file->move('../public/uploads', $newName);
 
-				   // File path to display preview
-				   return $filepath = base_url()."/uploads/".$newName;
-				   
+					// File path to display preview
+					return $filepath = base_url() . "/uploads/" . $newName;
 				}
-				
-			 }
-			 
-		 }
-		 
+			}
+		}
+	}
+
+
+	public function delete($id)
+	{
+		if (!empty($id)) {
+			$response = $this->content_model->deleteData($id);
+			if ($response) {
+				session()->setFlashdata('message', 'Data deleted Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+			} else {
+				session()->setFlashdata('message', 'Something wrong delete failed!');
+				session()->setFlashdata('alert-class', 'alert-danger');
+			}
+		}
+
+		return redirect()->to('/' . $this->table);
+	}
+
+
+	public function deleteBlocks()
+	{
+		$blocks_id = $this->request->getPost("blocks_id");
+		$res = $this->model->deleteTableData("content_blocks_list", $blocks_id);
+
+		return $res;
+	}
+
+
+	public function rmimg($id)
+	{
+		if (!empty($id)) {
+			$data['custom_assets'] = null;
+			$this->model->updateData($id, $data);
+			session()->setFlashdata('message', 'Image deleted Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		}
+		return redirect()->to('//jobs/edit/' . $id);
 	}
 }
