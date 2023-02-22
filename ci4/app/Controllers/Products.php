@@ -87,7 +87,6 @@ class Products extends CommonController
 				];
 			}
 		}
-
 		// Preparing data for key_values -------------- ||
 
 		$this->db->transBegin();

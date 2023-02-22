@@ -61,6 +61,74 @@
 													</select>
 												</div>
 											</div>
+
+
+
+											<div class="white_card_body">
+												<h3 class="card-title">Specification</h3>
+												<div class="card-body">
+
+													<div class="form-group row">
+														<div class="col-md-4">
+															Specification Name
+														</div>
+
+														<div class="col-md-4">
+															Specification Value
+														</div>
+														<div class="col-md-4">
+															Remove
+														</div>
+													</div>
+
+													<div class="form-group row">
+														<div id="czContainer">
+
+															<div id="first">
+
+																<div class="recordset">
+																	<div class="row mb-2">
+																		<div class="col-md-6 p-2 border">
+																			<input type="text" name="spec_1_name" id="spec_1_name" class="textinput form-control" />
+																		</div>
+																		<div class="col-md-6 p-2 border">
+																			<input class=" form-control" id="spec_1_value" name="spec_1_value" type="text" />
+																		</div>
+																	</div>
+																</div>
+
+															</div>
+
+
+
+															<?php
+															if (sizeof($specifications) > 0) {
+
+																foreach ($specifications as $ind => $spec) {
+															?>
+																	<div class="recordset">
+																		<div class="row mb-2">
+																			<div class="col-md-6 p-2 border">
+																				<input value="<?= $spec["key_name"] ?>" type="text" name="spec_<?= ($ind + 1) ?>_name" id="spec_<?= ($ind + 1) ?>_name" class="textinput form-control">
+																			</div>
+																			<div class="col-md-6 p-2 border">
+																				<input value="<?= $spec["key_value"] ?>" class=" form-control" name="spec_<?= ($ind + 1) ?>_value" id="spec_<?= ($ind + 1) ?>_value" type="text">
+																			</div>
+																		</div>
+																	</div>
+															<?php
+																}
+															}
+															?>
+
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+
+
 										</div>
 
 										<div class="col-md-4">
@@ -92,64 +160,6 @@
 												<label for="sort_order" class="col-sm-6 col-form-label">Sort Order</label>
 												<div class="col-sm-6">
 													<input type="text" class="form-control" value="<?= @$product->sort_order ?>" id="sort_order" name="sort_order" placeholder="">
-												</div>
-											</div>
-										</div>
-									</div>
-
-
-									<div class="form-row">
-										<h3>Specification</h3><br><br>
-									</div>
-									<div class="form-row">
-										<div class="card-body">
-											<div class="form-group row">
-												<div class="col-md-4">
-													Specification Name
-												</div>
-
-												<div class="col-md-4">
-													Specification Value
-												</div>
-												<div class="col-md-4">
-													Action
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<div id="czContainer">
-													<div id="first">
-														<div class="recordset">
-															<div class="row mb-2">
-																<div class="col-md-6 p-2 border">
-																	<input type="text" name="spec_1_name" id="spec_1_name" class="textinput form-control" />
-																</div>
-																<div class="col-md-6 p-2 border">
-																	<input class=" form-control" id="spec_1_value" name="spec_1_value" type="text" />
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<?php
-													if (sizeof($specifications) > 0) {
-														foreach ($specifications as $ind => $spec) {
-													?>
-															<div class="recordset">
-																<div class="row mb-2">
-																	<div class="col-md-6 p-2 border">
-																		<input value="<?= $spec["key_name"] ?>" type="text" name="spec_<?= $ind ?>_name" id="spec_<?= $ind ?>_name" class="textinput form-control">
-																	</div>
-																	<div class="col-md-6 p-2 border">
-																		<input value="<?= $spec["key_value"] ?>" class=" form-control" name="spec_<?= $ind ?>_value" id="spec_<?= $ind ?>_value" type="text">
-																	</div>
-																</div>
-															</div>
-													<?php
-														}
-													}
-													?>
-
 												</div>
 											</div>
 										</div>
