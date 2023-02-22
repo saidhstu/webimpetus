@@ -67,4 +67,18 @@ class Tasks_model extends Model
 
         return $result;
     }
+
+    public function allTaskStatus()
+    {
+        $sql = "SELECT DISTINCT(status) AS status FROM tasks";
+        $query = $this->db->query($sql);
+        
+        $result = [];
+
+        foreach ($query->getResult() as $row) {
+            array_push($result,array("key"=>$row->status,"value"=>$row->status));
+        }
+        return $result;
+    }
+
 }

@@ -72,7 +72,7 @@ class Content_model extends Model
 	
 	public function deleteData($id)
     {
-        $query = $this->db->table($this->table)->delete(array('id' => $id));
+        $query = $this->db->table($this->table)->delete(array('id' => $id,'uuid_business_id' => $this->businessUuid));
         return $query;
     }
 	
