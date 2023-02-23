@@ -56,6 +56,9 @@ class BaseController extends Controller
         $this->db = Database::connect();
 
         $this->session = \Config\Services::session();
+        if(!$this->session->get('uuid')){
+            header('Location:/');die();
+        };           
         helper(["global"]);
     }
 

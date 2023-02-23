@@ -134,7 +134,7 @@ $sprints = getResultArray("sprints");
                         <label for="category">Category</label>
                         <select name="category" class="form-control required dashboard-dropdown">
                             <option value="" selected="">--Select--</option>
-                            <option value="todo" <?= ("assigned" == @$task->category ? 'selected' : '') ?>>
+                            <option value="todo" <?= ("todo" == @$task->category ? 'selected' : '') ?>>
                                 Todo
                             </option>
                             <option value="in-progress" <?= ("inprogress" == @$task->category ? 'selected' : '') ?>>
