@@ -23,7 +23,23 @@ class Timeslips extends CommonController
 
         $data['columns'] = $this->db->getFieldNames($this->table);
         $data['fields'] = array_diff($data['columns'], $this->notAllowedFields);
-        $data[$this->table] = $this->timeSlipsModel->getRows();
+
+        $list_week = $_GET['list_week'] ?? "";
+        $list_monthpicker = $_GET['list_monthpicker'] ?? "";
+        $list_yearpicker = $_GET['list_yearpicker'] ?? "";
+        $timeslip_where = [];
+        if (!empty($list_week)) {
+            $timeslip_where['week_no'] = $list_week;
+        }
+
+        if (!empty($list_monthpicker) && !empty($list_yearpicker)) {
+            $submitted_time = strtotime("{$list_yearpicker}-{$list_monthpicker}-01");
+            $timeslip_where['slip_start_date >='] = $submitted_time;
+            $timeslip_where['slip_end_date <='] = $submitted_time;
+        }
+
+
+        $data[$this->table] = $this->timeSlipsModel->getRows(false, $timeslip_where);
         foreach ($data[$this->table] as &$record) {
             $record['slip_start_date'] = render_date($record['slip_start_date']);
             $record['slip_end_date'] = render_date($record['slip_end_date']);
@@ -34,6 +50,8 @@ class Timeslips extends CommonController
         $data['identifierKey'] = 'uuid';
         $data["employees"] = $this->timeSlipsModel->getEmployeesData();
         $data['templates'] = $this->templateModel->getMatchRows(['module_name' => $this->table]);
+        $data['weeks'] = $this->timeSlipsModel->getDistinctWeeks();
+
         $viewPath = "timeslips/list";
         return view($viewPath, $data);
     }

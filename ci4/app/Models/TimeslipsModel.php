@@ -48,9 +48,13 @@ class TimeslipsModel extends Model
         $this->whereCond[$this->table . '.uuid_business_id'] = $this->businessUuid;
     }
 
-    public function getRows($id = false)
+    public function getRows($id = false, $timeslip_where = array())
     {
         $whereCond = $this->whereCond;
+        if (count($timeslip_where)) {
+            $whereCond = array_merge($timeslip_where, $whereCond);
+        }
+
         $table = $this->table;
         $selectFields = array(
             $table . '.id',
@@ -62,7 +66,7 @@ class TimeslipsModel extends Model
             $table . '.slip_timer_started',
             $table . '.slip_end_date',
             $table . '.slip_timer_end',
-            '(CASE '.$table . '.break_time WHEN 1 THEN "Yes" WHEN 0 THEN "No" ELSE NULL END) as break_time',
+            '(CASE ' . $table . '.break_time WHEN 1 THEN "Yes" WHEN 0 THEN "No" ELSE NULL END) as break_time',
             $table . '.break_time_start',
             $table . '.break_time_end',
             $table . '.slip_hours',
@@ -77,22 +81,18 @@ class TimeslipsModel extends Model
         $this->join('tasks', 'tasks.id = ' . $table . '.task_name');
         $this->join('employees', 'employees.id = ' . $table . '.employee_name');
         if ($id === false) {
-
             if (empty($whereCond)) {
-
                 return $this->findAll();
             } else {
-
                 return $this->getWhere($whereCond)->getResultArray();
             }
         } else {
-
             $whereCond = array_merge(array('id' => $id), $whereCond);
             return $this->getWhere($whereCond);
-        }   
+        }
     }
 
-    public function getSingleData($uuid=0)
+    public function getSingleData($uuid = 0)
     {
         $this->where('uuid', $uuid);
         $this->where('uuid_business_id', $this->businessUuid);
@@ -125,5 +125,11 @@ class TimeslipsModel extends Model
     public function deleteData($uuid)
     {
         return $this->where('uuid', $uuid)->delete();
+    }
+
+    public function getDistinctWeeks()
+    {
+        $db = \Config\Database::connect();
+        return $db->table($this->table)->select('week_no')->orderBy('week_no', 'ASC')->distinct()->getWhere(array('uuid_business_id' => $this->businessUuid, 'week_no !=' => NULL))->getResultArray();
     }
 }

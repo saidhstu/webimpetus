@@ -68,19 +68,7 @@
     </div>
 </div>
 
-
-
 <?php require_once(APPPATH . 'Views/common/footer.php'); ?>
-
-<script type="text/javascript">
-    var cardHeader = document.querySelector(".white_card_header");
-
-    //if(cardHeader.length>0){
-    console.log("okoko iooko" + cardHeader);
-    //}
-</script>
-
-
 <script>
     var base_url = '<?php echo base_url('/tasks') ?>';
     $(document).ready(function() {
