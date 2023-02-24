@@ -13670,6 +13670,45 @@ table.table-bordered.dataTable th {
     color: #666;
 }
 
+/*register-form*/
+form#registerform .select2-container .select2-selection--single .select2-selection__rendered {
+  padding-left: 20px;
+}
+form#registerform span i {
+  position: absolute;
+  top: 47px;
+  right: 15px;
+  font-size: 16px;
+  color: #464366;
+}
+form#registerform .form-group {
+  position: relative;
+margin-bottom: 24px;
+}
+#registerform label {
+  font-weight: 600;
+}
+#registerform input {
+  padding-right: 40px;
+  margin: 0;
+}
+#registerform input::placeholder {
+  color: #6e6e6e;
+opacity: 1;
+}
+#registerform .select2-container .select2-selection--single {
+  height: 52px!important;
+}
+#registerform .select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 50px;
+}
+#registerform .select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 33px;
+}
+#registerform .select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border-width: 7px 6px 0 6px;
+}
+
 /*login-form*/
 form#loginform .select2-container .select2-selection--single .select2-selection__rendered {
     padding-left: 20px;

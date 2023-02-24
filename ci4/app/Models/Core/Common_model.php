@@ -63,6 +63,12 @@ class Common_model extends Model
         $query = $this->db->table($this->table)->delete(array('id' => $id));
         return $query;
     }
+
+    public function insertBusiness($data = null)
+	{
+        $query = $this->db->table('businesses')->insert($data);
+
+    }
 	
 	public function insertOrUpdate($id = null, $data = null)
 	{
