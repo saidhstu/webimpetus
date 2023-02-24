@@ -29,6 +29,11 @@ class Users_model extends Model
             return $this->getWhere($whereCond);
         }   
     }
+
+    public function countUsers(){
+        //$whereCond = $whereCond = array_merge(['role' => 1], $this->whereCond);
+		return $this->db->table($this->table)->select('id')->where(['role' => 1])->countAllResults();
+	}
 	
 	public function countEmail($email = ''){
         $whereCond = $whereCond = array_merge(['email' => $email], $this->whereCond);
