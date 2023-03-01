@@ -1,11 +1,11 @@
 <?php
 $business = getAllBusiness();
+//print_r($_SESSION); die;
 if(empty($_SESSION['uuid'])){?>
 <script>
 window.location.href="/";
 </script>
 <?php
-//print_r($_SESSION); die;
 }
 ?><!-- menu  -->
     <div class="container-fluid no-gutters">
@@ -19,6 +19,12 @@ window.location.href="/";
                       <i class="ti-menu"></i>
                     </div>
                     <div class="header_right d-flex justify-content-between align-items-center">
+
+                    <form action="/dashboard" style="margin: 0;">
+                        <div class="business-uuid-selector mr-3">
+                            <input type="search"  class="form-control" name="search" value="<?php echo isset($_GET['search'])?$_GET['search']:''?>" placeholder="Search.." />
+                        </div>
+                    </form>
                         
                         <div class="business-uuid-selector mr-3">
                             <select name="uuid_business_id" id="uuidBusinessIdSwitcher" class="form-control dashboard-dropdown">
@@ -30,6 +36,10 @@ window.location.href="/";
 
                         <div class="profile_info">
                             <img src="/assets/img/client_img.png" alt="#">
+
+                            <?=!empty($_SESSION['role'] && $_SESSION['role']==1)?'A':''?>
+
+
                             <div class="profile_info_iner">
                                 <div class="profile_author_name">                                    
                                     <h5><?=!empty($_SESSION['uname'])?$_SESSION['uname']:''?></h5>
@@ -48,3 +58,8 @@ window.location.href="/";
         </div>
     </div>
     <!--/ menu  -->
+<style>
+    input[type=search]::-webkit-search-cancel-button {
+        -webkit-appearance: searchfield-cancel-button;
+    }
+</style>

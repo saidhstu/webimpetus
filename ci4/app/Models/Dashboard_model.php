@@ -65,6 +65,20 @@ class Dashboard_model extends Model
 		return $result;
 		
 	}
+
+    public function filterMenu(){
+
+		$builder = $this->db->table("menu");
+
+        if(isset($_GET['search'])) $builder->like('name', $_GET['search']);
+
+        $builder->orderBy('name','asc');
+
+		$result = $builder->get()->getResultArray();
+
+		return $result;
+		
+	}
 	
 	
 }

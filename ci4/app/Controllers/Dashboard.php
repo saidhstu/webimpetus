@@ -24,8 +24,9 @@ class Dashboard extends BaseController
 		$data['recent_users'] = $this->dashboard_model->getRecentUsers();
 		$data['recent_employees'] = $this->dashboard_model->getRecentEmployees();
 		// prd($data);
-		$allMenu = getWithOutUuidResultArray("menu");
+		$allMenu = $this->dashboard_model->filterMenu();//getWithOutUuidResultArray("menu");
 		$menuList = [];
+		//echo '<pre>'; print_r($allMenu); die;
 		foreach( $allMenu as $eachMenu){
 
 			$menu = [];
@@ -104,91 +105,93 @@ class Dashboard extends BaseController
 		$tableInfo[$table]['url'] = "/".$table;
 
 		// $table = "businesses";
-		// $moreInfo[$table]['total'] = totalRows($table);
-		// $moreInfo[$table]['menu'] = @$menuList[$table];
-		// $moreInfo[$table]['url'] = "/".$table;
+		// $tableInfo[$table]['total'] = totalRows($table);
+		// $tableInfo[$table]['menu'] = @$menuList[$table];
+		// $tableInfo[$table]['url'] = "/".$table;
 
 		$table = "purchase_invoices";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "blog";
-		$moreInfo[$table]['total'] = totalRows("content_list", ['type' => 2]);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows("content_list", ['type' => 2]);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "jobs";
-		$moreInfo[$table]['total'] = totalRows("content_list",['type' => 4]);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows("content_list",['type' => 4]);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "timeslips";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "documents";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "business_contacts";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "webpages";
-		$moreInfo[$table]['total'] = totalRows("content_list",['type' => 1]);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows("content_list",['type' => 1]);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "customers";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "blocks";
-		$moreInfo[$table]['total'] = totalRows('blocks_list');
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows('blocks_list');
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "enquiries";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "gallery";
-		$moreInfo[$table]['total'] = totalRows('media_list');
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows('media_list');
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "blog_comments";
-		$moreInfo[$table]['total'] = totalRows('content_list', ['type' => 3]);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows('content_list', ['type' => 3]);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "secrets";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "domains";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$table = "templates";
-		$moreInfo[$table]['total'] = totalRows($table);
-		$moreInfo[$table]['menu'] = @$menuList[$table];
-		$moreInfo[$table]['url'] = "/".$table;
+		$tableInfo[$table]['total'] = totalRows($table);
+		$tableInfo[$table]['menu'] = @$menuList[$table];
+		$tableInfo[$table]['url'] = "/".$table;
 
 		$data['tableList'] = $tableInfo;
-		$data['allList'] = $moreInfo;
+		//$data['allList'] = $tableInfo;
 		$permissions = $this->session->get('permissions');
 		$data['user_permissions'] = array_map(function ($perm) {
 			return $perm['name'];
 		}, $permissions);
+
+		
 		
         return view('dashboard', $data);
     }

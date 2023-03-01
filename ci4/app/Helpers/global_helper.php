@@ -141,3 +141,26 @@ function totalRows( $tableName, $where = array(), $returnArr = true){
 
     return count($res);
 }
+
+function MenuByCategory($mid = "")
+{
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('menu');
+    $builder->select("menu.*,categories.name as catname,categories.ID");
+    $builder->join('menu_category', 'menu_category.uuid_menu=menu.id','INNER');
+    $builder->join('categories', 'categories.ID = menu_category.uuid_category','INNER');
+    $builder->where("categories.uuid_business_id",  session('uuid_business'));
+    //$builder->where("menu.id IS NULL");
+    $builder->orderBy('categories.name','asc');
+
+    // $builder = $db->table('categories');
+    // $builder->select("categories.name as catname,categories.ID,menu.*");
+    // $builder->join('menu_category', 'menu_category.uuid_category = categories.ID', 'left');
+    // $builder->join('menu', 'menu.id = menu_category.uuid_menu', 'left');
+    // $builder->where("categories.uuid_business_id",  session('uuid_business'));
+    // $builder->orderBy('categories.name','asc');
+
+    return $builder->get()->getResultArray();
+    
+}

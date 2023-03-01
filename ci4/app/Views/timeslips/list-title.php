@@ -33,7 +33,7 @@
                         <div class="page_title_right">
 
                             <div class="header_more_tool setDropDownBlk">
-                                <a href="/timeslips" class="btn btn-primary"><i class="ti-reload"></i> Refresh</a>
+                                <a href="/timeslips?reset=1" class="btn btn-primary"><i class="ti-reload"></i> Refresh</a>
                                 <?php if (isset($is_add_permission) && $is_add_permission == 0) { ?>
 
                                 <?php } else { ?>
@@ -70,18 +70,27 @@
                                             <select class="form-control" id="list_week" name="list_week">
                                                 <option value="">--Select Week--</option>
                                                 <?php foreach ($weeks as $row) : ?>
-                                                    <option <?= (($_GET['list_week'] ?? "") == $row["week_no"] ?  "selected" : "") ?> value="<?php echo ($row["week_no"]) ?>"><?= $row["week_no"] ?></option>
+                                                    <option <?= (($list_week ?? "") == $row["week_no"] ?  "selected" : "") ?> value="<?php echo ($row["week_no"]) ?>"><?= $row["week_no"] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="form-group mr-3">
-                                            <select class="form-control" id="list_monthpicker" name="list_monthpicker">
+                                            <select class="form-control" id="list_monthpicker2" name="list_monthpicker">
                                                 <option value="">--Select Month--</option>
+                                                <?php for($iM =1;$iM<=12;$iM++){ ?>
+                                                    <option <?= (($list_monthpicker ?? "") == $iM ?  "selected" : "") ?> value="<?php echo ($iM) ?>"><?php echo date('F', mktime(0, 0, 0, $iM, 10)); ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                         <div class="form-group mr-3">
-                                            <select class="form-control" id="list_yearpicker" name="list_yearpicker">
+                                            <select class="form-control" id="list_yearpicker2" name="list_yearpicker">
                                                 <option value="">--Select Year--</option>
+
+                                                <?php for($iM =0;$iM<=4;$iM++){ ?>
+                                                    <option <?= (($list_yearpicker ?? "") == date("Y",strtotime("-".$iM." year")) ?  "selected" : "") ?> value="<?php echo date("Y",strtotime("-".$iM." year")) ?>"><?php echo date("Y",strtotime("-".$iM." year")); ?></option>
+                                                <?php } ?>
+
+
                                             </select>
                                         </div>
                                         <div class="form-group">

@@ -14,6 +14,7 @@ class Timeslips extends CommonController
     public function __construct()
     {
         parent::__construct();
+		$this->session = \Config\Services::session();
         $this->timeSlipsModel = new TimeslipsModel();
         $this->templateModel = new Template_model();
     }
@@ -24,22 +25,41 @@ class Timeslips extends CommonController
         $data['columns'] = $this->db->getFieldNames($this->table);
         $data['fields'] = array_diff($data['columns'], $this->notAllowedFields);
 
-        $list_week = $_GET['list_week'] ?? "";
-        $list_monthpicker = $_GET['list_monthpicker'] ?? "";
-        $list_yearpicker = $_GET['list_yearpicker'] ?? "";
+        if(isset($_GET['reset']) && $_GET['reset']==1){
+            $this->session->set('list_week','');
+            $this->session->set('list_monthpicker','');
+            $this->session->set('list_yearpicker','');
+        }
+
+        $list_week = $_GET['list_week'] ?? $this->session->get('list_week');
+        $list_monthpicker = $_GET['list_monthpicker'] ?? $this->session->get('list_monthpicker');
+        $list_yearpicker = $_GET['list_yearpicker'] ?? $this->session->get('list_yearpicker');
+        $data['list_week']=$list_week;
+        $data['list_monthpicker']=$list_monthpicker;
+        $data['list_yearpicker']=$list_yearpicker;
         $timeslip_where = [];
+        //echo $list_week; die;
+        $this->session->set('list_week',$list_week);
         if (!empty($list_week)) {
             $timeslip_where['week_no'] = $list_week;
         }
 
         if (!empty($list_monthpicker) && !empty($list_yearpicker)) {
-            $submitted_time = strtotime("{$list_yearpicker}-{$list_monthpicker}-01");
+            $this->session->set('list_monthpicker',$list_monthpicker);
+            $this->session->set('list_yearpicker',$list_yearpicker);
+            $lmonth = "{$list_yearpicker}-{$list_monthpicker}-01";
+            $submitted_time = strtotime($lmonth);
+            $submitted_time2 = strtotime("{$list_yearpicker}-{$list_monthpicker}-".date("t", strtotime($lmonth)));
             $timeslip_where['slip_start_date >='] = $submitted_time;
-            $timeslip_where['slip_end_date <='] = $submitted_time;
+            $timeslip_where['slip_end_date <='] = $submitted_time2;
         }
+
+        //echo '<pre>'.$lmonth.'--'.date("t", strtotime($lmonth)); 
+        //print_r($timeslip_where); die;
 
 
         $data[$this->table] = $this->timeSlipsModel->getRows(false, $timeslip_where);
+        //echo $this->db->getLastQuery()->getQuery(); die;
         foreach ($data[$this->table] as &$record) {
             $record['slip_start_date'] = render_date($record['slip_start_date']);
             $record['slip_end_date'] = render_date($record['slip_end_date']);
