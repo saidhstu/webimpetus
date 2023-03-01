@@ -10,7 +10,47 @@
             <i class="ti-close"></i>
         </div>
     </div>
-    <ul id="sidebar_menu">
+
+    <div>
+            <input type="text"  class="form-control" id="myInput" onkeyup="search_menu()" placeholder="Search by name" />
+
+        </div>
+
+        
+        
+         <ul id="sidebar_menu">
+           <!--<li class="active"><a href="#">Dashboard</a></li>
+            <li>
+               <a href="#" id="1">Pages
+               <span class="fas fa-caret-down"></span>
+               </a>
+               <ul class="item-show-1">
+                  <li><a href="#">Contact us</a></li>
+                  <li><a href="#">Our Team</a></li>
+               </ul>
+            </li>
+            <li>
+               <a href="#" id="2">Services
+               <span class="fas fa-caret-down"></span>
+               </a>
+               <ul class="item-show-2">
+                  <li><a href="#">App Design</a></li>
+                  <li><a href="#">Web Design</a></li>
+               </ul>
+            </li>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Message</a></li>
+            <li><a href="#">Bookmark</a></li>
+            <li><a href="#">Files</a></li>
+          </ul>
+
+
+
+        <ul id="sidebar_menu"> -->
+
+
+
+        
         <?php if(empty($_SESSION['permissions'])) { ?><li class="mm-active">
           <a   class="has-arrow" href="/dashboard" aria-expanded="true">
             <div class="nav_icon_small">
@@ -23,8 +63,14 @@
         
         </li>
 		<?php } else { 
+
+            ?>
+        
+
+        <?php
 	
-		$menu = getWithOutUuidResultArray("menu", [], true, "sort_order");
+		$menu = MenuByCategory(); //getWithOutUuidResultArray("menu", [], true, "sort_order");
+        //print_r($menu); die;
 		$userMenus = getRowArray("users", ["id" => $_SESSION['uuid']])->permissions;
         if($userMenus){
             $userMenus = json_decode($userMenus);
@@ -37,19 +83,49 @@
             $menucode = 1;
         }
         // prd($menu);
+        $catname = '';
+        $inc = 1;
 		foreach($menu as $val) { 
 
             if(in_array($val['id'], $userMenus)){
                 $activeIcon =  $val['icon'];
+                //echo $catname.$val['catname'];
             
         ?>
-			<li><a href="<?php echo $val['link']; ?>" class="<?php if(@$menucode == $val['id'])echo "active";?>"><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>		
+
+        <?php if($catname!=$val['catname']){ 
+            
+            if($catname!==''){
+                echo '</ul></li>';
+            }
+            
+            $catname = $val['catname'];
+            ?>
+
+            <li>
+               <a href="#" id="<?=$inc?>"><?php echo $val['catname']; ?>
+               <span class="fas fa-caret-down"></span>
+               </a>
+               <ul class="item-show-1">
+               <li><a href="<?php echo $val['link']; ?>" class="<?php if(@$menucode == $val['id'])echo "active";?>"><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>
+
+        <?php }else{ ?>            
+            <li><a href="<?php echo $val['link']; ?>" class="<?php if(@$menucode == $val['id'])echo "active";?>"><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>
+        <?php } ?>
+
+
+			<?php /* <li><a href="<?php echo $val['link']; ?>" class="<?php if(@$menucode == $val['id'])echo "active";?>"><i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?> </span></a></li>	*/ ?>
 		
-		<?php } }
+		<?php $inc++; } }
         
         }  
-        $_SESSION["menucode"] = 0;?>
+        $_SESSION["menucode"] = 0;
+        $menu =  getWithOutUuidResultArray("menu", [], true, "sort_order");
+        ?>
     </ul>
+
+
+   
 </nav>
 
  <!--/ sidebar  -->
@@ -64,4 +140,40 @@
     padding: 15px;
     height: auto;
 }
+
+.sub-menu {
+  display: none;
+}
+#sidebar_menu li a span{
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  transition: transform 0.4s;
+}
+#sidebar_menu li a span.rotate{
+  transform: translateY(-50%) rotate(-180deg);
+}
+
+
  </style>
+
+<script>
+function search_menu() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("sidebar_menu");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>

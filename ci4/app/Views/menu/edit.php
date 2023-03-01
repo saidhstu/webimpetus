@@ -24,6 +24,41 @@
                         <label for="inputEmail4">Icon</label>
                         <input type="input" class="form-control required" id="icon" name="icon" placeholder=""  value="<?= @$data->icon ?>">
                     </div>
+
+
+                    <div class="form-group required col-md-6">
+                        <label for="inputEmail4">Categories</label>
+                        <select id="categories" name="categories[]" multiple class="required form-control select2">
+                            <?php 
+                            if (isset($categories) && (!empty($categories))) {
+                            foreach($categories as $row):?>
+                            <option value="<?= $row['id'];?>" <?php  if(!empty($selected_cat)) echo 
+                            in_array($row['id'],$selected_cat)?'selected="selected"':''?>><?= $row['name'];?></option>
+                            <?php endforeach;?>
+                            <?php } ?>
+                    </select>
+                    </div>
+                   
+
+                </div>
+
+
+                <div class="form-row">
+                   
+
+                    <div class="form-group required col-md-6">
+                        <label for="inputEmail4">FTS Tags</label>
+                        
+                        <select id="my-select2" data-select2-tags="true" name="tags[]" multiple="multiple" class="form-control select2 required">
+                        <?php 
+                            if (!empty($data->menu_fts)) {
+                            $arr = explode(',',$data->menu_fts);
+                            foreach($arr as $row):?>
+                            <option value="<?= $row;?>" selected="selected"><?= $row;?></option>
+                            <?php endforeach;?>
+                            <?php } ?>
+                    </select>
+                    </div>
                    
 
                 </div>
@@ -51,4 +86,8 @@ $(document).on("click", ".form-check-input", function(){
         $(this).val(1);
     }
 });
+
+$('#my-select2').select2({
+    tags: true
+})
 </script>

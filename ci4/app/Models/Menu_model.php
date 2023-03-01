@@ -22,6 +22,47 @@ class Menu_model extends Model
             return [];
         }   
     }
+
+    public function updateData($id = null, $data = null)
+	{
+		$query = $this->db->table($this->table)->update($data, array('id' => $id));
+		return $query;
+	}
+
+    public function saveData($data)
+    {
+        $query = $this->db->table($this->table)->insert($data);
+        return $this->db->insertID();
+    }
+
+    public function saveMenuCat($id,$data)
+    {
+        $this->db->table('menu_category')->delete(array('uuid_menu' => $id));
+        foreach($data as $key=>$val){
+            $arr = [];
+            $arr['uuid_category'] = $val;
+            $arr['uuid_menu'] = $id;
+            $query = $this->db->table('menu_category')->insert($arr);
+        }
+        return true;
+    }
+
+    public function CatByMenuId($mid = "")
+    {
+
+        $builder = $this->db->table('categories');
+        $builder->select("categories.ID");
+        $builder->join('menu_category', 'menu_category.uuid_category = categories.ID', 'left');
+        $builder->where("menu_category.uuid_menu",  $mid);
+
+        return $builder->get()->getResultArray();
+
+		// $whereCond = ['menu_category.uuid_menu'=>$mid];			
+        // $this->join('categories', 'categories.ID = menu_category.uuid_category', 'LEFT');			
+        // $this->select('categories.*');
+        // return $this->where($whereCond)->get()->getResult();
+       
+    }
 	
 	/* public function saveData($data)
     {

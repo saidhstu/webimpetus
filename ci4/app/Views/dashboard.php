@@ -31,12 +31,16 @@
             <div class="row">
                 <div class="col-xl-12 ">
                     <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
-                        <div class="row">
-                            <?php foreach ($tableList as $table => $eachInfo) {
-                                if (in_array(@$eachInfo['menu']['name'], $user_permissions)) { ?>
+                        <div class="row" id="dashboard_row">
+                            <?php 
+                            $count = 0;
+                            foreach ($tableList as $table => $eachInfo) {
+                                if (in_array(@$eachInfo['menu']['name'], $user_permissions)) { 
+                                    $count++;
+                                    ?>
                                     <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                         <div class="dashboard-card">
-                                            <a href="<?php echo @$eachInfo['url']; ?>">
+                                            <a href="<?php echo @$eachInfo['url']; ?>" target="_blank">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="col">
                                                         <div class="dashContent">
@@ -63,7 +67,7 @@
                 <div class="col-xl-12 ">
                     <div class="white_card mb_30 user_crm_wrapper dsbrdIconsRow">
                         <div class="row">
-                            <?php foreach ($allList as $table => $eachInfo) {
+                             <?php /* foreach ($allList as $table => $eachInfo) {
                                 if (in_array(@$eachInfo['menu']['name'], $user_permissions)) { ?>
                                     <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-4">
                                         <div class="dashboard-card">
@@ -85,17 +89,18 @@
                                         </div>
                                     </div>
                             <?php }
-                            } ?>
+                            }*/ ?>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <?php if($count>8){ ?><div class="row">
                 <div class="col-12">
                     <div class="create_report_btn text-center mb_30">
-                        <a href="#" class="btn_1 radius_btn  text-center view_more" style="padding:15px 20px;">View More</a>
+                        <a href="javascript:void(0);" class="btn_1 radius_btn  text-center view_more" style="padding:15px 20px;">View More</a>
                     </div>
                 </div>
+                <?php } ?>
             </div>
             <div class="row">
                 <div class="col-xl-4">
@@ -443,8 +448,12 @@
 
 <script>
     $(".view_more").click(function() {
-        $("#view_more_list").show();
+        // $("#view_more_list").show();
         $(".view_more").hide();
+        var list = document.getElementById("dashboard_row");
+        for(var i = 1; i < list.children.length; i++) {
+            list.children[i].style.display = "block";
+        }
     })
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function() {
@@ -483,4 +492,5 @@
     .white_card .white_card_body {
         padding: 10px !important;
     }
+    .row .col-xxl-2:nth-of-type(1n+9) {display: none;}
 </style>
