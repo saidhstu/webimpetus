@@ -32,7 +32,7 @@ class Categories extends CommonController
 		
 
 		$file = $this->request->getPost('file');
-		if(strlen($file) > 0){
+		if(isset($file) && strlen($file) > 0){
 			$data['image_logo'] = $file;
 		}
 
