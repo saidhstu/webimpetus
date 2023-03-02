@@ -15,8 +15,6 @@
 						<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
 							<a class="nav-item nav-link active" id="nav-product-detail-tab" data-toggle="tab" href="#nav-product-detail" role="tab" aria-controls="nav-product-detail" aria-selected="true">Product Details</a>
 							<a class="nav-item nav-link" id="nav-product-image-tab" data-toggle="tab" href="#nav-product-image" role="tab" aria-controls="nav-product-image" aria-selected="false">Product Images(s)</a>
-							<a class="nav-item nav-link" id="nav-view-on-web-tab" data-toggle="tab" href="#nav-abounav-view-on-web" role="tab" aria-controls="nav-abounav-view-on-web" aria-selected="false">View on the Web</a>
-
 						</div>
 					</nav>
 					<div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
@@ -202,37 +200,6 @@
 										</div>
 									</div>
 								</div>
-							</div>
-
-						</div>
-						<div class="tab-pane fade" id="nav-abounav-view-on-web" role="tabpanel" aria-labelledby="nav-abounav-view-on-web-tab">
-							<div class="form-row">
-								<!-- <div class="form-group col-md-12">
-									<label for="inputState">Choose User</label>
-									<select id="uuid" name="uuid" class="form-control dashboard-dropdown">
-										<option value="0" selected="">--Selected--</option>
-
-									</select>
-								</div> -->
-
-								<!-- <div class="form-group col-md-12">
-									<div class="row">
-										<div class="col-md-12">
-											<label for="inputState">Choose Category</label>
-										</div>
-										<div class="col-md-12">
-											<select id="catid" name="catid[]" multiple class="form-control dashboard-dropdown">
-
-											</select>
-										</div>
-									</div>
-								</div> -->
-
-								<!-- <div class="form-group col-md-12">
-									<label for="inputState">Publish Date</label>
-									<input id="" class="form-control datepicker" name="publish_date" width="250" type="text" value="<?= render_date(@$content->publish_date); ?>" />
-								</div> -->
-
 							</div>
 						</div>
 					</div>
