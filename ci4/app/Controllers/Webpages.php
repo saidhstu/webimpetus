@@ -7,6 +7,7 @@ use CodeIgniter\Controller;
 use App\Models\Content_model;
 use App\Models\Users_model;
 use App\Controllers\Core\CommonController;
+use App\Libraries\UUID;
 
 ini_set('display_errors', 1);
 
@@ -76,7 +77,8 @@ class Webpages extends CommonController
 			'meta_description' => $this->request->getPost('meta_description'),
 			'status' => $this->request->getPost('status'),
 			'publish_date' => ($this->request->getPost('publish_date') ? strtotime($this->request->getPost('publish_date')) : strtotime(date('Y-m-d H:i:s'))),
-			"categories" => json_encode($this->request->getPost('categories'))
+			"categories" => json_encode($this->request->getPost('categories')),
+			'user_uuid' => $this->request->getPost('user_uuid')
 		);
 		$post = $this->request->getPost();
 
@@ -209,7 +211,7 @@ class Webpages extends CommonController
 			$fromWhere = "?cat=$menuName";
 		}
 		if ($id > 0) {
-			return redirect()->to('/' . $this->table . '/edit/' . $id . $fromWhere);
+			return redirect()->to('/' . $this->table . '/edit/' . $uuid . $fromWhere);
 		}
 		return redirect()->to('/' . $this->table . $fromWhere);
 	}

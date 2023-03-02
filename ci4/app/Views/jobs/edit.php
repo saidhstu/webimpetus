@@ -198,7 +198,7 @@
 									<select name="user_uuid" class="form-control dashboard-dropdown">
 										<option value="0" selected="">--Selected--</option>
 										<?php foreach ($users as $row) : ?>
-											<option value="<?= $row['id']; ?>" <?= ($row['id'] == @$content->user_uuid) ? 'selected' : '' ?>><?= $row['name']; ?></option>
+											<option value="<?= $row['uuid']; ?>" <?= ($row['uuid'] == @$content->user_uuid) ? 'selected' : '' ?>><?= $row['name']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>

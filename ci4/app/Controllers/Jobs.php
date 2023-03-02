@@ -42,10 +42,9 @@ class Jobs extends CommonController
 			$data['content'] = $this->content_model->getRows($id)->getRow();
 		}
 
-
 		$data['images'] = [];
 		$data["blocks_list"] = [];
-		if ($id > 0) {
+		if (!empty($id)) {
 			$data['images'] = $this->model->getDataWhere("media_list", $id, "uuid_linked_table");
 			$data["blocks_list"] = $this->model->getDataWhere("blocks_list", $id, "uuid_linked_table");
 		}
@@ -53,13 +52,11 @@ class Jobs extends CommonController
 		$data['users'] = $this->user_model->getUser();
 		$data['cats'] = $this->cat_model->getCats();
 
-		$array1 = $this->cat_model->getCatIds($id);
+		$array1 = $this->cat_model->getCatIds(@$data['content']->id);
 
 		$arr = array_map(function ($value) {
 			return $value['categoryid'];
 		}, $array1);
-
-
 		$data['selected_cats'] = $arr;
 
 		echo view($this->table . "/edit", $data);
@@ -117,14 +114,10 @@ class Jobs extends CommonController
 			'publish_date' => ($this->request->getPost('publish_date') ? strtotime($this->request->getPost('publish_date')) : strtotime(date('Y-m-d H:i:s'))),
 			'custom_fields' => json_encode($cus_fields),
 			'type' => ($this->request->getPost('type') ? $this->request->getPost('type') : 1),
+			'user_uuid' => $this->request->getPost('user_uuid')
 		);
 
-		if (!empty($this->request->getPost('user_uuid'))) {
-			$data['user_uuid'] = $this->request->getPost('user_uuid');
-		}
-
 		if (!empty($id)) {
-
 			$this->content_model->updateData($id, $data);
 			if (!empty($id) && !empty($this->request->getPost('catid'))) {
 				$this->cat_model->deleteCatData($id);
@@ -133,7 +126,6 @@ class Jobs extends CommonController
 					$cat_data['categoryid'] = $val;
 					$cat_data['contentid'] = $id;
 					$cat_data['uuid_business_id'] = session('uuid_business');
-
 					$this->cat_model->saveData2($cat_data);
 				}
 			}
