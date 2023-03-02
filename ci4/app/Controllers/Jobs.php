@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 
 use CodeIgniter\Controller;
 use App\Models\Content_model;
-
+use App\Libraries\UUID;
 use App\Models\Users_model;
 use App\Models\Cat_model;
 use App\Models\ContentImage;
@@ -24,7 +24,6 @@ class Jobs extends CommonController
 		$this->user_model = new Users_model();
 		$this->cat_model = new Cat_model();
 		$this->contentImage = new ContentImage();
-		// $this->commonModel = new Common_model();
 	}
 	public function index()
 	{
@@ -38,26 +37,26 @@ class Jobs extends CommonController
 	{
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
-		$data['content'] = $this->content_model->getRows($id)->getRow();
+		$data['content'] = [];
+		if ($id) {
+			$data['content'] = $this->content_model->getRows($id)->getRow();
+		}
 
 		$data['images'] = [];
 		$data["blocks_list"] = [];
-		if ($id > 0) {
-			$data['images'] = $this->model->getDataWhere("content_images", $id, "content_id");
-			$data["blocks_list"] = $this->model->getDataWhere("content_blocks_list", $id, "content_id");
+		if (!empty($id)) {
+			$data['images'] = $this->model->getDataWhere("media_list", $id, "uuid_linked_table");
+			$data["blocks_list"] = $this->model->getDataWhere("blocks_list", $id, "uuid_linked_table");
 		}
-
 
 		$data['users'] = $this->user_model->getUser();
 		$data['cats'] = $this->cat_model->getCats();
 
-		$array1 = $this->cat_model->getCatIds($id);
+		$array1 = $this->cat_model->getCatIds(@$data['content']->id);
 
 		$arr = array_map(function ($value) {
 			return $value['categoryid'];
 		}, $array1);
-
-
 		$data['selected_cats'] = $arr;
 
 		echo view($this->table . "/edit", $data);
@@ -94,6 +93,7 @@ class Jobs extends CommonController
 	public function update()
 	{
 		$id = $this->request->getPost('id');
+		$uuid = $this->request->getPost('uuid');
 		$cus_fields = [];
 		$cus_fields['reference'] = $this->request->getPost('reference');
 		$cus_fields['job_type'] = $this->request->getPost('job_type');
@@ -114,17 +114,10 @@ class Jobs extends CommonController
 			'publish_date' => ($this->request->getPost('publish_date') ? strtotime($this->request->getPost('publish_date')) : strtotime(date('Y-m-d H:i:s'))),
 			'custom_fields' => json_encode($cus_fields),
 			'type' => ($this->request->getPost('type') ? $this->request->getPost('type') : 1),
-			//'type' => 4,
-			//'image_logo' => $filepath
+			'user_uuid' => $this->request->getPost('user_uuid')
 		);
 
-
-		if (!empty($this->request->getPost('uuid'))) {
-			$data['uuid'] = $this->request->getPost('uuid');
-		}
-
 		if (!empty($id)) {
-
 			$this->content_model->updateData($id, $data);
 			if (!empty($id) && !empty($this->request->getPost('catid'))) {
 				$this->cat_model->deleteCatData($id);
@@ -133,7 +126,6 @@ class Jobs extends CommonController
 					$cat_data['categoryid'] = $val;
 					$cat_data['contentid'] = $id;
 					$cat_data['uuid_business_id'] = session('uuid_business');
-
 					$this->cat_model->saveData2($cat_data);
 				}
 			}
@@ -142,14 +134,15 @@ class Jobs extends CommonController
 			session()->setFlashdata('alert-class', 'alert-success');
 		} else {
 
-			$bid = $this->content_model->saveData($data);
+			$uuid = $data['uuid'] = UUID::v5(UUID::v4(), 'jobs');
 
+			$id = $this->content_model->saveData($data);
 
 			if (!empty($bid) && !empty($this->request->getPost('catid'))) {
 				foreach ($this->request->getPost('catid') as $val) {
 					$cat_data = [];
 					$cat_data['categoryid'] = $val;
-					$cat_data['contentid'] = $bid;
+					$cat_data['contentid'] = $id;
 					$this->cat_model->saveData2($cat_data);
 				}
 			}
@@ -160,7 +153,7 @@ class Jobs extends CommonController
 
 		$files = $this->request->getPost("file");
 		if (!empty($id)) {
-			$row = $this->content_model->getRows($id)->getRow();
+			$row = $this->content_model->getRows($uuid)->getRow();
 			$filearr = ($row->custom_assets != "") ? json_decode($row->custom_assets) : [];
 			$count = !empty($filearr) ? count($filearr) : 0;
 
@@ -168,9 +161,9 @@ class Jobs extends CommonController
 				foreach ($files as $key => $filePath) {
 					$job_images = [];
 					$job_images['uuid_business_id'] =  session('uuid_business');
-					$job_images['image'] = $filePath;
-					$job_images['content_id'] = $id;
-					$this->content_model->saveDataInTable($job_images, "content_images");
+					$job_images['name'] = $filePath;
+					$job_images['uuid_linked_table'] = $uuid;
+					$this->content_model->saveDataInTable($job_images, "media_list");
 				}
 			}
 			$this->content_model->updateData($id, $data);
@@ -178,15 +171,14 @@ class Jobs extends CommonController
 			session()->setFlashdata('alert-class', 'alert-success');
 		} else {
 
-			$id = $this->content_model->saveData($data);
 			if (is_array($files)) {
 				foreach ($files as $key => $filePath) {
 					$job_images = [];
 					$job_images['uuid_business_id'] =  session('uuid_business');
-					$job_images['image'] = $filePath;
-					$job_images['content_id'] = $id;
+					$job_images['name'] = $filePath;
+					$job_images['uuid_linked_table'] = $data['uuid'];
 
-					$this->content_model->saveDataInTable($job_images, "content_images");
+					$this->content_model->saveDataInTable($job_images, "media_list");
 				}
 			}
 			session()->setFlashdata('message', 'Data entered Successfully!');
@@ -197,13 +189,10 @@ class Jobs extends CommonController
 			$i = 0;
 			$post = $this->request->getPost();
 			if (isset($post["blocks_code"])) {
-
-
 				foreach ($post["blocks_code"] as $code) {
-
 					$blocks = [];
 					$blocks["code"] = $code;
-					$blocks["content_id"] = $id;
+					$blocks["uuid_linked_table"] = $uuid;
 					$blocks["text"] = $post["blocks_text"][$i];
 					$blocks["title"] = $post["blocks_title"][$i];
 					$blocks["sort"] = $post["sort"][$i];
@@ -214,31 +203,16 @@ class Jobs extends CommonController
 					if (empty($blocks["sort"])) {
 						$blocks["sort"] = $blocks_id;
 					}
-
-					$blocks_id = $this->insertOrUpdate("content_blocks_list", $blocks_id, $blocks);
-
+					$blocks_id = $this->insertOrUpdate("blocks_list", $blocks_id, $blocks);
 					if (empty($blocks["sort"])) {
-
-						$this->insertOrUpdate("content_blocks_list", $blocks_id, ["sort" => $blocks_id]);
+						$this->insertOrUpdate("blocks_list", $blocks_id, ["sort" => $blocks_id]);
 					}
-
 					$i++;
 				}
 			} else {
-				$this->model->deleteTableData("content_blocks_list", $id, "content_id");
+				$this->model->deleteTableData("blocks_list", $uuid, "uuid_linked_table");
 			}
-
-			// $this->model->deleteTableData("webpage_categories", $id, "content_id");
-			// if (isset($post["categories"])) {
-			// 	foreach ($post["categories"] as $key => $categories_id) {
-			// 		$c_data = [];
-			// 		$c_data['content_id'] = $id;
-			// 		$c_data['categories_id'] = $categories_id;
-			// 		$this->model->insertTableData($c_data, "webpage_categories");
-			// 	}
-			// }
 		}
-
 
 		return redirect()->to('/' . $this->table);
 	}
@@ -294,7 +268,7 @@ class Jobs extends CommonController
 	public function deleteBlocks()
 	{
 		$blocks_id = $this->request->getPost("blocks_id");
-		$res = $this->model->deleteTableData("content_blocks_list", $blocks_id);
+		$res = $this->model->deleteTableData("blocks_list", $blocks_id);
 
 		return $res;
 	}

@@ -7,6 +7,7 @@ use CodeIgniter\Controller;
 use App\Models\Content_model;
 use App\Models\Users_model;
 use App\Controllers\Core\CommonController;
+use App\Libraries\UUID;
 
 ini_set('display_errors', 1);
 
@@ -21,8 +22,6 @@ class Webpages extends CommonController
 	}
 	public function index()
 	{
-
-
 		$data[$this->table] = $this->content_model->where(['type' => 1, "uuid_business_id" => $this->businessUuid])->findAll();
 
 		if (isset($_GET['cat']) && $_GET['cat'] == 'strategies') {
@@ -40,12 +39,16 @@ class Webpages extends CommonController
 	{
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
-		$data['webpage'] = $this->content_model->getRows($id)->getRow();
-		
+
+		$data['webpage'] = [];
+		if ($id) {
+			$data['webpage'] = $this->content_model->getRows($id)->getRow();
+		}
+
+
 		$data['users'] = $this->user_model->getUser();
 		if ($id > 0) {
-
-			$data['images'] = $this->model->getDataWhere("webpage_images", $id, "webpage_id");
+			$data['images'] = $this->model->getDataWhere("media_list", $id, "uuid_linked_table");
 		} else {
 			$data['images'] = [];
 		}
@@ -62,6 +65,7 @@ class Webpages extends CommonController
 	{
 
 		$id = $this->request->getPost('id');
+		$uuid = $this->request->getPost('uuid');
 		$menuName = $this->request->getPost('strategies');
 		$data = array(
 			'title'  => $this->request->getPost('title'),
@@ -73,7 +77,8 @@ class Webpages extends CommonController
 			'meta_description' => $this->request->getPost('meta_description'),
 			'status' => $this->request->getPost('status'),
 			'publish_date' => ($this->request->getPost('publish_date') ? strtotime($this->request->getPost('publish_date')) : strtotime(date('Y-m-d H:i:s'))),
-			"categories" => json_encode($this->request->getPost('categories'))
+			"categories" => json_encode($this->request->getPost('categories')),
+			'user_uuid' => $this->request->getPost('user_uuid')
 		);
 		$post = $this->request->getPost();
 
@@ -110,7 +115,7 @@ class Webpages extends CommonController
 
 		if (!empty($id)) {
 
-			$row = $this->content_model->getRows($id)->getRow();
+			$row = $this->content_model->getRows($uuid)->getRow();
 
 			$filearr = ($row->custom_assets != "") ? json_decode($row->custom_assets) : [];
 			$count = !empty($filearr) ? count($filearr) : 0;
@@ -121,10 +126,10 @@ class Webpages extends CommonController
 
 					$blog_images = [];
 					$blog_images['uuid_business_id'] =  session('uuid_business');
-					$blog_images['image'] = $filePath;
-					$blog_images['webpage_id'] = $id;
+					$blog_images['name'] = $filePath;
+					$blog_images['uuid_linked_table'] = $uuid;
 
-					$this->content_model->saveDataInTable($blog_images, "webpage_images");
+					$this->content_model->saveDataInTable($blog_images, "media_list");
 				}
 			}
 
@@ -134,7 +139,7 @@ class Webpages extends CommonController
 			session()->setFlashdata('message', 'Data updated Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		} else {
-
+			$uuid = $data['uuid'] = UUID::v5(UUID::v4(), 'webpages');
 			$id = $this->content_model->saveData($data);
 
 			if (is_array($files)) {
@@ -142,10 +147,10 @@ class Webpages extends CommonController
 
 					$blog_images = [];
 					$blog_images['uuid_business_id'] =  session('uuid_business');
-					$blog_images['image'] = $filePath;
-					$blog_images['webpage_id'] = $id;
+					$blog_images['name'] = $filePath;
+					$blog_images['uuid_linked_table'] = $uuid;
 
-					$this->content_model->saveDataInTable($blog_images, "webpage_images");
+					$this->content_model->saveDataInTable($blog_images, "media_list");
 				}
 			}
 
@@ -167,24 +172,21 @@ class Webpages extends CommonController
 					$blocks["title"] = $post["blocks_title"][$i];
 					$blocks["sort"] = $post["sort"][$i];
 					$blocks["type"] = $post["type"][$i];
-
+					$blocks["uuid_linked_table"] = $uuid;
 					$blocks["uuid_business_id"] = session('uuid_business');
 					$blocks_id =  @$post["blocks_id"][$i];
 					if (empty($blocks["sort"])) {
 						$blocks["sort"] = $blocks_id;
 					}
-
 					$blocks_id = $this->insertOrUpdate("blocks_list", $blocks_id, $blocks);
-
 					if (empty($blocks["sort"])) {
-
 						$this->insertOrUpdate("blocks_list", $blocks_id, ["sort" => $blocks_id]);
 					}
 
 					$i++;
 				}
 			} else {
-				$this->model->deleteTableData("blocks_list", $id, "webpages_id");
+				$this->model->deleteTableData("blocks_list", $uuid, "uuid_linked_table");
 			}
 
 
@@ -209,7 +211,7 @@ class Webpages extends CommonController
 			$fromWhere = "?cat=$menuName";
 		}
 		if ($id > 0) {
-			return redirect()->to('/' . $this->table . '/edit/' . $id . $fromWhere);
+			return redirect()->to('/' . $this->table . '/edit/' . $uuid . $fromWhere);
 		}
 		return redirect()->to('/' . $this->table . $fromWhere);
 	}

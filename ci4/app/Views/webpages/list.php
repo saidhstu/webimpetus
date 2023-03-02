@@ -23,9 +23,9 @@
                 
                 foreach($webpages as $row):
                     if(isset($menuName)){
-                        $link = "/webpages/edit/".$row['id']."?cat=strategies";
+                        $link = "/webpages/edit/".$row['uuid']."?cat=strategies";
                     }else{
-                       $link = "/webpages/edit/".$row['id'];
+                       $link = "/webpages/edit/".$row['uuid'];
                     }
                     ?>
                     <tr data-link=<?=$link?>>
@@ -53,7 +53,7 @@
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 
                                         <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/webpages/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
-                                        <a class="dropdown-item" href="/webpages/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                        <a class="dropdown-item" href="/webpages/edit/<?= $row['uuid'];?>"> <i class="fas fa-edit"></i> Edit</a>
 
 
                                     </div>

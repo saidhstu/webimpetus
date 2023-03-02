@@ -7,6 +7,7 @@
 		<form id="addcat" method="post" action="/jobs/update" enctype="multipart/form-data">
 
 			<input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$content->id ?>" />
+			<input type="hidden" class="form-control" name="uuid" placeholder="" value="<?= @$content->uuid ?>" />
 
 			<input type="hidden" class="form-control" name="type" placeholder="" value="4" />
 
@@ -194,10 +195,10 @@
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label for="inputState">Choose User</label>
-									<select id="uuid" name="uuid" class="form-control dashboard-dropdown">
+									<select name="user_uuid" class="form-control dashboard-dropdown">
 										<option value="0" selected="">--Selected--</option>
 										<?php foreach ($users as $row) : ?>
-											<option value="<?= $row['id']; ?>" <?= ($row['id'] == @$content->uuid) ? 'selected' : '' ?>><?= $row['name']; ?></option>
+											<option value="<?= $row['uuid']; ?>" <?= ($row['uuid'] == @$content->user_uuid) ? 'selected' : '' ?>><?= $row['name']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -224,7 +225,7 @@
 						</div>
 						<div class="tab-pane fade" id="nav-blocks" role="tabpanel" aria-labelledby="nav-blocks-tab">
 							<?php
-							
+
 							if (count($blocks_list) > 0) {
 							?>
 								<div class="form-row addresscontainer">

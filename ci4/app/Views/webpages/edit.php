@@ -1,6 +1,6 @@
 <?php require_once(APPPATH . 'Views/common/edit-title.php');
 
-$blocks_list = getResultArray("blocks_list", ["webpages_id" => @$webpage->id]);
+$blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$webpage->uuid]);
 $categories = getResultArray("categories");
 
 $type["TEXT"] = "TEXT";
@@ -44,6 +44,7 @@ $data_type_format["YAML"] = "# Employee records
 
 			<input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$webpage->id ?>" />
 			<input type="hidden" class="form-control" name="strategies" placeholder="" value="<?= @$menuName ?>" />
+			<input type="hidden" class="form-control" name="uuid" value="<?= @$webpage->uuid ?>" />
 
 			<div class="row">
 				<div class="col-xs-12 col-md-12">
@@ -70,7 +71,6 @@ $data_type_format["YAML"] = "# Employee records
 								</div>
 								<div class="form-group col-md-12">
 									<label for="inputState">Published Date</label>
-
 									<input id="published_date" class="form-control datepicker" name="published_date" width="250" type="text" autocomplete="" value="<?= render_date(@$webpage->published_date) ?>" />
 
 								</div>
@@ -185,10 +185,10 @@ $data_type_format["YAML"] = "# Employee records
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label for="inputState">Choose Owner</label>
-									<select id="uuid" name="uuid" class="form-control">
+									<select name="user_uuid" class="form-control">
 										<option value="0" selected="">--Select--</option>
 										<?php foreach ($users as $row) : ?>
-											<option value="<?= $row['uuid']; ?>"><?= $row['name']; ?></option>
+											<option value="<?= $row['uuid']; ?>" <?= ($row['uuid'] == @$webpage->user_uuid) ? 'selected' : '' ?>><?= $row['name']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
