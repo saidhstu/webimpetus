@@ -76,6 +76,19 @@ class Timeslips extends CommonController
         return view($viewPath, $data);
     }
 
+    public function clone($uuid = null)
+    {
+        $data = $this->timeSlipsModel->getSingleData($uuid);
+        $uuidVal = UUID::v5(UUID::v4(), 'timeslips_saving');
+        unset($data['id'],$data['created_at'],$data['modified_at']);
+        $data['uuid'] = $uuidVal;
+        //echo '<pre>'; print_r($data); die;
+
+        $this->timeSlipsModel->saveByUuid('', $data);
+        session()->setFlashdata('alert-class', 'alert-success');
+        return redirect()->to($this->table."/edit/".$uuidVal);
+    }
+
     public function edit($uuid = null)
     {
         $data['tableName'] = $this->table;

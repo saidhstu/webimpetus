@@ -146,21 +146,23 @@ function MenuByCategory($mid = "")
 {
     $db = \Config\Database::connect();
 
-    $builder = $db->table('menu');
-    $builder->select("menu.*,categories.name as catname,categories.ID");
-    $builder->join('menu_category', 'menu_category.uuid_menu=menu.id','INNER');
-    $builder->join('categories', 'categories.ID = menu_category.uuid_category','INNER');
-    $builder->where("categories.uuid_business_id",  session('uuid_business'));
-    //$builder->where("menu.id IS NULL");
-    $builder->orderBy('categories.name','asc');
-
-    // $builder = $db->table('categories');
-    // $builder->select("categories.name as catname,categories.ID,menu.*");
-    // $builder->join('menu_category', 'menu_category.uuid_category = categories.ID', 'left');
-    // $builder->join('menu', 'menu.id = menu_category.uuid_menu', 'left');
+    // $builder = $db->table('menu');
+    // $builder->select("menu.*,categories.name as catname,categories.ID");
+    // $builder->join('menu_category', 'menu_category.uuid_menu=menu.id','full join');
+    // $builder->join('categories', 'categories.ID = menu_category.uuid_category');
     // $builder->where("categories.uuid_business_id",  session('uuid_business'));
+    // //$builder->where("menu.id IS NULL");
     // $builder->orderBy('categories.name','asc');
 
-    return $builder->get()->getResultArray();
+    // $builder = $db->table('menu');    
+    // $builder->join('menu_category', 'menu_category.uuid_menu = menu.id', 'LEFT OUTER JOIN');
+    // $builder->join('categories', 'categories.ID = menu_category.uuid_category');
+    // $builder->select("menu.*,categories.name as catname,categories.ID and categories.uuid_business_id = '". session('uuid_business')."'");
+    // $builder->where("categories.uuid_business_id",  session('uuid_business'));
+    // $builder->orderBy('categories.name','asc');
+    // return $builder->get()->getResultArray();
+    //echo $db->getLastQuery()->getQuery(); die;
+
+    return $db->query("select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category and categories.uuid_business_id = '". session('uuid_business')."' order by categories.name asc,menu.sort_order desc")->getResultArray();
     
 }
