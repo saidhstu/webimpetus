@@ -27,6 +27,7 @@
 
                                         <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/<?php echo $tableName; ?>/delete/<?= $row[$identifierKey]; ?>"> <i class="ti-trash"></i> Delete</a>
                                         <a class="dropdown-item" href="/<?php echo $tableName; ?>/edit/<?= $row[$identifierKey]; ?>"> <i class="fas fa-edit"></i> Edit</a>
+                                        <a class="dropdown-item" href="/<?php echo $tableName; ?>/clone/<?= $row[$identifierKey]; ?>"> <i class="fas fa-copy"></i> Clone</a>
                                     </div>
                                 </div>
                             </div>

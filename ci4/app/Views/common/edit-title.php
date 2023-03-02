@@ -28,8 +28,14 @@
                 </div>
                 <div class="page_title_right">   
                     <?php if($tableName == "sales_invoices") { ?>
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$sales_invoice->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i>Clone</a>    
+                    <?php } ?>
+                    <?php if($tableName == "sales_invoices") { ?>
                         <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$sales_invoice->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i>View</a>  
                         <a href="<?= "/" . $tableName . "/exportPDF/" . @$sales_invoice->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>  
+                    <?php } ?>
+                    <?php if($tableName == "purchase_invoices") { ?>
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$purchase_invoice->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i>Clone</a>    
                     <?php } ?>
                     <?php if($tableName == "purchase_invoices") { ?>
                         <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i>View</a>
@@ -43,6 +49,12 @@
                         <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i>View</a>
                         <a href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
                     <?php } ?>
+
+                    <?php if($tableName == "timeslips") { ?>
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . $timeslips['uuid']; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i>Clone</a>
+                    <?php } ?>
+
+
                     <a href="/<?php echo strtolower($tableName); ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php 
                         if(isset($menuName)){
                             echo ucfirst($menuName);

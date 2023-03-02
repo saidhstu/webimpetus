@@ -34,6 +34,58 @@ class Purchase_invoices extends CommonController
 
         echo view($this->table . "/list", $data);
     }
+    public function clone($uuid = null)
+    {
+        $data = $this->model->getRows($uuid)->getRowArray();
+        $uuidVal = UUID::v5(UUID::v4(), 'purchase_invoice_items');
+        $itemId = $data['id'];
+        unset($data['id'],$data['created_at'],$data['modified_at']);
+        $data['uuid'] = $uuidVal;
+
+        $data['invoice_number'] = findMaxFieldValue($this->purchase_invoices, "invoice_number");
+
+        if (empty($data['invoice_number'])) {
+            $data['invoice_number'] = 1001;
+        } else {
+            $data['invoice_number'] += 1;
+        }
+
+        $data['custom_invoice_number'] = $this->remove_numbers($data['custom_invoice_number']) . $data['invoice_number'];
+    
+
+        $inid = $this->model->insertTableData($data, $this->purchase_invoices);
+
+        $invoice_items = $this->db->table($this->purchase_invoice_items)->where('purchase_invoices_id', $itemId)->get()->getResultArray();
+        $invoice_notes = $this->db->table($this->purchase_invoice_notes)->where('purchase_invoices_id', $itemId)->get()->getResultArray();
+        //echo '<pre>'; print_r($invoice_items); die;
+
+        foreach($invoice_items as $val){
+
+            unset($val['id']);
+            $val['purchase_invoices_id'] = $inid;
+            $this->db->table($this->purchase_invoice_items)->insert($val);
+
+        }
+
+        foreach($invoice_notes as $val){
+
+            unset($val['id']);
+            $val['purchase_invoices_id'] = $inid;
+            $this->db->table($this->purchase_invoice_notes)->insert($val);
+
+        }
+
+        
+
+
+        session()->setFlashdata('alert-class', 'alert-success');
+        return redirect()->to($this->table."/edit/".$inid);
+    }
+
+    function remove_numbers($string) {
+        $num = array(0,1,2,3,4,5,6,7,8,9);
+        return str_replace($num, null, $string);
+    }
 
     public function edit($id = 0)
     {

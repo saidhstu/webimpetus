@@ -46,6 +46,7 @@
                                         <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/" . $tableName . "/delete/" . $row['id']; ?>> <i class="ti-trash"></i> Delete</a>
                                         <a class="dropdown-item" href="<?= "/" . $tableName . "/edit/" . $row['id']; ?>"> <i class="fas fa-edit"></i> Edit</a>
                                         <a class="dropdown-item" href="<?= "/" . $tableName . "/exportPDF/" . $row['id'] . "?" . rand(0,999999); ?>"> <i class="ti-printer"></i> Print PDF</a>
+                                        <a class="dropdown-item" href="/<?php echo $tableName; ?>/clone/<?= $row['id']; ?>"> <i class="fas fa-copy"></i> Clone</a>
                                     </div>
                                 </div>
                             </div>
