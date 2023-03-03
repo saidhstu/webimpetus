@@ -31,6 +31,49 @@ class Work_orders extends CommonController
 
         echo view($this->table."/list",$data);
     }
+
+    public function clone($uuid = null)
+    {
+        $data = $this->model->getRows($uuid)->getRowArray();
+        $uuidVal = UUID::v5(UUID::v4(), 'work_order_items');
+        $itemId = $data['id'];
+        unset($data['id'],$data['created_at'],$data['modified_at']);
+        $data['uuid'] = $uuidVal;
+
+        $data['order_number'] = findMaxFieldValue($this->work_orders, "order_number");
+
+        if (empty($data['order_number'])) {
+            $data['order_number'] = 1001;
+        } else {
+            $data['order_number'] += 1;
+        }
+
+        $data['custom_order_number'] = $this->remove_numbers($data['custom_order_number']) . $data['order_number'];
+    
+
+        $inid = $this->model->insertTableData($data, $this->work_orders);
+
+        $order_items = $this->db->table($this->work_order_items)->where('work_orders_id', $itemId)->get()->getResultArray();
+        //echo '<pre>'; print_r($order_items); die;
+
+        foreach($order_items as $val){
+
+            unset($val['id']);
+            $val['work_orders_id'] = $inid;
+            $this->db->table($this->work_order_items)->insert($val);
+
+        }
+
+        session()->setFlashdata('message', 'Data cloned Successfully!');
+        session()->setFlashdata('alert-class', 'alert-success');
+
+        return redirect()->to($this->table."/edit/".$inid);
+    }
+
+    function remove_numbers($string) {
+        $num = array(0,1,2,3,4,5,6,7,8,9);
+        return str_replace($num, null, $string);
+    }
     // public function edit($id = 0)
     // {
 	// 	$data['tableName'] = $this->table;
