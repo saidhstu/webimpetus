@@ -89,6 +89,11 @@ function findMaxFieldValue($tableName, $field){
     return $order_number;    
 }
 
+function remove_numbers($string) {
+    $num = array(0,1,2,3,4,5,6,7,8,9);
+    return $string!=''?str_replace($num, "", $string):$string;
+}
+
 function readableFieldName($fieldName)
 {
     return implode(' ', array_map('ucfirst', explode('_', $fieldName)));

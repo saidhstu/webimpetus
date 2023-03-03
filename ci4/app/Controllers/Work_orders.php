@@ -48,7 +48,7 @@ class Work_orders extends CommonController
             $data['order_number'] += 1;
         }
 
-        $data['custom_order_number'] = $this->remove_numbers($data['custom_order_number']) . $data['order_number'];
+        $data['custom_order_number'] = remove_numbers($data['custom_order_number']) . $data['order_number'];
     
 
         $inid = $this->model->insertTableData($data, $this->work_orders);
@@ -70,10 +70,6 @@ class Work_orders extends CommonController
         return redirect()->to($this->table."/edit/".$inid);
     }
 
-    function remove_numbers($string) {
-        $num = array(0,1,2,3,4,5,6,7,8,9);
-        return str_replace($num, null, $string);
-    }
     // public function edit($id = 0)
     // {
 	// 	$data['tableName'] = $this->table;

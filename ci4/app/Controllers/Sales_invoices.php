@@ -89,7 +89,7 @@ class Sales_invoices extends CommonController
             $data['invoice_number'] += 1;
         }
 
-        $data['custom_invoice_number'] = $this->remove_numbers($data['custom_invoice_number']) . $data['invoice_number'];
+        $data['custom_invoice_number'] = remove_numbers($data['custom_invoice_number']) . $data['invoice_number'];
     
 
         $inid = $this->model->insertTableData($data, $this->sales_invoices);
@@ -118,11 +118,6 @@ class Sales_invoices extends CommonController
         session()->setFlashdata('message', 'Data cloned Successfully!');
         session()->setFlashdata('alert-class', 'alert-success');
         return redirect()->to($this->table."/edit/".$inid);
-    }
-
-    function remove_numbers($string) {
-        $num = array(0,1,2,3,4,5,6,7,8,9);
-        return str_replace($num, null, $string);
     }
 
     public function update()
