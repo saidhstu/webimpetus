@@ -89,7 +89,7 @@ class Sales_invoices extends CommonController
             $data['invoice_number'] += 1;
         }
 
-        $data['custom_invoice_number'] = remove_numbers($data['custom_invoice_number']) . $data['invoice_number'];
+        $data['custom_invoice_number'] = $data['custom_invoice_number'];
     
 
         $inid = $this->model->insertTableData($data, $this->sales_invoices);

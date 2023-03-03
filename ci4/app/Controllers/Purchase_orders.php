@@ -49,7 +49,7 @@ class Purchase_orders extends CommonController
             $data['order_number'] += 1;
         }
 
-        $data['custom_order_number'] = remove_numbers($data['custom_order_number']) . $data['order_number'];
+        $data['custom_order_number'] = $data['custom_order_number'];
     
 
         $inid = $this->model->insertTableData($data, $this->purchase_orders);
