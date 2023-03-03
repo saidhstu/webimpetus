@@ -81,10 +81,16 @@ class Timeslips extends CommonController
         $data = $this->timeSlipsModel->getSingleData($uuid);
         $uuidVal = UUID::v5(UUID::v4(), 'timeslips_saving');
         unset($data['id'],$data['created_at'],$data['modified_at']);
+        
         $data['uuid'] = $uuidVal;
+        $data['slip_start_date'] = strtotime(date("Y-m-d",strtotime("+ 1 day")));
+        $data['slip_end_date'] = strtotime(date("Y-m-d",strtotime("+ 1 day")));
+        $data['slip_timer_started'] = '09:00:00 am';
+        $data['slip_timer_end'] = '05:00:00 pm';
         //echo '<pre>'; print_r($data); die;
 
         $this->timeSlipsModel->saveByUuid('', $data);
+        session()->setFlashdata('message', 'Data cloned Successfully!');
         session()->setFlashdata('alert-class', 'alert-success');
         return redirect()->to($this->table."/edit/".$uuidVal);
     }

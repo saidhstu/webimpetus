@@ -41,10 +41,20 @@
                         <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i>View</a>
                         <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
                     <?php } ?>
+
+                    <?php if($tableName == "purchase_orders") { ?>
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$purchase_order->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i>Clone</a>    
+                    <?php } ?>
+                    
                     <?php if($tableName == "purchase_orders") { ?>
                         <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_order->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i>View</a>
                         <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_order->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
                     <?php } ?>
+
+                    <?php if($tableName == "work_orders") { ?>
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$work_order->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i>Clone</a>    
+                    <?php } ?>
+
                     <?php if($tableName == "work_orders") { ?>
                         <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i>View</a>
                         <a href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i>Print PDF</a>    
@@ -69,14 +79,15 @@
     <div class="row ">
 
         <div class="col-lg-12">
+        <?php  if(session()->has('message')){ ?>
+
+        <div class="alert <?= session()->getFlashdata('alert-class') ?>">
+        <?= session()->getFlashdata('message') ?>
+        </div>
+        <?php } ?>
             <div class="white_card card_height_100 mb_30">
 
-            <?php  if(session()->has('message')){ ?>
-
-            <div class="alert <?= session()->getFlashdata('alert-class') ?>">
-            <?= session()->getFlashdata('message') ?>
-            </div>
-            <?php } ?>
+            
 
             <!-- BEGIN LOGIN -->
 <div id="ajax_loader" style="position: fixed;
