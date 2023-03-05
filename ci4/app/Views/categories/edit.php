@@ -61,6 +61,13 @@
                     
                 </div>
 
+                <div class="form-group row">
+												<label for="sort_order" class="col-sm-12 col-form-label">Sort Order</label>
+												<div class="col-sm-12">
+													<input type="text" class="form-control" value="<?= @$category->sort_order ?>" id="sort_order" name="sort_order" placeholder="">
+												</div>
+											</div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

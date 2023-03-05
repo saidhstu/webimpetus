@@ -89,11 +89,6 @@ function findMaxFieldValue($tableName, $field){
     return $order_number;    
 }
 
-function remove_numbers($string) {
-    $num = array(0,1,2,3,4,5,6,7,8,9);
-    return $string!=''?str_replace($num, "", $string):$string;
-}
-
 function readableFieldName($fieldName)
 {
     return implode(' ', array_map('ucfirst', explode('_', $fieldName)));
@@ -168,6 +163,6 @@ function MenuByCategory($mid = "")
     // return $builder->get()->getResultArray();
     //echo $db->getLastQuery()->getQuery(); die;
 
-    return $db->query("select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category and categories.uuid_business_id = '". session('uuid_business')."' order by categories.name asc,menu.sort_order desc")->getResultArray();
+    return $db->query("select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category and categories.uuid_business_id = '". session('uuid_business')."' order by categories.sort_order asc,menu.sort_order desc")->getResultArray();
     
 }
