@@ -26,7 +26,10 @@
                         } ?> </a></li>
                     </ol>
                 </div>
-                <div class="page_title_right">   
+                <div class="page_title_right">  
+                    <?php if($tableName == "tasks") { ?>
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$task->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i>Clone</a>    
+                    <?php } ?> 
                     <?php if($tableName == "sales_invoices") { ?>
                         <a target="" href="<?= "/" . $tableName . "/clone/" . @$sales_invoice->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i>Clone</a>    
                     <?php } ?>
