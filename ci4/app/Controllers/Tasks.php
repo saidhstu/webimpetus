@@ -78,6 +78,30 @@ class Tasks extends CommonController
         echo view($this->table . "/list", $data);
     }
 
+    public function clone($uuid = null)
+    {
+        $data = $this->Tasks_model->getRows($uuid)->getRowArray();
+        unset($data['id'],$data['created_at']);
+        $data['start_date'] = strtotime(date("Y-m-d",strtotime("+ 1 day")));
+        $data['end_date'] = strtotime(date("Y-m-d",strtotime("+ 1 day")));
+
+        $data['task_id'] = findMaxFieldValue($this->table, "task_id");
+
+        if (empty($data['task_id'])) {
+            $data['task_id'] = 1001;
+        } else {
+            $data['task_id'] += 1;
+        }
+
+        $insert_id = $this->model->insertOrUpdate('', $data);
+        //echo '<pre>'; print_r($response); die;
+
+        session()->setFlashdata('message', 'Data cloned Successfully!');
+        session()->setFlashdata('alert-class', 'alert-success');
+        return redirect()->to($this->table."/edit/".$insert_id);
+
+    }
+
     public function update()
     {
         $id = $this->request->getPost('id');
