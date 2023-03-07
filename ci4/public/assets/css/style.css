@@ -14975,3 +14975,10 @@ p.dashTitle {
     border: 2px solid #ddd;
     padding: 2px;
 }
+.header_search {
+  width: 90%;
+  margin: 0;
+}
+.header_search_form {
+  width: 100%;
+}

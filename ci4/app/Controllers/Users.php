@@ -105,6 +105,32 @@ class Users extends CommonController
 	}
 	echo '1';
 	}
+
+	public function getuser($id)
+    { 
+		$json = $this->userModel->select('permissions')->getWhere(array('id'=>$id))->getRow();
+		echo json_encode($json->permissions);
+	}
+
+	public function update_permission()
+    {
+		// echo '<pre>';
+		// print_r($this->request->getPost('userid')); 
+		// print_r($this->request->getPost('items')); 
+		// die;
+		if($this->request->getPost('userid') && !empty($this->request->getPost('userid'))){
+			$data = array(            
+				'permissions' => json_encode($this->request->getPost('items'))
+			);
+			$this->userModel->updateUser($data, $this->request->getPost('userid'));
+	
+			echo json_encode([]);
+		}else {
+			echo json_encode([]);
+		}
+
+
+	}
 	
 
 }
