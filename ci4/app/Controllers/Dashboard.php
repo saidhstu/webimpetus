@@ -20,7 +20,7 @@ class Dashboard extends BaseController
 	
     public function index()
     {
-        $data['title'] = "Hello World from Codeigniter 4";
+        $data['title'] = "";
 		$data['recent_users'] = $this->dashboard_model->getRecentUsers();
 		$data['recent_employees'] = $this->dashboard_model->getRecentEmployees();
 		// prd($data);
@@ -218,8 +218,17 @@ class Dashboard extends BaseController
 	
 	public function chgpwd()
     {
-        $data['title'] = "Hello World from Codeigniter 4";
+        $data['title'] = "";
         echo view('change_pwd', $data);
+    }
+
+	public function user_role()
+    {
+		$data = array();
+		$data['users'] = $this->model->getUser();
+		//echo '<pre>';print_r($data['users']); die;
+		$data['menus'] = $this->dashboard_model->filterMenu();//getWithOutUuidResultArray("menu");
+        echo view('user_role', $data);
     }
 	
 	public function savepwd()

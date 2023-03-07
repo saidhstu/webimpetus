@@ -12,7 +12,7 @@
     </div>
 
     <div>
-            <input type="text"  class="form-control" id="myInput" onkeyup="search_menu()" placeholder="Search by name" />
+            <input type="text"  class="form-control" id="myInput" onkeyup="search_menu()" placeholder="Search Navigator" />
 
         </div>
 

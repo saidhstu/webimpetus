@@ -25,7 +25,7 @@ class Home extends BaseController
 		if($count==0){
 			$data['logo'] = $this->meta_model->getWhere(['meta_key' => 'site_logo'])->getRow();
 			$data['uuid'] = $this->meta_model->getAllBusiness();
-			$data['title'] = "Hello World from Codeigniter 4";
+			$data['title'] = "";
 			echo view('register', $data);
 		}else{
 			if($this->session->get('uuid')){
@@ -33,7 +33,7 @@ class Home extends BaseController
 			}
 			$data['logo'] = $this->meta_model->getWhere(['meta_key' => 'site_logo'])->getRow();
 			$data['uuid'] = $this->meta_model->getAllBusiness();
-			$data['title'] = "Hello World from Codeigniter 4";
+			$data['title'] = "";
 			echo view('login', $data);
 
 		}
