@@ -5,6 +5,7 @@
         <table id="example" class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
+                    <th scope="col" width="30"></th>
                     <?php foreach ($fields as $field) { ?>
                         <th scope="col"><?php echo readableFieldName($field); ?></th>
                     <?php } ?>
@@ -14,6 +15,7 @@
             <tbody>
                 <?php foreach (${$tableName} as $row) { ?>
                     <tr data-link="/<?php echo $tableName; ?>/edit/<?= $row[$identifierKey]; ?>">
+                        <td class="f_s_12 f_w_400"><input type="checkbox" value="<?= $row['uuid'] ?>" class="check_all" onclick="setExportItem(this);"></td>
                         <?php foreach ($fields as $field) { ?>
                             <td class="f_s_12 f_w_400"><?= $row[$field]; ?></td>
                         <?php } ?>
@@ -41,3 +43,34 @@
 </div>
 
 <?php require_once(APPPATH . 'Views/timeslips/footer.php'); ?>
+
+<script>
+    $('.table-listing-items  tr  td').on('click', function(e) {
+        var dataClickable = $(this).parent().attr('data-link');
+        if ($(this).is(':last-child') || $(this).is(':first-child')) {} else {
+            if (dataClickable && dataClickable.length > 0) {
+                window.location = dataClickable;
+            }
+        }
+    });
+
+    var exportIds = [];
+
+    function setExportItem(this_element) {
+        if (this_element.checked) {
+            exportIds.push(this_element.value);
+        } else {
+            var index = exportIds.indexOf(this_element.value);
+            if (index !== -1) {
+                exportIds.splice(index, 1);
+            }
+        }
+        $('[name="exportIds"]').val(JSON.stringify(exportIds));
+
+        if (exportIds.length) {
+            $(".time-picker").hide();
+        } else {
+            $(".time-picker").show();
+        }
+    }
+</script>
