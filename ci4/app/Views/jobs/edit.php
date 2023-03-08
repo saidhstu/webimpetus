@@ -66,13 +66,11 @@
 									<label for="inputEmail4">Job Type*</label>
 									<select onchange="" class="form-control" name="job_type" id="job_type">
 										<option value="">-- Select Job Type--</option>
-
 										<option value="Temporary" <?= @$json->job_type == 'Temporary' ? 'selected' : '' ?>>Temporary</option>
 										<option value="Permanent" <?= @$json->job_type == 'Permanent' ? 'selected' : '' ?>>Permanent</option>
 										<option value="Contract" <?= @$json->job_type == 'Contract' ? 'selected' : '' ?>>Contract</option>
 										<option value="Freelance" <?= @$json->job_type == 'Freelance' ? 'selected' : '' ?>>Freelance</option>
 										<option value="Part time" <?= @$json->job_type == 'Part time' ? 'selected' : '' ?>>Part time</option>
-
 									</select>
 								</div>
 
@@ -121,8 +119,6 @@
 											<input type="checkbox" name="chk_manual" id="chk_manual">
 											I want to manually enter code</span>
 									</div>
-
-
 								</div>
 
 
@@ -194,7 +190,7 @@
 						<div class="tab-pane fade" id="nav-setup" role="tabpanel" aria-labelledby="nav-setup-tab">
 							<div class="form-row">
 								<div class="form-group col-md-12">
-									<label for="inputState">Choose User</label>
+									<label for="inputState">Choose Owner</label>
 									<select name="user_uuid" class="form-control dashboard-dropdown">
 										<option value="0" selected="">--Selected--</option>
 										<?php foreach ($users as $row) : ?>
@@ -220,6 +216,15 @@
 								<div class="form-group col-md-12">
 									<label for="inputState">Publish Date</label>
 									<input id="" class="form-control datepicker" name="publish_date" width="250" type="text" value="<?= render_date(@$content->publish_date); ?>" />
+								</div>
+								<div class="form-group  col-md-12">
+									<label for="inputEmail4">Language Code</label>
+									<select name="language_code" class="form-control">
+										<option value="">--Select--</option>
+										<option value="en" <?= @$content->language_code == "en" ? "selected" : "" ?>>English</option>
+										<option value="fr" <?= @$content->language_code == "fr" ? "selected" : "" ?>>French</option>
+										<option value="hi" <?= @$content->language_code == "hi" ? "selected" : "" ?>>Hindi</option>
+									</select>
 								</div>
 							</div>
 						</div>

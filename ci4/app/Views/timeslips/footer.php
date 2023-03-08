@@ -26,7 +26,9 @@
                                               </select>
                                           </div>
 
-                                          <div class="row">
+                                          <input type="hidden" name="exportIds">
+
+                                          <div class="row time-picker">
                                               <div class="col-lg-6">
                                                   <div class="form-group">
                                                       <label for="monthpicker">Month</label>
@@ -66,7 +68,7 @@
                           </div>
                       </div>
 
-                      <?php require_once(APPPATH . 'Views/common/scripts.php'); ?>
+                      <?php require_once(APPPATH . 'Views/users/scripts.php'); ?>
                       <!-- footer part -->
                       <?php require_once(APPPATH . 'Views/common/footer_copyright.php'); ?>
 

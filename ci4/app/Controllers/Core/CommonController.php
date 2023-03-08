@@ -255,8 +255,8 @@ class CommonController extends BaseController
 			$pdf_name_prefix .= date('M', $item_details->date) . '-' . date('Y', $item_details->date);
 		} else if ($this->table == 'timeslips') {
 			$employee_id = $_POST["employee"];
-			$month = $_POST["monthpicker"];
-			$year = $_POST["yearpicker"];
+			$month = isset($_POST["monthpicker"]) ? $_POST["monthpicker"] : date('m');
+			$year = isset($_POST["yearpicker"]) ? $_POST["yearpicker"] : date('Y');
 			$employee_name = "All";
 			if ($employee_id != "-1") {
 				$employeeData = $this->db->table('employees')->select('CONCAT_WS(" ", saludation, first_name, surname) as name')->getWhere(array('id' => $employee_id))->getFirstRow();
@@ -583,25 +583,28 @@ class CommonController extends BaseController
 	public function loadTimeslipItem($post_data)
 	{
 		$employee_id = $post_data["employee"];
-		$requestMonth = $post_data["monthpicker"];
-		$year = $post_data["yearpicker"];
+		$exportIds = $post_data['exportIds'];
 
 		$builder = $this->db->table("timeslips");
-
-		$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
-
-		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year)); // hard-coded '01' for first day
-
 		$builder->select("timeslips.*,truncate((IFNULL(timeslips.slip_hours, 0) * IFNULL(timeslips.slip_rate, 0)),2) as subtotal, tasks.name as name_of_task, employees.first_name as employee_first_name, employees.surname as employee_surname");
 		$builder->join("tasks", "tasks.id = timeslips.task_name", "left");
 		$builder->join("employees", "employees.id = timeslips.employee_name", "left");
 
+		if (!empty($exportIds)) {
+			$exportIds = json_decode(stripslashes($exportIds));
+			$builder->whereIn("timeslips.uuid", $exportIds);
+		} else {
+			$requestMonth = $post_data["monthpicker"];
+			$year = $post_data["yearpicker"];
+			$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
+			$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
+			$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
+			$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
+		}
+
 		if ($employee_id != "-1") {
 			$builder->where("timeslips.employee_name", $employee_id);
 		}
-
-		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
-		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
 
 		if (isset($post_data['order_by']) && $post_data['order_by']) {
 			$builder->orderBy("timeslips.slip_start_date DESC");
@@ -614,20 +617,27 @@ class CommonController extends BaseController
 	public function getTimeslipTotalSubtotal($post_data)
 	{
 		$employee_id = $post_data["employee"];
-		$requestMonth = $post_data["monthpicker"];
-		$year = $_POST["yearpicker"];
+		$exportIds = $post_data['exportIds'];
 
 		$builder = $this->db->table("timeslips");
-		$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
-		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
 		$builder->select("truncate(SUM(IFNULL(timeslips.slip_hours, 0) * IFNULL(timeslips.slip_rate, 0)),2) as total_subtotal");
+
+		if (!empty($exportIds)) {
+			$exportIds = json_decode(stripslashes($exportIds));
+			$builder->whereIn("timeslips.uuid", $exportIds);
+		} else {
+			$requestMonth = $post_data["monthpicker"];
+			$year = $_POST["yearpicker"];
+			$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
+			$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
+			$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
+			$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
+		}
 
 		if ($employee_id != "-1") {
 			$builder->where("timeslips.employee_name", $employee_id);
 		}
 
-		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
-		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
 		$records = $builder->get()->getRowArray();
 		return $records['total_subtotal'];
 	}
@@ -635,21 +645,27 @@ class CommonController extends BaseController
 	public function getTimeslipHours($post_data)
 	{
 		$employee_id = $post_data["employee"];
-		$requestMonth = $post_data["monthpicker"];
-		$year = $_POST["yearpicker"];
+		$exportIds = $post_data['exportIds'];
 
 		$builder = $this->db->table("timeslips");
-
-		$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
-		$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
 		$builder->select("COALESCE(SUM(slip_hours),0) as total_slip_hours");
+
+		if (!empty($exportIds)) {
+			$exportIds = json_decode(stripslashes($exportIds));
+			$builder->whereIn("timeslips.uuid", $exportIds);
+		} else {
+			$requestMonth = $post_data["monthpicker"];
+			$year = $_POST["yearpicker"];
+			$firstDayOfCurrentMonth = strtotime($this->firstDay($requestMonth,  $year));
+			$lastDayMonth = strtotime($this->lastday($requestMonth,  $year));
+			$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
+			$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
+		}
 
 		if ($employee_id != "-1") {
 			$builder->where("timeslips.employee_name", $employee_id);
 		}
 
-		$builder->where("timeslips.slip_start_date >=", $firstDayOfCurrentMonth);
-		$builder->where("timeslips.slip_start_date <=", $lastDayMonth);
 		$records = $builder->get()->getRowArray();
 		return $records['total_slip_hours'];
 	}
@@ -694,5 +710,4 @@ class CommonController extends BaseController
 		$records = $builder->get()->getRowArray();
 		return (object)$records;
 	}
-
 }
