@@ -3,6 +3,7 @@
 /* Tablet desktop :768px. */
 /* small mobile :320px. */
 @import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400&amp;display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 /* line 1, /scss/_extends.scss */
 .CRM_dropdown.dropdown .dropdown-toggle:hover, .CRM_dropdown.dropdown .dropdown-toggle:focus {
   background: -webkit-gradient(linear, left top, right top, from(#7C32FF), color-stop(70%, #A235EC), to(#C738D8));
@@ -17,7 +18,7 @@
 /**************** common css start ****************/
 
 body {
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   padding: 0;
   margin: 0;
   font-size: 16px;
@@ -171,7 +172,7 @@ a:hover {
 /* line 94,  */
 h1, h2, h3, h4, h5, h6 {
   color: #474D58;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -215,7 +216,7 @@ p {
   font-size: 20px;
   margin-bottom: 0px;
   color: #828BB2;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 300;
 }
 
@@ -763,7 +764,7 @@ table.dataTable tbody th, table.dataTable tbody td {
   font-weight: 500;
   line-height: 16px;
   margin-bottom: 22px;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 @media (max-width: 991px) {
@@ -1972,7 +1973,7 @@ p a:hover {
 .heading_6 {
   font-size: 14px;
   font-weight: 600;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #2E4765;
   margin-bottom: 0;
 }
@@ -4019,7 +4020,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child::befor
   font-size: 11px;
   font-weight: 400;
   color: #86898E;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* line 406, /scss/_header.scss */
@@ -4087,7 +4088,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child::befor
   font-size: 16px;
   font-weight: 400;
   color: #818E94;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* line 461, /scss/_header.scss */
@@ -4259,8 +4260,17 @@ table.dataTable {
   overflow: hidden;
   overflow-y: auto;
   background: #FFFFFF;
-  box-shadow: 1px 0 1px rgb(0 0 0 / 5%), 18px 0 35px rgb(0 0 0 / 5%);
+  /* box-shadow: 1px 0 1px rgb(0 0 0 / 5%), 18px 0 35px rgb(0 0 0 / 5%); */
   transition: .3s;
+  backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	box-shadow: -1px 0px 14px rgb(5 24 6);
+	border-right: 2px solid rgba(255, 255, 255, .09);
+	transition: .4s ease-in-out;
+}
+
+nav.sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 /* line 18, /scss/_sidebar.scss */
@@ -4617,21 +4627,23 @@ table.dataTable {
 /* line 278, /scss/_sidebar.scss */
 .sidebar #sidebar_menu > li a {
     font-size: 17px;
-    font-weight: 600;
+    font-weight: 500;
     color: #144339;
     padding: 0px 25px 0px 0px;
     background: #fff;
     transition: .3s;
     position: relative;
     z-index: 0;
-    display: grid;
+    /* display: grid;
     grid-template-columns: 34px auto;
-    grid-gap: 0;
+    grid-gap: 0; */
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
     position: relative;
     background: transparent;
     color: #8890B5;
-    font-family: "Mulish", sans-serif;
+    font-family: "Inter", sans-serif;
     padding: 10px 10px 10px 26px;
     background: #fff;
     border-radius: 0 30px 30px 0;
@@ -4669,11 +4681,12 @@ table.dataTable {
 
 /* line 332, /scss/_sidebar.scss */
 .sidebar #sidebar_menu > li a i {
-  font-size: 19px;
+  font-size: 25px;
   margin-right: 0;
   color: #464366;
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  padding-right: 10px;
 }
 
 /* line 345, /scss/_sidebar.scss */
@@ -4766,6 +4779,77 @@ table.dataTable {
 /* line 426, /scss/_sidebar.scss */
 .sidebar #sidebar_menu > li ul li ul {
   padding-left: 5px;
+}
+
+.sidebar-search {
+  outline: none;
+  -webkit-appearance: textfield;
+	-webkit-box-sizing: content-box;
+	font-size: 100%;
+  padding: 9px 10px 9px 32px;
+	width: 55px;
+	background: transparent url(../img/search-icon.png) no-repeat center/100%;
+	border: solid 1px transparent;
+	
+	-webkit-border-radius: 10em;
+  -moz-border-radius: 10em;
+  border-radius: 10em;
+	
+	-webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+}
+
+.sidebar-search:focus {
+  width: 190px;
+	background-color: #fff;
+	border-color: #F65365;
+	color: #000;
+	-webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+  -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+  box-shadow: 0 0 5px rgba(109,207,246,.5);
+  background: transparent url(../img/search-icon.png) no-repeat 9px center
+}
+
+.search-placeholder:-moz-placeholder {
+	color: transparent;
+}
+.search-placeholder::-webkit-input-placeholder {
+	color: transparent;
+}
+
+.sidebar-search-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-search-wrapper .sidebar-search {
+  width: 15px;
+	padding-left: 10px;
+	color: transparent;
+	cursor: pointer;
+}
+
+.sidebar-search-wrapper .sidebar-search:hover {
+  background-color: #fff;
+}
+.sidebar-search-wrapper .sidebar-search:focus {
+  width: 130px;
+	padding-left: 32px;
+	color: #000;
+	background-color: #fff;
+	cursor: auto;
+}
+
+span.sidebar-search-label {
+  display: flex;
+  align-items: center;
+  color: #2125296e;
+}
+
+
+.sidebar-search:focus ~ .sidebar-search-label {
+  display: none;
 }
 
 /* line 436, /scss/_sidebar.scss */
@@ -4971,7 +5055,7 @@ body::-webkit-scrollbar {
 
 /* line 6, /scss/_body_content.scss */
 .main-title h3 {
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   font-size: 22px;
   color: #15132b;
@@ -5439,7 +5523,7 @@ body::-webkit-scrollbar {
   transition: 0.5s;
   color: #474D58;
   margin-bottom: 0px;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   line-height: 1;
 }
 
@@ -5450,7 +5534,7 @@ body::-webkit-scrollbar {
   font-size: 14px;
   font-weight: 700;
   color: #8890B5;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   line-height: 1;
   margin-bottom: 15px;
 }
@@ -6336,7 +6420,7 @@ tspan {
   color: #fff !important;
   font-size: 12px;
   font-weight: 500;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* line 25, /scss/_bar-chart.scss */
@@ -6347,7 +6431,7 @@ tspan {
   font-weight: 300;
   color: #7e7172;
   line-height: 12px;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* line 35, /scss/_bar-chart.scss */
@@ -6373,7 +6457,7 @@ tspan {
   font-weight: 300;
   color: #7e7172;
   line-height: 12px;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* line 58, /scss/_bar-chart.scss */
@@ -9924,7 +10008,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 /* line 18, /scss/_datepicker.scss */
 .default-datepicker .datepicker-inline .datepicker .datepicker--content .datepicker--days .datepicker--days-names .datepicker--day-name {
   font-size: 14px;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #2b2b2b;
   font-size: 14px;
 }
@@ -9958,7 +10042,7 @@ div.dataTables_wrapper div.dataTables_paginate {
   color: #FF3000;
   font-size: 18px;
   font-weight: 900;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* line 49, /scss/_datepicker.scss */
@@ -9981,7 +10065,7 @@ div.dataTables_wrapper div.dataTables_paginate {
   font-weight: 400;
   font-size: 30px;
   color: #2b2b2b;
-  font-family: "Mulish", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #ff004e;
 }
 
