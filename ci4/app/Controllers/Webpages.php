@@ -78,7 +78,8 @@ class Webpages extends CommonController
 			'status' => $this->request->getPost('status'),
 			'publish_date' => ($this->request->getPost('publish_date') ? strtotime($this->request->getPost('publish_date')) : strtotime(date('Y-m-d H:i:s'))),
 			"categories" => json_encode($this->request->getPost('categories')),
-			'user_uuid' => $this->request->getPost('user_uuid')
+			'user_uuid' => $this->request->getPost('user_uuid'),
+			'language_code' => $this->request->getPost('language_code')
 		);
 		$post = $this->request->getPost();
 

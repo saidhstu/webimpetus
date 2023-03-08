@@ -114,7 +114,8 @@ class Jobs extends CommonController
 			'publish_date' => ($this->request->getPost('publish_date') ? strtotime($this->request->getPost('publish_date')) : strtotime(date('Y-m-d H:i:s'))),
 			'custom_fields' => json_encode($cus_fields),
 			'type' => ($this->request->getPost('type') ? $this->request->getPost('type') : 1),
-			'user_uuid' => $this->request->getPost('user_uuid')
+			'user_uuid' => $this->request->getPost('user_uuid'),
+			'language_code' => $this->request->getPost('language_code')
 		);
 
 		if (!empty($id)) {

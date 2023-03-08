@@ -193,6 +193,17 @@ $data_type_format["YAML"] = "# Employee records
 									</select>
 								</div>
 							</div>
+							<div class="form-row">
+								<div class="form-group  col-md-12">
+									<label for="inputEmail4">Language Code</label>
+									<select name="language_code" class="form-control">
+										<option value="">--Select--</option>
+										<option value="en" <?= @$webpage->language_code == "en" ? "selected" : "" ?>>English</option>
+										<option value="fr" <?= @$webpage->language_code == "fr" ? "selected" : "" ?>>French</option>
+										<option value="hi" <?= @$webpage->language_code == "hi" ? "selected" : "" ?>>Hindi</option>
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class="tab-pane fade" id="nav-blocks" role="tabpanel" aria-labelledby="nav-blocks-tab">
 							<?php

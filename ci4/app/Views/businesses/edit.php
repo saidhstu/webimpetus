@@ -65,6 +65,17 @@ $businessContacts = getResultArray("business_contacts");
                         <label for="inputEmail4">Country Code</label>
                         <input autocomplete="off" type="text" class="form-control " id="country_code" name="country_code" placeholder="" value="<?= @$businesse->country_code ?>">
                     </div>
+
+                    <div class="form-group  col-md-12">
+                        <label for="inputEmail4">Language Code</label>
+                        <select name="language_code" class="form-control">
+                            <option value="">--Select--</option>
+                            <option value="en" <?= @$businesse->language_code == "en" ? "selected" : "" ?>>English</option>
+                            <option value="fr" <?= @$businesse->language_code == "fr" ? "selected" : "" ?>>French</option>
+                            <option value="hi" <?= @$businesse->language_code == "hi" ? "selected" : "" ?>>Hindi</option>
+                        </select>
+                    </div>
+
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Telephone No</label>
                         <input autocomplete="off" type="text" class="form-control " id="telephone_no" name="telephone_no" placeholder="" value="<?= @$businesse->telephone_no ?>">
