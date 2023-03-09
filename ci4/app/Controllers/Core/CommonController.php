@@ -639,7 +639,7 @@ class CommonController extends BaseController
 		}
 
 		$records = $builder->get()->getRowArray();
-		return $records['total_subtotal'];
+		return empty($records['total_subtotal']) ? 0 : $records['total_subtotal'];
 	}
 
 	public function getTimeslipHours($post_data)
