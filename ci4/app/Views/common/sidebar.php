@@ -12,7 +12,7 @@
     </div>
 
     <div class="sidebar-search-wrapper">
-        <span class="sidebar-search-label sidebar-search-front-label">Search for</span>
+        <span class="sidebar-search-label sidebar-search-front-label">Search</span>
         <input type="text" class="form-control sidebar-search search-placeholder" id="myInput" onkeyup="search_menu()" placeholder="Search by name" />
         <span class="sidebar-search-label sidebar-search-back-label">navigation</span>
     </div>
