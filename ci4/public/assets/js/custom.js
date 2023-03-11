@@ -40,10 +40,12 @@
     $(".open_miniSide").click(function () {
         $(".sidebar").toggleClass("mini_sidebar");
         if ($(".sidebar").hasClass("mini_sidebar")) {
-            localStorage.setItem("menu-class", "close")
+            localStorage.setItem("menu-class", "close");
+            $(".sidebar-search-wrapper").hide();
         }
         else {
             localStorage.setItem("menu-class", "open")
+            $(".sidebar-search-wrapper").show();
         }
         $(".main_content ").toggleClass("full_main_content");
         $(".footer_part ").toggleClass("full_footer");
