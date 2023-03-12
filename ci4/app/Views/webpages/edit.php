@@ -150,7 +150,7 @@ $data_type_format["YAML"] = "# Employee records
 
 										<?php foreach ($images as $image) {
 											if (!empty(@$image)) { ?>
-												<img class="img-rounded" src="<?= $image['image']; ?>" width="100px">
+												<img class="img-rounded" src="<?= @$image['name']; ?>" width="100px">
 												<a href="/webpages/rmimg/<?= @$image['id'] . '/' . @$webpage->id; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
 										<?php
 											}
