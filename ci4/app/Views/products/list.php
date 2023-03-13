@@ -21,7 +21,7 @@
             <tbody>
 
                 <?php foreach ($productsList as $row) : ?>
-                    <tr data-link="/products/edit/<?= $row['id']; ?>">
+                    <tr data-link="/products/edit/<?= $row['uuid']; ?>">
 
                         <td class="f_s_12 f_w_400"><?= $row['id']; ?></td>
                         <td class="f_s_12 f_w_400"><?= $row['name']; ?>
@@ -43,8 +43,8 @@
                                         <i class="ti-more-alt"></i>
                                     </span>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/products/delete/<?= $row['id']; ?>"> <i class="ti-trash"></i> Delete</a>
-                                        <a class="dropdown-item" href="/products/edit/<?= $row['id']; ?>"> <i class="fas fa-edit"></i> Edit</a>
+                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/products/delete/<?= $row['uuid']; ?>"> <i class="ti-trash"></i> Delete</a>
+                                        <a class="dropdown-item" href="/products/edit/<?= $row['uuid']; ?>"> <i class="fas fa-edit"></i> Edit</a>
                                     </div>
                                 </div>
                             </div>

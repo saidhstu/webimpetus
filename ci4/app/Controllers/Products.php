@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 
 use CodeIgniter\Controller;
 use App\Models\Product;
+use App\Models\Content_model;
 use App\Libraries\UUID;
 use App\Controllers\Core\CommonController;
 use stdClass;
@@ -18,6 +19,7 @@ class Products extends CommonController
 	{
 		parent::__construct();
 		$this->productModel = new Product();
+		$this->content_model = new Content_model();
 	}
 	public function index()
 	{
@@ -33,11 +35,12 @@ class Products extends CommonController
 		$data['rawTblName'] = $this->rawTblName;
 
 		$data['categoryList'] = $this->model->getDataWhere("categories", session('uuid_business'), "uuid_business_id");
-		$data['imageList'] = [];
+		$data['images'] = [];
 		$data['specifications'] = [];
 
-		if ($id > 0) {
+		if (!empty($id)) {
 			$data["product"] = $this->productModel->getProduct($id);
+			$data['images'] = $this->model->getDataWhere("media_list", $id, "uuid_linked_table");
 			if ($data["product"]) {
 				$data["specifications"] = $this->productModel->getKeyValueData($data["product"]->uuid);
 			}
@@ -112,6 +115,20 @@ class Products extends CommonController
 			}
 		}
 
+
+		$files = $this->request->getPost("file");
+
+		if (is_array($files)) {
+			foreach ($files as $key => $filePath) {
+				$blog_images = [];
+				$blog_images['uuid_business_id'] =  session('uuid_business');
+				$blog_images['name'] = $filePath;
+				$blog_images['uuid_linked_table'] = $product["uuid"];
+
+				$this->content_model->saveDataInTable($blog_images, "media_list");
+			}
+		}
+
 		$this->db->transComplete();
 
 		return redirect()->to('/' . $this->table);
@@ -155,5 +172,15 @@ class Products extends CommonController
 			session()->setFlashdata('alert-class', 'alert-success');
 			return redirect()->to('/' . $this->table);
 		}
+	}
+
+	public function rmimg($id, $rowId)
+	{
+		if (!empty($id)) {
+			$this->model->deleteTableData("media_list", $id);
+			session()->setFlashdata('message', 'Image deleted Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		}
+		return redirect()->to('//' . $this->table . '/edit/' . $rowId);
 	}
 }

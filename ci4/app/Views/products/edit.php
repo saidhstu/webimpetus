@@ -169,10 +169,10 @@
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<span class="all-media-image-files">
-										<?php foreach ($imageList as $image) {
+										<?php foreach ($images as $image) {
 											if (!empty(@$image)) { ?>
-												<img class="img-rounded" src="<?= $image['image']; ?>" width="100px">
-												<a href="/products/rmimg/<?= @$image['id'] . '/' . @$webpage->id; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
+												<img class="img-rounded" src="<?= $image['name']; ?>" width="100px">
+												<a href="/products/rmimg/<?= @$image['id'] . '/' . @$product->uuid; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
 										<?php
 											}
 										}
@@ -284,7 +284,7 @@
 		form.append("id", id);
 
 		$.ajax({
-			url: '/product/uploadMediaFiles',
+			url: '/products/uploadMediaFiles',
 			type: 'post',
 			dataType: 'json',
 			maxNumberOfFiles: 1,

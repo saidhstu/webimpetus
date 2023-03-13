@@ -41,18 +41,13 @@ class Webpages extends CommonController
 		$data['rawTblName'] = $this->rawTblName;
 
 		$data['webpage'] = [];
-		if ($id) {
+		$data['images'] = [];
+		if (!empty($id)) {
 			$data['webpage'] = $this->content_model->getRows($id)->getRow();
+			$data['images'] = $this->model->getDataWhere("media_list", $id, "uuid_linked_table");
 		}
-
 
 		$data['users'] = $this->user_model->getUser();
-		if ($id > 0) {
-			$data['images'] = $this->model->getDataWhere("media_list", $id, "uuid_linked_table");
-		} else {
-			$data['images'] = [];
-		}
-
 		if (isset($_GET['cat']) && $_GET['cat'] == 'strategies') {
 			$data['menuName'] = $_GET['cat'];
 		}
@@ -248,8 +243,7 @@ class Webpages extends CommonController
 	public function rmimg($id, $rowId)
 	{
 		if (!empty($id)) {
-
-			$this->model->deleteTableData("webpage_images", $id);
+			$this->model->deleteTableData("media_list", $id);
 			session()->setFlashdata('message', 'Image deleted Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		}
