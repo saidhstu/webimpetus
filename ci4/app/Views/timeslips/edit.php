@@ -20,7 +20,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
             <div class="form-row">
 
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('task_name'); ?>
+                    <?php echo lang('Timeslips.task_name');//readableFieldName('task_name'); ?>
                     <span class="redstar">*</span>
                 </div>
                 <div class="form-group required col-md-4">
@@ -36,7 +36,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('week_no'); ?>
+                    <?php echo lang('Timeslips.week_no'); //readableFieldName('week_no'); ?>
                 </div>
                 <div class="form-group col-md-4">
                     <input id="week_no" readonly name="week_no" class="form-control" value="<?= empty($timeslips['week_no']) ? date("W") : $timeslips['week_no'] ?>">
@@ -45,7 +45,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('employee_name'); ?>
+                    <?php echo lang('Timeslips.employee_name'); //readableFieldName('employee_name'); ?>
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="employee_name" name="employee_name" class="form-control required dashboard-dropdown">
@@ -59,7 +59,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('slip_start_date'); ?>
+                    <?php echo lang('Timeslips.slip_start_date'); //readableFieldName('slip_start_date'); ?>
                     <span class="redstar">*</span>
                 </div>
                 <div class="form-group col-md-4">
@@ -74,7 +74,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('slip_timer_started'); ?>
+                    <?php echo lang('Timeslips.slip_timer_started'); //readableFieldName('slip_timer_started'); ?>
                 </div>
                 <div class="form-group col-md-4">
                     <div class="input-group">
@@ -86,13 +86,13 @@ if (empty(@$timeslips['slip_timer_started'])) {
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-info set-current-time">Set current time</button>
+                    <button type="button" class="btn btn-info set-current-time"><?php echo lang('Timeslips.set_current_time');?></button>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('slip_end_date'); ?>
+                    <?php echo lang('Timeslips.slip_end_date'); //readableFieldName('slip_end_date'); ?>
                 </div>
                 <div class="form-group col-md-4">
                     <div class="input-group">
@@ -106,7 +106,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('slip_timer_end'); ?>
+                    <?php echo lang('Timeslips.slip_timer_end'); //readableFieldName('slip_timer_end'); ?>
                 </div>
                 <div class="form-group col-md-4">
                     <div class="input-group">
@@ -118,17 +118,17 @@ if (empty(@$timeslips['slip_timer_started'])) {
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-info set-current-time">Set current time</button>
+                    <button type="button" class="btn btn-info set-current-time"><?php echo lang('Timeslips.set_current_time');?></button>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('break_time'); ?>
+                    <?php echo lang('Timeslips.break_time'); //readableFieldName('break_time'); ?>
                 </div>
                 <div class="form-group col-md-4">
                     <input type="checkbox" id="break_time" name="break_time" <?php echo @$timeslips['break_time'] == '1' ? 'checked' : ''; ?>>
-                    <span>Excude break time</span>
+                    <span><?php echo lang('Timeslips.exclude_time');?></span>
                 </div>
 
             </div>
@@ -139,7 +139,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
             } ?>
             <div class="form-row" style="<?php echo $showBreakStartAndEndTimer; ?>">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('break_time_start'); ?>
+                    <?php echo lang('Timeslips.break_time_start'); //readableFieldName('break_time_start'); ?>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
@@ -149,7 +149,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-2">
-                    <?php echo readableFieldName('break_time_end'); ?>
+                    <?php echo lang('Timeslips.break_time_end'); //readableFieldName('break_time_end'); ?>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
@@ -160,7 +160,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('slip_hours'); ?>
+                    <?php echo lang('Timeslips.slip_hours'); //readableFieldName('slip_hours'); ?>
                 </div>
                 <div class="form-group col-md-4">
                     <input id="slip_hours" name="slip_hours" class="form-control" value="<?php echo @$timeslips['slip_hours']; ?>">
@@ -170,7 +170,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('slip_description'); ?>
+                    <?php echo lang('Timeslips.slip_description'); //readableFieldName('slip_description'); ?>
                     <span class="redstar">*</span>
                 </div>
                 <div class="form-group col-md-4">
@@ -181,7 +181,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('slip_rate'); ?>
+                    <?php echo lang('Timeslips.slip_rate'); //readableFieldName('slip_rate'); ?>
                 </div>
                 <div class="form-group col-md-4">
                     <input id="slip_rate" name="slip_rate" class="form-control" value="<?php echo @$timeslips['slip_rate']; ?>">
@@ -191,7 +191,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('slip_timer_accumulated_seconds'); ?>
+                    <?php echo lang('Timeslips.slip_timer_accumulated_seconds'); //readableFieldName('slip_timer_accumulated_seconds'); ?>
                 </div>
                 <div class="form-group col-md-4">
                     <input id="slip_timer_accumulated_seconds" name="slip_timer_accumulated_seconds" class="form-control" value="<?php echo @$timeslips['slip_timer_accumulated_seconds']; ?>">
@@ -201,7 +201,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <?php echo readableFieldName('Charge Code'); ?>
+                    <?php echo lang('Timeslips.charge_code'); //readableFieldName('Charge Code'); ?>
                 </div>
                 <div class="form-group required col-md-4">
                     <select id="billing_status" name="billing_status" class="form-control dashboard-dropdown">
@@ -217,8 +217,8 @@ if (empty(@$timeslips['slip_timer_started'])) {
             <div class="form-row">
                 <div class="col-md-3"></div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><?php echo lang('Common.submit');?></button>
+                    <button type="button" class="btn btn-secondary"><?php echo lang('Common.cancel');?></button>
                 </div>
             </div>
         </form>

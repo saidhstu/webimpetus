@@ -109,6 +109,23 @@
                                                 <input type="text" class="form-control" name="workspace" id="workspace" placeholder="">
                                                 <span><i class="fa fa-user"></i></span>
                                             </div>
+
+
+                                            <div class="form-group">
+												<label>Select Language</label>
+                        <select name="language_code" class="form-control">
+                
+                            <?php 
+                            
+                            $str = file_get_contents(APPPATH . 'languages.json');
+                            $json = json_decode($str, true);
+
+                            foreach ($json as $key=>$row) : ?>
+                                    <option value="<?= $key; ?>" <?=$key=='en'?'selected="selected"' : ''; ?>><?= $row; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                                                <span><i class="fa fa-language"></i></span>
+                                            </div>
                                             
 
 

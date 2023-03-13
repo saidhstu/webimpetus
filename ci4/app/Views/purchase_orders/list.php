@@ -7,16 +7,16 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
         <table id="example" class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Order No</th>
-                    <th scope="col">Invoice Date</th>
-                    <th scope="col">Client</th>
-                    <th scope="col">Project</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Balance</th>
-                    <th scope="col">Paid Date</th>
-                    <th scope="col">Status</th>
-                    <th scope="col" width="50">Action</th>
+                    <th scope="col"><?php echo lang('Common.ID');?></th>
+                    <th scope="col"><?php echo lang('Purchase_invoice.order_number');?></th>
+                    <th scope="col"><?php echo lang('Purchase_invoice.due_date');?></th>
+                    <th scope="col"><?php echo lang('Purchase_invoice.client');?></th>
+                    <th scope="col"><?php echo lang('Purchase_invoice.project_code');?></th>
+                    <th scope="col"><?php echo lang('Purchase_invoice.total_paid');?></th>
+                    <th scope="col"><?php echo lang('Purchase_invoice.balance_outstanding');?></th>
+                    <th scope="col"><?php echo lang('Purchase_invoice.paid_date');?></th>
+                    <th scope="col"><?php echo lang('Common.status');?></th>
+                    <th scope="col" width="50"><?php echo lang('Common.action');?></th>
                 </tr>
             </thead>
             <tbody>

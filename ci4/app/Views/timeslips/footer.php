@@ -9,7 +9,7 @@
                           <div class="modal-dialog modal-dialog-centered" role="document">
                               <div class="modal-content">
                                   <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">Export Timeslipt Pdf</h5>
+                                      <h5 class="modal-title" id="exampleModalLabel"><?php echo lang('Purchase_invoice.export_timeslip_pdf'); ?></h5>
                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                           <span aria-hidden="true">&times;</span>
                                       </button>
@@ -17,7 +17,7 @@
                                   <form action="<?php echo base_url("timeslips/exportPDF"); ?>" method="post">
                                       <div class="modal-body">
                                           <div class="form-group">
-                                              <label for="exampleFormControlSelect1">Employee</label>
+                                              <label for="exampleFormControlSelect1"><?php echo lang('Common.employee'); ?></label>
                                               <select name="employee" class="form-control" id="exampleFormControlSelect1">
                                                   <option value="-1" selected>All</option>
                                                   <?php foreach (@$employees as $employee) { ?>
@@ -31,14 +31,14 @@
                                           <div class="row time-picker">
                                               <div class="col-lg-6">
                                                   <div class="form-group">
-                                                      <label for="monthpicker">Month</label>
+                                                      <label for="monthpicker"><?php echo lang('Common.month'); ?></label>
                                                       <select class="form-control" id="monthpicker" name="monthpicker">
                                                       </select>
                                                   </div>
                                               </div>
                                               <div class="col-lg-6">
                                                   <div class="form-group">
-                                                      <label for="monthpicker">Year</label>
+                                                      <label for="monthpicker"><?php echo lang('Common.year'); ?></label>
                                                       <select class="form-control" id="yearpicker" name="yearpicker">
                                                       </select>
                                                   </div>
@@ -46,7 +46,7 @@
                                           </div>
 
                                           <div class="form-group">
-                                              <label>Choose Template</label>
+                                              <label><?php echo lang('Purchase_invoice.choose_template'); ?></label>
                                               <select name="template_id" class="form-control">
                                                   <?php foreach (@$templates as $template) { ?>
                                                       <option value="<?php echo $template["id"]; ?>" <?php $template["is_default"] == '1' ? 'selected' : '' ?>><?php echo $template["code"]; ?></option>
@@ -56,12 +56,12 @@
 
                                           <div class="form-group">
                                               <input type="checkbox" value="1" name="order_by" />
-                                              <label> Order By Latest</label>
+                                              <label><?php echo lang('Purchase_invoice.order_by_latest'); ?></label>
                                           </div>
                                       </div>
                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                          <button type="submit" class="btn btn-primary">Export PDF </button>
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('Common.close'); ?></button>
+                                          <button type="submit" class="btn btn-primary"><?php echo lang('Common.export_pdf'); ?></button>
                                       </div>
                                   </form>
                               </div>

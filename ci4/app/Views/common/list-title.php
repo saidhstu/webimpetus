@@ -34,11 +34,11 @@
                 <div class="page_title_right">
                     
                     <div class="header_more_tool setDropDownBlk">
-                        <a href="javascript:void(0)" onClick="window.location.reload();" class="btn btn-primary"><i class="ti-reload"></i> Refresh</a>
+                        <a href="javascript:void(0)" onClick="window.location.reload();" class="btn btn-primary"><i class="ti-reload"></i> <?php echo lang('Common.refresh');?></a>
                         <?php if(isset($is_add_permission) && $is_add_permission == 0){?>
 
                         <?php }else{?>
-                            <a href="<?php echo $addLink; ?>" class="btn btn-primary"><i class="ti-plus"></i> Add <?php if(isset($menuName)){
+                            <a href="<?php echo $addLink; ?>" class="btn btn-primary"><i class="ti-plus"></i> <?php echo lang('Common.add');?> <?php if(isset($menuName)){
                             echo ucfirst($menuName);
                         }else{
                             echo render_head_text($rawTblName);
