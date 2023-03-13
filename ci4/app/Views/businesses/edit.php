@@ -2,6 +2,9 @@
 
 $businessContacts = getResultArray("business_contacts");
 
+$str = file_get_contents(APPPATH . 'languages.json');
+$json = json_decode($str, true);
+//print_r($json); die;
 ?>
 
 <div class="white_card_body">
@@ -70,9 +73,12 @@ $businessContacts = getResultArray("business_contacts");
                         <label for="inputEmail4">Language Code</label>
                         <select name="language_code" class="form-control">
                             <option value="">--Select--</option>
-                            <option value="en" <?= @$businesse->language_code == "en" ? "selected" : "" ?>>English</option>
+                            <?php foreach ($json as $key=>$row) : ?>
+                                    <option value="<?= $key; ?>" <?=@$businesse->language_code == $key?'selected="selected"' : ''; ?>><?= $row; ?></option>
+                            <?php endforeach; ?>
+                            <!-- <option value="en" <?= @$businesse->language_code == "en" ? "selected" : "" ?>>English</option>
                             <option value="fr" <?= @$businesse->language_code == "fr" ? "selected" : "" ?>>French</option>
-                            <option value="hi" <?= @$businesse->language_code == "hi" ? "selected" : "" ?>>Hindi</option>
+                            <option value="hi" <?= @$businesse->language_code == "hi" ? "selected" : "" ?>>Hindi</option> -->
                         </select>
                     </div>
 

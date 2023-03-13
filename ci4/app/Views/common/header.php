@@ -1,4 +1,4 @@
-<html lang="zxx">
+<html lang="<?=isset($locale)?$locale:'en' ?>">
 <!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>

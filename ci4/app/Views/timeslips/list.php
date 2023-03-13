@@ -7,9 +7,9 @@
                 <tr>
                     <th scope="col" width="30"></th>
                     <?php foreach ($fields as $field) { ?>
-                        <th scope="col"><?php echo readableFieldName($field); ?></th>
+                        <th scope="col"><?php echo lang('Timeslips.'.$field); ?></th>
                     <?php } ?>
-                    <th scope="col" width="50">Action</th>
+                    <th scope="col" width="50"><?php echo lang('Common.action');?></th>
                 </tr>
             </thead>
             <tbody>

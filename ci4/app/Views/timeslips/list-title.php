@@ -21,7 +21,7 @@
                                 } ?>
                             </h3>
                             <ol class="breadcrumb page_bradcam mb-0">
-                                <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/dashboard"><?php echo lang('Common.home');?></a></li>
                                 <li class="breadcrumb-item active"><a href="/<?php echo $tableName; ?>">
                                         <?php if (isset($menuName)) {
                                             echo ucfirst($menuName);
@@ -33,17 +33,17 @@
                         <div class="page_title_right">
 
                             <div class="header_more_tool setDropDownBlk">
-                                <a href="/timeslips?reset=1" class="btn btn-primary"><i class="ti-reload"></i> Refresh</a>
+                                <a href="/timeslips?reset=1" class="btn btn-primary"><i class="ti-reload"></i> <?php echo lang('Common.refresh');?></a>
                                 <?php if (isset($is_add_permission) && $is_add_permission == 0) { ?>
 
                                 <?php } else { ?>
-                                    <a href="<?php echo $addLink; ?>" class="btn btn-primary"><i class="ti-plus"></i> Add <?php if (isset($menuName)) {
+                                    <a href="<?php echo $addLink; ?>" class="btn btn-primary"><i class="ti-plus"></i> <?php echo lang('Common.add');?><?php if (isset($menuName)) {
                                                                                                                                 echo ucfirst($menuName);
                                                                                                                             } else {
                                                                                                                                 echo render_head_text($rawTblName);
                                                                                                                             } ?></a>
                                 <?php } ?>
-                                <button data-toggle="modal" data-target="#exampleModal" href="<?php echo base_url("timeslips/downloadPdf"); ?>" class="btn btn-primary"><i class="ti-export"></i> Export Pdf</button>
+                                <button data-toggle="modal" data-target="#exampleModal" href="<?php echo base_url("timeslips/downloadPdf"); ?>" class="btn btn-primary"><i class="ti-export"></i> <?php echo lang('Common.export_pdf');?></button>
                             </div>
 
                         </div>
@@ -68,7 +68,7 @@
                                     <div class="row">
                                         <div class="form-group mr-3">
                                             <select class="form-control" id="list_week" name="list_week">
-                                                <option value="">--Select Week--</option>
+                                                <option value="">--<?php echo lang('Common.select_week');?>--</option>
                                                 <?php foreach ($weeks as $row) : ?>
                                                     <option <?= (($list_week ?? "") == $row["week_no"] ?  "selected" : "") ?> value="<?php echo ($row["week_no"]) ?>"><?= $row["week_no"] ?></option>
                                                 <?php endforeach; ?>
@@ -76,7 +76,7 @@
                                         </div>
                                         <div class="form-group mr-3">
                                             <select class="form-control" id="list_monthpicker2" name="list_monthpicker">
-                                                <option value="">--Select Month--</option>
+                                                <option value="">--<?php echo lang('Common.select_month');?>--</option>
                                                 <?php for($iM =1;$iM<=12;$iM++){ ?>
                                                     <option <?= (($list_monthpicker ?? "") == $iM ?  "selected" : "") ?> value="<?php echo ($iM) ?>"><?php echo date('F', mktime(0, 0, 0, $iM, 10)); ?></option>
                                                 <?php } ?>
@@ -84,7 +84,7 @@
                                         </div>
                                         <div class="form-group mr-3">
                                             <select class="form-control" id="list_yearpicker2" name="list_yearpicker">
-                                                <option value="">--Select Year--</option>
+                                                <option value="">--<?php echo lang('Common.select_year');?>--</option>
 
                                                 <?php for($iM =0;$iM<=4;$iM++){ ?>
                                                     <option <?= (($list_yearpicker ?? "") == date("Y",strtotime("-".$iM." year")) ?  "selected" : "") ?> value="<?php echo date("Y",strtotime("-".$iM." year")) ?>"><?php echo date("Y",strtotime("-".$iM." year")); ?></option>
@@ -94,7 +94,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i> Search</button>
+                                            <button type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i> <?php echo lang('Common.search');?></button>
                                         </div>
                                     </div>
                                 </form>
