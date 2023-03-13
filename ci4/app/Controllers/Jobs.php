@@ -275,14 +275,13 @@ class Jobs extends CommonController
 	}
 
 
-	public function rmimg($id)
+	public function rmimg($id, $rowId)
 	{
 		if (!empty($id)) {
-			$data['custom_assets'] = null;
-			$this->model->updateData($id, $data);
+			$this->model->deleteTableData("media_list", $id);
 			session()->setFlashdata('message', 'Image deleted Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		}
-		return redirect()->to('//jobs/edit/' . $id);
+		return redirect()->to('//' . $this->table . '/edit/' . $rowId);
 	}
 }

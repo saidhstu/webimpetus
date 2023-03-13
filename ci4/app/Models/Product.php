@@ -108,7 +108,7 @@ class Product extends Model
         FROM products AS pr
         LEFT JOIN product_categories AS pc
         ON  pr.uuid = pc.uuid_product
-        WHERE pr.id = " . $id . " AND pr.uuid_business_id = '" . session('uuid_business') . "'";
+        WHERE pr.uuid = '" . $id . "' AND pr.uuid_business_id = '" . session('uuid_business') . "'";
 
         $query = $this->db->query($sql);
         $row = $query->getRow();
@@ -127,7 +127,7 @@ class Product extends Model
 
     public function deleteProduct($id = null)
     {
-        $condition = array('id' => $id, 'uuid_business_id' => session('uuid_business'));
+        $condition = array('uuid' => $id, 'uuid_business_id' => session('uuid_business'));
         $product = $this->db->table($this->table)->where($condition)->get()->getRow();
         if ($product) {
             $product_uuid = $product->uuid;

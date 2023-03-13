@@ -150,14 +150,14 @@
 
 									<span class="all-media-image-files">
 										<?php
-										$json = @$webpage->custom_assets ? json_decode(@$webpage->custom_assets) : []; ?>
+										$json = @$content->custom_assets ? json_decode(@$content->custom_assets) : []; ?>
 
 										<?php
 
 										foreach ($images as $image) {
 											if (!empty(@$image)) { ?>
 												<img class="img-rounded" src="<?= @$image['name']; ?>" width="100px">
-												<a href="/jobc/rmimg/<?= @$image['id'] . '/' . @$webpage->id; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
+												<a href="/jobc/rmimg/<?= @$image['id'] . '/' . @$content->uuid; ?>" onclick="return confirm('Are you sure?')" class=""><i class="fa fa-trash"></i></a>
 										<?php
 											}
 										}
