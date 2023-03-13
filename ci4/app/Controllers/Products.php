@@ -173,4 +173,14 @@ class Products extends CommonController
 			return redirect()->to('/' . $this->table);
 		}
 	}
+
+	public function rmimg($id, $rowId)
+	{
+		if (!empty($id)) {
+			$this->model->deleteTableData("media_list", $id);
+			session()->setFlashdata('message', 'Image deleted Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		}
+		return redirect()->to('//' . $this->table . '/edit/' . $rowId);
+	}
 }
