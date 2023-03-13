@@ -22,7 +22,7 @@ class Home extends BaseController
     public function index()
     {
 		$count = $this->model->countUsers();
-		if($count==0){
+		if($count==0){ //
 			$data['logo'] = $this->meta_model->getWhere(['meta_key' => 'site_logo'])->getRow();
 			$data['uuid'] = $this->meta_model->getAllBusiness();
 			$data['title'] = "";
@@ -101,6 +101,7 @@ class Home extends BaseController
 					$bdata = array(
 						'name'  => $this->request->getPost('workspace'),
 						'uuid' => $this->request->getPost('email'),
+						'language_code' => $this->request->getPost('language_code'),
 						'default_business' => 1,					
 						'uuid' => $uuid,
 						'uuid_business_id' => $uuid_business_id,
@@ -113,6 +114,7 @@ class Home extends BaseController
 					$bdata = array(
 						'name'  => $this->request->getPost('name').'\'s company',
 						'uuid' => $this->request->getPost('email'),
+						'language_code' => $this->request->getPost('language_code'),
 						'default_business' => 1,					
 						'uuid' => $uuid,
 						'uuid_business_id' => $uuid_business_id,
