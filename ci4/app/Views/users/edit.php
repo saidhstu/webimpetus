@@ -1,4 +1,9 @@
-<?php require_once(APPPATH . 'Views/common/edit-title.php'); ?>
+<?php require_once(APPPATH . 'Views/common/edit-title.php'); 
+
+$str = file_get_contents(APPPATH . 'languages.json');
+$json = json_decode($str, true);
+//print_r($json); die;
+?>
 
 <div class="white_card_body">
     <div class="card-body">
@@ -25,6 +30,18 @@
                     <textarea class="form-control" name="notes"><?= @$user->notes ?></textarea>
                 </div>
             </div>
+            <div class="form-row">
+            <div class="form-group  col-md-12">
+                        <label for="inputEmail4">Language Code</label>
+                        <select name="language_code" class="form-control">
+                            <option value="">--Select--</option>
+                            <?php foreach ($json as $key=>$row) : ?>
+                                    <option value="<?= $key; ?>" <?=@$user->language_code == $key?'selected="selected"' : ''; ?>><?= $row; ?></option>
+                            <?php endforeach; ?>
+                           
+                        </select>
+                    </div>
+                    </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
