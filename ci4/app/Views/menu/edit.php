@@ -30,9 +30,9 @@ $json = json_decode($str, true);
                     </div>
 
 
-                    <div class="form-group required col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="inputEmail4">Categories</label>
-                        <select id="categories" name="categories[]" multiple class="required form-control select2">
+                        <select id="categories" name="categories[]" multiple class="form-control select2">
                             <?php 
                             if (isset($categories) && (!empty($categories))) {
                             foreach($categories as $row):?>
@@ -66,8 +66,7 @@ $json = json_decode($str, true);
 
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">Language Code</label>
-                        <select name="language_code" class="form-control">
-                            <option value="">--Select--</option>
+                        <select name="language_code" class="required form-control">
                             <?php foreach ($json as $key=>$row) : ?>
                                     <option value="<?= $key; ?>" <?=@$data->language_code == $key?'selected="selected"' : ''; ?>><?= $row; ?></option>
                             <?php endforeach; ?>

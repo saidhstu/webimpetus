@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Controllers;
+use App\Controllers\Core\CommonController; 
 
 use App\Models\Users_model;
 use App\Models\Meta_model;
 use App\Models\Dashboard_model;
 use App\Models\Core\Common_model;
-class Dashboard extends BaseController
+class Dashboard extends CommonController
 {
 	public function __construct()
 	{

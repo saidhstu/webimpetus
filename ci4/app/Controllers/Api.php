@@ -14,6 +14,7 @@ use App\Models\Customers_model;
 use App\Models\WebpageCategory;
 use App\Models\CustomerCategory;
 use App\Models\Email_model;
+use App\Models\Menu_model;
 class Api extends BaseController
 {
     public function __construct()
@@ -32,6 +33,7 @@ class Api extends BaseController
       $this->webCategory_model = new WebpageCategory();
       $this->cusCategory_model = new CustomerCategory();
       $this->emailModel = new Email_model();
+      $this->menuModel = new Menu_model();
       header('Content-Type: application/json; charset=utf-8');
       // header('Access-Control-Allow-Origin: *');
       // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -282,4 +284,65 @@ class Api extends BaseController
 		}
 		echo json_encode($data); die;
     }
+
+    public function menus($uuid_business_id='',$lang='en')
+    {   
+        $data['data'] = $this->menuModel->getMenu($uuid_business_id, $lang);
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
+    public function addMenu()
+    { 
+        if(empty($this->request->getPost('name')) || empty($this->request->getPost('link')) || empty($this->request->getPost('uuid_business_id'))){
+
+            $data['status'] = 'error';
+            $data['msg']    = 'name, link and business id required for add menu!!';
+
+
+        }else {
+            $cat_data = [];
+            $cat_data['name'] = $this->request->getPost('name');
+            $cat_data['link'] = $this->request->getPost('link');
+            $cat_data['icon'] = $this->request->getPost('icon');
+            $cat_data['language_code'] = $this->request->getPost('language_code')?$this->request->getPost('language_code'):'en';
+            $cat_data['menu_fts'] = !empty($this->request->getPost('tags'))?implode(',',$this->request->getPost('tags')):$this->request->getPost('name');
+            $cat_data['uuid_business_id'] = $this->request->getPost('uuid_business'); 
+            $in_id = $this->menuModel->saveData($cat_data);
+            $this->menuModel->saveMenuCat($in_id,$this->request->getPost('categories')); 
+            
+            $data['data'] = $cat_data;
+            $data['status'] = 'success';
+        }
+        echo json_encode($data); die;
+    }
+
+    public function updateMenu()
+    { 
+        if(empty($this->request->getPost('name')) || empty($this->request->getPost('link')) || empty($this->request->getPost('id'))){
+
+            $data['status'] = 'error';
+            $data['msg']    = 'name, business id, Menu id and link required for update menu!!';
+
+
+        }else {
+
+            $cat_data = [];
+            $cat_data['name'] = $this->request->getPost('name');
+            $cat_data['link'] = $this->request->getPost('link');
+            $cat_data['icon'] = $this->request->getPost('icon');
+            $cat_data['language_code'] = $this->request->getPost('language_code')?$this->request->getPost('language_code'):'en';
+            $cat_data['menu_fts'] = !empty($this->request->getPost('tags'))?implode(',',$this->request->getPost('tags')):$this->request->getPost('name');
+            $cat_data['uuid_business_id'] = $this->request->getPost('uuid_business');        
+            $this->menuModel->updateData($this->request->getPost('id'),$cat_data);
+            $this->menuModel->saveMenuCat($this->request->getPost('id'),$this->request->getPost('categories'));           
+            $data['status'] = 'success';
+            $data['data'] = $cat_data;
+
+        }
+        
+        echo json_encode($data); die;
+    }
+
+
 }

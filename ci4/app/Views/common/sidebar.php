@@ -73,7 +73,9 @@
 
             $menu = MenuByCategory(); //getWithOutUuidResultArray("menu", [], true, "sort_order");
             //print_r($menu); die;
-            $userMenus = getRowArray("users", ["id" => $_SESSION['uuid']])->permissions;
+            $rowArray = getRowArray("users", ["id" => $_SESSION['uuid']]);
+            $userMenus = $rowArray->permissions;
+            $role = $rowArray->role;
             if ($userMenus) {
                 $userMenus = json_decode($userMenus);
             }
@@ -89,7 +91,7 @@
             $inc = 1;
             foreach ($menu as $val) {
 
-                if (in_array($val['id'], $userMenus)) {
+                if ($role == 1 || in_array($val['id'], $userMenus)) {
                     $activeIcon = $val['icon'];
                     //echo $catname.$val['catname'];
         
