@@ -68,6 +68,10 @@ class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
+        //$request->setLocale('hi');
+        $this->data['locale'] = $request->getLocale();
+        //echo '<pre>'; print_r($this->data['locale']);die;
+        $this->data['supportedLocales'] = $request->config->supportedLocales;
     }
 
     public function getResponse(array $responseBody, int $code = ResponseInterface::HTTP_OK)

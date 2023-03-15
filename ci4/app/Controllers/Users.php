@@ -45,6 +45,7 @@ class Users extends CommonController
 					'notes' => $this->request->getPost('notes'),
 					'permissions' => json_encode($this->request->getPost('sid')),
 					'role' => $this->request->getPost('role'),
+					'language_code' => $this->request->getPost('language_code'),
 				);
 				$this->userModel->updateUser($data, $id);
 				session()->setFlashdata('message', 'Data updated Successfully!');
@@ -67,6 +68,7 @@ class Users extends CommonController
 							//'password' => md5($this->request->getPost('password')),
 							'address' => $this->request->getPost('address'),
 							'notes' => $this->request->getPost('notes'),
+							'language_code' => $this->request->getPost('language_code'),
 							'uuid' => $uuid,
 							'uuid_business_id' => session('uuid_business'),
 							'status' => 0,

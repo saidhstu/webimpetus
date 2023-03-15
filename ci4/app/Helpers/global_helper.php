@@ -145,6 +145,9 @@ function totalRows( $tableName, $where = array(), $returnArr = true){
 function MenuByCategory($mid = "")
 {
     $db = \Config\Database::connect();
+    $language = \Config\Services::language();
+
+    $lang = $language->getLocale();
 
     // $builder = $db->table('menu');
     // $builder->select("menu.*,categories.name as catname,categories.ID");
@@ -162,7 +165,8 @@ function MenuByCategory($mid = "")
     // $builder->orderBy('categories.name','asc');
     // return $builder->get()->getResultArray();
     //echo $db->getLastQuery()->getQuery(); die;
+    //echo "select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category and categories.uuid_business_id = '". session('uuid_business')."' where menu.language_code='".$lang."' order by categories.sort_order asc,menu_category.uuid_category asc,menu.sort_order desc"; die;
 
-    return $db->query("select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category and categories.uuid_business_id = '". session('uuid_business')."' order by categories.sort_order asc,menu_category.uuid_category asc,menu.sort_order desc")->getResultArray();
+    return $db->query("select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category and categories.uuid_business_id = '". session('uuid_business')."' where menu.language_code='".$lang."' order by categories.sort_order asc,menu_category.uuid_category asc,menu.sort_order desc")->getResultArray(); //where menu.language_code='".$lang."'
     
 }

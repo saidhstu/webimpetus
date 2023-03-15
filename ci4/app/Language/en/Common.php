@@ -38,4 +38,5 @@ return [
     'month' => 'Month',
     'year' => 'Year',
     'employee' => 'Employee',
+    'print_pdf' => 'Print PDF',
 ];

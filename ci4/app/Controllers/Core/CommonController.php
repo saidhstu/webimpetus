@@ -25,7 +25,7 @@ class CommonController extends BaseController
 
 		$this->model = new Common_model();
 		$this->Amazon_s3_model = new Amazon_s3_model();
-
+		$this->changeLanguage();
 
 		$this->table = $this->getTableNameFromUri();
 		$this->rawTblName =  substr($this->table, 0, -1);
@@ -50,6 +50,24 @@ class CommonController extends BaseController
 			echo view("errors/html/error_404");
 			die;
 		}
+	}
+
+	public function changeLanguage() {
+		$language = \Config\Services::language();
+		$user_id = $this->session->get('uuid');
+		$udata = $this->db->table('users')->select('language_code')->where("id", $user_id)->get()->getRowArray();
+		//print_r($udata); die;
+		if(!empty($udata) && !empty($udata['language_code'])){
+			$language->setLocale($udata['language_code']);
+		}else{
+			$business = $this->db->table('businesses')->where("uuid", $this->businessUuid)->get()->getRowArray();
+			if(!empty($business['language_code'])){
+				$language->setLocale($business['language_code']);
+			}else{
+				$language->setLocale('en');
+			}
+		}
+
 	}
 
 	public function getTableNameFromUri()

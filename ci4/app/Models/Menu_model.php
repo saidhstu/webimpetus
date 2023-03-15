@@ -38,12 +38,15 @@ class Menu_model extends Model
     public function saveMenuCat($id,$data)
     {
         $this->db->table('menu_category')->delete(array('uuid_menu' => $id));
-        foreach($data as $key=>$val){
-            $arr = [];
-            $arr['uuid_category'] = $val;
-            $arr['uuid_menu'] = $id;
-            $query = $this->db->table('menu_category')->insert($arr);
+        if(!empty($data)){
+            foreach($data as $key=>$val){
+                $arr = [];
+                $arr['uuid_category'] = $val;
+                $arr['uuid_menu'] = $id;
+                $query = $this->db->table('menu_category')->insert($arr);
+            }
         }
+        
         return true;
     }
 
@@ -62,6 +65,19 @@ class Menu_model extends Model
         // $this->select('categories.*');
         // return $this->where($whereCond)->get()->getResult();
        
+    }
+
+
+    function getMenu($uuid_business = "", $lang = 'en')
+    {        
+        $db = \Config\Database::connect();
+        //echo "select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category and categories.uuid_business_id = '". session('uuid_business')."' where menu.language_code='".$lang."' order by categories.sort_order asc,menu_category.uuid_category asc,menu.sort_order desc"; die;
+        if(empty($uuid_business)){
+            return $db->query("select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category where menu.language_code='".$lang."' order by categories.sort_order asc,menu_category.uuid_category asc,menu.sort_order desc")->getResultArray();
+        }else {
+            return $db->query("select menu.*,categories.name as catname,categories.ID from menu left join menu_category ON menu_category.uuid_menu=menu.id left join categories ON categories.ID=menu_category.uuid_category and categories.uuid_business_id = '".$uuid_business."' where menu.language_code='".$lang."' order by categories.sort_order asc,menu_category.uuid_category asc,menu.sort_order desc")->getResultArray();
+        }
+        
     }
 	
 	/* public function saveData($data)

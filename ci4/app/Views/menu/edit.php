@@ -1,5 +1,9 @@
-<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
-<?php  ?>
+<?php require_once (APPPATH.'Views/common/edit-title.php'); 
+
+$str = file_get_contents(APPPATH . 'languages.json');
+$json = json_decode($str, true);
+//print_r($json); die;
+?>
     <div class="white_card_body">
         <div class="card-body">
             
@@ -26,9 +30,9 @@
                     </div>
 
 
-                    <div class="form-group required col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="inputEmail4">Categories</label>
-                        <select id="categories" name="categories[]" multiple class="required form-control select2">
+                        <select id="categories" name="categories[]" multiple class="form-control select2">
                             <?php 
                             if (isset($categories) && (!empty($categories))) {
                             foreach($categories as $row):?>
@@ -58,6 +62,16 @@
                             <?php endforeach;?>
                             <?php } ?>
                     </select>
+                    </div>
+
+                    <div class="form-group required col-md-6">
+                        <label for="inputEmail4">Language Code</label>
+                        <select name="language_code" class="required form-control">
+                            <?php foreach ($json as $key=>$row) : ?>
+                                    <option value="<?= $key; ?>" <?=@$data->language_code == $key?'selected="selected"' : ''; ?>><?= $row; ?></option>
+                            <?php endforeach; ?>
+                           
+                        </select>
                     </div>
                    
 
