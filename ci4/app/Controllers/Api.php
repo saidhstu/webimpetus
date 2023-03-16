@@ -15,6 +15,8 @@ use App\Models\WebpageCategory;
 use App\Models\CustomerCategory;
 use App\Models\Email_model;
 use App\Models\Menu_model;
+use App\Models\Users_model;
+use App\Libraries\UUID;
 class Api extends BaseController
 {
     public function __construct()
@@ -34,6 +36,7 @@ class Api extends BaseController
       $this->cusCategory_model = new CustomerCategory();
       $this->emailModel = new Email_model();
       $this->menuModel = new Menu_model();
+      $this->userModel = new Users_model();
       header('Content-Type: application/json; charset=utf-8');
       // header('Access-Control-Allow-Origin: *');
       // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -295,11 +298,8 @@ class Api extends BaseController
     public function addMenu()
     { 
         if(empty($this->request->getPost('name')) || empty($this->request->getPost('link')) || empty($this->request->getPost('uuid_business_id'))){
-
             $data['status'] = 'error';
             $data['msg']    = 'name, link and business id required for add menu!!';
-
-
         }else {
             $cat_data = [];
             $cat_data['name'] = $this->request->getPost('name');
@@ -320,29 +320,103 @@ class Api extends BaseController
     public function updateMenu()
     { 
         if(empty($this->request->getPost('name')) || empty($this->request->getPost('link')) || empty($this->request->getPost('id'))){
-
             $data['status'] = 'error';
             $data['msg']    = 'name, business id, Menu id and link required for update menu!!';
-
-
         }else {
-
             $cat_data = [];
             $cat_data['name'] = $this->request->getPost('name');
             $cat_data['link'] = $this->request->getPost('link');
-            $cat_data['icon'] = $this->request->getPost('icon');
-            $cat_data['language_code'] = $this->request->getPost('language_code')?$this->request->getPost('language_code'):'en';
-            $cat_data['menu_fts'] = !empty($this->request->getPost('tags'))?implode(',',$this->request->getPost('tags')):$this->request->getPost('name');
-            $cat_data['uuid_business_id'] = $this->request->getPost('uuid_business');        
+            if(!empty($this->request->getPost('icon'))) $cat_data['icon'] = $this->request->getPost('icon');
+            if(!empty($this->request->getPost('language_code'))) $cat_data['language_code'] = $this->request->getPost('language_code')?$this->request->getPost('language_code'):'en';
+            if(!empty($this->request->getPost('menu_fts')))  $cat_data['menu_fts'] = !empty($this->request->getPost('tags'))?implode(',',$this->request->getPost('tags')):$this->request->getPost('name');
+            if(!empty($this->request->getPost('uuid_business_id')))  $cat_data['uuid_business_id'] = $this->request->getPost('uuid_business');        
             $this->menuModel->updateData($this->request->getPost('id'),$cat_data);
             $this->menuModel->saveMenuCat($this->request->getPost('id'),$this->request->getPost('categories'));           
             $data['status'] = 'success';
             $data['data'] = $cat_data;
-
-        }
-        
+        }        
         echo json_encode($data); die;
     }
 
+    public function users()
+    {   
+        $data['data'] = $this->userModel->getUser();
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
+    public function addUser()
+    { 
+        if(!empty($this->request->getPost('email')) && !empty($this->request->getPost('name')) && !empty($this->request->getPost('password')) && !empty($this->request->getPost('uuid_business_id'))){		
+
+            $count = $this->userModel->getWhere(['email' => $this->request->getPost('email')])->getNumRows();
+            if(!empty($count)){
+                $data['status'] = 'error';
+                $data['msg']    = 'Email already exist!!';
+                echo json_encode($data); die;
+            }else {
+                $uuidNamespace = UUID::v4();
+                $uuid = UUID::v5($uuidNamespace, 'users');
+                $data_array = array(
+                    'name'  => $this->request->getPost('name'),
+                    'email' => $this->request->getPost('email'),
+                    'password' => md5($this->request->getPost('password')),
+                    'address' => !empty($this->request->getPost('address'))?$this->request->getPost('address'):'',
+                    'notes' => !empty($this->request->getPost('notes'))?$this->request->getPost('notes'):'',
+                    'language_code' => !empty($this->request->getPost('language_code'))?$this->request->getPost('language_code'):'en',
+                    'uuid' => $uuid,
+                    'uuid_business_id' => $this->request->getPost('uuid_business_id'),
+                    'status' => 0,
+                    'permissions' => !empty($this->request->getPost('permissions'))?json_encode($this->request->getPost('permissions')):'',
+                    'role' => $this->request->getPost('role')?$this->request->getPost('role'):0,
+                );
+                //echo json_encode($data_array); die;
+                $this->userModel->saveUser($data_array);
+                $data['data'] = $data_array;
+                $data['status'] = 'success';
+                echo json_encode($data); die;
+            }           
+
+        }else {
+            $data['status'] = 'error';
+            $data['msg']    = 'Name, Email, password, business uuid could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function updateUser()
+    {               
+        $id = $this->request->getPost('id');
+		if(!empty($id) && !empty($this->request->getPost('email'))){
+			$count = $this->userModel->getWhere(['email' => $this->request->getPost('email'), 'id!=' => $id])->getNumRows();
+            if(!empty($count)){ 
+                $data['status'] = 'error';
+                $data['msg']    = 'Email already exist!!';
+                echo json_encode($data); die;                
+            }else {
+				$data_array = array(
+					'email' => $this->request->getPost('email'),
+				);
+
+                if(!empty($this->request->getPost('name'))) $data_array['name'] = $this->request->getPost('name');
+                if(!empty($this->request->getPost('address'))) $data_array['address'] = $this->request->getPost('address');
+                if(!empty($this->request->getPost('notes'))) $data_array['notes'] = $this->request->getPost('notes');
+                if(!empty($this->request->getPost('role'))) $data_array['role'] = $this->request->getPost('role');
+                if(!empty($this->request->getPost('language_code'))) $data_array['language_code'] = $this->request->getPost('language_code');
+                if(!empty($this->request->getPost('permissions'))) $data_array['permissions'] = !empty($this->request->getPost('permissions'))?json_encode($this->request->getPost('permissions')):'';
+                
+                $this->userModel->updateUser($data_array, $id);
+
+                $data['data'] = $data_array;
+                $data['status'] = 'success';
+                echo json_encode($data); die;
+			}	
+		} else {
+                $data['status'] = 'error';
+                $data['msg']    = 'Email and user id could not be empty!!';
+                echo json_encode($data); die;  
+        }
+           
+    }
 
 }
