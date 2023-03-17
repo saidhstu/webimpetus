@@ -16,6 +16,7 @@ use App\Models\CustomerCategory;
 use App\Models\Email_model;
 use App\Models\Menu_model;
 use App\Models\Users_model;
+use App\Models\Core\Common_model;
 use App\Libraries\UUID;
 class Api extends BaseController
 {
@@ -37,6 +38,7 @@ class Api extends BaseController
       $this->emailModel = new Email_model();
       $this->menuModel = new Menu_model();
       $this->userModel = new Users_model();
+      $this->common_model = new Common_model();
       header('Content-Type: application/json; charset=utf-8');
       // header('Access-Control-Allow-Origin: *');
       // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -338,9 +340,9 @@ class Api extends BaseController
         echo json_encode($data); die;
     }
 
-    public function users()
+    public function users($id = false)
     {   
-        $data['data'] = $this->userModel->getUser();
+        $data['data'] = $this->userModel->getApiUsers($id);
         $data['status'] = 'success';
         echo json_encode($data); die;
     }
@@ -418,5 +420,163 @@ class Api extends BaseController
         }
            
     }
+
+    public function customers($id = false)
+    {   
+        $data['data'] = $this->customer_model->getCustomers($id);
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
+    public function addCustomer()
+    {
+        if(!empty($this->request->getPost('company_name')) && !empty($this->request->getPost('acc_no')) && !empty($this->request->getPost('uuid_business'))){		
+                
+            $post = $this->request->getPost(); 
+            $data["company_name"] = @$post["company_name"];
+            $data["acc_no"] = @$post["acc_no"];
+            $data["status"] = @$post["status"];
+            $data["uuid_business_id"] = @$post['uuid_business'];
+            if(!empty($post["contact_firstname"])) $data["contact_firstname"] = @$post["contact_firstname"];
+            if(!empty($post["contact_lastname"])) $data["contact_lastname"] = @$post["contact_lastname"];
+            if(!empty($post["email"])) $data["email"] = @$post["email"];
+            if(!empty($post["address1"])) $data["address1"] = @$post["address1"];
+            if(!empty($post["address2"])) $data["address2"] = @$post["address2"];
+            if(!empty($post["city"])) $data["city"] = @$post["city"];
+            if(!empty($post["country"])) $data["country"] = @$post["country"];
+            if(!empty($post["postal_code"])) $data["postal_code"] = @$post["postal_code"];
+            if(!empty($post["phone"])) $data["phone"] = @$post["phone"];
+            if(!empty($post["notes"])) $data["notes"] = @$post["notes"];
+            if(!empty($post["supplier"])) $data["supplier"] = @$post["supplier"];
+            if(!empty($post["website"])) $data["website"] = @$post["website"];
+            if(!empty($post["categories"])) $data["categories"] = !empty($post["categories"])?json_encode(@$post["categories"]):json_encode([]);
+            //$data['id']= @$post["id"];
+            $response = $this->customer_model->insertOrUpdate('', $data);
+            if(!$response){
+                $response_data['status'] = 'error';
+                $response_data['msg']    = 'something wrong!!';
+                echo json_encode($response_data); die;   
+            }else{           
+                $id = $response;          
+                $i = 0;
+                if(count($post["first_name"])>0){
+                    foreach($post["first_name"] as $firstName){
+
+                        $contact["first_name"] = $firstName;
+                        $contact["client_id"] = $id;
+                        $contact["surname"] = @$post["surname"][$i];
+                        $contact["email"] = @$post["contact_email"][$i];
+                        $contact["uuid_business_id"] = @$post['uuid_business'];
+                        $contactId =  '';
+                        if(strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"])>0) || strlen(trim($contact["email"])>0)){
+                            $this->common_model->CommonInsertOrUpdate("contacts",$contactId, $contact);
+                            //print_r($contact); die;
+                        }
+
+                        $i++;
+                    }
+
+
+                }
+
+                if(!empty($post["categories"])){
+                    $this->common_model->deleteTableData("customer_categories", $id, "customer_id");
+                    foreach( $post["categories"] as $key => $categories_id){
+
+                        $c_data = [];
+
+                        $c_data['customer_id'] = $id;
+                        $c_data['categories_id'] = $categories_id;
+                        //print_r($c_data); die;
+
+                        $this->common_model->CommonInsertOrUpdate("customer_categories",'',$c_data);
+                    }
+                }
+                $response_data['data'] = $data;
+                $response_data['status'] = 'success';
+                echo json_encode($response_data); die;
+            }
+
+        }else {
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'business uuid, Company name and account number cannot be empty!!';
+            echo json_encode($response_data); die; 
+        }
+
+
+    }
+
+    public function updateCustomer()
+    {  
+        if(!empty($this->request->getPost('company_name')) && !empty($this->request->getPost('acc_no')) && !empty($this->request->getPost('id')) && !empty($this->request->getPost('uuid_business'))){	     
+            $post = $this->request->getPost(); 
+            $data["company_name"] = @$post["company_name"];
+            $data["acc_no"] = @$post["acc_no"];
+            $data["uuid_business_id"] = @$post['uuid_business'];
+            if(!empty($post["contact_firstname"])) $data["contact_firstname"] = @$post["contact_firstname"];
+            if(!empty($post["contact_lastname"])) $data["contact_lastname"] = @$post["contact_lastname"];
+            if(!empty($post["email"])) $data["email"] = @$post["email"];
+            if(!empty($post["address1"])) $data["address1"] = @$post["address1"];
+            if(!empty($post["address2"])) $data["address2"] = @$post["address2"];
+            if(!empty($post["city"])) $data["city"] = @$post["city"];
+            if(!empty($post["country"])) $data["country"] = @$post["country"];
+            if(!empty($post["postal_code"])) $data["postal_code"] = @$post["postal_code"];
+            if(!empty($post["phone"])) $data["phone"] = @$post["phone"];
+            if(!empty($post["notes"])) $data["notes"] = @$post["notes"];
+            if(!empty($post["supplier"])) $data["supplier"] = @$post["supplier"];
+            if(!empty($post["website"])) $data["website"] = @$post["website"];
+            if(!empty($post["categories"])) $data["categories"] = !empty($post["categories"])?json_encode(@$post["categories"]):json_encode([]);
+
+            $id= $post["id"];
+            $response = $this->customer_model->insertOrUpdate($id, $data);
+            if(!$response){
+                $response_data['status'] = 'error';
+                $response_data['msg']    = 'something wrong!!';
+                echo json_encode($response_data); die;   
+            }else{            
+                $i = 0;
+
+                if(!empty($post["first_name"])){
+                    foreach($post["first_name"] as $firstName){
+
+                        $contact["first_name"] = $firstName;
+                        $contact["client_id"] = $id;
+                        $contact["surname"] = $post["surname"][$i];
+                        $contact["email"] = $post["contact_email"][$i];
+                        $contact["uuid_business_id"] = $post['uuid_business'];
+                        $contactId =  @$post["contact_id"][$i];
+                        if(strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"])>0) || strlen(trim($contact["email"])>0)){
+                            $this->common_model->CommonInsertOrUpdate("contacts",$contactId, $contact);
+                        }
+
+                        $i++;
+                    }
+
+
+                }
+
+                if(!empty($post["categories"])){
+                    $this->common_model->deleteTableData("customer_categories", $id, "customer_id");
+                    foreach( $post["categories"] as $key => $categories_id){
+
+                        $c_data = [];
+
+                        $c_data['customer_id'] = $id;
+                        $c_data['categories_id'] = $categories_id;
+                        //print_r($c_data); die;
+
+                        $this->common_model->CommonInsertOrUpdate("customer_categories",'',$c_data);
+                    }
+                }
+                $response_data['data'] = $data;
+                $response_data['status'] = 'success';
+                echo json_encode($response_data); die;
+            }
+    }else{
+        $response_data['status'] = 'error';
+        $response_data['msg']    = 'ID, business uuid, Company name and account number cannot be empty!!';
+        echo json_encode($response_data); die;         
+    }
+}
 
 }

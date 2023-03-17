@@ -243,4 +243,21 @@ class Common_model extends Model
             return $builder->getWhere($whereCond)->getRowArray();
         }   
     }
+
+    public function CommonInsertOrUpdate($table, $id = null, $data = null)
+	{
+        unset($data["id"]);
+
+        if(@$id>0){           
+            $builder = $this->db->table($table);
+            $builder->where('id', $id);
+            $result = $builder->update($data);
+            return $id;
+        }else{
+			$builder = $this->db->table($table);
+			$result = $builder->insert($data);
+		    return $this->db->insertID();
+        }	
+		return false;
+	}
 }
