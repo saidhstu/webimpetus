@@ -52,22 +52,22 @@ class CommonController extends BaseController
 		}
 	}
 
-	public function changeLanguage() {
+	public function changeLanguage()
+	{
 		$language = \Config\Services::language();
 		$user_id = $this->session->get('uuid');
 		$udata = $this->db->table('users')->select('language_code')->where("id", $user_id)->get()->getRowArray();
 		//print_r($udata); die;
-		if(!empty($udata) && !empty($udata['language_code'])){
+		if (!empty($udata) && !empty($udata['language_code'])) {
 			$language->setLocale($udata['language_code']);
-		}else{
+		} else {
 			$business = $this->db->table('businesses')->where("uuid", $this->businessUuid)->get()->getRowArray();
-			if(!empty($business['language_code'])){
+			if (!empty($business['language_code'])) {
 				$language->setLocale($business['language_code']);
-			}else{
+			} else {
 				$language->setLocale('en');
 			}
 		}
-
 	}
 
 	public function getTableNameFromUri()
@@ -106,7 +106,17 @@ class CommonController extends BaseController
 		$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
 		// if there any special cause we can overried this function and pass data to add or edit view
 		$data['additional_data'] = $this->getAdditionalData($id);
+		echo view($this->table . "/edit", $data);
+	}
 
+	public function editrow($uuid = 0)
+	{
+		$data['tableName'] = $this->table;
+		$data['rawTblName'] = $this->rawTblName;
+		$data["users"] = $this->model->getUser();
+		$data[$this->rawTblName] = $this->model->getRowsByUUID($uuid)->getRow();
+		// if there any special cause we can overried this function and pass data to add or edit view
+		$data['additional_data'] = $this->getAdditionalData($uuid);
 		echo view($this->table . "/edit", $data);
 	}
 
@@ -156,6 +166,21 @@ class CommonController extends BaseController
 			}
 		}
 
+		return redirect()->to('/' . $this->table);
+	}
+
+	public function deleterow($uuid)
+	{
+		if (!empty($uuid)) {
+			$response = $this->model->deleteDataByUUID($uuid);
+			if ($response) {
+				session()->setFlashdata('message', 'Data deleted Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+			} else {
+				session()->setFlashdata('message', 'Something wrong delete failed!');
+				session()->setFlashdata('alert-class', 'alert-danger');
+			}
+		}
 		return redirect()->to('/' . $this->table);
 	}
 
