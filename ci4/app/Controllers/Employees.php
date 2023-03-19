@@ -27,7 +27,7 @@ class Employees extends CommonController
 		$data = $this->request->getPost();
 
         if(empty($uuid)){
-            $data['uuid'] = UUID::v5(UUID::v4(), 'products');
+            $data['uuid'] = UUID::v5(UUID::v4(), 'employees');
         }
 
         if(strlen($data['password']) > 0){
