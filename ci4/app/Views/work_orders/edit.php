@@ -2,7 +2,7 @@
 <?php
 $customers = getResultArray("customers");
 $templates = getResultArray("templates", ["module_name" => $tableName]);
-$items = getWithOutUuidResultArray("work_order_items", ["work_orders_id" => @$work_order->id], false);
+$items = getWithOutUuidResultArray("work_order_items", ["work_order_uuid" => @$work_order->uuid], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
 $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delivered", "Completed", "Proforma Invoice"];
@@ -12,7 +12,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
     <div class="card-body">
 
         <form id="addcustomer" method="post" action=<?php echo "/" . $tableName . "/update"; ?> enctype="multipart/form-data">
-            <input type="hidden" value="<?= @$work_order->id ?>" name="id" id="mainTableId">
+            <input type="hidden" value="<?= @$work_order->uuid ?>" name="uuid" id="mainTableId">
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <nav>
