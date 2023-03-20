@@ -17,6 +17,7 @@ use App\Models\Email_model;
 use App\Models\Menu_model;
 use App\Models\Users_model;
 use App\Models\Core\Common_model;
+use App\Models\TimeslipsModel;
 use App\Libraries\UUID;
 class Api extends BaseController
 {
@@ -38,6 +39,7 @@ class Api extends BaseController
       $this->emailModel = new Email_model();
       $this->menuModel = new Menu_model();
       $this->userModel = new Users_model();
+      $this->timeSlipsModel = new TimeslipsModel();
       $this->common_model = new Common_model();
       header('Content-Type: application/json; charset=utf-8');
       // header('Access-Control-Allow-Origin: *');
@@ -508,75 +510,155 @@ class Api extends BaseController
 
     public function updateCustomer()
     {  
-        if(!empty($this->request->getPost('company_name')) && !empty($this->request->getPost('acc_no')) && !empty($this->request->getPost('id')) && !empty($this->request->getPost('uuid_business'))){	     
-            $post = $this->request->getPost(); 
-            $data["company_name"] = @$post["company_name"];
-            $data["acc_no"] = @$post["acc_no"];
-            $data["uuid_business_id"] = @$post['uuid_business'];
-            if(!empty($post["contact_firstname"])) $data["contact_firstname"] = @$post["contact_firstname"];
-            if(!empty($post["contact_lastname"])) $data["contact_lastname"] = @$post["contact_lastname"];
-            if(!empty($post["email"])) $data["email"] = @$post["email"];
-            if(!empty($post["address1"])) $data["address1"] = @$post["address1"];
-            if(!empty($post["address2"])) $data["address2"] = @$post["address2"];
-            if(!empty($post["city"])) $data["city"] = @$post["city"];
-            if(!empty($post["country"])) $data["country"] = @$post["country"];
-            if(!empty($post["postal_code"])) $data["postal_code"] = @$post["postal_code"];
-            if(!empty($post["phone"])) $data["phone"] = @$post["phone"];
-            if(!empty($post["notes"])) $data["notes"] = @$post["notes"];
-            if(!empty($post["supplier"])) $data["supplier"] = @$post["supplier"];
-            if(!empty($post["website"])) $data["website"] = @$post["website"];
-            if(!empty($post["categories"])) $data["categories"] = !empty($post["categories"])?json_encode(@$post["categories"]):json_encode([]);
+            if(!empty($this->request->getPost('company_name')) && !empty($this->request->getPost('acc_no')) && !empty($this->request->getPost('id')) && !empty($this->request->getPost('uuid_business'))){	     
+                $post = $this->request->getPost(); 
+                $data["company_name"] = @$post["company_name"];
+                $data["acc_no"] = @$post["acc_no"];
+                $data["uuid_business_id"] = @$post['uuid_business'];
+                if(!empty($post["contact_firstname"])) $data["contact_firstname"] = @$post["contact_firstname"];
+                if(!empty($post["contact_lastname"])) $data["contact_lastname"] = @$post["contact_lastname"];
+                if(!empty($post["email"])) $data["email"] = @$post["email"];
+                if(!empty($post["address1"])) $data["address1"] = @$post["address1"];
+                if(!empty($post["address2"])) $data["address2"] = @$post["address2"];
+                if(!empty($post["city"])) $data["city"] = @$post["city"];
+                if(!empty($post["country"])) $data["country"] = @$post["country"];
+                if(!empty($post["postal_code"])) $data["postal_code"] = @$post["postal_code"];
+                if(!empty($post["phone"])) $data["phone"] = @$post["phone"];
+                if(!empty($post["notes"])) $data["notes"] = @$post["notes"];
+                if(!empty($post["supplier"])) $data["supplier"] = @$post["supplier"];
+                if(!empty($post["website"])) $data["website"] = @$post["website"];
+                if(!empty($post["categories"])) $data["categories"] = !empty($post["categories"])?json_encode(@$post["categories"]):json_encode([]);
 
-            $id= $post["id"];
-            $response = $this->customer_model->insertOrUpdate($id, $data);
-            if(!$response){
-                $response_data['status'] = 'error';
-                $response_data['msg']    = 'something wrong!!';
-                echo json_encode($response_data); die;   
-            }else{            
-                $i = 0;
+                $id= $post["id"];
+                $response = $this->customer_model->insertOrUpdate($id, $data);
+                if(!$response){
+                    $response_data['status'] = 'error';
+                    $response_data['msg']    = 'something wrong!!';
+                    echo json_encode($response_data); die;   
+                }else{            
+                    $i = 0;
 
-                if(!empty($post["first_name"])){
-                    foreach($post["first_name"] as $firstName){
+                    if(!empty($post["first_name"])){
+                        foreach($post["first_name"] as $firstName){
 
-                        $contact["first_name"] = $firstName;
-                        $contact["client_id"] = $id;
-                        $contact["surname"] = $post["surname"][$i];
-                        $contact["email"] = $post["contact_email"][$i];
-                        $contact["uuid_business_id"] = $post['uuid_business'];
-                        $contactId =  @$post["contact_id"][$i];
-                        if(strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"])>0) || strlen(trim($contact["email"])>0)){
-                            $this->common_model->CommonInsertOrUpdate("contacts",$contactId, $contact);
+                            $contact["first_name"] = $firstName;
+                            $contact["client_id"] = $id;
+                            $contact["surname"] = $post["surname"][$i];
+                            $contact["email"] = $post["contact_email"][$i];
+                            $contact["uuid_business_id"] = $post['uuid_business'];
+                            $contactId =  @$post["contact_id"][$i];
+                            if(strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"])>0) || strlen(trim($contact["email"])>0)){
+                                $this->common_model->CommonInsertOrUpdate("contacts",$contactId, $contact);
+                            }
+
+                            $i++;
                         }
 
-                        $i++;
+
                     }
 
+                    if(!empty($post["categories"])){
+                        $this->common_model->deleteTableData("customer_categories", $id, "customer_id");
+                        foreach( $post["categories"] as $key => $categories_id){
 
-                }
+                            $c_data = [];
 
-                if(!empty($post["categories"])){
-                    $this->common_model->deleteTableData("customer_categories", $id, "customer_id");
-                    foreach( $post["categories"] as $key => $categories_id){
+                            $c_data['customer_id'] = $id;
+                            $c_data['categories_id'] = $categories_id;
+                            //print_r($c_data); die;
 
-                        $c_data = [];
-
-                        $c_data['customer_id'] = $id;
-                        $c_data['categories_id'] = $categories_id;
-                        //print_r($c_data); die;
-
-                        $this->common_model->CommonInsertOrUpdate("customer_categories",'',$c_data);
+                            $this->common_model->CommonInsertOrUpdate("customer_categories",'',$c_data);
+                        }
                     }
+                    $response_data['data'] = $data;
+                    $response_data['status'] = 'success';
+                    echo json_encode($response_data); die;
                 }
-                $response_data['data'] = $data;
-                $response_data['status'] = 'success';
-                echo json_encode($response_data); die;
-            }
-    }else{
-        $response_data['status'] = 'error';
-        $response_data['msg']    = 'ID, business uuid, Company name and account number cannot be empty!!';
-        echo json_encode($response_data); die;         
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'ID, business uuid, Company name and account number cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
     }
-}
+
+    public function timeslips($ubusiness_id = "") {
+        $rows = $this->timeSlipsModel->getApiRows(false, array("timeslips.uuid_business_id"=>$ubusiness_id));
+        $data['data'] = $rows;
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
+    public function addTimeslip()
+    {
+        // $post = $this->request->getPost(); 
+        // echo '<pre>';print_r($post); die;
+        if(!empty($this->request->getPost('task_name')) && !empty($this->request->getPost('slip_start_date')) && !empty($this->request->getPost('uuid_business_id'))){	
+            
+            $uuidVal = UUID::v5(UUID::v4(), 'timeslips_saving');
+                
+            $post = $this->request->getPost(); 
+            $data["task_name"] = @$post["task_name"];
+            $data["slip_start_date"] = @$post["slip_start_date"];
+            $data["employee_name"] = @$post["employee_name"];
+            $data["uuid_business_id"] = @$post['uuid_business_id'];
+            $data["uuid"] = @$uuidVal;
+            if(!empty($post["slip_timer_started"])) $data["slip_timer_started"] = @$post["slip_timer_started"];
+            if(!empty($post["slip_end_date"])) $data["slip_end_date"] = @$post["slip_end_date"];
+            if(!empty($post["slip_timer_end"])) $data["slip_timer_end"] = @$post["slip_timer_end"];
+            if(!empty($post["break_time"])) $data["break_time"] = @$post["break_time"];
+            if(!empty($post["break_time_start"])) $data["break_time_start"] = @$post["break_time_start"];
+            if(!empty($post["break_time_end"])) $data["break_time_end"] = @$post["break_time_end"];
+            if(!empty($post["slip_hours"])) $data["slip_hours"] = @$post["slip_hours"];
+            if(!empty($post["slip_description"])) $data["slip_description"] = @$post["slip_description"];
+            if(!empty($post["slip_rate"])) $data["slip_rate"] = @$post["slip_rate"];
+            if(!empty($post["slip_timer_accumulated_seconds"])) $data["slip_timer_accumulated_seconds"] = @$post["slip_timer_accumulated_seconds"];
+            if(!empty($post["billing_status"])) $data["billing_status"] = @$post["billing_status"];
+            
+            //$data['id']= @$post["id"];
+            $response = $this->timeSlipsModel->saveByUuid('', $data);
+            $response_data['data'] = $data;
+            $response_data['status'] = 'success';
+            echo json_encode($response_data); die;
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'Task name, slip start date, business uuid cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
+    }
+
+    public function updateTimeslip()
+    {
+        if(!empty($this->request->getPost('task_name')) && !empty($this->request->getPost('slip_start_date')) && !empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('uuid'))){	
+            
+            $uuidVal = $this->request->getPost('uuid');
+                
+            $post = $this->request->getPost(); 
+            $data["task_name"] = @$post["task_name"];
+            $data["slip_start_date"] = @$post["slip_start_date"];
+            $data["employee_name"] = @$post["employee_name"];
+            if(!empty($post["uuid_business_id"])) $data["uuid_business_id"] = @$post['uuid_business'];
+            if(!empty($post["slip_timer_started"])) $data["slip_timer_started"] = @$post["slip_timer_started"];
+            if(!empty($post["slip_end_date"])) $data["slip_end_date"] = @$post["slip_end_date"];
+            if(!empty($post["slip_timer_end"])) $data["slip_timer_end"] = @$post["slip_timer_end"];
+            if(!empty($post["break_time"])) $data["break_time"] = @$post["break_time"];
+            if(!empty($post["break_time_start"])) $data["break_time_start"] = @$post["break_time_start"];
+            if(!empty($post["break_time_end"])) $data["break_time_end"] = @$post["break_time_end"];
+            if(!empty($post["slip_hours"])) $data["slip_hours"] = @$post["slip_hours"];
+            if(!empty($post["slip_description"])) $data["slip_description"] = @$post["slip_description"];
+            if(!empty($post["slip_rate"])) $data["slip_rate"] = @$post["slip_rate"];
+            if(!empty($post["slip_timer_accumulated_seconds"])) $data["slip_timer_accumulated_seconds"] = @$post["slip_timer_accumulated_seconds"];
+            if(!empty($post["billing_status"])) $data["billing_status"] = @$post["billing_status"];
+            
+            //$data['id']= @$post["id"];
+            $response = $this->timeSlipsModel->saveByUuid($uuidVal, $data);
+            $response_data['data'] = $data;
+            $response_data['status'] = 'success';
+            echo json_encode($response_data); die;
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'uuid, task name, slip start date cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
+    }
 
 }

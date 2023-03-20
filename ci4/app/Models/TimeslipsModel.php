@@ -132,4 +132,46 @@ class TimeslipsModel extends Model
         $db = \Config\Database::connect();
         return $db->table($this->table)->select('week_no')->orderBy('week_no', 'ASC')->distinct()->getWhere(array('uuid_business_id' => $this->businessUuid, 'week_no !=' => NULL))->getResultArray();
     }
+
+    public function getApiRows($id = false, $timeslip_where = array())
+    {
+
+        $table = $this->table;
+        $selectFields = array(
+            $table . '.id',
+            $table . '.uuid',
+            'tasks.name as task_name',
+            $table . '.week_no',
+            'CONCAT_WS(" ", employees.saludation, employees.first_name, employees.surname) as employee_name',
+            $table . '.slip_start_date',
+            $table . '.slip_timer_started',
+            $table . '.slip_end_date',
+            $table . '.slip_timer_end',
+            '(CASE ' . $table . '.break_time WHEN 1 THEN "Yes" WHEN 0 THEN "No" ELSE NULL END) as break_time',
+            $table . '.break_time_start',
+            $table . '.break_time_end',
+            $table . '.slip_hours',
+            $table . '.slip_description',
+            $table . '.slip_rate',
+            $table . '.slip_timer_accumulated_seconds',
+            $table . '.billing_status',
+            $table . '.created_at',
+            $table . '.modified_at',
+        );
+        $this->select($selectFields);
+        $this->join('tasks', 'tasks.id = ' . $table . '.task_name');
+        $this->join('employees', 'employees.id = ' . $table . '.employee_name');
+        if ($id === false) {
+            if (empty($timeslip_where)) {
+                return $this->findAll();
+            } else {
+                return $this->getWhere($timeslip_where)->getResultArray();
+            }
+        } else {
+            $whereCond = array_merge(array('id' => $id), $timeslip_where);
+            return $this->getWhere($whereCond);
+        }
+
+        //echo '<pre>'; print_r($timeslip_where); die;
+    }
 }
