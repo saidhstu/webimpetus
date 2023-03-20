@@ -31,36 +31,36 @@
                         <a target="" href="<?= "/" . $tableName . "/clone/" . @$task->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
                     <?php } ?> 
                     <?php if($tableName == "sales_invoices") { ?>
-                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$sales_invoice->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$sales_invoice->uuid; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
                     <?php } ?>
                     <?php if($tableName == "sales_invoices") { ?>
-                        <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$sales_invoice->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i><?php echo lang('Common.view');?></a>  
-                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$sales_invoice->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i><?php echo lang('Common.print_pdf');?></a>  
+                        <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$sales_invoice->uuid . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i><?php echo lang('Common.view');?></a>  
+                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$sales_invoice->uuid . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i><?php echo lang('Common.print_pdf');?></a>  
                     <?php } ?>
                     <?php if($tableName == "purchase_invoices") { ?>
-                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$purchase_invoice->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$purchase_invoice->uuid; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
                     <?php } ?>
                     <?php if($tableName == "purchase_invoices") { ?>
-                        <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i><?php echo lang('Common.view');?></a>
-                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i><?php echo lang('Common.print_pdf');?></a>    
+                        <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->uuid . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i><?php echo lang('Common.view');?></a>
+                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_invoice->uuid . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i><?php echo lang('Common.print_pdf');?></a>    
                     <?php } ?>
 
                     <?php if($tableName == "purchase_orders") { ?>
-                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$purchase_order->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$purchase_order->uuid; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
                     <?php } ?>
                     
                     <?php if($tableName == "purchase_orders") { ?>
-                        <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_order->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i><?php echo lang('Common.view');?></a>
-                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_order->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i><?php echo lang('Common.print_pdf');?></a>    
+                        <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_order->uuid . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i><?php echo lang('Common.view');?></a>
+                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$purchase_order->uuid . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i><?php echo lang('Common.print_pdf');?></a>    
                     <?php } ?>
 
                     <?php if($tableName == "work_orders") { ?>
-                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$work_order->id; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
+                        <a target="" href="<?= "/" . $tableName . "/clone/" . @$work_order->uuid; ?>" class="btn btn-secondary mr-2"><i class="fa fa-copy mr-1"></i><?php echo lang('Common.clone');?></a>    
                     <?php } ?>
 
                     <?php if($tableName == "work_orders") { ?>
-                        <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->id . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i><?php echo lang('Common.view');?></a>
-                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->id . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i><?php echo lang('Common.print_pdf');?></a>    
+                        <a target="_blank" href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->uuid . "/view?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-eye mr-1"></i><?php echo lang('Common.view');?></a>
+                        <a href="<?= "/" . $tableName . "/exportPDF/" . @$work_order->uuid . "?" . rand(0,999999); ?>" class="btn btn-secondary mr-2"><i class="fa fa-print mr-1"></i><?php echo lang('Common.print_pdf');?></a>    
                     <?php } ?>
 
                     <?php if($tableName == "timeslips" && !empty($timeslips['uuid'])) { ?>

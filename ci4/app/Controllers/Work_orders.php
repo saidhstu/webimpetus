@@ -15,11 +15,8 @@ class Work_orders extends CommonController
     function __construct()
     {
         parent::__construct();
-
         $this->work_orders_model = new Work_orders_model();
-
         $this->work_order_items = "work_order_items";
-        $this->work_order_notes = "work_order_notes";
         $this->work_orders = "work_orders";
     }
 
@@ -36,9 +33,8 @@ class Work_orders extends CommonController
 
     public function clone($uuid = null)
     {
-        $data = $this->model->getRows($uuid)->getRowArray();
-        $uuidVal = UUID::v5(UUID::v4(), 'work_order_items');
-        $itemId = $data['id'];
+        $data = $this->model->getRowsByUUID($uuid)->getRowArray();
+        $uuidVal = UUID::v5(UUID::v4(), 'work_orders');
         unset($data['id'], $data['created_at'], $data['modified_at']);
         $data['uuid'] = $uuidVal;
 
@@ -50,25 +46,21 @@ class Work_orders extends CommonController
             $data['order_number'] += 1;
         }
 
-        $data['custom_order_number'] = $data['custom_order_number'];
-
-
         $inid = $this->model->insertTableData($data, $this->work_orders);
 
-        $order_items = $this->db->table($this->work_order_items)->where('work_orders_id', $itemId)->get()->getResultArray();
-        //echo '<pre>'; print_r($order_items); die;
+        $order_items = $this->db->table($this->work_order_items)->where('work_orders_uuid', $uuid)->get()->getResultArray();
 
         foreach ($order_items as $val) {
-
             unset($val['id']);
-            $val['work_orders_id'] = $inid;
+            $val['work_orders_uuid'] = $uuidVal;
+            $val['uuid'] = UUID::v5(UUID::v4(), 'work_order_items');;
             $this->db->table($this->work_order_items)->insert($val);
         }
 
         session()->setFlashdata('message', 'Data cloned Successfully!');
         session()->setFlashdata('alert-class', 'alert-success');
 
-        return redirect()->to($this->table . "/edit/" . $inid);
+        return redirect()->to($this->table . "/edit/" . $uuidVal);
     }
 
     // public function edit($id = 0)
@@ -112,7 +104,6 @@ class Work_orders extends CommonController
     public function update()
     {
         $uuid = $this->request->getPost('uuid');
-
         $data = $this->request->getPost();
         $itemIds = @$data['item_id'];
         unset($data['item_id']);
@@ -139,7 +130,7 @@ class Work_orders extends CommonController
             if ($itemIds) {
                 foreach ($itemIds as $itemId) {
                     $this->db->table($this->work_order_items)->where('id', $itemId)->update(array(
-                        'work_order_uuid' => $uuid,
+                        'work_orders_uuid' => $data['uuid'],
                     ));
                 }
             }
@@ -174,7 +165,7 @@ class Work_orders extends CommonController
         $data['discount'] = $this->request->getPost('discount');
         $data['subtotal'] = $this->request->getPost('subtotal');
 
-        $res = $this->model->updateTableData($mainTableId, $data, $this->work_orders);
+        $res = $this->model->updateTableDataByUUID($mainTableId, $data, $this->work_orders);
 
         $response['status'] = true;
         $response['msg'] = "Data updated successfully";
@@ -208,7 +199,6 @@ class Work_orders extends CommonController
     }
     public function addInvoiceItem()
     {
-
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
         $data['uuid_business_id'] = session('uuid_business');
@@ -228,12 +218,11 @@ class Work_orders extends CommonController
         // echo $this->work_order_items;die;
 
         if ($id > 0) {
-
             $this->model->updateTableData($id, $data, $this->work_order_items);
             $response['status'] = true;
         } else {
 
-            $data['work_orders_id'] = $mainTableId;
+            $data['work_orders_uuid'] = $mainTableId;
             $data['uuid'] = UUID::v5(UUID::v4(), 'work_order_items');
             $id = $this->model->insertTableData($data, $this->work_order_items);
 

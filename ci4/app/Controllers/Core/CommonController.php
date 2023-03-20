@@ -272,7 +272,7 @@ class CommonController extends BaseController
 	}
 
 
-	public function exportPDF($id = 0, $view = '')
+	public function exportPDF($uuid = 0, $view = '')
 	{
 		set_time_limit(60);
 		$mpdf = new \App\Libraries\Generate_Pdf();
@@ -285,7 +285,7 @@ class CommonController extends BaseController
 
 		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
 
-			$item_details = $this->getInvoiceItem($id);
+			$item_details = $this->getInvoiceItem($uuid);
 			$pdf_name_prefix = $business['business_code'];
 
 			if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
@@ -336,7 +336,7 @@ class CommonController extends BaseController
 				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getTimesheetDataVariables($_POST));
 				$template_html .= '<?php include("dynamic_variables.php"); ?>';
 			} else {
-				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getInvoiceDataVariables($id));
+				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getInvoiceDataVariables($uuid));
 				$template_html .= '<?php include("dynamic_variables.php"); ?>';
 			}
 
@@ -398,7 +398,7 @@ class CommonController extends BaseController
 										if ($this->table == 'timeslips') {
 											$block_html .= $this->displayTimeslipItem($_POST);
 										} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders') {
-											$block_html .= $this->displayInvoiceItem($id);
+											$block_html .= $this->displayInvoiceItem($uuid);
 										}
 										$block_text = str_replace('displayTableItem();', '', $block_text);
 										$block_html .= $block_text;
@@ -590,22 +590,22 @@ class CommonController extends BaseController
 		return '<?php $dataVariables =' . $viewArray . ';?>';
 	}
 
-	function getInvoiceDataVariables($id)
+	function getInvoiceDataVariables($uuid)
 	{
-		$viewArray[$this->rawTblName] = $this->getInvoiceItem($id);
+		$viewArray[$this->rawTblName] = $this->getInvoiceItem($uuid);
 		$item_table = $this->rawTblName . "_items";
-		$viewArray[$item_table] = $this->db->table($item_table)->select('*')->where(array($this->table . '_id' => $id))->get()->getResultObject();
+		$viewArray[$item_table] = $this->db->table($item_table)->select('*')->where(array($this->table . '_uuid' => $uuid))->get()->getResultObject();
 
 		if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
 			$note_table = $this->rawTblName . "_notes";
-			$viewArray[$note_table] = $this->db->table($note_table)->select('*')->where(array($this->table . '_id' => $id))->get()->getResultObject();
-			$viewArray[$item_table . '_total_hours'] = $this->db->table($item_table)->select('COALESCE(SUM(hours),0) as total_hours')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_hours;
+			$viewArray[$note_table] = $this->db->table($note_table)->select('*')->where(array($this->table . '_uuid' => $uuid))->get()->getResultObject();
+			$viewArray[$item_table . '_total_hours'] = $this->db->table($item_table)->select('COALESCE(SUM(hours),0) as total_hours')->where(array($this->table . '_uuid' => $uuid))->get()->getRowObject()->total_hours;
 			$viewArray[$item_table . '_total_days'] = $viewArray[$item_table . '_total_hours'] / 8;
-			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_amount;
+			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_uuid' => $uuid))->get()->getRowObject()->total_amount;
 		} else {
-			$viewArray[$item_table . '_total_qty'] = $this->db->table($item_table)->select('COALESCE(SUM(qty),0) as total_qty')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_qty;
-			$viewArray[$item_table . '_total_discount'] = $this->db->table($item_table)->select('COALESCE(SUM(discount),0) as total_discount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_discount;
-			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_amount;
+			$viewArray[$item_table . '_total_qty'] = $this->db->table($item_table)->select('COALESCE(SUM(qty),0) as total_qty')->where(array($this->table . '_uuid' => $uuid))->get()->getRowObject()->total_qty;
+			$viewArray[$item_table . '_total_discount'] = $this->db->table($item_table)->select('COALESCE(SUM(discount),0) as total_discount')->where(array($this->table . '_id' => $uuid))->get()->getRowObject()->total_discount;
+			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_id' => $uuid))->get()->getRowObject()->total_amount;
 			$viewArray[$item_table . '_total_amount_minus_discount'] = $viewArray[$item_table . '_total_amount'] - $viewArray[$item_table . '_total_discount'];
 		}
 
@@ -744,12 +744,12 @@ class CommonController extends BaseController
 		return view($this->table . "/pdf_item", $viewArray);
 	}
 
-	function getInvoiceItem($id)
+	function getInvoiceItem($uuid)
 	{
 		$builder = $this->db->table($this->table);
 		$builder->select($this->table . '.*,customers.company_name,customers.contact_firstname,customers.contact_lastname');
 		$builder->join('customers', 'customers.id=' . $this->table . '.client_id');
-		$builder->where($this->table . '.id', $id);
+		$builder->where($this->table . '.uuid', $uuid);
 		$records = $builder->get()->getRowArray();
 		return (object)$records;
 	}

@@ -176,6 +176,13 @@ class Common_model extends Model
         $query = $this->db->table($tableName)->update($data, array('id' => $id));
         return $query;
     }
+
+    public function updateTableDataByUUID($uuid = null, $data = null, $tableName = "")
+    {
+        $query = $this->db->table($tableName)->update($data, array('uuid' => $uuid));
+        return $query;
+    }
+
     public function insertTableData($data = null, $tableName = "")
     {
         $query = $this->db->table($tableName)->insert($data);
