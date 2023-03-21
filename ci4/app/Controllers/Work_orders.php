@@ -50,7 +50,7 @@ class Work_orders extends CommonController
         foreach ($order_items as $val) {
             unset($val['id']);
             $val['work_orders_uuid'] = $uuidVal;
-            $val['uuid'] = UUID::v5(UUID::v4(), 'work_order_items');;
+            $val['uuid'] = UUID::v5(UUID::v4(), 'work_order_items');
             $this->db->table($this->work_order_items)->insert($val);
         }
 
@@ -119,15 +119,14 @@ class Work_orders extends CommonController
 
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
-
         if ($id > 0) {
-
             $this->model->deleteTableData($this->work_order_items, $id);
             $response['status'] = true;
         }
 
         echo json_encode($response);
     }
+
     public function updateInvoice()
     {
 
@@ -171,6 +170,8 @@ class Work_orders extends CommonController
 
         echo json_encode($response);
     }
+
+    
     public function addInvoiceItem()
     {
         $id = $this->request->getPost('id');
