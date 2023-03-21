@@ -42,7 +42,7 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/".$tableName."/deleterow/".$row['uuid'];?>>
                                     <i class="ti-trash"></i> Delete</a>
-                                    <a class="dropdown-item" href="<?= "/".$tableName."/editrow/".$row['uuid'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item" href="<?= "/".$tableName."/edit/".$row['uuid'];?>"> <i class="fas fa-edit"></i> Edit</a>
                                     <a class="dropdown-item" href="<?= "/" . $tableName . "/exportPDF/" . $row['uuid'] . "?" . rand(0,999999); ?>"> <i class="ti-printer"></i> Print PDF</a>                             
                                     <a class="dropdown-item" href="/<?php echo $tableName; ?>/clone/<?= $row['uuid']; ?>"> <i class="fas fa-copy"></i> Clone</a>
                                 </div>

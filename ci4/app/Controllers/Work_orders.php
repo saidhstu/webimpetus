@@ -8,7 +8,6 @@ use App\Models\Core\Common_model;
 use App\Models\Work_orders_model;
 use stdClass;
 
-ini_set("display errors", 1);
 class Work_orders extends CommonController
 {
 
@@ -39,14 +38,12 @@ class Work_orders extends CommonController
         $data['uuid'] = $uuidVal;
 
         $data['order_number'] = findMaxFieldValue($this->work_orders, "order_number");
-
         if (empty($data['order_number'])) {
             $data['order_number'] = 1001;
         } else {
             $data['order_number'] += 1;
         }
-
-        $inid = $this->model->insertTableData($data, $this->work_orders);
+        $this->model->insertTableData($data, $this->work_orders);
 
         $order_items = $this->db->table($this->work_order_items)->where('work_orders_uuid', $uuid)->get()->getResultArray();
 
@@ -62,26 +59,6 @@ class Work_orders extends CommonController
 
         return redirect()->to($this->table . "/edit/" . $uuidVal);
     }
-
-    // public function edit($id = 0)
-    // {
-    // 	$data['tableName'] = $this->table;
-    //     $data['rawTblName'] = $this->rawTblName;
-    // 	$data["users"] = $this->model->getUser();
-    // 	$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
-    // 	// if there any special cause we can overried this function and pass data to add or edit view
-    // 	$data['additional_data'] = $this->getAdditionalData($id);
-
-    //     echo view($this->table."/edit",$data);
-    // }
-    // public function getAdditionalData($id)
-    // {
-    //     $model = new Common_model();
-    //     $data["customers"] = $model->getAllDataFromTable("customers");
-
-    //     return  $data;
-
-    // }
 
     public function edit($id = '')
     {
@@ -108,7 +85,6 @@ class Work_orders extends CommonController
         $itemIds = @$data['item_id'];
         unset($data['item_id']);
 
-        // $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
         if (empty($uuid)) {
             $data['order_number'] = findMaxFieldValue($this->work_orders, "order_number");
@@ -182,10 +158,8 @@ class Work_orders extends CommonController
         $data['work_orderss_id'] = $this->request->getPost('mainTableId');
 
         if ($id > 0) {
-
             $res = $this->model->updateTableData($id, $data, $this->work_orders_notes);
         } else {
-
             $data['created_by'] = $_SESSION['uuid'];
             $id = $this->model->insertTableData($data, $this->work_orders_notes);
         }
@@ -214,14 +188,10 @@ class Work_orders extends CommonController
             $data['amount'] = $data['amount'] - $discount;
         }
 
-
-        // echo $this->work_order_items;die;
-
         if ($id > 0) {
             $this->model->updateTableData($id, $data, $this->work_order_items);
             $response['status'] = true;
         } else {
-
             $data['work_orders_uuid'] = $mainTableId;
             $data['uuid'] = UUID::v5(UUID::v4(), 'work_order_items');
             $id = $this->model->insertTableData($data, $this->work_order_items);

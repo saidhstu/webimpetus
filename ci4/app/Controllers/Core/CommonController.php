@@ -283,7 +283,7 @@ class CommonController extends BaseController
 		$uuid_business_id = $this->session->get('uuid_business');
 		$business = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
 
-		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
+		if (!empty($uuid) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
 
 			$item_details = $this->getInvoiceItem($uuid);
 			$pdf_name_prefix = $business['business_code'];
