@@ -1,4 +1,7 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
+
 use CodeIgniter\Model;
 use Exception;
 
@@ -11,74 +14,85 @@ class Users_model extends Model
     {
         parent::__construct();
         if ($this->db->fieldExists('uuid_business_id', $this->table)) {
-
             $this->whereCond['uuid_business_id'] = session('uuid_business');
         }
     }
-     
+
     public function getUser($id = false)
     {
         $whereCond = $this->whereCond;
-        if($id === false){
-
-            $whereCond = array_merge(['role!='=>1], $whereCond);
+        if ($id === false) {
+            $whereCond = array_merge(['role!=' => 1], $whereCond);
             return $this->where($whereCond)->findAll();
-        }else{
-
+        } else {
             $whereCond = array_merge(['id' => $id], $whereCond);
             return $this->getWhere($whereCond);
-        }   
+        }
+    }
+
+    public function getUserByUUID($uuid = false)
+    {
+        $whereCond = $this->whereCond;
+        if ($uuid === false) {
+            $whereCond = array_merge(['role!=' => 1], $whereCond);
+            return $this->where($whereCond)->findAll();
+        } else {
+            $whereCond = array_merge(['uuid' => $uuid], $whereCond);
+            return $this->getWhere($whereCond);
+        }
     }
 
 
     public function getApiUsers($id = false)
     {
         $whereCond = $this->whereCond;
-        if($id==false){
+        if ($id == false) {
             $whereCond = [];
             return $this->where($whereCond)->findAll();
-        }else {
-            $whereCond = ['uuid_business_id'=>$id];
+        } else {
+            $whereCond = ['uuid_business_id' => $id];
             return $this->where($whereCond)->findAll();
         }
     }
 
-    public function countUsers(){
+    public function countUsers()
+    {
         //$whereCond = $whereCond = array_merge(['role' => 1], $this->whereCond);
-		return $this->db->table($this->table)->select('id')->where(['role' => 1])->countAllResults();
-	}
-	
-	public function countEmail($email = ''){
+        return $this->db->table($this->table)->select('id')->where(['role' => 1])->countAllResults();
+    }
+
+    public function countEmail($email = '')
+    {
         $whereCond = $whereCond = array_merge(['email' => $email], $this->whereCond);
-		return $this->db->table($this->table)->select('id')->where($whereCond)->countAllResults();
-	}
-	
-	public function saveUser($data)
+        return $this->db->table($this->table)->select('id')->where($whereCond)->countAllResults();
+    }
+
+    public function saveUser($data)
     {
         $query = $this->db->table($this->table)->insert($data);
         return $query;
     }
-	
-	public function deleteUser($id)
+
+    public function deleteUser($id)
     {
         $query = $this->db->table($this->table)->delete(array('id' => $id));
         return $query;
     }
-	
-	public function updateUser($data, $id)
-	{
-		$query = $this->db->table($this->table)->update($data, array('id' => $id));
-		return $query;
-	}
-	
-	public function findUserByEmailAddress(string $emailAddress)
+
+    public function updateUser($data, $id)
+    {
+        $query = $this->db->table($this->table)->update($data, array('id' => $id));
+        return $query;
+    }
+
+    public function findUserByEmailAddress(string $emailAddress)
     {
         $user = $this
             ->asArray()
             ->where(['email' => $emailAddress])
             ->first();
 
-        if (!$user) 
+        if (!$user)
             throw new Exception('User does not exist for specified email address');
 
         return $user;

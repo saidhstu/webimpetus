@@ -2,8 +2,8 @@
 <?php
 $customers = getResultArray("customers");
 $templates = getResultArray("templates", ["module_name" => $tableName]);
-$items = getResultArray("sales_invoice_items", ["sales_invoices_id" => @$sales_invoice->id], false);
-$notes = getResultArray("sales_invoice_notes", ["sales_invoices_id" => @$sales_invoice->id], false);
+$items = getResultArray("sales_invoice_items", ["sales_invoices_uuid" => @$sales_invoice->uuid], false);
+$notes = getResultArray("sales_invoice_notes", ["sales_invoices_uuid" => @$sales_invoice->uuid], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
 $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 ?>
@@ -12,7 +12,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
     <div class="card-body">
 
         <form id="addcustomer" method="post" action=<?php echo "/" . $tableName . "/update"; ?> enctype="multipart/form-data">
-            <input type="hidden" value="<?= @$sales_invoice->id ?>" name="id" id="mainTableId">
+            <input type="hidden" value="<?= @$sales_invoice->uuid ?>" name="uuid" id="mainTableId">
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <nav>

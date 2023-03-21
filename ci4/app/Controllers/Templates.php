@@ -3,8 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Core\CommonController;
-use App\Models\Projects_model;
-use App\Models\Core\Common_model;
+use App\Libraries\UUID;
 use App\Models\Blocks_model;
 
 class Templates extends CommonController
@@ -16,13 +15,13 @@ class Templates extends CommonController
         $this->blocks_model = new Blocks_model();
     }
 
-    public function edit($id = 0)
+    public function edit($id = '')
     {
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data["users"] = $this->model->getUser();
         $data["blocks_lists"] = $this->blocks_model->where(["uuid_business_id" => $this->businessUuid])->where('status', 1)->findAll();
-        $data[$this->rawTblName] = $this->model->getRows($id)->getRow();
+        $data[$this->rawTblName] = $this->model->getRowsByUUID($id)->getRow();
         // if there any special cause we can overried this function and pass data to add or edit view
         $data['additional_data'] = $this->getAdditionalData($id);
         echo view($this->table . "/edit", $data);
@@ -41,16 +40,20 @@ class Templates extends CommonController
 
     public function update()
     {
-        $id = $this->request->getPost('id');
+        $uuid = $this->request->getPost('uuid');
 
         $data = $this->request->getPost();
         $data['is_default'] = isset($data['is_default']) && $data['is_default'] == 'on' ? 1 : 0;
+
+        if (empty($uuid)) {
+            $data['uuid'] = UUID::v5(UUID::v4(), 'templates');
+        }
 
         if ($data['is_default']) {
             $this->db->table($this->table)->update(array('is_default' => 0), array('module_name' => $data['module_name']));
         }
 
-        $response = $this->model->insertOrUpdate($id, $data);
+        $response = $this->model->insertOrUpdateByUUID($uuid, $data);
 
         if (!$response) {
             session()->setFlashdata('message', 'Something wrong!');

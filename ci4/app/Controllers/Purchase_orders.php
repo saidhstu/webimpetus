@@ -16,7 +16,6 @@ class Purchase_orders extends CommonController
         parent::__construct();
 
         $this->purchase_orders_model = new Purchase_orders_model();
-
         $this->purchase_order_items = "purchase_order_items";
         $this->purchase_order_notes = "purchase_order_notes";
         $this->purchase_orders = "purchase_orders";
@@ -24,7 +23,6 @@ class Purchase_orders extends CommonController
 
     public function index()
     {
-
         $data[$this->table] = $this->purchase_orders_model->getOrder();
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
@@ -35,66 +33,48 @@ class Purchase_orders extends CommonController
 
     public function clone($uuid = null)
     {
-        $data = $this->model->getRows($uuid)->getRowArray();
-        $uuidVal = UUID::v5(UUID::v4(), 'purchase_order_items');
-        $itemId = $data['id'];
-        unset($data['id'],$data['created_at'],$data['modified_at']);
+        $data = $this->model->getRowsByUUID($uuid)->getRowArray();
+        $uuidVal = UUID::v5(UUID::v4(), 'purchase_orders');
+        unset($data['id'], $data['created_at'], $data['modified_at']);
         $data['uuid'] = $uuidVal;
 
         $data['order_number'] = findMaxFieldValue($this->purchase_orders, "order_number");
-
         if (empty($data['order_number'])) {
             $data['order_number'] = 1001;
         } else {
             $data['order_number'] += 1;
         }
-
         $data['custom_order_number'] = $data['custom_order_number'];
-    
+        $this->model->insertTableData($data, $this->purchase_orders);
 
-        $inid = $this->model->insertTableData($data, $this->purchase_orders);
-
-        $order_items = $this->db->table($this->purchase_order_items)->where('purchase_orders_id', $itemId)->get()->getResultArray();
-        //$invoice_notes = $this->db->table($this->purchase_order_notes)->where('purchase_orders_id', $itemId)->get()->getResultArray();
-        //echo '<pre>'; print_r($order_items); die;
-
-        foreach($order_items as $val){
-
+        $order_items = $this->db->table($this->purchase_order_items)->where('purchase_orders_uuid', $uuid)->get()->getResultArray();
+        foreach ($order_items as $val) {
             unset($val['id']);
-            $val['purchase_orders_id'] = $inid;
+            $val['purchase_orders_uuid'] = $uuidVal;
+            $val['uuid'] = UUID::v5(UUID::v4(), 'purchase_order_items');
             $this->db->table($this->purchase_order_items)->insert($val);
-
         }
-
-        // foreach($invoice_notes as $val){
-
-        //     unset($val['id']);
-        //     $val['purchase_orders_id'] = $inid;
-        //     $this->db->table($this->purchase_order_notes)->insert($val);
-
-        // }
 
         session()->setFlashdata('message', 'Data cloned Successfully!');
         session()->setFlashdata('alert-class', 'alert-success');
 
-        return redirect()->to($this->table."/edit/".$inid);
+        return redirect()->to($this->table . "/edit/" . $uuidVal);
     }
 
-    public function edit($id = 0)
+
+    public function edit($id = '')
     {
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data["users"] = $this->model->getUser();
-
         if (empty($id)) {
             if (empty($data[$this->rawTblName])) {
                 $data[$this->rawTblName] = new stdClass();
             }
             $data[$this->rawTblName]->date = time();
         } else {
-            $data[$this->rawTblName] = $this->model->getRows($id)->getRow();
+            $data[$this->rawTblName] = $this->model->getRowsByUUID($id)->getRow();
         }
-        // if there any special cause we can overried this function and pass data to add or edit view
         $data['additional_data'] = $this->getAdditionalData($id);
 
         echo view($this->table . "/edit", $data);
@@ -102,17 +82,15 @@ class Purchase_orders extends CommonController
 
     public function update()
     {
-        $id = $this->request->getPost('id');
-
+        $uuid = $this->request->getPost('uuid');
         $data = $this->request->getPost();
         $itemIds = @$data['item_id'];
         unset($data['item_id']);
 
-        // $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
-        if (empty($id)) {
+        if (empty($uuid)) {
             $data['order_number'] = findMaxFieldValue($this->purchase_orders, "order_number");
-
+            $data['uuid'] = UUID::v5(UUID::v4(), 'purchase_orders');
             if (empty($data['order_number'])) {
                 $data['order_number'] = 1001;
             } else {
@@ -122,18 +100,15 @@ class Purchase_orders extends CommonController
         }
 
         $data['is_locked'] = isset($data['is_locked']) ? 1 : 0;
-        $response = $this->model->insertOrUpdate($id, $data);
+        $response = $this->model->insertOrUpdateByUUID($uuid, $data);
         if (!$response) {
             session()->setFlashdata('message', 'Something wrong!');
             session()->setFlashdata('alert-class', 'alert-danger');
         } else {
-
-            $id = $response;
             if ($itemIds) {
                 foreach ($itemIds as $itemId) {
-
                     $this->db->table($this->purchase_order_items)->where('id', $itemId)->update(array(
-                        'purchase_orders_id' => $id,
+                        'purchase_orders_uuid' => $data['uuid'],
                     ));
                 }
             }
@@ -144,12 +119,9 @@ class Purchase_orders extends CommonController
 
     public function removeInvoiceItem()
     {
-
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
-
         if ($id > 0) {
-
             $this->model->deleteTableData($this->purchase_order_items, $id);
             $response['status'] = true;
         }
@@ -169,7 +141,7 @@ class Purchase_orders extends CommonController
         $data['discount'] = $this->request->getPost('discount');
         $data['subtotal'] = $this->request->getPost('subtotal');
 
-        $res = $this->model->updateTableData($mainTableId, $data, $this->purchase_orders);
+        $res = $this->model->updateTableDataByUUID($mainTableId, $data, $this->purchase_orders);
 
         $response['status'] = true;
         $response['msg'] = "Data updated successfully";
@@ -178,9 +150,9 @@ class Purchase_orders extends CommonController
 
         echo json_encode($response);
     }
+
     public function saveNotes()
     {
-
         $id = $this->request->getPost('id');
         $data['notes'] = $this->request->getPost('notes');
         $data['purchase_orders_id'] = $this->request->getPost('mainTableId');
@@ -201,9 +173,9 @@ class Purchase_orders extends CommonController
 
         echo json_encode($response);
     }
+
     public function addInvoiceItem()
     {
-
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
         $data['uuid_business_id'] = session('uuid_business');
@@ -215,20 +187,14 @@ class Purchase_orders extends CommonController
 
         if ($data['discount'] > 0) {
             $discount = ($data['amount'] / 100) * $data['discount'];
-
             $data['amount'] = $data['amount'] - $discount;
         }
 
-
-        // echo $this->purchase_order_items;die;
-
         if ($id > 0) {
-
             $this->model->updateTableData($id, $data, $this->purchase_order_items);
             $response['status'] = true;
         } else {
-
-            $data['purchase_orders_id'] = $mainTableId;
+            $data['purchase_orders_uuid'] = $mainTableId;
             $data['uuid'] = UUID::v5(UUID::v4(), 'purchase_order_items');
             $id = $this->model->insertTableData($data, $this->purchase_order_items);
 

@@ -3,6 +3,7 @@ namespace App\Controllers;
 use App\Controllers\Core\CommonController; 
 use App\Models\Users_model;
 use App\Models\Core\Common_model;
+use App\Libraries\UUID;
  
 class Employees extends CommonController
 {	
@@ -17,22 +18,23 @@ class Employees extends CommonController
     {
         $model = new Common_model();
         $data["customers"] = $model->getAllDataFromTable("customers");
-
         return  $data;
-
     }
 
     public function update()
     {        
-        $id = $this->request->getPost('id');
-
+        $uuid = $this->request->getPost('uuid');
 		$data = $this->request->getPost();
+
+        if(empty($uuid)){
+            $data['uuid'] = UUID::v5(UUID::v4(), 'employees');
+        }
 
         if(strlen($data['password']) > 0){
             $data['password'] = md5($data['password']);
         }
         $data['businesses'] = json_encode(@$data['businesses']);
-		$response = $this->model->insertOrUpdate($id, $data);
+		$response = $this->model->insertOrUpdateByUUID($uuid, $data);
 		if(!$response){
 			session()->setFlashdata('message', 'Something wrong!');
 			session()->setFlashdata('alert-class', 'alert-danger');	

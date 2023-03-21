@@ -77,7 +77,7 @@ $(document).on("click", ".editlink", function () {
 });
 
 $(document).on("click", ".removelink", function () {
-
+    
     var current = $(this);
     var id = $(this).closest(".item-row").attr('id');
     var mainTableId = $("#mainTableId").val();
@@ -87,16 +87,11 @@ $(document).on("click", ".removelink", function () {
         data: { id: id, mainTableId: mainTableId },
         method: 'post',
         success: function (res) {
-
             var obj = JSON.parse(res);
             if (obj.status) {
-
                 current.closest(".item-row").remove();
-
                 calculationAmount(true);
-
             }
-
         }
     })
 });

@@ -1,6 +1,9 @@
-<?php namespace App\Models\Core;
+<?php
+
+namespace App\Models\Core;
+
 use CodeIgniter\Model;
- 
+
 class Common_model extends Model
 {
     protected $table = '';
@@ -12,25 +15,24 @@ class Common_model extends Model
         parent::__construct();
         $this->session = session();
         $this->table = $this->getTableNameFromUri();
-        
-        if($this->db->tableExists($this->table)){
+
+        if ($this->db->tableExists($this->table)) {
             if ($this->db->fieldExists('uuid_business_id', $this->table)) {
 
-            $this->whereCond['uuid_business_id'] = session('uuid_business');
-            $this->doesUuidBusinessIdFieldExists = true;
+                $this->whereCond['uuid_business_id'] = session('uuid_business');
+                $this->doesUuidBusinessIdFieldExists = true;
+            }
         }
-        }
-        
     }
 
 
-    public function getTableNameFromUri ()
+    public function getTableNameFromUri()
     {
         $uri = service('uri');
         $tableNameFromUri = $uri->getSegment(1);
         return $tableNameFromUri;
     }
-    
+
 
     public function getRows($id = false)
     {
@@ -49,114 +51,164 @@ class Common_model extends Model
 
             $whereCond = array_merge(array('id' => $id), $whereCond);
             return $this->getWhere($whereCond);
-        }   
+        }
     }
-	
-	public function getCats($id = false)
-    {
-		return $this->findAll();
-	}
-	
 
-	public function deleteData($id)
+    public function getRowsByUUID($uuid = false)
+    {
+        $whereCond = $this->whereCond;
+
+        if ($uuid === false) {
+            if (empty($whereCond)) {
+                return $this->findAll();
+            } else {
+                return $this->getWhere($whereCond)->getResultArray();
+            }
+        } else {
+            $whereCond = array_merge(array('uuid' => $uuid), $whereCond);
+            return $this->getWhere($whereCond);
+        }
+    }
+
+    public function getCats($id = false)
+    {
+        return $this->findAll();
+    }
+
+
+    public function deleteData($id)
     {
         $query = $this->db->table($this->table)->delete(array('id' => $id));
         return $query;
     }
 
-    public function insertBusiness($data = null)
-	{
-        $query = $this->db->table('businesses')->insert($data);
-
+    public function deleteDataByUUID($uuid)
+    {
+        $query = $this->db->table($this->table)->delete(array('uuid' => $uuid));
+        return $query;
     }
-	
-	public function insertOrUpdate($id = null, $data = null)
-	{
+
+    public function insertBusiness($data = null)
+    {
+        $query = $this->db->table('businesses')->insert($data);
+    }
+
+    public function insertOrUpdate($id = null, $data = null)
+    {
         unset($data["id"]);
         if ($this->doesUuidBusinessIdFieldExists) {
-
             $data['uuid_business_id'] = session('uuid_business');
         }
-        if(@$id){
+        if (@$id) {
             $query = $this->db->table($this->table)->update($data, array('id' => $id));
-            if( $query){
+            if ($query) {
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');
                 return $id;
             }
-        }else{
+        } else {
             $query = $this->db->table($this->table)->insert($data);
-            if($query){
+            if ($query) {
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');
                 return $this->db->insertID();
             }
-
         }
-	
-		return false;
-	}
+        return false;
+    }
+
+
+    public function insertOrUpdateByUUID($uuid = null, $data = null)
+    {
+        if ($this->doesUuidBusinessIdFieldExists) {
+            $data['uuid_business_id'] = session('uuid_business');
+        }
+        if (!empty($uuid)) {
+            $query = $this->db->table($this->table)->update($data, array('uuid' => $uuid));
+            if ($query) {
+                session()->setFlashdata('message', 'Data updated Successfully!');
+                session()->setFlashdata('alert-class', 'alert-success');
+                return $uuid;
+            }
+        } else {
+            $query = $this->db->table($this->table)->insert($data);
+            if ($query) {
+                session()->setFlashdata('message', 'Data updated Successfully!');
+                session()->setFlashdata('alert-class', 'alert-success');
+                return $data['uuid'];
+            }
+        }
+        return false;
+    }
 
     public function getAllDataFromTable($tableName)
     {
-		$query = $this->db->table($tableName)->get()->getResultArray();
+        $query = $this->db->table($tableName)->get()->getResultArray();
         return $query;
-	}
+    }
 
     public function getUser($id = false)
     {
         $whereCond = $this->whereCond;
         $builder = $this->db->table("users");
-        if($id === false){
-            $whereCond = array_merge(['role!='=>1], $whereCond);
+        if ($id === false) {
+            $whereCond = array_merge(['role!=' => 1], $whereCond);
             return $builder->where($whereCond)->get()->getResultArray();
-        }else{
+        } else {
             $whereCond = array_merge(['id' => $id], $whereCond);
             return $builder->getWhere($whereCond)->getRowArray();
-        }   
+        }
     }
 
-    public function updateColumn($tableName , $id = null, $data = null){
+    public function updateColumn($tableName, $id = null, $data = null)
+    {
         $query = $this->db->table($tableName, $this->table)->update($data, array('id' => $id));
         return $query;
     }
 
     public function updateData($id = null, $data = null)
-	{
-		$query = $this->db->table($this->table)->update($data, array('id' => $id));
-		return $query;
-	}
+    {
+        $query = $this->db->table($this->table)->update($data, array('id' => $id));
+        return $query;
+    }
     public function updateTableData($id = null, $data = null, $tableName = "")
-	{
-		$query = $this->db->table($tableName)->update($data, array('id' => $id));
-		return $query;
-	}
-    public function insertTableData( $data = null, $tableName = "")
-	{
-		$query = $this->db->table($tableName)->insert($data);
+    {
+        $query = $this->db->table($tableName)->update($data, array('id' => $id));
+        return $query;
+    }
+
+    public function updateTableDataByUUID($uuid = null, $data = null, $tableName = "")
+    {
+        $query = $this->db->table($tableName)->update($data, array('uuid' => $uuid));
+        return $query;
+    }
+
+    public function insertTableData($data = null, $tableName = "")
+    {
+        $query = $this->db->table($tableName)->insert($data);
         return $this->db->insertID();
-	}
+    }
     public function saveDataInTable($data, $tableName = "")
-	{
-		$query = $this->db->table($tableName)->insert($data);
-		return $query;
-	}
+    {
+        $query = $this->db->table($tableName)->insert($data);
+        return $query;
+    }
     public function getDataWhere($tableName, $value, $field = "id")
     {
-		$result = $this->db->table($tableName)->getWhere([
+        $result = $this->db->table($tableName)->getWhere([
             $field => $value
         ])->getResultArray();
 
         return $result;
-	}
+    }
     public function getRow($tableName, $value, $field = "id")
     {
-		$result = $this->db->table($tableName)->getWhere([
+        $result = $this->db->table($tableName)->getWhere([
             $field => $value
         ])->getRow();
 
         return $result;
-	}
+    }
 
     public function deleteTableData($tableName, $id, $field = "id")
     {
@@ -166,19 +218,19 @@ class Common_model extends Model
 
     public function getMenuCode($value)
     {
-		$result = $this->db->table("menu")->getWhere([
+        $result = $this->db->table("menu")->getWhere([
             "link" => $value
         ])->getRowArray();
 
         $maxOrder = findMaxFieldValue("menu", "sort_order");
 
-        if(!empty($result['id'])){
+        if (!empty($result['id'])) {
 
-            $this->updateTableData( $result['id'], ["sort_order" => $result['sort_order'] + 1], "menu");
+            $this->updateTableData($result['id'], ["sort_order" => $result['sort_order'] + 1], "menu");
         }
 
         return @$result['id'];
-	}
+    }
 
     public function loadBillToData($clientId)
     {
@@ -195,7 +247,7 @@ class Common_model extends Model
             $billData[] = trim($customersData['country']);
             $billData = array_filter($billData, 'strlen');
             $billDataStr = implode("\n", $billData);
-    
+
             return array(
                 'status' => 1,
                 'value' => $billDataStr,
@@ -235,39 +287,40 @@ class Common_model extends Model
     {
         $whereCond = $this->whereCond;
         $builder = $this->db->table("categories");
-        if($id === false){
+        if ($id === false) {
             //$whereCond = array_merge(['role!='=>1], $whereCond);
             return $builder->get()->getResultArray();
-        }else{
+        } else {
             $whereCond = array_merge(['id' => $id], $whereCond);
             return $builder->getWhere($whereCond)->getRowArray();
-        }   
+        }
     }
 
     public function CommonInsertOrUpdate($table, $id = null, $data = null)
-	{
+    {
         unset($data["id"]);
 
-        if(@$id>0){           
+        if (@$id > 0) {
             $builder = $this->db->table($table);
             $builder->where('id', $id);
             $result = $builder->update($data);
             return $id;
-        }else{
-			$builder = $this->db->table($table);
-			$result = $builder->insert($data);
-		    return $this->db->insertID();
-        }	
-		return false;
-	}
+        } else {
+            $builder = $this->db->table($table);
+            $result = $builder->insert($data);
+            return $this->db->insertID();
+        }
+        return false;
+    }
 
-    public function CommonfindMaxFieldValue($tableName, $field){
+    public function CommonfindMaxFieldValue($tableName, $field)
+    {
 
         $db = \Config\Database::connect();
         $builder = $db->table($tableName);
-        $query = $builder->selectMax($field );
+        $query = $builder->selectMax($field);
         $order_number = $query->get()->getRowArray()[$field];
-    
-        return $order_number;    
+
+        return $order_number;
     }
 }

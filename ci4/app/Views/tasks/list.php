@@ -1,13 +1,10 @@
 <?php require_once(APPPATH . 'Views/tasks/list-title.php'); ?>
 <div class="white_card_body ">
-
-
     <div class="QA_table ">
         <!-- table-responsive -->
         <table id="example" class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
-
                     <th scope="col">Task Id</th>
                     <th scope="col">Task Name</th>
                     <th scope="col">Project</th>
@@ -17,7 +14,6 @@
                     <th scope="col">Rate</th>
                     <th scope="col">Total Timespent</th>
                     <th scope="col">Active</th>
-
                     <th scope="col">Status</th>
                     <th scope="col" width="50">Action</th>
                 </tr>
@@ -25,7 +21,7 @@
             <tbody>
 
                 <?php foreach ($tasks as $row) : ?>
-                    <tr data-link=<?= "/" . $tableName . "/edit/" . $row['id']; ?>>
+                    <tr data-link=<?= "/" . $tableName . "/editrow/" . $row['uuid']; ?>>
 
                         <td class="f_s_12 f_w_400"><?= $row['id']; ?>
                         </td>
@@ -48,12 +44,10 @@
                                     </span>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 
-                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/" . $tableName . "/delete/" . $row['id']; ?>>
+                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/" . $tableName . "/deleterow/" . $row['uuid']; ?>>
                                             <i class="ti-trash"></i> Delete</a>
-                                        <a class="dropdown-item" href="<?= "/" . $tableName . "/edit/" . $row['id']; ?>"> <i class="fas fa-edit"></i> Edit</a>
-                                        <a class="dropdown-item" href="<?= "/" . $tableName . "/clone/" . $row['id']; ?>"> <i class="fas fa-copy"></i> Clone</a>
-
-
+                                        <a class="dropdown-item" href="<?= "/" . $tableName . "/editrow/" . $row['uuid']; ?>"> <i class="fas fa-edit"></i> Edit</a>
+                                        <a class="dropdown-item" href="<?= "/" . $tableName . "/clone/" . $row['uuid']; ?>"> <i class="fas fa-copy"></i> Clone</a>
                                     </div>
                                 </div>
                             </div>

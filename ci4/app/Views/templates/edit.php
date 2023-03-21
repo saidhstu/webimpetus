@@ -7,7 +7,7 @@
             <div class="card-body">
                 <form id="addcustomer" method="post" action=<?php echo "/" . $tableName . "/update"; ?> enctype="multipart/form-data">
                     <div class="form-row">
-                        <input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$template->id ?>" />
+                        <input type="hidden" class="form-control" name="uuid" placeholder="" value="<?= @$template->uuid ?>" />
                         <div class="form-group required col-md-6">
                             <label for="inputEmail4">Code</label>
                             <input type="input" class="form-control required" id="code" name="code" placeholder="" value="<?= @$template->code ?>">

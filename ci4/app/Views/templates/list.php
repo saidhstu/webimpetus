@@ -5,7 +5,6 @@
         <table id="example" class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
-
                     <th scope="col">Id</th>
                     <th scope="col">Code</th>
                     <th scope="col">Subject</th>
@@ -14,9 +13,8 @@
                 </tr>
             </thead>
             <tbody>
-
                 <?php foreach ($templates as $row) : ?>
-                    <tr data-link=<?= "/" . $tableName . "/edit/" . $row['id']; ?>>
+                    <tr data-link=<?= "/" . $tableName . "/edit/" . $row['uuid']; ?>>
 
                         <td class="f_s_12 f_w_400"><?= $row['id']; ?>
                         </td>
@@ -34,21 +32,14 @@
                                         <i class="ti-more-alt"></i>
                                     </span>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-
-                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/" . $tableName . "/delete/" . $row['id']; ?> <i class="ti-trash"></i> Delete</a>
-                                        <a class="dropdown-item" href="<?= "/" . $tableName . "/edit/" . $row['id']; ?>"> <i class="fas fa-edit"></i> Edit</a>
-
-
+                                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/" . $tableName . "/deleterow/" . $row['uuid']; ?> <i class="ti-trash"></i> Delete</a>
+                                        <a class="dropdown-item" href="<?= "/" . $tableName . "/edit/" . $row['uuid']; ?>"> <i class="fas fa-edit"></i> Edit</a>
                                     </div>
                                 </div>
                             </div>
                         </td>
-
                     </tr>
-
                 <?php endforeach; ?>
-
-
             </tbody>
         </table>
     </div>

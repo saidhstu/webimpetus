@@ -52,22 +52,22 @@ class CommonController extends BaseController
 		}
 	}
 
-	public function changeLanguage() {
+	public function changeLanguage()
+	{
 		$language = \Config\Services::language();
 		$user_id = $this->session->get('uuid');
 		$udata = $this->db->table('users')->select('language_code')->where("id", $user_id)->get()->getRowArray();
 		//print_r($udata); die;
-		if(!empty($udata) && !empty($udata['language_code'])){
+		if (!empty($udata) && !empty($udata['language_code'])) {
 			$language->setLocale($udata['language_code']);
-		}else{
+		} else {
 			$business = $this->db->table('businesses')->where("uuid", $this->businessUuid)->get()->getRowArray();
-			if(!empty($business['language_code'])){
+			if (!empty($business['language_code'])) {
 				$language->setLocale($business['language_code']);
-			}else{
+			} else {
 				$language->setLocale('en');
 			}
 		}
-
 	}
 
 	public function getTableNameFromUri()
@@ -106,7 +106,17 @@ class CommonController extends BaseController
 		$data[$this->rawTblName] = $this->model->getRows($id)->getRow();
 		// if there any special cause we can overried this function and pass data to add or edit view
 		$data['additional_data'] = $this->getAdditionalData($id);
+		echo view($this->table . "/edit", $data);
+	}
 
+	public function editrow($uuid = 0)
+	{
+		$data['tableName'] = $this->table;
+		$data['rawTblName'] = $this->rawTblName;
+		$data["users"] = $this->model->getUser();
+		$data[$this->rawTblName] = $this->model->getRowsByUUID($uuid)->getRow();
+		// if there any special cause we can overried this function and pass data to add or edit view
+		$data['additional_data'] = $this->getAdditionalData($uuid);
 		echo view($this->table . "/edit", $data);
 	}
 
@@ -156,6 +166,21 @@ class CommonController extends BaseController
 			}
 		}
 
+		return redirect()->to('/' . $this->table);
+	}
+
+	public function deleterow($uuid)
+	{
+		if (!empty($uuid)) {
+			$response = $this->model->deleteDataByUUID($uuid);
+			if ($response) {
+				session()->setFlashdata('message', 'Data deleted Successfully!');
+				session()->setFlashdata('alert-class', 'alert-success');
+			} else {
+				session()->setFlashdata('message', 'Something wrong delete failed!');
+				session()->setFlashdata('alert-class', 'alert-danger');
+			}
+		}
 		return redirect()->to('/' . $this->table);
 	}
 
@@ -247,7 +272,7 @@ class CommonController extends BaseController
 	}
 
 
-	public function exportPDF($id = 0, $view = '')
+	public function exportPDF($uuid = 0, $view = '')
 	{
 		set_time_limit(60);
 		$mpdf = new \App\Libraries\Generate_Pdf();
@@ -258,9 +283,9 @@ class CommonController extends BaseController
 		$uuid_business_id = $this->session->get('uuid_business');
 		$business = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
 
-		if (!empty($id) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
+		if (!empty($uuid) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
 
-			$item_details = $this->getInvoiceItem($id);
+			$item_details = $this->getInvoiceItem($uuid);
 			$pdf_name_prefix = $business['business_code'];
 
 			if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
@@ -311,7 +336,7 @@ class CommonController extends BaseController
 				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getTimesheetDataVariables($_POST));
 				$template_html .= '<?php include("dynamic_variables.php"); ?>';
 			} else {
-				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getInvoiceDataVariables($id));
+				file_put_contents($pdf_path . "/dynamic_variables.php", $this->getInvoiceDataVariables($uuid));
 				$template_html .= '<?php include("dynamic_variables.php"); ?>';
 			}
 
@@ -373,7 +398,7 @@ class CommonController extends BaseController
 										if ($this->table == 'timeslips') {
 											$block_html .= $this->displayTimeslipItem($_POST);
 										} else if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders') {
-											$block_html .= $this->displayInvoiceItem($id);
+											$block_html .= $this->displayInvoiceItem($uuid);
 										}
 										$block_text = str_replace('displayTableItem();', '', $block_text);
 										$block_html .= $block_text;
@@ -565,22 +590,22 @@ class CommonController extends BaseController
 		return '<?php $dataVariables =' . $viewArray . ';?>';
 	}
 
-	function getInvoiceDataVariables($id)
+	function getInvoiceDataVariables($uuid)
 	{
-		$viewArray[$this->rawTblName] = $this->getInvoiceItem($id);
+		$viewArray[$this->rawTblName] = $this->getInvoiceItem($uuid);
 		$item_table = $this->rawTblName . "_items";
-		$viewArray[$item_table] = $this->db->table($item_table)->select('*')->where(array($this->table . '_id' => $id))->get()->getResultObject();
+		$viewArray[$item_table] = $this->db->table($item_table)->select('*')->where(array($this->table . '_uuid' => $uuid))->get()->getResultObject();
 
 		if ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices') {
 			$note_table = $this->rawTblName . "_notes";
-			$viewArray[$note_table] = $this->db->table($note_table)->select('*')->where(array($this->table . '_id' => $id))->get()->getResultObject();
-			$viewArray[$item_table . '_total_hours'] = $this->db->table($item_table)->select('COALESCE(SUM(hours),0) as total_hours')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_hours;
+			$viewArray[$note_table] = $this->db->table($note_table)->select('*')->where(array($this->table . '_uuid' => $uuid))->get()->getResultObject();
+			$viewArray[$item_table . '_total_hours'] = $this->db->table($item_table)->select('COALESCE(SUM(hours),0) as total_hours')->where(array($this->table . '_uuid' => $uuid))->get()->getRowObject()->total_hours;
 			$viewArray[$item_table . '_total_days'] = $viewArray[$item_table . '_total_hours'] / 8;
-			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_amount;
+			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_uuid' => $uuid))->get()->getRowObject()->total_amount;
 		} else {
-			$viewArray[$item_table . '_total_qty'] = $this->db->table($item_table)->select('COALESCE(SUM(qty),0) as total_qty')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_qty;
-			$viewArray[$item_table . '_total_discount'] = $this->db->table($item_table)->select('COALESCE(SUM(discount),0) as total_discount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_discount;
-			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_id' => $id))->get()->getRowObject()->total_amount;
+			$viewArray[$item_table . '_total_qty'] = $this->db->table($item_table)->select('COALESCE(SUM(qty),0) as total_qty')->where(array($this->table . '_uuid' => $uuid))->get()->getRowObject()->total_qty;
+			$viewArray[$item_table . '_total_discount'] = $this->db->table($item_table)->select('COALESCE(SUM(discount),0) as total_discount')->where(array($this->table . '_id' => $uuid))->get()->getRowObject()->total_discount;
+			$viewArray[$item_table . '_total_amount'] = $this->db->table($item_table)->select('COALESCE(SUM(amount),0) as total_amount')->where(array($this->table . '_id' => $uuid))->get()->getRowObject()->total_amount;
 			$viewArray[$item_table . '_total_amount_minus_discount'] = $viewArray[$item_table . '_total_amount'] - $viewArray[$item_table . '_total_discount'];
 		}
 
@@ -719,12 +744,12 @@ class CommonController extends BaseController
 		return view($this->table . "/pdf_item", $viewArray);
 	}
 
-	function getInvoiceItem($id)
+	function getInvoiceItem($uuid)
 	{
 		$builder = $this->db->table($this->table);
 		$builder->select($this->table . '.*,customers.company_name,customers.contact_firstname,customers.contact_lastname');
 		$builder->join('customers', 'customers.id=' . $this->table . '.client_id');
-		$builder->where($this->table . '.id', $id);
+		$builder->where($this->table . '.uuid', $uuid);
 		$records = $builder->get()->getRowArray();
 		return (object)$records;
 	}

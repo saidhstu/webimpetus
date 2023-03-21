@@ -21,7 +21,7 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
                 </thead>
                 <tbody>                                                       
                 <?php foreach($work_orders as $row):?>
-                <tr data-link=<?= "/".$tableName."/edit/".$row['id'];?> >                  
+                <tr data-link=<?= "/".$tableName."/edit/".$row['uuid'];?> >                  
                     <td class="f_s_12 f_w_400"><?= $row['id'];?>
                     </td>
                     <td class="f_s_12 f_w_400"><?= $row['order_number'];?>
@@ -40,11 +40,11 @@ $status = ["Estimate", "Quote","Ordered","Acknowledged","Authorised","Delivered"
                                     <i class="ti-more-alt"></i>
                                 </span>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/".$tableName."/delete/".$row['id'];?>>
+                                    <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href=<?= "/".$tableName."/deleterow/".$row['uuid'];?>>
                                     <i class="ti-trash"></i> Delete</a>
-                                    <a class="dropdown-item" href="<?= "/".$tableName."/edit/".$row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
-                                    <a class="dropdown-item" href="<?= "/" . $tableName . "/exportPDF/" . $row['id'] . "?" . rand(0,999999); ?>"> <i class="ti-printer"></i> Print PDF</a>                             
-                                    <a class="dropdown-item" href="/<?php echo $tableName; ?>/clone/<?= $row['id']; ?>"> <i class="fas fa-copy"></i> Clone</a>
+                                    <a class="dropdown-item" href="<?= "/".$tableName."/edit/".$row['uuid'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item" href="<?= "/" . $tableName . "/exportPDF/" . $row['uuid'] . "?" . rand(0,999999); ?>"> <i class="ti-printer"></i> Print PDF</a>                             
+                                    <a class="dropdown-item" href="/<?php echo $tableName; ?>/clone/<?= $row['uuid']; ?>"> <i class="fas fa-copy"></i> Clone</a>
                                 </div>
                             </div>
                         </div>

@@ -53,7 +53,7 @@
                         <input type="text" class="form-control" id="news_letter_status" name="news_letter_status" placeholder=""  value="<?= @$employee->news_letter_status ?>">
                     </div>
                 </div>
-                <input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$employee->id ?>" />
+                <input type="hidden" class="form-control" name="uuid" placeholder="" value="<?= @$employee->uuid ?>" />
 
                 <div class="form-row">
                     <div class="form-group required col-md-6">

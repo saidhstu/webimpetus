@@ -2,7 +2,7 @@
 <?php
 $customers = getResultArray("customers");
 $templates = getResultArray("templates", ["module_name" => $tableName]);
-$items = getWithOutUuidResultArray("work_order_items", ["work_orders_id" => @$work_order->id], false);
+$items = getWithOutUuidResultArray("work_order_items", ["work_orders_uuid" => @$work_order->uuid], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
 $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delivered", "Completed", "Proforma Invoice"];
@@ -12,16 +12,13 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
     <div class="card-body">
 
         <form id="addcustomer" method="post" action=<?php echo "/" . $tableName . "/update"; ?> enctype="multipart/form-data">
-            <input type="hidden" value="<?= @$work_order->id ?>" name="id" id="mainTableId">
+            <input type="hidden" value="<?= @$work_order->uuid ?>" name="uuid" id="mainTableId">
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <nav>
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><?php echo lang('Purchase_invoice.order_details');?></a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"> <?php echo lang('Purchase_invoice.other_details');?></a>
-
-
-
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><?php echo lang('Purchase_invoice.order_details'); ?></a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"> <?php echo lang('Purchase_invoice.other_details'); ?></a>
                         </div>
                     </nav>
                     <div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
@@ -31,7 +28,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.order_number');?>*</label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.order_number'); ?>*</label>
                                         </div>
                                         <div class="col-md-6">
                                             <input readonly type="text" class="form-control" value="<?= @$work_order->order_number ?>" id="order_number" name="order_number" placeholder="">
@@ -40,7 +37,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.client');?>* </label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.client'); ?>* </label>
                                         </div>
                                         <div class="col-md-6">
                                             <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
@@ -55,7 +52,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                     </div>
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.bill_to');?> </label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.bill_to'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <textarea name="bill_to" class="form-control"><?= @$work_order->bill_to ?></textarea>
@@ -63,7 +60,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                     </div>
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.order_by');?> </label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.order_by'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" class="form-control" value="<?= @$work_order->order_by ?>" id="order_by" name="order_by" placeholder="">
@@ -72,7 +69,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Common.comments');?> </label>
+                                            <label for="inputEmail4"><?php echo lang('Common.comments'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <textarea name="comments" id="comments" class="form-control" cols="15" rows="5"><?= @$work_order->comments ?></textarea>
@@ -81,7 +78,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.order_template');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.order_template'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <select id="template" name="template" class="form-control  dashboard-dropdown">
@@ -98,7 +95,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.project_code');?> </label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.project_code'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <select name="project_code" id="project_code" class="form-control">
@@ -129,7 +126,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            <label for="customInvoiceNumber"><?php echo lang('Purchase_invoice.custom_order_number');?>*</label>
+                                            <label for="customInvoiceNumber"><?php echo lang('Purchase_invoice.custom_order_number'); ?>*</label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control required" value="<?= empty(@$work_order->custom_order_number) ? @$business->business_code .  @$work_order->order_number : @$work_order->custom_order_number ?>" id="custom_order_number" name="custom_order_number" placeholder="">
@@ -138,7 +135,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Common.date');?></label>
+                                            <label for="inputEmail4"><?php echo lang('Common.date'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control datepicker" value="<?= render_date(@$work_order->date) ?>" id="date" name="date" placeholder="">
@@ -149,7 +146,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.balance_outstanding');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.balance_outstanding'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input readonly type="input" class="form-control" id="balance_due" name="balance_due" placeholder="" value="<?= @$work_order->balance_due ?>">
@@ -158,7 +155,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Common.status');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Common.status'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <select name="status" id="status" class="form-control dashboard-dropdown">
@@ -175,7 +172,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.grand_total');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.grand_total'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input readonly type="total" class="form-control" id="total" name="total" placeholder="" value="<?= @$work_order->total ?>">
@@ -184,7 +181,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.paid_date');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.paid_date'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" class="form-control datepicker" id="paid_date" name="paid_date" placeholder="" value="<?= render_date(@$work_order->paid_date) ?>">
@@ -201,14 +198,14 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                             <table class="table table-striped  table-bordered table-hover custom-tbl-st" id="table-breakpoint" style="background-color: rgb(255, 255, 255); border-radius: 4px;">
                                                 <tbody>
                                                     <tr class="item">
-                                                        <th data-th="Item"><span class="bt-content"><?php echo lang('Common.item');?></span></th>
-                                                        <th data-th="Description"><span class="bt-content"><?php echo lang('Common.description');?></span></th>
-                                                        <th data-th="Rate"><span class="bt-content"><?php echo lang('Common.rate');?></span></th>
-                                                        <th data-th="qty"><span class="bt-content"><?php echo lang('Common.qty');?></span></th>
-                                                        <th data-th="discount"><span class="bt-content"><?php echo lang('Common.discount');?>(%)</span></th>
-                                                        <th data-th="Amount"><span class="bt-content"><?php echo lang('Common.amount');?></span></th>
-                                                        <th class="td_edit" data-th="Edit/Save"><span class="bt-content"><?php echo lang('Common.edit');?>/<?php echo lang('Common.save');?></span></th>
-                                                        <th class="td_remove" data-th="Cancel/Remove"><span class="bt-content"><?php echo lang('Common.cancel');?>/<?php echo lang('Common.remove');?></span></th>
+                                                        <th data-th="Item"><span class="bt-content"><?php echo lang('Common.item'); ?></span></th>
+                                                        <th data-th="Description"><span class="bt-content"><?php echo lang('Common.description'); ?></span></th>
+                                                        <th data-th="Rate"><span class="bt-content"><?php echo lang('Common.rate'); ?></span></th>
+                                                        <th data-th="qty"><span class="bt-content"><?php echo lang('Common.qty'); ?></span></th>
+                                                        <th data-th="discount"><span class="bt-content"><?php echo lang('Common.discount'); ?>(%)</span></th>
+                                                        <th data-th="Amount"><span class="bt-content"><?php echo lang('Common.amount'); ?></span></th>
+                                                        <th class="td_edit" data-th="Edit/Save"><span class="bt-content"><?php echo lang('Common.edit'); ?>/<?php echo lang('Common.save'); ?></span></th>
+                                                        <th class="td_remove" data-th="Cancel/Remove"><span class="bt-content"><?php echo lang('Common.cancel'); ?>/<?php echo lang('Common.remove'); ?></span></th>
                                                     </tr>
 
 
@@ -266,35 +263,27 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                             </table>
                                         </div>
                                     </div>
-
                                     <div class="row form-group row-space hidden-xs" style="margin-bottom:5px;margin-left: 5px;">
-                                        <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right;">+ <?php echo lang('Purchase_invoice.add_new_item');?></button>
+                                        <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right;">+ <?php echo lang('Purchase_invoice.add_new_item'); ?></button>
                                     </div>
-
-
-
-
-
-
-
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.total_qty');?></label>
+                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.total_qty'); ?></label>
                                         <div class="col-sm-3"><input name="total_qty" class="form-control" type="text" value="<?= @$work_order->total_qty ?>" id="total_qty" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.order_subtotal');?></label>
+                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.order_subtotal'); ?></label>
                                         <div class="col-sm-3"><input class="form-control" type="text" value="<?= @$work_order->subtotal ?>" name="subtotal" id="subtotal" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.discount_amount');?></label>
+                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.discount_amount'); ?></label>
                                         <div class="col-sm-3"><input class="form-control" type="text" value="<?= @$work_order->discount ?>" name="discount" id="totalDiscount" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.total_due');?></label>
+                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.total_due'); ?></label>
                                         <div class="col-sm-3"><input class="form-control" type="text" value="<?= @$work_order->total_due ?>" name="total_due" id="total_due" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.tax_code');?></label>
+                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.tax_code'); ?></label>
                                         <div class="col-sm-3">
                                             <select id="tax_code" name="tax_code" class="form-control">
                                                 <?php foreach ($taxes as $tax) { ?>
@@ -304,32 +293,22 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                         </div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.total_tax');?></label>
+                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.total_tax'); ?></label>
                                         <div class="col-sm-3"><input name="total_tax" class="form-control" type="text" value="<?= @$work_order->total_tax ?>" id="total_tax" readonly=""></div>
                                     </div>
                                     <div class="row form-group row-space">
-                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.total_due_tax');?></label>
+                                        <label class="col-sm-2 control-label"><?php echo lang('Purchase_invoice.total_due_tax'); ?></label>
                                         <div class="col-sm-3"><input name="total_due_with_tax" class="form-control" type="text" value="<?= @$work_order->total_due_with_tax ?>" id="total_due_with_tax" readonly=""></div>
                                     </div>
-
-
-
                                 </div>
-
-
                             </div>
-
                         </div>
                         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div class="row">
-
-
                                 <div class="form-group col-md-6">
-
-
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.transfer_no');?></label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.transfer_no'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" class="form-control" id="customer_ref_po" name="customer_ref_po" placeholder="" value="<?= @$work_order->customer_ref_po ?>">
@@ -337,7 +316,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                     </div>
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.tax_rate');?></label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.tax_rate'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="number" class="form-control" id="tax_rate" name="tax_rate" placeholder="" value="<?= @$work_order->tax_rate ?>">
@@ -346,7 +325,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.customer_currency_code');?></label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.customer_currency_code'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <select id="currency_code" name="currency_code" class="form-control dashboard-dropdown">
@@ -367,7 +346,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.base_currency_code');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.base_currency_code'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?= @$work_order->base_currency_code ?>">
@@ -376,14 +355,14 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
                                     </div>
                                     <div class="row form-group row-space ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.exchange_base_currency');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.exchange_base_currency'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" class="form-control" id="exchange_rate" name="exchange_rate" placeholder="" value="<?= @$work_order->exchange_rate ?>">
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.lock_order');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.lock_order'); ?></label>
                                         <div class="col-sm-6">
                                             <input type="checkbox" value="1" name="is_locked" id="is_locked" <?= @$work_order->is_locked ? 'checked' : '' ?> />
                                         </div>
@@ -409,7 +388,7 @@ $status = ["Estimate", "Quote", "Ordered", "Acknowledged", "Authorised", "Delive
 
 
 
-            <button type="submit" class="btn btn-primary"><?php echo lang('Common.submit');?></button>
+            <button type="submit" class="btn btn-primary"><?php echo lang('Common.submit'); ?></button>
         </form>
     </div>
 </div>

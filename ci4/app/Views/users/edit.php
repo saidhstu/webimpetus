@@ -2,7 +2,6 @@
 
 $str = file_get_contents(APPPATH . 'languages.json');
 $json = json_decode($str, true);
-//print_r($json); die;
 ?>
 
 <div class="white_card_body">
