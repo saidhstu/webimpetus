@@ -11,7 +11,7 @@ $sprints = getResultArray("sprints");
     <div class="card-body">
 
         <form id="addcustomer" method="post" action=<?php echo "/" . $tableName . "/update"; ?> enctype="multipart/form-data">
-            <input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$task->id ?>" />
+            <input type="hidden" class="form-control" name="uuid" placeholder="" value="<?= @$task->uuid ?>" />
             <div class="row">
 
                 <div class=" col-md-6">
@@ -137,7 +137,7 @@ $sprints = getResultArray("sprints");
                             <option value="todo" <?= ("todo" == @$task->category ? 'selected' : '') ?>>
                                 Todo
                             </option>
-                            <option value="in-progress" <?= ("inprogress" == @$task->category ? 'selected' : '') ?>>
+                            <option value="in-progress" <?= ("in-progress" == @$task->category ? 'selected' : '') ?>>
                                 In-progress
                             </option>
                             <option value="review" <?= ("review" == @$task->category ? 'selected' : '') ?>>
