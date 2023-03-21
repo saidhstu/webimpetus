@@ -243,4 +243,31 @@ class Common_model extends Model
             return $builder->getWhere($whereCond)->getRowArray();
         }   
     }
+
+    public function CommonInsertOrUpdate($table, $id = null, $data = null)
+	{
+        unset($data["id"]);
+
+        if(@$id>0){           
+            $builder = $this->db->table($table);
+            $builder->where('id', $id);
+            $result = $builder->update($data);
+            return $id;
+        }else{
+			$builder = $this->db->table($table);
+			$result = $builder->insert($data);
+		    return $this->db->insertID();
+        }	
+		return false;
+	}
+
+    public function CommonfindMaxFieldValue($tableName, $field){
+
+        $db = \Config\Database::connect();
+        $builder = $db->table($tableName);
+        $query = $builder->selectMax($field );
+        $order_number = $query->get()->getRowArray()[$field];
+    
+        return $order_number;    
+    }
 }
