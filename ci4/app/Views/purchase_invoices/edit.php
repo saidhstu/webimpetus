@@ -2,8 +2,8 @@
 <?php
 $customers = getResultArray("customers", ["supplier" => 1]);
 $templates = getResultArray("templates", ["module_name" => $tableName]);
-$items = getResultArray("purchase_invoice_items", ["purchase_invoices_id" => @$purchase_invoice->id], false);
-$notes = getResultArray("purchase_invoice_notes", ["purchase_invoices_id" => @$purchase_invoice->id], false);
+$items = getResultArray("purchase_invoice_items", ["purchase_invoices_uuid" => @$purchase_invoice->uuid], false);
+$notes = getResultArray("purchase_invoice_notes", ["purchase_invoices_uuid" => @$purchase_invoice->uuid], false);
 $business = getRowArray("businesses", ["uuid_business_id" => session('uuid_business')], false);
 $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')], false);
 ?>
@@ -12,14 +12,14 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
     <div class="card-body">
 
         <form id="addcustomer" method="post" action=<?php echo "/" . $tableName . "/update"; ?> enctype="multipart/form-data">
-            <input type="hidden" value="<?= @$purchase_invoice->id ?>" name="id" id="mainTableId">
+            <input type="hidden" value="<?= @$purchase_invoice->uuid ?>" name="uuid" id="mainTableId">
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <nav>
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><?php echo lang('Purchase_invoice.invoice_details');?></a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><?php echo lang('Purchase_invoice.invoice_settings');?></a>
-                            <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="false"><?php echo lang('Common.notes');?></a>
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><?php echo lang('Purchase_invoice.invoice_details'); ?></a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><?php echo lang('Purchase_invoice.invoice_settings'); ?></a>
+                            <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="false"><?php echo lang('Common.notes'); ?></a>
 
 
                         </div>
@@ -31,7 +31,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.invoice_number');?></label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.invoice_number'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input readonly type="text" class="form-control" value="<?= @$purchase_invoice->invoice_number ?>" id="invoice_number" name="invoice_number" placeholder="">
@@ -39,7 +39,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
                                     <div class="row form-group required">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.terms');?> </label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.terms'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <select name="terms" id="terms" class="form-control dashboard-dropdown required">
@@ -54,7 +54,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
                                     <div class="row form-group required">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.supplier');?> </label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.supplier'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <select id="client_id" name="client_id" class="form-control required dashboard-dropdown">
@@ -69,7 +69,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.bill_to');?> </label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.bill_to'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <textarea name="bill_to" class="form-control"><?= @$purchase_invoice->bill_to ?></textarea>
@@ -77,7 +77,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.order_by');?> </label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.order_by'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control" value="<?= @$purchase_invoice->order_by ?>" id="order_by" name="order_by" placeholder="">
@@ -86,7 +86,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Common.notes');?> </label>
+                                            <label for="inputEmail4"><?php echo lang('Common.notes'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
 
@@ -96,7 +96,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                     <div class="row form-group required">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.project_code');?> </label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.project_code'); ?> </label>
                                         </div>
                                         <div class="col-md-6">
                                             <select name="project_code" id="project_code" class=" required form-control dashboard-dropdown">
@@ -128,7 +128,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            <label for="customInvoiceNumber"><?php echo lang('Purchase_invoice.custom_invoice_number');?>*</label>
+                                            <label for="customInvoiceNumber"><?php echo lang('Purchase_invoice.custom_invoice_number'); ?>*</label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control required" value="<?= empty(@$purchase_invoice->custom_invoice_number) ? @$business->business_code .  @$purchase_invoice->invoice_number : @$purchase_invoice->custom_invoice_number ?>" id="custom_invoice_number" name="custom_invoice_number" placeholder="">
@@ -137,7 +137,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                     <div class="row form-group required">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Common.date');?></label>
+                                            <label for="inputEmail4"><?php echo lang('Common.date'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control required datepicker" value="<?= render_date(@$purchase_invoice->date) ?>" id="date" name="date" placeholder="">
@@ -146,7 +146,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                     <div class="row form-group required">
                                         <div class="col-md-4">
-                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.due_date');?></label>
+                                            <label for="inputEmail4"><?php echo lang('Purchase_invoice.due_date'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control required datepicker" id="due_date" name="due_date" placeholder="" value="<?= render_date(@$purchase_invoice->due_date) ?>">
@@ -155,7 +155,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.balance_outstanding');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.balance_outstanding'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input readonly type="input" class="form-control" id="balance_due" name="balance_due" placeholder="" value="<?= @$purchase_invoice->balance_due ?>">
@@ -164,7 +164,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Common.status');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Common.status'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <select name="status" id="status" class="form-control dashboard-dropdown">
@@ -179,7 +179,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.grand_total');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.grand_total'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input readonly type="total" class="form-control" id="total" name="total" placeholder="" value="<?= @$purchase_invoice->total ?>">
@@ -187,7 +187,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.total_paid');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.total_paid'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="total_paid" class="form-control" id="total_paid" name="total_paid" placeholder="" value="<?= @$purchase_invoice->total_paid ?>">
@@ -195,7 +195,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
                                     <div class="row form-group ">
                                         <div class="col-md-4">
-                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.paid_date');?></label>
+                                            <label for="inputPassword4"><?php echo lang('Purchase_invoice.paid_date'); ?></label>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" autocomplete="off" class="form-control datepicker" id="paid_date" name="paid_date" placeholder="" value="<?= render_date(@$purchase_invoice->paid_date) ?>">
@@ -215,13 +215,13 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                             <table class="table table-striped  table-bordered table-hover custom-tbl-st" id="table-breakpoint" style="background-color: rgb(255, 255, 255); border-radius: 4px;">
                                                 <tbody>
                                                     <tr class="item">
-                                                        <th data-th="Item"><span class="bt-content"><?php echo lang('Common.item');?></span></th>
-                                                        <th data-th="Description"><span class="bt-content"><?php echo lang('Common.description');?></span></th>
-                                                        <th data-th="Rate"><span class="bt-content"><?php echo lang('Common.rate');?></span></th>
-                                                        <th data-th="Hours"><span class="bt-content"><?php echo lang('Common.hours');?></span></th>
-                                                        <th data-th="Amount"><span class="bt-content"><?php echo lang('Common.amount');?></span></th>
-                                                        <th class="td_edit" data-th="Edit/Save"><span class="bt-content"><?php echo lang('Common.edit');?>/<?php echo lang('Common.save');?></span></th>
-                                                        <th class="td_remove" data-th="Cancel/Remove"><span class="bt-content"><?php echo lang('Common.cancel');?>/<?php echo lang('Common.remove');?></span></th>
+                                                        <th data-th="Item"><span class="bt-content"><?php echo lang('Common.item'); ?></span></th>
+                                                        <th data-th="Description"><span class="bt-content"><?php echo lang('Common.description'); ?></span></th>
+                                                        <th data-th="Rate"><span class="bt-content"><?php echo lang('Common.rate'); ?></span></th>
+                                                        <th data-th="Hours"><span class="bt-content"><?php echo lang('Common.hours'); ?></span></th>
+                                                        <th data-th="Amount"><span class="bt-content"><?php echo lang('Common.amount'); ?></span></th>
+                                                        <th class="td_edit" data-th="Edit/Save"><span class="bt-content"><?php echo lang('Common.edit'); ?>/<?php echo lang('Common.save'); ?></span></th>
+                                                        <th class="td_remove" data-th="Cancel/Remove"><span class="bt-content"><?php echo lang('Common.cancel'); ?>/<?php echo lang('Common.remove'); ?></span></th>
                                                     </tr>
 
                                                     <!-- <tr class="item-row"><td class="item-id"><span class="item_id"></span><input class="item_uuid" type="hidden"></td><td><span class="s_description" style="display:none"></span><textarea class="description form-control"></textarea></td><td><span class="s_rate" style="display:none"></span><input type="text" class="rate num form-control" value="0" style="width:50px"></td><td><span class="s_hours" style="display:none"></span><input type="text" class="hours num form-control" value="0" style="width:50px"></td><td><span class="price">0</span></td><td><a href="javascript:void(0)" class="editlink" style="display:none " title="Edit"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" class="savelink" title="Save"><i class="fa fa-save"></i></a></td><td><a href="javascript:void(0)" class="removelink" style="display:none" title="Remove"><i class="fa fa-trash"></i></a><a href="javascript:void(0)" class="cancellink" title="Cancel"><i class="fa fa-remove"></i></a></td></tr> -->
@@ -276,11 +276,11 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
 
                                     <div class="row form-group hidden-xs" style="margin-bottom:5px;">
-                                        <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right; margin-left: 14px;">+ <?php echo lang('Purchase_invoice.add_invoice_item');?></button>
+                                        <button type="button" class="btn btn-primary btn-color margin-right-5 btn-sm" id="addrow" style="float:right; margin-left: 14px;">+ <?php echo lang('Purchase_invoice.add_invoice_item'); ?></button>
                                     </div>
 
                                     <div class="row form-group">
-                                        <label class="col-md-4 control-label"><?php echo lang('Purchase_invoice.tax_code');?></label>
+                                        <label class="col-md-4 control-label"><?php echo lang('Purchase_invoice.tax_code'); ?></label>
                                         <div class="col-md-6">
                                             <select id="inv_tax_code" name="inv_tax_code" class="form-control dashboard-dropdown">
                                                 <?php foreach ($taxes as $tax) { ?>
@@ -290,19 +290,19 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.total_hours');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.total_hours'); ?></label>
                                         <div class="col-sm-6"><input name="total_hours" class="form-control" type="text" value="<?= @$purchase_invoice->total_hours ?>" id="total_hours" readonly=""></div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.total_due');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.total_due'); ?></label>
                                         <div class="col-sm-6"><input class="form-control" type="text" value="<?= @$purchase_invoice->total_due ?>" name="total_due" id="total_due" readonly=""></div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.total_tax');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.total_tax'); ?></label>
                                         <div class="col-sm-6"><input name="total_tax" class="form-control" type="text" value="<?= @$purchase_invoice->total_tax ?>" id="total_tax" readonly=""></div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.total_due_tax');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.total_due_tax'); ?></label>
                                         <div class="col-sm-6"><input name="total_due_with_tax" class="form-control" type="text" value="<?= @$purchase_invoice->total_due_with_tax ?>" id="total_due_with_tax" readonly=""></div>
                                     </div>
 
@@ -320,14 +320,14 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
                                 <div class="form-group col-md-6">
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.invoice_pin');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.invoice_pin'); ?></label>
                                         <div class="col-sm-6">
                                             <input type="input" autocomplete="off" class="form-control" id="payment_pin_or_passcode" name="payment_pin_or_passcode" placeholder="" value="<?= @$purchase_invoice->payment_pin_or_passcode ?>">
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.tax_rate');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.tax_rate'); ?></label>
                                         <div class="col-sm-6">
                                             <input type="number" class="form-control" id="invoice_tax_rate" name="invoice_tax_rate" placeholder="" value="<?= @$purchase_invoice->invoice_tax_rate ?>">
                                         </div>
@@ -336,7 +336,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
 
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.invoice_type');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.invoice_type'); ?></label>
                                         <div class="col-sm-6">
                                             <select name="inv_template" id="inv_template" class="form-control dashboard-dropdown">
                                                 <option value="">--Please Select--</option>
@@ -347,7 +347,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.invoice_template');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.invoice_template'); ?></label>
                                         <div class="col-sm-6">
                                             <select id="print_template_code" name="print_template_code" class="form-control  dashboard-dropdown">
                                                 <option value="" selected="">--Please Selected--</option>
@@ -360,7 +360,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.internal_notes');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.internal_notes'); ?></label>
                                         <div class="col-sm-6">
                                             <textarea class="form-control" name="internal_notes"><?= @$purchase_invoice->internal_notes ?></textarea>
                                         </div>
@@ -370,14 +370,14 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                 <div class="form-group col-md-6">
                                     <div class="row form-group">
 
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.transfer_no');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.transfer_no'); ?></label>
                                         <div class="col-sm-6">
                                             <input type="text" autocomplete="off" class="form-control" id="inv_customer_ref_po" name="inv_customer_ref_po" placeholder="" value="<?= @$purchase_invoice->inv_customer_ref_po ?>">
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.customer_currency_code');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.customer_currency_code'); ?></label>
                                         <div class="col-sm-6">
                                             <select id="currency_code" name="currency_code" class="form-control dashboard-dropdown">
                                                 <option value="">--Please Select--</option>
@@ -391,20 +391,20 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                     </div>
 
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.base_currency_code');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.base_currency_code'); ?></label>
                                         <div class="col-sm-6">
                                             <input type="text" autocomplete="off" class="form-control" id="base_currency_code" name="base_currency_code" placeholder="" value="<?= @$purchase_invoice->base_currency_code ?>">
 
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.exchange_base_currency');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.exchange_base_currency'); ?></label>
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control" id="inv_exchange_rate" name="inv_exchange_rate" placeholder="" value="<?= @$purchase_invoice->inv_exchange_rate ?>">
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.lock_invoice');?></label>
+                                        <label class="col-sm-4 control-label"><?php echo lang('Purchase_invoice.lock_invoice'); ?></label>
                                         <div class="col-sm-6">
                                             <input type="checkbox" value="1" name="is_locked" id="is_locked" <?= @$purchase_invoice->is_locked ? 'checked' : '' ?> />
                                         </div>
@@ -430,12 +430,11 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
                                         <?php } ?>
                                     </div>
 
-                                    <button type="button" id="addNote" class="btn btn-primary btn-color btn-sm" style="margin-bottom:10px;margin-left: 5px" onclick="addCustomerNote()"><?php echo lang('Purchase_invoice.add_note');?></button>
+                                    <button type="button" id="addNote" class="btn btn-primary btn-color btn-sm" style="margin-bottom:10px;margin-left: 5px" onclick="addCustomerNote()"><?php echo lang('Purchase_invoice.add_note'); ?></button>
                                 </div>
 
                             </div>
                         </div>
-
 
                     </div>
 
@@ -447,10 +446,7 @@ $taxes = getResultArray("taxes", ["uuid_business_id" => session('uuid_business')
 
             </div>
 
-
-
-
-            <button type="submit" class="btn btn-primary"><?php echo lang('Common.submit');?></button>
+            <button type="submit" class="btn btn-primary"><?php echo lang('Common.submit'); ?></button>
         </form>
     </div>
 </div>

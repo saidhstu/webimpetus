@@ -8,7 +8,6 @@ use App\Models\Core\Common_model;
 use App\Models\Purchase_invoice_model;
 use stdClass;
 
-ini_set("display errors", 1);
 class Purchase_invoices extends CommonController
 {
     private $purchase_invoice_model;
@@ -37,83 +36,49 @@ class Purchase_invoices extends CommonController
 
     public function clone($uuid = null)
     {
-        $data = $this->model->getRows($uuid)->getRowArray();
-        $uuidVal = UUID::v5(UUID::v4(), 'purchase_invoice_items');
-        $itemId = $data['id'];
-        unset($data['id'],$data['created_at'],$data['modified_at']);
+        $data = $this->model->getRowsByUUID($uuid)->getRowArray();
+        $uuidVal = UUID::v5(UUID::v4(), 'purchase_invoices');
+        unset($data['id'], $data['created_at'], $data['modified_at']);
         $data['uuid'] = $uuidVal;
 
         $data['invoice_number'] = findMaxFieldValue($this->purchase_invoices, "invoice_number");
-
         if (empty($data['invoice_number'])) {
             $data['invoice_number'] = 1001;
         } else {
             $data['invoice_number'] += 1;
         }
-
         $data['custom_invoice_number'] = $data['custom_invoice_number'];
-    
+        $this->model->insertTableData($data, $this->purchase_invoices);
 
-        $inid = $this->model->insertTableData($data, $this->purchase_invoices);
+        $invoice_items = $this->db->table($this->purchase_invoice_items)->where('purchase_invoices_uuid', $uuid)->get()->getResultArray();
+        $invoice_notes = $this->db->table($this->purchase_invoice_notes)->where('purchase_invoices_uuid', $uuid)->get()->getResultArray();
 
-        $invoice_items = $this->db->table($this->purchase_invoice_items)->where('purchase_invoices_id', $itemId)->get()->getResultArray();
-        $invoice_notes = $this->db->table($this->purchase_invoice_notes)->where('purchase_invoices_id', $itemId)->get()->getResultArray();
-        //echo '<pre>'; print_r($invoice_items); die;
-
-        foreach($invoice_items as $val){
-
+        foreach ($invoice_items as $val) {
             unset($val['id']);
-            $val['purchase_invoices_id'] = $inid;
+            $val['purchase_invoices_uuid'] = $uuidVal;
+            $val['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoice_items');
             $this->db->table($this->purchase_invoice_items)->insert($val);
-
         }
 
-        foreach($invoice_notes as $val){
-
+        foreach ($invoice_notes as $val) {
             unset($val['id']);
-            $val['purchase_invoices_id'] = $inid;
+            $val['purchase_invoices_uuid'] = $uuidVal;
+            $val['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoice_notes');
             $this->db->table($this->purchase_invoice_notes)->insert($val);
-
         }
 
         session()->setFlashdata('message', 'Data cloned Successfully!');
         session()->setFlashdata('alert-class', 'alert-success');
 
-        return redirect()->to($this->table."/edit/".$inid);
+        return redirect()->to($this->table . "/edit/" . $uuidVal);
     }
 
-    public function edit($id = 0)
+    public function edit($id = '')
     {
         $data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data["users"] = $this->model->getUser();
-        $data[$this->rawTblName] = $this->model->getRows($id)->getRow();
-
-
-        /* // This just create entry on table when click on add button
-        if (empty($id)) {
-
-            $insert['date'] = time();
-            $insert['status'] = 'Invoiced';
-
-            $invoice_number = findMaxFieldValue($this->purchase_invoices, "invoice_number");
-
-            if (empty($invoice_number)) {
-                $invoice_number = 1001;
-            } else {
-                $invoice_number += 1;
-            }
-
-            $insert['invoice_number'] = $invoice_number;
-            $insert['uuid_business_id'] = session('uuid_business');
-
-            $id = $this->purchase_invoice_model->insertData($insert);
-
-            if ($id) {
-                return redirect()->to('/' . $this->table . '/edit/' . $id);
-            }
-        } */
-
+        $data[$this->rawTblName] = $this->model->getRowsByUUID($id)->getRow();
         if (empty($id)) {
             if (empty($data[$this->rawTblName])) {
                 $data[$this->rawTblName] = new stdClass();
@@ -121,8 +86,6 @@ class Purchase_invoices extends CommonController
             $data[$this->rawTblName]->date = time();
             $data[$this->rawTblName]->status = 'Invoiced';
         }
-
-        // if there any special cause we can overried this function and pass data to add or edit view
         $data['additional_data'] = $this->getAdditionalData($id);
 
         echo view($this->table . "/edit", $data);
@@ -130,41 +93,35 @@ class Purchase_invoices extends CommonController
 
     public function update()
     {
-        $id = $this->request->getPost('id');
-
+        $uuid = $this->request->getPost('uuid');
         $data = $this->request->getPost();
         $itemIds = @$data['item_id'];
         unset($data['item_id']);
-
         $data['due_date'] = strtotime($data['due_date']);
         $data['date'] = strtotime($data['date']);
         $data['paid_date'] = strtotime($data['paid_date']);
 
-        if (empty($id)) {
+        if (empty($uuid)) {
             $data['invoice_number'] = findMaxFieldValue($this->purchase_invoices, "invoice_number");
-
+            $data['uuid'] = UUID::v5(UUID::v4(), 'work_orders');
             if (empty($data['invoice_number'])) {
                 $data['invoice_number'] = 1001;
             } else {
                 $data['invoice_number'] += 1;
             }
-
             $data['custom_invoice_number'] = $data['custom_invoice_number'] . $data['invoice_number'];
         }
-        
+
         $data['is_locked'] = isset($data['is_locked']) ? 1 : 0;
-        $response = $this->model->insertOrUpdate($id, $data);
+        $response = $this->model->insertOrUpdateByUUID($uuid, $data);
         if (!$response) {
             session()->setFlashdata('message', 'Something wrong!');
             session()->setFlashdata('alert-class', 'alert-danger');
         } else {
-
-            $id = $response;
             if ($itemIds) {
                 foreach ($itemIds as $itemId) {
-
                     $this->db->table($this->purchase_invoice_items)->where('id', $itemId)->update(array(
-                        'purchase_invoices_id' => $id,
+                        'purchase_invoices_uuid' => $data['uuid'],
                     ));
                 }
             }
@@ -178,9 +135,7 @@ class Purchase_invoices extends CommonController
 
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
-
         if ($id > 0) {
-
             $this->model->deleteTableData($this->purchase_invoice_items, $id);
             $response['status'] = true;
         }
@@ -189,7 +144,6 @@ class Purchase_invoices extends CommonController
     }
     public function updateInvoice()
     {
-
         $mainTableId = $this->request->getPost('mainTableId');
         $data['balance_due'] = $this->request->getPost('totalAmountWithTax');
         $data['total'] = $this->request->getPost('totalAmountWithTax');
@@ -198,7 +152,7 @@ class Purchase_invoices extends CommonController
         $data['total_due'] = $this->request->getPost('totalAmount');
         $data['total_tax'] = $this->request->getPost('total_tax');
 
-        $res = $this->model->updateTableData($mainTableId, $data, $this->purchase_invoices);
+        $res = $this->model->updateTableDataByUUID($mainTableId, $data, $this->purchase_invoices);
 
         $response['status'] = true;
         $response['msg'] = "Data updated successfully";
@@ -207,18 +161,16 @@ class Purchase_invoices extends CommonController
 
         echo json_encode($response);
     }
+
     public function saveNotes()
     {
-
         $id = $this->request->getPost('id');
         $data['notes'] = $this->request->getPost('notes');
-        $data['purchase_invoices_id'] = $this->request->getPost('mainTableId');
+        $data['purchase_invoices_uuid'] = $this->request->getPost('mainTableId');
 
         if ($id > 0) {
-
             $res = $this->model->updateTableData($id, $data, $this->purchase_invoice_notes);
         } else {
-
             $data['created_by'] = $_SESSION['uuid'];
             $data['uuid_business_id'] = session('uuid_business');
             $id = $this->model->insertTableData($data, $this->purchase_invoice_notes);
@@ -231,9 +183,9 @@ class Purchase_invoices extends CommonController
 
         echo json_encode($response);
     }
+
     public function addInvoiceItem()
     {
-
         $id = $this->request->getPost('id');
         $mainTableId = $this->request->getPost('mainTableId');
         $data['description'] = $this->request->getPost('description');
@@ -242,19 +194,14 @@ class Purchase_invoices extends CommonController
         $data['amount'] = $data['rate'] * $data['hours'];
         $data['uuid_business_id'] = session('uuid_business');
 
-        // echo $this->purchase_invoice_items;die;
-
         if ($id > 0) {
-
             $this->model->updateTableData($id, $data, $this->purchase_invoice_items);
             $response['status'] = true;
         } else {
-
             $data['uuid_business_id'] = session('uuid_business');
-            $data['purchase_invoices_id'] = $mainTableId;
+            $data['purchase_invoices_uuid'] = $mainTableId;
             $data['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoice_items');
             $id = $this->model->insertTableData($data, $this->purchase_invoice_items);
-
             if ($id > 0) {
                 $response['msg'] = "Data added successfully";
                 $response['status'] = true;
@@ -271,21 +218,16 @@ class Purchase_invoices extends CommonController
 
     public function deleteNote()
     {
-
         $id = $this->request->getPost('id');
         $res = $this->model->deleteTableData($this->purchase_invoice_notes, $id);
-
         $response['id'] = $id;
         if ($res) {
-
             $response['status'] = true;
             $response['msg'] = "Data deleted successfully";
         } else {
             $response['status'] = false;
             $response['msg'] = "Failed";
         }
-
-
         echo json_encode($response);
     }
 
