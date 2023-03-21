@@ -42,6 +42,19 @@ class Users_model extends Model
         }
     }
 
+
+    public function getApiUsers($id = false)
+    {
+        $whereCond = $this->whereCond;
+        if ($id == false) {
+            $whereCond = [];
+            return $this->where($whereCond)->findAll();
+        } else {
+            $whereCond = ['uuid_business_id' => $id];
+            return $this->where($whereCond)->findAll();
+        }
+    }
+
     public function countUsers()
     {
         //$whereCond = $whereCond = array_merge(['role' => 1], $this->whereCond);
