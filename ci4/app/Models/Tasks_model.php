@@ -81,4 +81,18 @@ class Tasks_model extends Model
         return $result;
     }
 
+    public function getApiTaskList($businessUuid =false, $whereConditions = null)
+    {
+        $builder = $this->db->table($this->table);
+        $builder->select($this->table . ".*, customers.company_name, projects.name as project_name");
+        $builder->join('customers', 'customers.id = ' . $this->table . '.reported_by', 'left');
+        $builder->join('projects', 'projects.id = ' . $this->table . '.projects_id', 'left');
+        if($businessUuid !==false) $builder->where($this->table . ".uuid_business_id",  $businessUuid);
+        if (!empty($whereConditions)) {
+            $builder->where($whereConditions);
+        }
+        // echo $this->db->getLastQuery();
+        return $builder->get()->getResultArray();
+    }
+
 }

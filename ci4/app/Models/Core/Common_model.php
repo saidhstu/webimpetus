@@ -260,4 +260,14 @@ class Common_model extends Model
         }	
 		return false;
 	}
+
+    public function CommonfindMaxFieldValue($tableName, $field){
+
+        $db = \Config\Database::connect();
+        $builder = $db->table($tableName);
+        $query = $builder->selectMax($field );
+        $order_number = $query->get()->getRowArray()[$field];
+    
+        return $order_number;    
+    }
 }

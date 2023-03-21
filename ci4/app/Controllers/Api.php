@@ -18,6 +18,7 @@ use App\Models\Menu_model;
 use App\Models\Users_model;
 use App\Models\Core\Common_model;
 use App\Models\TimeslipsModel;
+use App\Models\Tasks_model;
 use App\Libraries\UUID;
 class Api extends BaseController
 {
@@ -40,6 +41,7 @@ class Api extends BaseController
       $this->menuModel = new Menu_model();
       $this->userModel = new Users_model();
       $this->timeSlipsModel = new TimeslipsModel();
+      $this->tasksModel = new Tasks_model();
       $this->common_model = new Common_model();
       header('Content-Type: application/json; charset=utf-8');
       // header('Access-Control-Allow-Origin: *');
@@ -592,14 +594,14 @@ class Api extends BaseController
     {
         // $post = $this->request->getPost(); 
         // echo '<pre>';print_r($post); die;
-        if(!empty($this->request->getPost('task_name')) && !empty($this->request->getPost('slip_start_date')) && !empty($this->request->getPost('uuid_business_id'))){	
+        if(!empty($this->request->getPost('task_id')) && !empty($this->request->getPost('slip_start_date')) && !empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('employee_id'))){	
             
             $uuidVal = UUID::v5(UUID::v4(), 'timeslips_saving');
                 
             $post = $this->request->getPost(); 
-            $data["task_name"] = @$post["task_name"];
-            $data["slip_start_date"] = @$post["slip_start_date"];
-            $data["employee_name"] = @$post["employee_name"];
+            $data["task_name"] = @$post["task_id"];
+            $data["slip_start_date"] = strtotime(@$post["slip_start_date"]);
+            $data["employee_name"] = @$post["employee_id"];
             $data["uuid_business_id"] = @$post['uuid_business_id'];
             $data["uuid"] = @$uuidVal;
             if(!empty($post["slip_timer_started"])) $data["slip_timer_started"] = @$post["slip_timer_started"];
@@ -621,24 +623,24 @@ class Api extends BaseController
             echo json_encode($response_data); die;
         }else{
             $response_data['status'] = 'error';
-            $response_data['msg']    = 'Task name, slip start date, business uuid cannot be empty!!';
+            $response_data['msg']    = 'Task id, slip start date,employee id , business uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
 
     public function updateTimeslip()
     {
-        if(!empty($this->request->getPost('task_name')) && !empty($this->request->getPost('slip_start_date')) && !empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('uuid'))){	
+        if(!empty($this->request->getPost('task_id')) && !empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('uuid'))){	
             
             $uuidVal = $this->request->getPost('uuid');
                 
             $post = $this->request->getPost(); 
-            $data["task_name"] = @$post["task_name"];
-            $data["slip_start_date"] = @$post["slip_start_date"];
-            $data["employee_name"] = @$post["employee_name"];
-            if(!empty($post["uuid_business_id"])) $data["uuid_business_id"] = @$post['uuid_business'];
+            $data["task_name"] = @$post["task_id"];
+            if(!empty($post["slip_start_date"])) $data["slip_start_date"] = strtotime(@$post["slip_start_date"]);
+            $data["employee_name"] = @$post["employee_id"];
+            if(!empty($post["uuid_business_id"])) $data["uuid_business_id"] = @$post['uuid_business_id'];
             if(!empty($post["slip_timer_started"])) $data["slip_timer_started"] = @$post["slip_timer_started"];
-            if(!empty($post["slip_end_date"])) $data["slip_end_date"] = @$post["slip_end_date"];
+            if(!empty($post["slip_end_date"])) $data["slip_end_date"] = strtotime(@$post["slip_end_date"]);
             if(!empty($post["slip_timer_end"])) $data["slip_timer_end"] = @$post["slip_timer_end"];
             if(!empty($post["break_time"])) $data["break_time"] = @$post["break_time"];
             if(!empty($post["break_time_start"])) $data["break_time_start"] = @$post["break_time_start"];
@@ -656,7 +658,90 @@ class Api extends BaseController
             echo json_encode($response_data); die;
         }else{
             $response_data['status'] = 'error';
-            $response_data['msg']    = 'uuid, task name, slip start date cannot be empty!!';
+            $response_data['msg']    = 'uuid, task id cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
+    }
+
+    public function tasks($ubusiness_id = false) {
+        $rows = $this->tasksModel->getApiTaskList($ubusiness_id);
+        $data['data'] = $rows;
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
+    public function addTask()
+    {
+        // $post = $this->request->getPost(); 
+        if(!empty($this->request->getPost('projects_id')) && !empty($this->request->getPost('customers_id')) && !empty($this->request->getPost('contacts_id')) && !empty($this->request->getPost('name')) && !empty($this->request->getPost('reported_by')) && !empty($this->request->getPost('category')) && !empty($this->request->getPost('start_date')) && !empty($this->request->getPost('priority')) && !empty($this->request->getPost('end_date')) && !empty($this->request->getPost('sprint_id')) && !empty($this->request->getPost('uuid_business_id'))){	
+                
+            $post = $this->request->getPost(); 
+            $data["projects_id"] = @$post["projects_id"];
+            $data["contacts_id"] = @$post["contacts_id"];
+            $data["customers_id"] = @$post["customers_id"];
+            $data["uuid_business_id"] = @$post['uuid_business_id'];
+            $data["name"] = @$post["name"];
+            $data["reported_by"] = @$post["reported_by"];
+            $data["category"] = @$post["category"];
+            $data["start_date"] = strtotime(@$post["start_date"]);
+            $data["priority"] = @$post["priority"];
+            $data["end_date"] = strtotime(@$post["end_date"]);
+            $data["sprint_id"] = @$post["sprint_id"];
+            $data['task_id'] = $this->common_model->CommonfindMaxFieldValue('tasks', "task_id");
+            //echo '<pre>';print_r($data); die;
+            if (empty($data['task_id'])) {
+                $data['task_id'] = 1001;
+            } else {
+                $data['task_id'] += 1;
+            }
+            $data["status"] = !empty($post["status"])?@$post["status"]:'assigned';
+            $data["active"] = !empty($post["active"])?@$post["active"]:1;
+
+            if(!empty($post["estimated_hour"])) $data["estimated_hour"] = @$post["estimated_hour"];
+            if(!empty($post["rate"])) $data["rate"] = @$post["rate"];
+           
+
+            $response = $this->common_model->CommonInsertOrUpdate("tasks",'',$data);
+            $response_data['data'] = $data;
+            $response_data['status'] = 'success';
+            echo json_encode($response_data); die;
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'projects_id, customers_id, contacts_id, name,reported_by, category, start_date, priority, end_date, sprint_id business uuid cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
+    }
+
+    public function updateTask()
+    {
+        // $post = $this->request->getPost(); 
+        if(!empty($this->request->getPost('id'))){	
+                
+            $post = $this->request->getPost(); 
+            if(!empty($post["projects_id"])) $data["projects_id"] = @$post["projects_id"];
+            if(!empty($post["contacts_id"])) $data["contacts_id"] = @$post["contacts_id"];
+            if(!empty($post["customers_id"])) $data["customers_id"] = @$post["customers_id"];
+            if(!empty($post["uuid_business_id"])) $data["uuid_business_id"] = @$post['uuid_business_id'];
+            if(!empty($post["name"])) $data["name"] = @$post["name"];
+            if(!empty($post["reported_by"])) $data["reported_by"] = @$post["reported_by"];
+            if(!empty($post["category"])) $data["category"] = @$post["category"];
+            if(!empty($post["start_date"])) $data["start_date"] = strtotime(@$post["start_date"]);
+            if(!empty($post["priority"])) $data["priority"] = @$post["priority"];
+            if(!empty($post["end_date"])) $data["end_date"] = strtotime(@$post["end_date"]);
+            if(!empty($post["sprint_id"])) $data["sprint_id"] = @$post["sprint_id"];
+            
+            if(!empty($post["status"])) $data["status"] = @$post["status"];
+            if(!empty($post["active"]))  $data["active"] = @$post["active"];
+            if(!empty($post["estimated_hour"])) $data["estimated_hour"] = @$post["estimated_hour"];
+            if(!empty($post["rate"])) $data["rate"] = @$post["rate"];           
+
+            $response = $this->common_model->CommonInsertOrUpdate("tasks",$post['id'],$data);
+            $response_data['data'] = $data;
+            $response_data['status'] = 'success';
+            echo json_encode($response_data); die;
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'task id cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
