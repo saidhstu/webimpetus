@@ -323,4 +323,18 @@ class Common_model extends Model
 
         return $order_number;
     }
+
+    public function getCommonData($tableName,$where = [])
+    {
+        if(!empty($where)){
+            return $this->db->table($tableName)->where($where)->get()->getResultArray();
+        }else {
+            $query = $this->db->table($tableName)->get()->getResultArray();
+            return $query;
+        }
+    }
+
+    public function getCount($tableName,$where = []){
+        return $count = $this->db->table($tableName)->getWhere($where)->getNumRows();
+    }
 }
