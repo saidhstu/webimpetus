@@ -630,12 +630,12 @@ class Api extends BaseController
 
     public function updateTimeslip()
     {
-        if(!empty($this->request->getPost('task_id')) && !empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('uuid'))){	
+        if(!empty($this->request->getPost('uuid'))){	
             
             $uuidVal = $this->request->getPost('uuid');
                 
             $post = $this->request->getPost(); 
-            $data["task_name"] = @$post["task_id"];
+            if(!empty($post["task_id"])) $data["task_name"] = @$post["task_id"];
             if(!empty($post["slip_start_date"])) $data["slip_start_date"] = strtotime(@$post["slip_start_date"]);
             $data["employee_name"] = @$post["employee_id"];
             if(!empty($post["uuid_business_id"])) $data["uuid_business_id"] = @$post['uuid_business_id'];
@@ -742,6 +742,95 @@ class Api extends BaseController
         }else{
             $response_data['status'] = 'error';
             $response_data['msg']    = 'task id cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
+    }
+
+    public function employees($id = false)
+    {   
+        $data['data'] = $id!=false?$this->common_model->getCommonData('employees',array('uuid_business_id'=>$id)):$this->common_model->getCommonData('employees');
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
+    public function addEmployee()
+    {
+        // $post = $this->request->getPost(); 
+        // echo '<pre>';print_r($post); die;
+        if(!empty($this->request->getPost('first_name')) && !empty($this->request->getPost('email')) && !empty($this->request->getPost('uuid_business_id'))){
+            $count = $this->common_model->getCount('employees',['email'=>$this->request->getPost('email')]);
+            if(!empty($count)){
+                $data['status'] = 'error';
+                $data['msg']    = 'Email already exist!!';
+                echo json_encode($data); die;
+            }else {
+                
+                $post = $this->request->getPost(); 
+                $data["first_name"] = @$post["first_name"];
+                $data["email"] = @$post["email"];
+                $data["uuid_business_id"] = @$post['uuid_business_id'];
+                if(!empty($post["businesses"])) $data['businesses'] = json_encode(@$post['businesses']);
+                $data['uuid'] = UUID::v5(UUID::v4(), 'employees');
+                if(!empty($post["surname"])) $data["surname"] = @$post["surname"];            
+                if(!empty($post["password"])) $data["password"] = md5(@$post["password"]);
+                if(!empty($post["direct_phone"])) $data["direct_phone"] = @$post["direct_phone"];
+                if(!empty($post["mobile"])) $data["mobile"] = @$post["mobile"];
+                if(!empty($post["direct_fax"])) $data["direct_fax"] = @$post["direct_fax"];
+                if(!empty($post["allow_web_access"])) $data["allow_web_access"] = @$post["allow_web_access"];
+                if(!empty($post["comments"])) $data["comments"] = @$post["comments"];
+                if(!empty($post["title"])) $data["title"] = @$post["title"];
+                if(!empty($post["saludation"])) $data["saludation"] = @$post["saludation"];
+                if(!empty($post["news_letter_status"])) $data["news_letter_status"] = @$post["news_letter_status"];
+                
+                //$data['id']= @$post["id"];
+                $response = $this->common_model->CommonInsertOrUpdate('employees','', $data);
+                $response_data['data'] = $data;
+                $response_data['status'] = 'success';
+                echo json_encode($response_data); die;
+            }
+
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'first_name, uuid_business_id and email cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
+    }
+
+    public function updateEmployee()
+    {
+        // $post = $this->request->getPost(); 
+        // echo '<pre>';print_r($post); die;
+        if(!empty($this->request->getPost('id'))){
+
+            $count = $this->common_model->getCount('employees',['email'=>$this->request->getPost('email'),'id!='=>$this->request->getPost('id')]);
+            if(!empty($count)){
+                $data['status'] = 'error';
+                $data['msg']    = 'Email already exist!!';
+                echo json_encode($data); die;
+            }else {                
+                $post = $this->request->getPost(); 
+                if(!empty($post["first_name"])) $data["first_name"] = @$post["first_name"];
+                if(!empty($post["uuid_business_id"])) $data["uuid_business_id"] = @$post['uuid_business_id'];
+                if(!empty($post["businesses"])) $data['businesses'] = json_encode(@$post['businesses']);
+                if(!empty($post["surname"])) $data["surname"] = @$post["surname"];
+                if(!empty($post["direct_phone"])) $data["direct_phone"] = @$post["direct_phone"];
+                if(!empty($post["mobile"])) $data["mobile"] = @$post["mobile"];
+                if(!empty($post["direct_fax"])) $data["direct_fax"] = @$post["direct_fax"];
+                if(!empty($post["allow_web_access"])) $data["allow_web_access"] = @$post["allow_web_access"];
+                if(!empty($post["comments"])) $data["comments"] = @$post["comments"];
+                if(!empty($post["title"])) $data["title"] = @$post["title"];
+                if(!empty($post["saludation"])) $data["saludation"] = @$post["saludation"];
+                if(!empty($post["news_letter_status"])) $data["news_letter_status"] = @$post["news_letter_status"];
+                //$data['id']= @$post["id"];
+                $response = $this->common_model->CommonInsertOrUpdate('employees',$post['id'], $data);
+                $response_data['data'] = $data;
+                $response_data['status'] = 'success';
+                echo json_encode($response_data); die;
+            }
+
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'employee id cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
