@@ -1,10 +1,8 @@
 <?php require_once(APPPATH . 'Views/common/edit-title.php');
 
 $businessContacts = getResultArray("business_contacts");
-
 $str = file_get_contents(APPPATH . 'languages.json');
 $json = json_decode($str, true);
-//print_r($json); die;
 ?>
 
 <div class="white_card_body">
@@ -13,8 +11,7 @@ $json = json_decode($str, true);
         <form id="adddomain" method="post" action=<?php echo "/" . $tableName . "/update"; ?> enctype="multipart/form-data">
             <div class="form-row">
 
-
-                <input type="hidden" class="form-control" name="id" placeholder="" value="<?= @$businesse->id ?>" />
+                <input type="hidden" name="uuid" value="<?= @$businesse->uuid ?>" />
 
                 <div class=" col-md-6">
                     <div class="form-group  col-md-12">
@@ -52,13 +49,10 @@ $json = json_decode($str, true);
                 </div>
 
                 <div class=" col-md-6">
-
-
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Web Site</label>
                         <input autocomplete="off" type="text" class="form-control " name="web_site" placeholder="" value="<?= @$businesse->web_site ?>">
                     </div>
-
 
                     <div class="form-group  col-md-12">
                         <label for="inputEmail4">Payment Page Url</label>
@@ -115,12 +109,8 @@ $json = json_decode($str, true);
                             </span>
                         </div>
                     <?php } ?>
-
                 </div>
-
-
             </div>
-
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
@@ -139,6 +129,5 @@ $json = json_decode($str, true);
                 $('#key_value').val("*************")
             }
         <?php } ?>
-        //alert($(this).is(":checked"))
     })
 </script>

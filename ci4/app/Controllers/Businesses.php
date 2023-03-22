@@ -2,12 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
-
-use CodeIgniter\Controller;
 use App\Controllers\Core\CommonController;
 use App\Libraries\UUID;
-use App\Models\Core\Common_model;
+
 
 class Businesses extends CommonController
 {
@@ -26,7 +23,6 @@ class Businesses extends CommonController
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
 		if (@$_SESSION['role'] > 0) {
-
 			$data['is_add_permission'] = 1;
 		} else {
 			$data['is_add_permission'] = 0;
@@ -41,9 +37,10 @@ class Businesses extends CommonController
 		return view($viewPath, $data);
 	}
 
+
 	public function update()
 	{
-		$id = $this->request->getPost('id');
+		$uuid = $this->request->getPost('uuid');
 
 		$data = $this->request->getPost();
 		if (isset($data['default_business'])) {
@@ -51,13 +48,12 @@ class Businesses extends CommonController
 			$this->db->table($this->table)->update(array('default_business' => 0));
 		}
 		$data['business_contacts'] = json_encode(@$data['business_contacts']);
-		if ($id < 1) {
-
+		if (empty($uuid)) {
 			$uuidNamespace = UUID::v4();
 			$data['uuid'] = UUID::v5($uuidNamespace, 'businesses');
 		}
-		// prd($data);
-		$response = $this->model->insertOrUpdate($id, $data);
+
+		$response = $this->model->insertOrUpdateByUUID($uuid, $data);
 		if (!$response) {
 			session()->setFlashdata('message', 'Something wrong!');
 			session()->setFlashdata('alert-class', 'alert-danger');
@@ -66,16 +62,15 @@ class Businesses extends CommonController
 		return redirect()->to('/' . $this->table);
 	}
 
-	public function edit($id = 0)
+	public function edit($uuid = '')
 	{
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
 		$data["users"] = $this->model->getUser();
-		$data[$this->rawTblName] = getRowArray($this->table, ['id' => $id]);
+		$data[$this->rawTblName] = getRowArray($this->table, ['uuid' => $uuid]);
 		// if there any special cause we can overried this function and pass data to add or edit view
-		$data['additional_data'] = $this->getAdditionalData($id);
+		$data['additional_data'] = $this->getAdditionalData($uuid);
 		$data['role'] = $this->session->get('role');
-
 		echo view($this->table . "/edit", $data);
 	}
 }
