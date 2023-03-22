@@ -1,24 +1,22 @@
-<?php 
-namespace App\Controllers; 
-use App\Controllers\Core\CommonController; 
-use App\Models\Core\Common_model;
+<?php
 
-ini_set("display_errors", 1);
- 
+namespace App\Controllers;
+
+use App\Controllers\Core\CommonController;
+use App\Models\Core\Common_model;
+use App\Libraries\UUID;
+
 class Customers extends CommonController
-{	
-	
+{
+
     function __construct()
     {
         parent::__construct();
         $this->db = \Config\Database::connect();
-       
-
-	}
+    }
 
     public function getAdditionalData($id)
     {
-     
         $model = new Common_model();
         $builder = $this->db->table("contacts");
         $builder->select("id as contact_id,first_name,surname,email as contact_email");
@@ -26,12 +24,11 @@ class Customers extends CommonController
         $builder->where("uuid_business_id", session('uuid_business'));
         $data["contacts"]  = $builder->get()->getResultArray();
         return  $data;
-
     }
 
     public function update()
-    {       
-        $post = $this->request->getPost(); 
+    {
+        $post = $this->request->getPost();
         $data["company_name"] = @$post["company_name"];
         $data["acc_no"] = @$post["acc_no"];
         $data["status"] = @$post["status"];
@@ -50,85 +47,84 @@ class Customers extends CommonController
         $data["categories"] = json_encode(@$post["categories"]);
         $data["uuid_business_id"] = session('uuid_business');
 
-        $id= $post["id"];
-		$response = $this->model->insertOrUpdate($id, $data);
-		if(!$response){
-			session()->setFlashdata('message', 'Something wrong!');
-			session()->setFlashdata('alert-class', 'alert-danger');	
-		}else{
-            if(empty($id)){
-                $id = $response;
-            }
-            $i = 0;
-            foreach($post["first_name"] as $firstName){
+        $data["uuid"] = $uuid = $post["uuid"];
+        if (empty($data["uuid"])) {
+            $data['uuid'] = UUID::v5(UUID::v4(), 'customers');
+        }
+        $response = $this->model->insertOrUpdateByUUID($uuid, $data);
+        if (!$response) {
+            session()->setFlashdata('message', 'Something wrong!');
+            session()->setFlashdata('alert-class', 'alert-danger');
+        } else {
 
+            $row_data = $this->model->getRowsByUUID($data["uuid"])->getRow();
+            $id = $row_data->id;
+
+            $i = 0;
+            foreach ($post["first_name"] as $firstName) {
                 $contact["first_name"] = $firstName;
                 $contact["client_id"] = $id;
                 $contact["surname"] = $post["surname"][$i];
                 $contact["email"] = $post["contact_email"][$i];
                 $contact["uuid_business_id"] = session('uuid_business');
                 $contactId =  @$post["contact_id"][$i];
-                if(strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"])>0) || strlen(trim($contact["email"])>0)){
-                    $this->insertOrUpdate("contacts",$contactId, $contact);
+                if (strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"]) > 0) || strlen(trim($contact["email"]) > 0)) {
+                    $this->insertOrUpdate("contacts", $contactId, $contact);
                 }
-
                 $i++;
             }
 
             $this->model->deleteTableData("customer_categories", $id, "customer_id");
 
-            if(isset($post["categories"])){
-                foreach( $post["categories"] as $key => $categories_id){
+            if (isset($post["categories"])) {
+                foreach ($post["categories"] as $key => $categories_id) {
 
                     $c_data = [];
 
                     $c_data['customer_id'] = $id;
                     $c_data['categories_id'] = $categories_id;
 
-                    $this->model->insertTableData( $c_data, "customer_categories");
+                    $this->model->insertTableData($c_data, "customer_categories");
                 }
             }
         }
 
-        return redirect()->to('/'.$this->table);
+        return redirect()->to('/' . $this->table);
     }
-    
 
-	public function insertOrUpdate($table, $id = null, $data = null)
-	{
+
+    public function insertOrUpdate($table, $id = null, $data = null)
+    {
         unset($data["id"]);
 
-        if(@$id>0){
-           
+        if (@$id > 0) {
+
             $builder = $this->db->table($table);
             $builder->where('id', $id);
             $result = $builder->update($data);
 
-            if( $result){
+            if ($result) {
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');
                 return $id;
             }
-        }else{
+        } else {
             $query = $this->db->table($table)->insert($data);
-            if($query){
+            if ($query) {
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');
                 return $this->db->insertID();
             }
-
         }
-	
-		return false;
-	}
 
-    public function deleteCustomer(){
-
-        $customerId = $this->request->getPost("customerId");
-
-        $res = $this->model->deleteTableData("contacts", $customerId);
-       
-        return $res;
+        return false;
     }
 
+
+    public function deleteCustomer()
+    {
+        $customerId = $this->request->getPost("customerId");
+        $res = $this->model->deleteTableData("contacts", $customerId);
+        return $res;
+    }
 }
