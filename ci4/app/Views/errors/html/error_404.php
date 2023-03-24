@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>404 Page Not Found</title>
+	<title>403 Page Not Found</title>
 
 	<style>
 		div.logo {
@@ -80,7 +80,7 @@
 
 <body>
 	<div class="wrap">
-		<h1>403 - File Not Found</h1>
+		<h1>403 - Page Not Found</h1>
 		<p>
 			<?php if (!empty($message) && $message !== '(null)') : ?>
 				<?= nl2br(esc($message)) ?>
