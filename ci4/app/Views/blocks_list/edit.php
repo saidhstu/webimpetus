@@ -22,13 +22,11 @@
 
 
                 <div class="form-group col-md-12">
-                    <label for="inputEmail4">Status</label>
+                    <label for="inputStatus">Status</label>
                 </div>
                 <div class="form-group col-md-12">
-
-                    <label for="inputEmail4"><input type="radio" value="1" class="form-control" id="status" name="status" <?= @$blocks->status == 1 ? 'checked' : '' ?> placeholder=""> Yes</label>
-
-                    <label for="inputEmail4"><input type="radio" <?= @$blocks->status == 0 ? 'checked' : '' ?> value="0" class="form-control" id="status" name="status" placeholder=""> No</label>
+                    <label for="inputStatus"><input type="radio" value="1" class="form-control" id="status" name="status" <?= @$blocks->status == 1 ? 'checked' : '' ?>> Yes</label>
+                    <label for="inputStatus"><input type="radio" <?= @$blocks->status == 0 ? 'checked' : '' ?> value="0" class="form-control" id="status" name="status"> No</label>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
