@@ -33,7 +33,7 @@ class Domains extends CommonController
 		$data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['domain'] = $this->domainModel->getRows($id)->getRow();
-		$data['users'] = $this->user_model->getUser();
+		$data['users'] = $this->user_model->getUser('',true);
 		$data['services'] = $this->service_model->getRows();
 
 		echo view($this->table."/edit",$data);
@@ -52,7 +52,7 @@ class Domains extends CommonController
 		);
 		
 		$file = $this->request->getPost('file');
-		if(strlen($file) > 0){
+		if($file && !empty($file) && strlen($file) > 0){
 			$data['image_logo'] = $file;
 		}
 

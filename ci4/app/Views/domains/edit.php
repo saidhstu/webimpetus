@@ -2,7 +2,7 @@
                        
 <div class="white_card_body">
     <div class="card-body">
-        <form id="addcat" method="post" action="/domains/update" enctype="multipart/form-data">
+        <form id="addcat" method="post" action="/domains/update" enctype="multipart/form-data" onsubmit="return frmValidate();">
             <div class="form-row">
             
             <div class="form-group required col-md-12">
@@ -27,8 +27,10 @@
                 </div>
                 
                 <div class="form-group required col-md-12">
-                    <label for="inputEmail4">Name</label>
-                    <input type="text" class="form-control required" id="title" name="name" placeholder=""  value="<?=@$domain->name ?>">
+                    <label for="inputEmail4">Domain Name</label>
+                    <input type="text" class="form-control required" id="name" name="name" placeholder=""  value="<?=@$domain->name ?>">
+
+                    <p id="domain_error"></p>
                     
                     <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$domain->id ?>" />
                 </div>
@@ -155,4 +157,21 @@ function newUploadDocFiles(fileobj, id) {
       e.preventDefault();
       $(".all-media-image-files").html("");
    })
+
+   function frmValidate() {
+    var val = document.getElementById("name");
+    if (/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(val.value)) {
+        $('#domain_error').html("");
+    }
+    else {
+        $('#domain_error').html("Enter Valid Domain Name");
+        document.getElementById("name").focus();
+        return false;
+    }
+}
 </script>
+<style>
+    #domain_error{
+        color:red;
+        font-size: 14px;
+    }

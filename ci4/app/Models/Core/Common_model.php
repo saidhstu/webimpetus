@@ -300,9 +300,11 @@ class Common_model extends Model
     {
         unset($data["id"]);
 
-        if (@$id > 0) {
+        $field = is_numeric($id)?'id':'uuid';
+
+        if (@$id!='' && @$id!=null) {
             $builder = $this->db->table($table);
-            $builder->where('id', $id);
+            $builder->where($field, $id);
             $result = $builder->update($data);
             return $id;
         } else {
