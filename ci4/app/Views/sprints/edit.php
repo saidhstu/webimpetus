@@ -10,8 +10,7 @@
                             <label for="sprint_name">Sprint Name</label>
                         </div>
                         <div class="col-md-6">
-                            <input type="input" autocomplete="off" class="form-control required" name="sprint_name" 
-                            value="<?= empty($sprint->sprint_name) ? "Sprint Week ".date("W") : $sprint->sprint_name ?>" />
+                            <input type="input" autocomplete="off" class="form-control required" name="sprint_name" value="<?= empty($sprint->sprint_name) ? "Sprint Week " . date("W") : $sprint->sprint_name ?>" />
                         </div>
                     </div>
                     <div class="row form-group required">
@@ -19,7 +18,7 @@
                             <label for="start_date">Start Date</label>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control datepicker required" name="start_date" placeholder="" value="<?= render_date(strtotime(@$sprint->start_date)) ?>">
+                            <input type="text" class="form-control datepicker required" name="start_date" placeholder="" value="<?= isset($sprint->start_date) && !empty($sprint->start_date) ? render_date(strtotime(@$sprint->start_date)) : '' ?>">
                         </div>
                     </div>
                     <div class="row form-group required">
@@ -27,7 +26,7 @@
                             <label for="end_date">End Date</label>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control datepicker required" name="end_date" placeholder="" value="<?= render_date(strtotime(@$sprint->end_date)) ?>">
+                            <input type="text" class="form-control datepicker required" name="end_date" placeholder="" value="<?= isset($sprint->end_date) && !empty($sprint->end_date) ? render_date(strtotime(@$sprint->end_date)) : '' ?>">
                         </div>
                     </div>
                     <div class="row form-group required">
@@ -35,7 +34,7 @@
                             <label for="note">Note</label>
                         </div>
                         <div class="col-md-6">
-                            <textarea class="form-control" name="note"><?=@$sprint->note?></textarea> 
+                            <textarea class="form-control" name="note"><?= @$sprint->note ?></textarea>
                         </div>
                     </div>
                 </div>
