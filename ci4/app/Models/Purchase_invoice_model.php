@@ -42,4 +42,13 @@ class Purchase_invoice_model extends Model
 		$query = $this->db->table($this->purchase_invoices)->insert($data);
 		return  $this->db->insertID();
 	}
+
+    public function getApiInvoice($id=false)
+    {
+        $builder = $this->db->table($this->purchase_invoices. " as sa");
+        $builder->select("sa.*, customers.company_name");
+        $builder->join('customers', 'customers.id = sa.client_id', 'left');
+        if($id!=false) $builder->where('sa.uuid_business_id', $id);
+        return $builder->get()->getResultArray();
+    }
 }

@@ -19,6 +19,7 @@ use App\Models\Users_model;
 use App\Models\Core\Common_model;
 use App\Models\TimeslipsModel;
 use App\Models\Tasks_model;
+use App\Models\Purchase_invoice_model;
 use App\Libraries\UUID;
 class Api extends BaseController
 {
@@ -43,6 +44,7 @@ class Api extends BaseController
       $this->timeSlipsModel = new TimeslipsModel();
       $this->tasksModel = new Tasks_model();
       $this->common_model = new Common_model();
+      $this->purchase_invoice_model = new Purchase_invoice_model();
       header('Content-Type: application/json; charset=utf-8');
       // header('Access-Control-Allow-Origin: *');
       // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -325,9 +327,9 @@ class Api extends BaseController
 
     public function updateMenu()
     { 
-        if(empty($this->request->getPost('name')) || empty($this->request->getPost('link')) || empty($this->request->getPost('id'))){
+        if(empty($this->request->getPost('name')) || empty($this->request->getPost('link')) || empty($this->request->getPost('uuid'))){
             $data['status'] = 'error';
-            $data['msg']    = 'name, business id, Menu id and link required for update menu!!';
+            $data['msg']    = 'name, business id, Menu uuid and link required for update menu!!';
         }else {
             $cat_data = [];
             $cat_data['name'] = $this->request->getPost('name');
@@ -336,8 +338,8 @@ class Api extends BaseController
             if(!empty($this->request->getPost('language_code'))) $cat_data['language_code'] = $this->request->getPost('language_code')?$this->request->getPost('language_code'):'en';
             if(!empty($this->request->getPost('menu_fts')))  $cat_data['menu_fts'] = !empty($this->request->getPost('tags'))?implode(',',$this->request->getPost('tags')):$this->request->getPost('name');
             if(!empty($this->request->getPost('uuid_business_id')))  $cat_data['uuid_business_id'] = $this->request->getPost('uuid_business');        
-            $this->menuModel->updateData($this->request->getPost('id'),$cat_data);
-            $this->menuModel->saveMenuCat($this->request->getPost('id'),$this->request->getPost('categories'));           
+            $this->menuModel->updateData($this->request->getPost('uuid'),$cat_data);
+            $this->menuModel->saveMenuCat($this->request->getPost('uuid'),$this->request->getPost('categories'));           
             $data['status'] = 'success';
             $data['data'] = $cat_data;
         }        
@@ -392,7 +394,7 @@ class Api extends BaseController
 
     public function updateUser()
     {               
-        $id = $this->request->getPost('id');
+        $id = $this->request->getPost('uuid');
 		if(!empty($id) && !empty($this->request->getPost('email'))){
 			$count = $this->userModel->getWhere(['email' => $this->request->getPost('email'), 'id!=' => $id])->getNumRows();
             if(!empty($count)){ 
@@ -419,7 +421,7 @@ class Api extends BaseController
 			}	
 		} else {
                 $data['status'] = 'error';
-                $data['msg']    = 'Email and user id could not be empty!!';
+                $data['msg']    = 'Email and user uuid could not be empty!!';
                 echo json_encode($data); die;  
         }
            
@@ -441,6 +443,7 @@ class Api extends BaseController
             $data["acc_no"] = @$post["acc_no"];
             $data["status"] = @$post["status"];
             $data["uuid_business_id"] = @$post['uuid_business'];
+            $data["uuid"] = UUID::v5(UUID::v4(), 'customers');
             if(!empty($post["contact_firstname"])) $data["contact_firstname"] = @$post["contact_firstname"];
             if(!empty($post["contact_lastname"])) $data["contact_lastname"] = @$post["contact_lastname"];
             if(!empty($post["email"])) $data["email"] = @$post["email"];
@@ -467,7 +470,7 @@ class Api extends BaseController
                     foreach($post["first_name"] as $firstName){
 
                         $contact["first_name"] = $firstName;
-                        $contact["client_id"] = $id;
+                        $contact["client_id"] = $data["uuid"];
                         $contact["surname"] = @$post["surname"][$i];
                         $contact["email"] = @$post["contact_email"][$i];
                         $contact["uuid_business_id"] = @$post['uuid_business'];
@@ -489,7 +492,7 @@ class Api extends BaseController
 
                         $c_data = [];
 
-                        $c_data['customer_id'] = $id;
+                        $c_data['customer_id'] = $data["uuid"];
                         $c_data['categories_id'] = $categories_id;
                         //print_r($c_data); die;
 
@@ -512,7 +515,7 @@ class Api extends BaseController
 
     public function updateCustomer()
     {  
-            if(!empty($this->request->getPost('company_name')) && !empty($this->request->getPost('acc_no')) && !empty($this->request->getPost('id')) && !empty($this->request->getPost('uuid_business'))){	     
+            if(!empty($this->request->getPost('company_name')) && !empty($this->request->getPost('acc_no')) && !empty($this->request->getPost('uuid')) && !empty($this->request->getPost('uuid_business'))){	     
                 $post = $this->request->getPost(); 
                 $data["company_name"] = @$post["company_name"];
                 $data["acc_no"] = @$post["acc_no"];
@@ -531,7 +534,7 @@ class Api extends BaseController
                 if(!empty($post["website"])) $data["website"] = @$post["website"];
                 if(!empty($post["categories"])) $data["categories"] = !empty($post["categories"])?json_encode(@$post["categories"]):json_encode([]);
 
-                $id= $post["id"];
+                $id= $post["uuid"];
                 $response = $this->customer_model->insertOrUpdate($id, $data);
                 if(!$response){
                     $response_data['status'] = 'error';
@@ -578,7 +581,7 @@ class Api extends BaseController
                 }
         }else{
             $response_data['status'] = 'error';
-            $response_data['msg']    = 'ID, business uuid, Company name and account number cannot be empty!!';
+            $response_data['msg']    = 'uuid, business uuid, Company name and account number cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -679,7 +682,9 @@ class Api extends BaseController
             $data["projects_id"] = @$post["projects_id"];
             $data["contacts_id"] = @$post["contacts_id"];
             $data["customers_id"] = @$post["customers_id"];
+            $uuidVal = UUID::v5(UUID::v4(), 'tasks');
             $data["uuid_business_id"] = @$post['uuid_business_id'];
+            $data["uuid"] = $uuidVal;
             $data["name"] = @$post["name"];
             $data["reported_by"] = @$post["reported_by"];
             $data["category"] = @$post["category"];
@@ -715,7 +720,7 @@ class Api extends BaseController
     public function updateTask()
     {
         // $post = $this->request->getPost(); 
-        if(!empty($this->request->getPost('id'))){	
+        if(!empty($this->request->getPost('uuid'))){	
                 
             $post = $this->request->getPost(); 
             if(!empty($post["projects_id"])) $data["projects_id"] = @$post["projects_id"];
@@ -735,13 +740,13 @@ class Api extends BaseController
             if(!empty($post["estimated_hour"])) $data["estimated_hour"] = @$post["estimated_hour"];
             if(!empty($post["rate"])) $data["rate"] = @$post["rate"];           
 
-            $response = $this->common_model->CommonInsertOrUpdate("tasks",$post['id'],$data);
+            $response = $this->common_model->CommonInsertOrUpdate("tasks",$post['uuid'],$data);
             $response_data['data'] = $data;
             $response_data['status'] = 'success';
             echo json_encode($response_data); die;
         }else{
             $response_data['status'] = 'error';
-            $response_data['msg']    = 'task id cannot be empty!!';
+            $response_data['msg']    = 'task uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -800,9 +805,9 @@ class Api extends BaseController
     {
         // $post = $this->request->getPost(); 
         // echo '<pre>';print_r($post); die;
-        if(!empty($this->request->getPost('id'))){
+        if(!empty($this->request->getPost('uuid'))){
 
-            $count = $this->common_model->getCount('employees',['email'=>$this->request->getPost('email'),'id!='=>$this->request->getPost('id')]);
+            $count = $this->common_model->getCount('employees',['email'=>$this->request->getPost('email'),'id!='=>$this->request->getPost('uuid')]);
             if(!empty($count)){
                 $data['status'] = 'error';
                 $data['msg']    = 'Email already exist!!';
@@ -822,7 +827,7 @@ class Api extends BaseController
                 if(!empty($post["saludation"])) $data["saludation"] = @$post["saludation"];
                 if(!empty($post["news_letter_status"])) $data["news_letter_status"] = @$post["news_letter_status"];
                 //$data['id']= @$post["id"];
-                $response = $this->common_model->CommonInsertOrUpdate('employees',$post['id'], $data);
+                $response = $this->common_model->CommonInsertOrUpdate('employees',$post['uuid'], $data);
                 $response_data['data'] = $data;
                 $response_data['status'] = 'success';
                 echo json_encode($response_data); die;
@@ -830,9 +835,195 @@ class Api extends BaseController
 
         }else{
             $response_data['status'] = 'error';
-            $response_data['msg']    = 'employee id cannot be empty!!';
+            $response_data['msg']    = 'employee uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
+    }
+
+    public function purchase_invoices($id = false)
+    {   
+        $data['data'] = $id!=false?$this->purchase_invoice_model->getApiInvoice($id):$this->purchase_invoice_model->getApiInvoice();
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
+    public function addPurchaseInvoice()
+    {
+        // $post = $this->request->getPost(); 
+        if(!empty($this->request->getPost('terms')) && !empty($this->request->getPost('date')) && !empty($this->request->getPost('due_date')) && !empty($this->request->getPost('project_code')) && !empty($this->request->getPost('supplier')) && !empty($this->request->getPost('uuid_business_id'))){            
+                
+            $post = $this->request->getPost(); 
+            $data["uuid_business_id"] = @$post['uuid_business_id'];
+            $data['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoices');
+            $data["terms"] = @$post["terms"];            
+            $data["date"] = strtotime(@$post["date"]);
+            $data["due_date"] = strtotime(@$post["due_date"]);
+            $data["client_id"] = @$post["supplier"];
+            $data["is_locked"] = !empty($post["is_locked"])?@$post["is_locked"]:0;
+            $data["project_code"] = @$post["project_code"];
+            if(!empty($post["custom_invoice_number"])) $data['custom_invoice_number'] = @$post['custom_invoice_number'];
+            if(!empty($post["bill_to"])) $data["bill_to"] = @$post["bill_to"];
+            if(!empty($post["order_by"])) $data["order_by"] = @$post["order_by"];
+            if(!empty($post["notes"])) $data["notes"] = @$post["notes"];
+
+
+            $data['invoice_number'] = $this->common_model->CommonfindMaxFieldValue('purchase_invoices', "invoice_number");
+            if (empty($data['invoice_number'])) {
+                $data['invoice_number'] = 1001;
+            } else {
+                $data['invoice_number'] += 1;
+            }
+
+
+            if(!empty($post["balance_due"])) $data["balance_due"] = @$post["balance_due"];
+            $data["status"] = !empty($post["status"])?@$post["status"]:'Invoiced';
+            if(!empty($post["total"])) $data["total"] = @$post["total"];
+            if(!empty($post["total_paid"])) $data["total_paid"] = @$post["total_paid"];
+            if(!empty($post["paid_date"])) $data["paid_date"] = strtotime(@$post["paid_date"]);
+            if(!empty($post["inv_tax_code"])) $data["inv_tax_code"] = @$post["inv_tax_code"];
+            if(!empty($post["total_hours"])) $data["total_hours"] = @$post["total_hours"];
+            if(!empty($post["total_tax"])) $data["total_tax"] = @$post["total_tax"];
+            if(!empty($post["total_due_with_tax"])) $data["total_due_with_tax"] = @$post["total_due_with_tax"];
+            if(!empty($post["invoice_pin"])) $data["payment_pin_or_passcode"] = @$post["invoice_pin"];
+            if(!empty($post["tax_rate"])) $data["invoice_tax_rate"] = @$post["tax_rate"];
+            if(!empty($post["inv_template"])) $data["inv_template"] = @$post["inv_template"];
+            if(!empty($post["print_template_code"])) $data["print_template_code"] = @$post["print_template_code"];
+            if(!empty($post["internal_notes"])) $data["internal_notes"] = @$post["internal_notes"];
+            if(!empty($post["inv_customer_ref_po"])) $data["inv_customer_ref_po"] = @$post["inv_customer_ref_po"];
+            if(!empty($post["customer_currency_code"])) $data["currency_code"] = @$post["customer_currency_code"];
+            if(!empty($post["base_currency_code"])) $data["base_currency_code"] = @$post["base_currency_code"];
+            if(!empty($post["inv_exchange_rate"])) $data["inv_exchange_rate"] = @$post["inv_exchange_rate"];
+            
+            //$data['id']= @$post["id"];
+            $response = $this->common_model->CommonInsertOrUpdate('purchase_invoices','', $data);
+
+            if(!empty($post["amount"])){
+                foreach( $post["amount"] as $key => $amount){
+                    $c_data = [];
+                    $c_data['amount'] = $amount>0?$amount:0.00;
+                    $c_data['description'] = @$post['description'][$key];
+                    $c_data['rate'] = !empty($post['rate'][$key])?$post['rate'][$key]:0.00;
+                    $c_data['hours'] = !empty($post['hours'][$key])?$post['hours'][$key]:0.00;
+                    $c_data['purchase_invoices_uuid'] = @$data['uuid'];
+                    $c_data['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoice_items');
+                    $c_data['uuid_business_id'] = @$post['uuid_business_id'];
+                    //print_r($c_data); die;
+
+                    $this->common_model->CommonInsertOrUpdate("purchase_invoice_items",'',$c_data);
+                }
+            }
+
+            //echo '<pre>';print_r($data); die;
+            if(!empty($post["notes"])){
+                foreach( $post["notes"] as $key => $note){
+                    $notes = [];
+                    $notes['notes'] = $note;
+                    $notes['created_by'] = !empty($post['created_by'])?@$post['created_by']:1;
+                    $notes['purchase_invoices_uuid'] = @$data['uuid'];
+                    $notes['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoice_notes');
+                    $notes['uuid_business_id'] = @$post['uuid_business_id'];
+                    //print_r($notes); die;
+
+                    $this->common_model->CommonInsertOrUpdate("purchase_invoice_notes",'',$notes);
+                }
+            }
+
+
+            $response_data['data'] = $data;
+            $response_data['status'] = 'success';
+            echo json_encode($response_data); die;
+
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'terms, date, due_date, supplier and uuid_business_id cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
+
+    }
+
+    public function updatePurchaseInvoice()
+    {
+        // $post = $this->request->getPost(); 
+        // echo '<pre>';print_r($post); die;
+        if(!empty($this->request->getPost('uuid'))){            
+                
+            $post = $this->request->getPost(); 
+            if(!empty($post["uuid_business_id"])) $data["uuid_business_id"] = @$post['uuid_business_id'];
+            if(!empty($post["terms"])) $data["terms"] = @$post["terms"];            
+            if(!empty($post["date"])) $data["date"] = strtotime(@$post["date"]);
+            if(!empty($post["due_date"])) $data["due_date"] = strtotime(@$post["due_date"]);
+            if(!empty($post["project_code"])) $data["project_code"] = @$post["project_code"];
+            if(!empty($post["custom_invoice_number"])) $data['custom_invoice_number'] = $post['custom_invoice_number'];
+            if(!empty($post["supplier"])) $data["client_id"] = @$post["supplier"];
+            if(!empty($post["bill_to"])) $data["bill_to"] = @$post["bill_to"];
+            if(!empty($post["order_by"])) $data["order_by"] = @$post["order_by"];
+            if(!empty($post["invoice_notes"])) $data["notes"] = @$post["invoice_notes"];
+
+
+            if(!empty($post["balance_due"])) $data["balance_due"] = @$post["balance_due"];
+            if(!empty($post["status"])) $data["status"] = @$post["status"];
+            if(!empty($post["total"])) $data["total"] = @$post["total"];
+            if(!empty($post["total_paid"])) $data["total_paid"] = @$post["total_paid"];
+            if(!empty($post["paid_date"])) $data["paid_date"] = strtotime(@$post["paid_date"]);
+            if(!empty($post["inv_tax_code"])) $data["inv_tax_code"] = @$post["inv_tax_code"];
+            if(!empty($post["total_hours"])) $data["total_hours"] = @$post["total_hours"];
+            if(!empty($post["total_tax"])) $data["total_tax"] = @$post["total_tax"];
+            if(!empty($post["total_due_with_tax"])) $data["total_due_with_tax"] = @$post["total_due_with_tax"];
+            if(!empty($post["invoice_pin"])) $data["payment_pin_or_passcode"] = @$post["invoice_pin"];
+            if(!empty($post["tax_rate"])) $data["invoice_tax_rate"] = @$post["tax_rate"];
+            if(!empty($post["inv_template"])) $data["inv_template"] = @$post["inv_template"];
+            if(!empty($post["print_template_code"])) $data["print_template_code"] = @$post["print_template_code"];
+            if(!empty($post["internal_notes"])) $data["internal_notes"] = @$post["internal_notes"];
+            if(!empty($post["inv_customer_ref_po"])) $data["inv_customer_ref_po"] = @$post["inv_customer_ref_po"];
+            if(!empty($post["customer_currency_code"])) $data["customer_currency_code"] = @$post["customer_currency_code"];
+            if(!empty($post["base_currency_code"])) $data["base_currency_code"] = @$post["base_currency_code"];
+            if(!empty($post["inv_exchange_rate"])) $data["inv_exchange_rate"] = @$post["inv_exchange_rate"];
+            if(!empty($post["is_locked"])) $data["is_locked"] = @$post["is_locked"];
+            
+            //$data['id']= @$post["id"];
+            $response = $this->common_model->CommonInsertOrUpdate('purchase_invoices',$this->request->getPost('uuid'), $data);
+
+            if(!empty($post["amount"])){
+                foreach( $post["amount"] as $key => $amount){
+                    $c_data = [];
+                    $c_data['amount'] = $amount>0?$amount:0.00;
+                    $c_data['description'] = @$post['description'][$key];
+                    $c_data['rate'] = !empty($post['rate'][$key])?$post['rate'][$key]:0.00;
+                    $c_data['hours'] = !empty($post['hours'][$key])?$post['hours'][$key]:0.00;
+                    $c_data['purchase_invoices_uuid'] = @$post['uuid'];
+                    $c_data['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoice_items');
+                    $c_data['uuid_business_id'] = @$post['uuid_business_id'];
+                    //print_r($c_data); die;
+
+                    $this->common_model->CommonInsertOrUpdate("purchase_invoice_items",'',$c_data);
+                }
+            }
+
+            //echo '<pre>';print_r($data); die;
+            if(!empty($post["notes"])){
+                foreach( $post["notes"] as $key => $note){
+                    $notes = [];
+                    $notes['notes'] = $note;
+                    $notes['created_by'] = !empty($post['created_by'])?@$post['created_by']:1;
+                    $notes['purchase_invoices_uuid'] = @$post['uuid'];
+                    $notes['uuid'] = UUID::v5(UUID::v4(), 'purchase_invoice_notes');
+                    $notes['uuid_business_id'] = @$post['uuid_business_id'];
+                    //print_r($notes); die;
+
+                    $this->common_model->CommonInsertOrUpdate("purchase_invoice_notes",'',$notes);
+                }
+            }
+
+            $response_data['data'] = $data;
+            $response_data['status'] = 'success';
+            echo json_encode($response_data); die;
+
+        }else{
+            $response_data['status'] = 'error';
+            $response_data['msg']    = 'uuid cannot be empty!!';
+            echo json_encode($response_data); die;         
+        }
+
     }
 
 }

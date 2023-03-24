@@ -18,11 +18,14 @@ class Users_model extends Model
         }
     }
 
-    public function getUser($id = false)
+    public function getUser($id = false, $all = false)
     {
         $whereCond = $this->whereCond;
         if ($id === false) {
             $whereCond = array_merge(['role!=' => 1], $whereCond);
+            return $this->where($whereCond)->findAll();
+        }else if ($all === true) {
+            //$whereCond = array_merge(['role!=' => 1], $whereCond);
             return $this->where($whereCond)->findAll();
         } else {
             $whereCond = array_merge(['id' => $id], $whereCond);
