@@ -1,3 +1,4 @@
+{{- if .Values.serviceAdminer.enabled }}
 # adminer pvc
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -98,3 +99,4 @@ spec:
         persistentVolumeClaim:
           claimName: adminer-pvc-{{ .Values.targetNS }}
 status: {}
+{{- end }}

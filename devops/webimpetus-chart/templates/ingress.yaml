@@ -30,6 +30,7 @@ spec:
           {{- end }}
     {{- end }}
 ---
+{{- if .Values.serviceAdminer.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -61,3 +62,4 @@ spec:
               {{- end }}
           {{- end }}
     {{- end }}
+{{- end }}

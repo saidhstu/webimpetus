@@ -35,9 +35,9 @@ service:
   port: 80
 
 serviceAdminer:
+  enabled: true
   type: ClusterIP
   port: 8080
-
 
 ingress:
   enabled: true
