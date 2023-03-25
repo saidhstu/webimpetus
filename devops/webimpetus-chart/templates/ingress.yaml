@@ -29,3 +29,35 @@ spec:
               {{- end }}
           {{- end }}
     {{- end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adminer-ingress-{{ .Values.targetEnv }}
+  # namespace: {{ .Values.targetNS }}
+  annotations:
+    #kubernetes.io/ingress.class: nginx
+spec:
+  ingressClassName: nginx
+  rules:
+    {{- range .Values.ingressAdminer.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: adminer-svc-{{ $.Values.targetEnv }}
+                port:
+                  number: {{ $.Values.serviceAdminer.port }}
+              {{- else }}
+              serviceName: adminer-svc-{{ $.Values.targetEnv }}
+              servicePort: {{ $.Values.serviceAdminer.port }}
+              {{- end }}
+          {{- end }}
+    {{- end }}

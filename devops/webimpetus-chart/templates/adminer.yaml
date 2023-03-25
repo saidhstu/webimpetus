@@ -15,18 +15,37 @@ spec:
 status: {}
 
 ---
-# adminer service
+# adminer cluster ip service
 apiVersion: v1
 kind: Service
 metadata:
-  name: adminer-{{ .Values.targetNS }}
+  name: adminer-svc-{{ .Values.targetNS }}
+  namespace: {{ .Values.targetNS }}
+  labels:
+    app: adminer-{{ .Values.targetNS }}
+spec:
+  type: ClusterIP
+  ports:
+  - name: adminer-svc-{{ .Values.targetNS }}
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: adminer-{{ .Values.targetNS }}
+# phpmyadmin deployment
+
+---
+# adminer node port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: adminer-nodeport-{{ .Values.targetNS }}
   namespace: {{ .Values.targetNS }}
   labels:
     app: adminer-{{ .Values.targetNS }}
 spec:
   type: NodePort
   ports:
-  - name: adminer-svc-{{ .Values.targetNS }}
+  - name: adminer-nodeport-svc-{{ .Values.targetNS }}
     port: 8080
     targetPort: 8080
     nodePort: {{ .Values.adminer.port }}
@@ -35,6 +54,7 @@ spec:
 # phpmyadmin deployment
 
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
