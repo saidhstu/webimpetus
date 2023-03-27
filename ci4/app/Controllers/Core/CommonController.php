@@ -281,7 +281,7 @@ class CommonController extends BaseController
 		$pdf_template_id = 0;
 		$pdf_name_prefix = "workstation";
 		$uuid_business_id = $this->session->get('uuid_business');
-		$business = $this->db->table('businesses')->where("uuid_business_id", $uuid_business_id)->get()->getRowArray();
+		$business = $this->db->table('businesses')->where("uuid", $uuid_business_id)->get()->getRowArray();
 
 		if (!empty($uuid) && ($this->table == 'sales_invoices' || $this->table == 'purchase_invoices' || $this->table == 'purchase_orders' || $this->table == 'work_orders')) {
 
