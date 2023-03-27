@@ -864,7 +864,7 @@ class Api extends BaseController
             if(!empty($post["custom_invoice_number"])) $data['custom_invoice_number'] = @$post['custom_invoice_number'];
             if(!empty($post["bill_to"])) $data["bill_to"] = @$post["bill_to"];
             if(!empty($post["order_by"])) $data["order_by"] = @$post["order_by"];
-            if(!empty($post["notes"])) $data["notes"] = @$post["notes"];
+            if(!empty($post["short_notes"])) $data["notes"] = @$post["short_notes"];
 
 
             $data['invoice_number'] = $this->common_model->CommonfindMaxFieldValue('purchase_invoices', "invoice_number");
@@ -979,6 +979,7 @@ class Api extends BaseController
             if(!empty($post["base_currency_code"])) $data["base_currency_code"] = @$post["base_currency_code"];
             if(!empty($post["inv_exchange_rate"])) $data["inv_exchange_rate"] = @$post["inv_exchange_rate"];
             if(!empty($post["is_locked"])) $data["is_locked"] = @$post["is_locked"];
+            if(!empty($post["short_notes"])) $data["notes"] = @$post["short_notes"];
             
             //$data['id']= @$post["id"];
             $response = $this->common_model->CommonInsertOrUpdate('purchase_invoices',$this->request->getPost('uuid'), $data);
