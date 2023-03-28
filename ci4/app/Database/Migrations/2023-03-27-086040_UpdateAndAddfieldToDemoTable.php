@@ -20,10 +20,10 @@ class UpdateAndAddfieldToDemoTable extends Migration
 
         ## Add age column
         $addfields = [
-             'age' => [
-                   'type' => 'INT',
-                   'constraint' => '3',
-             ],
+            'phonenumber' => [
+                    'type' => 'INT',
+                    'constraint' => '25',
+                ],
         ];
         $this->forge->addColumn('demo', $addfields);
     }
@@ -31,7 +31,7 @@ class UpdateAndAddfieldToDemoTable extends Migration
     public function down(){
         
         ## Delete 'age' column
-        $this->forge->dropColumn('demo', ['age']);
+        $this->forge->dropColumn('demo', ['phonenumber']);
 
         ## Rename column name from fullname to emp_name
         $fields = [
