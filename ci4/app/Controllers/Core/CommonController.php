@@ -43,7 +43,7 @@ class CommonController extends BaseController
 				return strtolower(str_replace("/", "", $perm['link']));
 			}, $permissions);
 			if (!in_array($this->table, $user_permissions)) {
-				echo view("errors/html/error_404");
+				echo view("errors/html/error_403");
 				die;
 			}
 		} else {

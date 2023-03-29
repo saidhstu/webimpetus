@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>404 Section not found</title>
+	<title>403 Access denied</title>
 
 	<style>
 		div.logo {
@@ -80,12 +80,12 @@
 
 <body>
 	<div class="wrap">
-		<h1>404 - Section not found</h1>
+		<h1>403 - Access denied</h1>
 		<p>
 			<?php if (!empty($message) && $message !== '(null)') : ?>
 				<?= nl2br(esc($message)) ?>
 			<?php else : ?>
-				Oops! The section you are trying to access cannot be found. If this error persists please contact your database administrator.
+				Oops! The section you are trying to access is not permitted or not available. To access this section please contact your database administrator.
 			<?php endif ?>
 		</p>
 	</div>

@@ -39,6 +39,7 @@ return [
 
 
     //purchase order
+    'order_details' => "Order Details",
     'other_details' => "Other Details",
     'order_number' => "Order Number",
     'order_template' => 'Order Template',
