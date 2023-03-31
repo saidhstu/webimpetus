@@ -27,12 +27,17 @@
                                           </div>
 
                                           <input type="hidden" name="exportIds">
-
+<?php 
+$months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+?>
                                           <div class="row time-picker">
                                               <div class="col-lg-6">
                                                   <div class="form-group">
-                                                      <label for="monthpicker"><?php echo lang('Common.month'); ?></label>
-                                                      <select class="form-control" id="monthpicker" name="monthpicker">
+                                                      <label for="monthpicker22"><?php echo lang('Common.month'); ?></label>
+                                                      <select class="form-control" id="monthpicker22" name="monthpicker">
+                                                      <?php foreach ($months as $key=>$month) { ?>
+                            <option value="<?php echo $key+1 ?>"><?php echo $month; ?></option>
+                        <?php } ?>
                                                       </select>
                                                   </div>
                                               </div>
