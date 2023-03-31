@@ -18,9 +18,15 @@ $json = json_decode($str, true);
                     <label for="inputPassword4">Email</label>
                     <input type="email" class="form-control required" name="email" placeholder="" value="<?= @$user->email ?>">
                 </div>
-                <div class="form-group col-md-4">
+                <?php if(empty($user->id)) { ?>
+                <div class="form-group required col-md-4">
+                    <label for="inputPassword4">Password</label>
+                    <input type="password" class="form-control required" name="password" placeholder="" value="<?= @$user->email ?>">
+                </div>
+                <?php } ?>
+                <div class="form-group col-md-12">
                     <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" name="address" placeholder="" value="<?= @$user->address ?>">
+                    <textarea type="text" class="form-control" name="address" placeholder="" value=""><?= @$user->address ?></textarea>
                 </div>
             </div>
             <div class="form-row">
@@ -72,7 +78,7 @@ $json = json_decode($str, true);
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-
+<?php if(!empty($user->id)) { ?>
         <h3 class="f_s_25 f_w_700 dark_text mr_30 mt_30">Change Password </h3>
 
         <form action="/users/savepwd" method="post" id="chngpwd">
@@ -91,7 +97,7 @@ $json = json_decode($str, true);
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
+<?php } ?>
     </div>
 </div>
 

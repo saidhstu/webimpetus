@@ -174,8 +174,51 @@ $sprints = getResultArray("sprints");
                             <?php endforeach; ?>
                         </select>
                     </div>
+
+
+                </div>
+
+                <div class="form-group col-md-12">
+
+                <div class="form-group col-md-12">
+												<label for="description" >Product Description</label>
+												<div class="col-sm-12">
+													<textarea class="form-control" required name="description" id="content"><?= @$task->description ?></textarea>
+												</div>
+											</div>
+
+
+            </div>
+<?php if(!empty($task->id)){ ?>
+            <div class="form-group col-md-12">
+                    <label for="inputAddress">Upload</label>
+                    <span class="all-media-image-files">
+                    <?php if(!empty(@$task->image)) { ?>
+                    <img src="<?=@$task->image;?>" width="100px">
+                        <a href="/tasks/deleteImage/<?=@$task->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                    <?php } ?>
+                    </span>
+                    <div class="uplogInrDiv" id="drop_file_doc_zone">
+                    <input type="file" name="file" class="fileUpload" id="customFile">
+                    <div class="uploadBlkInr">
+                        <div class="uplogImg">
+                          <img src="/assets/img/fileupload.png" />
+                        </div>
+                        <div class="uploadFileCnt">
+                          <p>
+                            <a href="#">Upload a file </a> file chosen or drag
+                            and drop
+                          </p>
+                          <p>
+                            <span>Video, PNG, JPG, GIF up to 10MB</span>
+                          </p>
+                        </div>
+                        </div>
+                    </div>
+                
                 </div>
             </div>
+            <?php } ?>
             <br>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -186,6 +229,81 @@ $sprints = getResultArray("sprints");
 <!-- main content part end -->
 
 <script>
+  
+
+  var id = "<?=@$task->id ?>";
+  $(document).on('drop', '#drop_file_doc_zone', function(e){
+   
+   // $("#ajax_load").show();
+   console.log(e.originalEvent.dataTransfer);
+       if(e.originalEvent.dataTransfer){
+           if(e.originalEvent.dataTransfer.files.length) {
+               e.preventDefault();
+               e.stopPropagation();
+               var i = 0;
+               while ( i < e.originalEvent.dataTransfer.files.length ){
+                   newUploadDocFiles(e.originalEvent.dataTransfer.files[i], id);
+                   i++;
+               }
+           }   
+       }
+   }
+);
+
+       
+$(document).on("change", ".fileUpload", function() {
+
+   for (var count = 0; count < $(this)[0].files.length; count++) {
+
+       newUploadDocFiles($(this)[0].files[count], id);
+   }
+
+});
+
+
+
+function newUploadDocFiles(fileobj, id) {
+
+   $("#ajax_load").hide();
+
+   var form = new FormData();
+
+   form.append("file", fileobj);
+   form.append("mainTable", class_name);
+   form.append("id", id);
+
+    $.ajax({
+        url: '/tasks/uploadMediaFiles',
+        type: 'post',
+        dataType: 'json',
+        maxNumberOfFiles: 1,
+        autoUpload: false,
+        success: function(result) {
+
+            $("#ajax_load").hide();
+            if (result.status == '1') {
+                $(".all-media-image-files").html(result.file_path);
+            } else {
+                toastr.error(result.msg);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#ajax_load").hide();
+            console.log(textStatus, errorThrown);
+        },
+        data: form,
+        cache: false,
+        contentType: false,
+        processData: false
+   });
+
+}
+
+   $("#delete_file").on("click", function(e){
+      e.preventDefault();
+      $(".all-media-image-files").html("");
+   })
+
     $(document).on("change", "#projects_id", function() {
         var customerId = $('option:selected', this).attr('customer_id');
         $("#customers_id").val(customerId);

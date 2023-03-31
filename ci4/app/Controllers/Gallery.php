@@ -59,7 +59,7 @@ class Gallery extends CommonController
 
 		$id = $this->request->getPost('id');
 		$file = $this->request->getPost('file');
-		if(isset($file) && strlen($file) > 0){
+		if($file && !empty($file) && strlen($file) > 0){
 			$data['name'] = $file;
 		}
 		if( $id > 0 ){
@@ -72,7 +72,7 @@ class Gallery extends CommonController
 		}else {
 
 
-			if(strlen($file) > 0) {
+			if(!empty($file) && strlen($file) > 0) {
 				
 				session()->setFlashdata('message', 'Data entered Successfully!');
 				session()->setFlashdata('alert-class', 'alert-success');

@@ -66,7 +66,7 @@
 <script>
 
     $("#status").on("change", function(){
-        var vall = '<?=base64_encode(@$secret->key_value)?>';
+        var vall = '<?=!empty($secret->key_value)?base64_encode(@$secret->key_value):''?>';
         if($(this).is(":checked")===true){
             $('#key_value').val(atob(vall))
         }else{
