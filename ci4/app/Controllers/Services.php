@@ -81,11 +81,11 @@ class Services extends Api
 		
 		$image_logo = $this->request->getPost('image_logo');
 		$brand_logo = $this->request->getPost('brand_logo');
-		if(strlen($image_logo) > 0){
+		if(!empty($image_logo) && strlen($image_logo) > 0){
 
 			$data['image_logo'] = $this->request->getPost('image_logo');
 		}
-		if(strlen($brand_logo) > 0){
+		if(!empty($brand_logo) && strlen($brand_logo) > 0){
 
 			$data['image_brand'] = $this->request->getPost('brand_logo');
 		}
