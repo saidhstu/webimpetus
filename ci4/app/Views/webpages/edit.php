@@ -1,6 +1,6 @@
 <?php require_once(APPPATH . 'Views/common/edit-title.php');
 
-$blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$webpage->uuid]);
+$blocks_list = getResultArray("blocks_list", !empty($webpage->uuid)?["uuid_linked_table" => @$webpage->uuid]:array());
 $categories = getResultArray("categories");
 
 $type["TEXT"] = "TEXT";

@@ -51,7 +51,7 @@
 
 									<label for="inputEmail4"><input type="radio" <?=@$content->status==0?'checked':''?> value="0" class="form-control" id="status" name="status" placeholder=""> No</label>
 								</div>
-								<?php $json = json_decode(@$content->custom_fields); ?>
+								<?php $json = !empty($content->custom_fields)?json_decode(@$content->custom_fields):[]; ?>
 								<div class="form-group col-md-12">
 									<label for="inputEmail4">Reference</label>
 									<input type="text" class="form-control" id="reference" name="reference" placeholder="" value="<?=@$json->reference?>">

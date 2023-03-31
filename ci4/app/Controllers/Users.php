@@ -62,6 +62,10 @@ class Users extends CommonController
 					session()->setFlashdata('alert-class', 'alert-danger');
 					return redirect()->to('/users/edit');
 				} else {
+
+					$allMenu = getWithOutUuidResultArray("menu");
+					$menu_ids = array_column($allMenu, 'id');
+
 					$uuidNamespace = UUID::v4();
 					$uuid = UUID::v5($uuidNamespace, 'users');
 					$data = array(
@@ -70,11 +74,12 @@ class Users extends CommonController
 						//'password' => md5($this->request->getPost('password')),
 						'address' => $this->request->getPost('address'),
 						'notes' => $this->request->getPost('notes'),
-						'language_code' => $this->request->getPost('language_code'),
+						'language_code' => $this->request->getPost('language_code')?$this->request->getPost('language_code'):'en',
 						'uuid' => $uuid,
 						'uuid_business_id' => session('uuid_business'),
+						'password' => md5($this->request->getPost('password')),					
 						'status' => 0,
-						'permissions' => json_encode($this->request->getPost('sid')),
+						'permissions' => json_encode($menu_ids),
 						'role' => $this->request->getPost('role'),
 					);
 					$this->userModel->saveUser($data);

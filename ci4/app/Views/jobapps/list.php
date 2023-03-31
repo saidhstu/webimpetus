@@ -20,7 +20,7 @@
             <tbody>                                        
 
                 <?php foreach($content as $row):?>
-                    <tr data-link="/jobapps/edit/<?= $row['id'];?>">
+                    <tr data-link="/jobapps/edit/<?= $row['uuid'];?>">
                         <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
                         <td class="f_s_12 f_w_400"><?= $row['title'];?>
                         <td class="f_s_12 f_w_400"><?= $row['sub_title'];?> </td>
@@ -42,7 +42,7 @@
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 
                                         <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/jobapps/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
-                                        <a class="dropdown-item" href="/jobapps/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                        <a class="dropdown-item" href="/jobapps/edit/<?= $row['uuid'];?>"> <i class="fas fa-edit"></i> Edit</a>
 
 
                                     </div>

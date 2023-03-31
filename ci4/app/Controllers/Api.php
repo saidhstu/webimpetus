@@ -1388,4 +1388,84 @@ class Api extends BaseController
 
     }
 
+    public function businesses($id = false)
+    {   
+        $data['data'] = $this->common_model->getCommonData("businesses");
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
+    public function addBusiness()
+    { 
+        if(!empty($this->request->getPost('business_code')) && !empty($this->request->getPost('name'))){		
+
+            $uuidNamespace = UUID::v4();
+            $uuid = UUID::v5($uuidNamespace, 'businesses');
+            $data_array = array(
+                'name'  => $this->request->getPost('name'),
+                'business_code'  => $this->request->getPost('business_code'),
+                'language_code' => !empty($this->request->getPost('language_code'))?$this->request->getPost('language_code'):'en',
+                'uuid' => $uuid
+            );
+            $data_array["uuid_business_id"] = !empty($post["uuid_business_id"])?@$post["uuid_business_id"]:$uuid;
+            if(!empty($post["email"])) $data_array["email"] = @$post["email"];
+            if(!empty($post["company_address"])) $data_array["company_address"] = @$post["company_address"];
+            if(!empty($post["company_number"])) $data_array["company_number"] = @$post["company_number"];
+            if(!empty($post["vat_number"])) $data_array["vat_number"] = @$post["vat_number"];
+            if(!empty($post["no_of_shares"])) $data_array["no_of_shares"] = @$post["no_of_shares"];
+            if(!empty($post["web_site"])) $data_array["web_site"] = @$post["web_site"];
+            if(!empty($post["payment_page_url"])) $data_array["payment_page_url"] = @$post["payment_page_url"];
+            if(!empty($post["country_code"])) $data_array["country_code"] = @$post["country_code"];
+            if(!empty($post["telephone_no"])) $data_array["telephone_no"] = @$post["telephone_no"];
+            if(!empty($post["trading_as"])) $data_array["trading_as"] = @$post["trading_as"];
+            if(!empty($post["business_contacts"])) $data_array["business_contacts"] = json_encode(@$post["business_contacts"]);
+            if(!empty($post["default_business"])) $data_array["default_business"] = @$post["default_business"];
+            //echo json_encode($data_array); die;
+            $this->common_model->CommonInsertOrUpdate('businesses','',$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 'success';
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 'error';
+            $data['msg']    = 'name, business_code could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function updateBusiness()
+    { 
+        if(!empty($this->request->getPost('uuid'))){		
+
+            $uuidNamespace = UUID::v4();
+            $uuid = UUID::v5($uuidNamespace, 'businesses');
+            $data_array = array();
+            if(!empty($post["name"])) $data_array["name"] = @$post["name"];
+            if(!empty($post["language_code"])) $data_array["language_code"] = @$post["language_code"];
+            if(!empty($post["uuid_business_id"])) $data_array["uuid_business_id"] = @$post["uuid_business_id"];
+            if(!empty($post["email"])) $data_array["email"] = @$post["email"];
+            if(!empty($post["company_address"])) $data_array["company_address"] = @$post["company_address"];
+            if(!empty($post["company_number"])) $data_array["company_number"] = @$post["company_number"];
+            if(!empty($post["vat_number"])) $data_array["vat_number"] = @$post["vat_number"];
+            if(!empty($post["no_of_shares"])) $data_array["no_of_shares"] = @$post["no_of_shares"];
+            if(!empty($post["web_site"])) $data_array["web_site"] = @$post["web_site"];
+            if(!empty($post["payment_page_url"])) $data_array["payment_page_url"] = @$post["payment_page_url"];
+            if(!empty($post["country_code"])) $data_array["country_code"] = @$post["country_code"];
+            if(!empty($post["telephone_no"])) $data_array["telephone_no"] = @$post["telephone_no"];
+            if(!empty($post["trading_as"])) $data_array["trading_as"] = @$post["trading_as"];
+            if(!empty($post["business_contacts"])) $data_array["business_contacts"] = json_encode(@$post["business_contacts"]);
+            if(!empty($post["default_business"])) $data_array["default_business"] = @$post["default_business"];
+            //echo json_encode($data_array); die;
+            $this->common_model->CommonInsertOrUpdate('businesses',$this->request->getPost('uuid'), $data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 'success';
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 'error';
+            $data['msg']    = 'uuid could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
 }

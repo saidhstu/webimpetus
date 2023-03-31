@@ -99,6 +99,11 @@ class Tasks extends CommonController
             }
         }
 
+        $file = $this->request->getPost('file');
+		if($file && !empty($file) && strlen($file) > 0){
+			$data['file'] = $file;
+		}
+
         $response = $this->model->insertOrUpdate($uuid, $data);
         if (!$response) {
             session()->setFlashdata('message', 'Something wrong!');
