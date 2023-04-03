@@ -89,7 +89,7 @@ function checkFormValidation(){
 				jQuery(this).closest(".form-group").addClass('has-danger');
 				jQuery(this).parent("div").children("div.form-control-feedback").remove();
 				var error_msg = "<div id='"+field_name+"' class='form-control-feedback'>"+email_validation_msg+"</div>";
-                alert(error_msg);
+                //alert(error_msg);
 				jQuery(this).after(error_msg);
 				validation =  false;
 			}

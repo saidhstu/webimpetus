@@ -119,7 +119,7 @@ class Tasks extends CommonController
             $message .= "<p>A task has been assigned to you on Webimpetus. Please login to system for more details.</p>";
             $message .= "<p><b>Thanks, Webimpetus Team</b></p>";
             $subject = "Webimpetus Task Update";
-            $is_send = $this->Email_model->send_mail($user->email, $from_name, $from_email, $message, $subject);
+            $is_send = $this->Email_model->phpmailer_send_mail($user->email, $from_name, $from_email, $message, $subject);
         }
 
         return redirect()->to('/' . $this->table);

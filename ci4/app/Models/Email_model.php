@@ -1,5 +1,7 @@
 <?php
 namespace App\Models;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use CodeIgniter\Model;
 use Config\Database;
 
@@ -106,6 +108,49 @@ class Email_model extends Model
         $emailConfig->clear(TRUE);
 
         return $result;
+    }
+
+    function phpmailer_send_mail($to, $from_name, $from_email, $message, $subject, $file = [], $to_name = '', $cc = '', $bcc = '') { 
+        $email = $to;
+        //$subject = 'Mail sent';
+        //$message = 'Test message';
+        
+        $mail = new PHPMailer(true);  
+		try {
+		    
+		    $mail->isSMTP();  
+			//$mail->SMTPDebug = 2;
+		    $mail->Host = 'smtp.gmail.com';     // Specify main and backup server
+			$mail->SMTPAuth = true;             // Enable SMTP authentication
+			$mail->Username = 'phpcoderorg@gmail.com';    // SMTP username
+			$mail->Password = getenv('gmail_password');
+			$mail->SMTPSecure   = 'tls';  
+			$mail->Port         = 25;  
+			$mail->Subject      = $subject;
+			$mail->Body         = $message;
+			$mail->SMTPOptions = array(
+			'ssl' => array(
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+				'allow_self_signed' => true
+			)
+							);
+			$mail->setFrom('phpcoderorg@gmail.com', 'Rahul');
+			
+			$mail->addAddress($email);  
+			$mail->isHTML(true);      
+			
+			if(!$mail->send()) {
+			    return false;
+			}
+		    else {
+			    return true;
+		    }
+		    
+		} catch (Exception $e) {
+		    return "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+		}
+        
     }
 
 
