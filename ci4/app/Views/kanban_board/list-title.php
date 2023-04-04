@@ -73,7 +73,7 @@
 
                                         ?>
                                         <!-- <label for="inputModule">Choose Sprint</label> -->
-                                        <?php echo (($_GET['sprint'] ?? "") == "" ?  "" : "selected") ?>
+                                        <?php echo (($_GET['sprint'] ?? "") == "" ?  "" : "Selected") ?>
                                         <select id="kanban_sprint" class="form-control required">
                                             <!-- <option value="" <?php echo (($_GET['sprint'] ?? "") == "" ?  "" : "selected") ?>>--Choose Sprint--</option> -->
                                             <?php foreach ($sprints_list as $row) : ?>

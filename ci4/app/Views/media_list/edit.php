@@ -12,10 +12,32 @@
 
                 <div class="form-group col-md-12">
                     <span class="all-media-image-files">
-                    <?php if(!empty(@$media_list->name)) { ?>
-                        <img src="<?=@$media_list->name?>" width="140px">
-                    <?php } ?>
+                    <?php if(!empty(@$media_list->name)) {
+
+                    $tokens = explode('.', $media_list->name);
+                    $extension = $tokens[count($tokens)-1];
+
+                    $varray = ['webm', 'wmv', 'ogg', 'mp4', 'mov', 'flv', 'avi', 'mkv'];
+                        
+                    if(in_array($extension,$varray)){  
+                        ?>
+
+    <video width="320" height="240" controls>
+        <?php foreach($varray as $val){ ?>
+            <source src="<?=@$media_list->name?>" type=video/<?=$val?>>
+        <?php } ?>
+    </video><br>
+
+    <?php } else { ?>
+
+
+                        <img src="<?=@$media_list->name?>" width="140px"><br>
+                    <?php }
+                    } ?>
                     </span>
+                    </div>
+
+                    <div class="form-group col-md-12">
                     <label for="inputAddress">Upload Image</label>
                    <div class="uplogInrDiv" id="drop_file_doc_zone">
 

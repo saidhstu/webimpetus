@@ -68,7 +68,7 @@
                     <?php } ?>
 
 
-                    <a href="/<?php echo strtolower($tableName); ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php 
+                    <a href="/<?php echo strtolower($tableName).(!empty($_SERVER['QUERY_STRING'])?'?'.$_SERVER['QUERY_STRING']:''); ?>" class="btn btn-primary"><i class="<?php echo @$activeIcon; ?>"></i> <?php 
                         if(isset($menuName)){
                             echo ucfirst($menuName);
                         }else{

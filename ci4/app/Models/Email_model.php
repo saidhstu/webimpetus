@@ -120,12 +120,12 @@ class Email_model extends Model
 		    
 		    $mail->isSMTP();  
 			//$mail->SMTPDebug = 2;
-		    $mail->Host = 'smtp.gmail.com';     // Specify main and backup server
+		    $mail->Host = getenv('SMTP_HOST');     // Specify main and backup server
 			$mail->SMTPAuth = true;             // Enable SMTP authentication
-			$mail->Username = 'phpcoderorg@gmail.com';    // SMTP username
-			$mail->Password = getenv('gmail_password');
+			$mail->Username = getenv('SMTP_USER');    // SMTP username
+			$mail->Password = getenv('SMTP_PASSWORD');
 			$mail->SMTPSecure   = 'tls';  
-			$mail->Port         = 25;  
+			$mail->Port         = getenv('SMTP_PORT');  
 			$mail->Subject      = $subject;
 			$mail->Body         = $message;
 			$mail->SMTPOptions = array(
@@ -135,7 +135,7 @@ class Email_model extends Model
 				'allow_self_signed' => true
 			)
 							);
-			$mail->setFrom('phpcoderorg@gmail.com', 'Rahul');
+			$mail->setFrom(getenv('SMTP_USER'), $from_name);
 			
 			$mail->addAddress($email);  
 			$mail->isHTML(true);      

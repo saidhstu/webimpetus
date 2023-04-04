@@ -83,12 +83,12 @@ $customers = getResultArray("customers");
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Direct Phone</label>
-                                <input type="text" autocomplete="off" class="form-control" id="direct_phone" name="direct_phone" placeholder=""  value="<?= @$contact->direct_phone ?>">
+                                <input type="text" autocomplete="off" class="form-control number" id="direct_phone" name="direct_phone" placeholder=""  value="<?= @$contact->direct_phone ?>">
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Mobile</label>
-                                <input type="text" autocomplete="off" class="form-control" id="mobile" name="mobile" placeholder=""  value="<?= @$contact->mobile ?>">
+                                <input type="text" autocomplete="off" class="form-control number" id="mobile" name="mobile" placeholder=""  value="<?= @$contact->mobile ?>">
                             </div>
                         </div>
                         <div class="form-row">
