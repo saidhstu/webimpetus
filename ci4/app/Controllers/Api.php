@@ -1232,7 +1232,7 @@ class Api extends BaseController
             $post = $this->request->getPost(); 
             $data["uuid_business_id"] = @$post['uuid_business_id'];
             $data['uuid'] = UUID::v5(UUID::v4(), 'work_orders');            
-            $data["date"] = strtotime(@$post["date"]);
+            $data["date"] = !empty($post["date"])?strtotime(@$post["date"]):strtotime(date('m/d/Y'));
             $data["client_id"] = @$post["client_id"];
             $data["is_locked"] = !empty($post["is_locked"])?@$post["is_locked"]:0;
             $data["project_code"] = @$post["project_code"];

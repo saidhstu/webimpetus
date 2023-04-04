@@ -21,8 +21,24 @@
                          <td class="f_s_12 f_w_400"><?= $row['id']; ?></td>
                          <td class="f_s_12 f_w_400"><?= $row['code']; ?>
                          <td class="f_s_12 f_w_400"><?php if (!empty($row['name'])) {
+$tokens = explode('.', $row['name']);
+$extension = $tokens[count($tokens)-1];
+
+$varray = ['webm', 'wmv', 'ogg', 'mp4', 'mov', 'flv', 'avi', 'mkv'];
+                        
+                    if(in_array($extension,$varray)){  
+                        ?>
+
+    <video width="320" height="240" controls>
+        <?php foreach($varray as $val){ ?>
+            <source src="<?=@$row['name']?>" type=video/<?=$val?>>
+        <?php } ?>
+    </video><br>
+
+
+    <?php } else { 
                                                         echo render_image($row['name']);
-                                                    } ?>
+                                                  }  } ?>
                          </td>
                          <td class="f_s_12 f_w_400 <?= $row['status'] == 0 ? 'text_color_1' : 'text_color_2' ?> ">
                              <span class="stsSpan"><?= $row['status'] == 0 ? 'inactive' : 'active' ?></span>

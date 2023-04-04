@@ -178,18 +178,21 @@ $sprints = getResultArray("sprints");
 
                 </div>
 
-                <div class="form-group col-md-12">
+                
 
-                <div class="form-group col-md-12">
+                <div class="col-md-12">
+                <div class="form-group   required col-md-12">
 												<label for="description" >Product Description</label>
-												<div class="col-sm-12">
+												
 													<textarea class="form-control" required name="description" id="content"><?= @$task->description ?></textarea>
-												</div>
+												
+											</div>
 											</div>
 
 
-            </div>
+        
 <?php if(!empty($task->id)){ ?>
+    <div class="col-md-12">
             <div class="form-group col-md-12">
                     <label for="inputAddress">Upload</label>
                     <span class="all-media-image-files">
@@ -217,6 +220,7 @@ $sprints = getResultArray("sprints");
                     </div>
                 
                 </div>
+            </div>
             </div>
             <?php } ?>
             <br>
