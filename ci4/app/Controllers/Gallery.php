@@ -100,6 +100,17 @@ class Gallery extends CommonController
 		
 		return redirect()->to('/'.$this->gallery);
 	}
+	public function delete_task($id,$url)
+	{       
+		
+		if(!empty($id)) {
+			$this->gallery_model->deleteData($id);		
+			session()->setFlashdata('message', 'Data deleted Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		}
+		
+		return redirect()->to(base64_decode($url));
+	}
 	
 	
 }

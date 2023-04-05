@@ -19,7 +19,7 @@
 
                     $varray = ['webm', 'wmv', 'ogg', 'mp4', 'mov', 'flv', 'avi', 'mkv'];
                         
-                    if(in_array($extension,$varray)){  
+                    if(in_array(trim($extension),$varray)){  
                         ?>
 
     <video width="320" height="240" controls>

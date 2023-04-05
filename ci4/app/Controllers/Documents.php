@@ -67,4 +67,16 @@ class Documents extends CommonController
         $data = $this->db->table($this->table)->select('file')->getWhere(array('id' => $rowId))->getRowArray();
         echo json_encode(array('file' => @$data['file']));
     }
+
+    public function delete_task($id,$url)
+	{       
+		
+		if(!empty($id)) {
+			$this->db->table($this->table)->where(array('id' => $id))->delete();		
+			session()->setFlashdata('message', 'Data deleted Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		}
+		
+		return redirect()->to(base64_decode($url));
+	}
 }

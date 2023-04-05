@@ -101,7 +101,26 @@ class Tasks extends CommonController
 
         $file = $this->request->getPost('file');
 		if($file && !empty($file) && strlen($file) > 0){
-			$data['file'] = $file;
+			
+
+            $tokens = explode('.', $file);
+            $extension = $tokens[count($tokens)-1]; 
+            $varray = ['doc', 'docx', 'xls', 'xlsx', 'pdf', 'ppt'];
+
+            //print_r($varray);
+
+                        
+            if(in_array(trim($extension),$varray)){ 
+                $file_array['file'] = $file;
+                $file_array['uuid_linked_table'] = $uuid;
+                $file_array['uuid_business_id'] = session('uuid_business');
+                $this->model->insertTableData($file_array, 'documents');
+            }else {
+                $file_array['name'] = $file;
+                $file_array['uuid_linked_table'] = $uuid;
+                $file_array['uuid_business_id'] = session('uuid_business');
+                $this->model->insertTableData($file_array, 'media_list');
+            }
 		}
 
         $response = $this->model->insertOrUpdate($uuid, $data);

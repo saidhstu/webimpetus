@@ -116,6 +116,11 @@ class CommonController extends BaseController
 		$data["users"] = $this->model->getUser();
 		$data[$this->rawTblName] = $this->model->getRowsByUUID($uuid)->getRow();
 		// if there any special cause we can overried this function and pass data to add or edit view
+		if($this->rawTblName=='task'){
+			$data['media_list'] = $this->getMediaItems('media_list',$uuid,'id,name');
+			$data['documents'] = $this->getMediaItems('documents',$uuid,'id,file');
+			//print_r($ddata); die;
+		}
 		$data['additional_data'] = $this->getAdditionalData($uuid);
 		echo view($this->table . "/edit", $data);
 	}
@@ -752,5 +757,14 @@ class CommonController extends BaseController
 		$builder->where($this->table . '.uuid', $uuid);
 		$records = $builder->get()->getRowArray();
 		return (object)$records;
+	}
+
+	function getMediaItems($table,$uuid,$fields='*')
+	{
+		$builder = $this->db->table($table);
+		$builder->select($fields);
+		$builder->where('uuid_linked_table', $uuid);
+		$records = $builder->get()->getResultArray();
+		return $records;
 	}
 }

@@ -193,13 +193,63 @@ $sprints = getResultArray("sprints");
         
 <?php if(!empty($task->id)){ ?>
     <div class="col-md-12">
+
+    <div class="form-group col-md-12">
+                    <span class="">
+                    <?php if(!empty(@$media_list)) {
+
+foreach($media_list as $name){
+
+                    $tokens = explode('.', $name['name']);
+                    $extension = $tokens[count($tokens)-1];
+
+                    $varray = ['webm', 'wmv', 'ogg', 'mp4', 'mov', 'flv', 'avi', 'mkv'];
+                        
+                    if(in_array(trim($extension),$varray)){  
+                        ?>
+    <video width="320" height="240" controls>
+        <?php foreach($varray as $val){ ?>
+            <source src="<?=@$name['name']?>" type=video/<?=$val?>>
+        <?php } ?>
+    </video>
+    
+    <a href="/gallery/delete_task/<?=$name['id']?>/<?=base64_encode('/tasks/editrow/'.@$task->uuid)?>" onclick="return confirm('Are you sure?')" id="" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+
+    <br>
+
+    <?php } else { ?>
+                        <img src="<?=@$name['name']?>" width="140px">
+                        <a href="/gallery/delete_task/<?=$name['id']?>/<?=base64_encode('/tasks/editrow/'.@$task->uuid)?>" onclick="return confirm('Are you sure?')" id="" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+
+        <br>          <?php }
+                    } 
+                    
+                }?>
+                    </span>
+                    </div>
+
+
+                    <div class="form-group col-md-12">
+                    <span class="">
+                    <?php if(!empty(@$documents)) {
+
+foreach($documents as $doc){ ?>
+<iframe src="https://drive.google.com/viewerng/viewer?embedded=true&url=<?=@$doc['file']?>" width="560" height="700"></iframe>
+<a href="/documents/delete_task/<?=$doc['id']?>/<?=base64_encode('/tasks/editrow/'.@$task->uuid)?>" onclick="return confirm('Are you sure?')" id="" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+<br>
+                    <?php 
+                    } 
+                    
+                }?>
+                    </span>
+                    </div>
+
+
+
             <div class="form-group col-md-12">
                     <label for="inputAddress">Upload</label>
                     <span class="all-media-image-files">
-                    <?php if(!empty(@$task->image)) { ?>
-                    <img src="<?=@$task->image;?>" width="100px">
-                        <a href="/tasks/deleteImage/<?=@$task->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
-                    <?php } ?>
+                    
                     </span>
                     <div class="uplogInrDiv" id="drop_file_doc_zone">
                     <input type="file" name="file" class="fileUpload" id="customFile">
