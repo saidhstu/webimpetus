@@ -67,8 +67,8 @@
                                         $blank_item = array("id" => "", "sprint_name" => "--Choose Sprint--");
                                         array_unshift($sprints_list, $blank_item);
 
-                                        $backlog_item = array("id" => "backlog", "sprint_name" => "Backlog");
-                                        array_push($sprints_list,$backlog_item);
+                                        //$backlog_item = array("id" => "backlog", "sprint_name" => "Backlog");
+                                        //array_push($sprints_list,$backlog_item);
 
 
                                         ?>
