@@ -14,10 +14,10 @@
                 <div class="col-12">
                     <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
                         <div class="page_title_left d-flex align-items-center">
-                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >Change Password </h3>
+                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >My Profile </h3>
                             <ol class="breadcrumb page_bradcam mb-0">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
-                                <li class="breadcrumb-item active">Change Password</li>
+                                <li class="breadcrumb-item active">My Profile</li>
                             </ol>
                         </div>
                                               
@@ -39,6 +39,74 @@
 				?>
                     <div class="white_card card_height_100 mb_30">
                        
+
+                    <div class="white_card_body">
+                            <div class="card-body">
+                               
+                                <form action="/dashboard/save_profile" method="post" id="user_profile" enctype="multipart/form-data">
+
+                                <div class="form-row">
+                <div class="form-group required  col-md-6">
+                    <label for="inputEmail4">Name</label>
+                    <input type="text" class="form-control required" name="name" placeholder="" value="<?= @$user['name']?>" />
+                </div>
+                
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Email</label>
+                    <input disabled readonly type="email" class="form-control" name="email" placeholder="" value="<?= @$user['email']?>">
+                </div>
+               
+                <div class="form-group col-md-12">
+                    <label for="inputAddress">Address</label>
+                    <textarea type="text" class="form-control" name="address" placeholder="" value=""><?= @$user['address']?></textarea>
+                </div>
+            </div>
+								
+								  <div class="form-group col-md-6">
+								  <?php if(!empty($user['profile_img'])) { ?>
+                                            <img src="<?='data:image/jpeg;base64,'.$user['profile_img']?>" width="250px"><br><br>
+										<?php } ?>
+                                           <label for="inputAddress">Upload Profile Picture</label>
+                                            <div class="uplogInrDiv mb_30">
+                                            <input type="file" name="file" class="custom-file-input" id="customFile">
+                                             <div class="uploadBlkInr">
+                            <div class="uplogImg">
+                              <img src="/assets/img/fileupload.png" />
+                            </div>
+                            <div class="uploadFileCnt">
+                              <p>
+                                <a href="#">Upload a file </a> file chosen or drag
+                                and drop
+                              </p>
+                              <p>
+                                <span>Video, PNG, JPG, GIF up to 10MB</span>
+                              </p>
+                            </div>
+                        </div>
+                                        
+                                        </div>	
+                                   
+
+
+                                    
+                                  
+
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                <div class="col-12">
+                    <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
+                        <div class="page_title_left d-flex align-items-center">
+                            <h3 class="f_s_25 f_w_700 dark_text mr_30" >Change Password </h3>
+                            
+                        </div>
+                                              
+                    </div>
+                </div>
+            </div>
                         <div class="white_card_body">
                             <div class="card-body">
                                
@@ -123,6 +191,24 @@
      password: {
         required: "Please enter password",
       },
+        
+    },
+  })
+}
+</script>
+
+<script>
+   if ($("#user_profile").length > 0) {
+      $("#user_profile").validate({
+    rules: {
+      name: {
+        required: true,
+      }  
+    },
+    messages: {
+      name: {
+        required: "Please enter name",
+      }
         
     },
   })

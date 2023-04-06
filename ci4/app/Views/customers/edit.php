@@ -30,7 +30,7 @@ $categories = getResultArray("categories");
 
                                 <div class="form-group required col-md-4">
                                     <label for="inputEmail4">Customer Account No</label>
-                                    <input autocomplete="off" type="text" class="form-control required" id="acc_no" name="acc_no" placeholder="" value="<?= @$customer->acc_no ?>">
+                                    <input autocomplete="off" type="text" class="form-control required acc_number" id="acc_no" name="acc_no" placeholder="" value="<?= @$customer->acc_no ?>">
                                 </div>
                                 <div class="form-check col-md-1">
                                 </div>
@@ -108,7 +108,7 @@ $categories = getResultArray("categories");
 
                                 <div class="form-group col-md-6">
                                     <label for="inputEmail4">Phone</label>
-                                    <input autocomplete="off" type="text" class="form-control" id="phone" name="phone" placeholder="" value="<?= @$customer->phone ?>">
+                                    <input autocomplete="off" type="text" class="form-control phone" id="phone" name="phone" placeholder="" value="<?= @$customer->phone ?>">
                                 </div>
                             </div>
                             <div class="form-row">
