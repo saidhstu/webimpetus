@@ -220,6 +220,8 @@ class Dashboard extends CommonController
 	public function chgpwd()
     {
         $data['title'] = "";
+		$data['user'] = $this->common_model->getUser($_SESSION['uuid']);
+		//echo $_SESSION['uuid']; print_r($data); die;
         echo view('change_pwd', $data);
     }
 
@@ -270,9 +272,29 @@ class Dashboard extends CommonController
 			$this->session->set('logo',$imgData);
 			$this->meta_model->updateMeta('site_logo', $data);
 			session()->setFlashdata('message', 'Logo changed Successfully!');
-				session()->setFlashdata('alert-class', 'alert-success');
+			session()->setFlashdata('alert-class', 'alert-success');
 		 }
 		 return redirect()->to('/dashboard/settings');
+			
+	}
+
+	public function save_profile()
+    {
+		//echo '<pre>';print_r($_POST); die;
+		$data = [];
+		if(!empty($_FILES['file']['tmp_name'])) {	
+			$imgData = base64_encode(file_get_contents($_FILES['file']['tmp_name']));
+			//$imageProperties = getimageSize($_FILES['file']['tmp_name']);
+			//echo $data['meta_value'] = $imgData; die;
+			$data['profile_img'] = $imgData;			
+			$this->session->set('profile_img',$imgData);
+		}
+		$data['name'] = $this->request->getPost('name');
+		$data['address'] = $this->request->getPost('address');
+		$this->model->updateUser($data, $_SESSION['uuid']);
+		session()->setFlashdata('message', 'Profile updated successfully!');
+		session()->setFlashdata('alert-class', 'alert-success');
+		 return redirect()->to('/dashboard/chgpwd');
 			
 	}
 	

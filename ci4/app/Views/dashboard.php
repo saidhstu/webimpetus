@@ -126,7 +126,7 @@
                                 <div class="white_card_body ">
                                     <div class="single_user_pil d-flex align-items-center justify-content-between">
                                         <div class="user_pils_thumb d-flex align-items-center">
-                                            <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="/assets/img/1.png" alt=""></div>
+                                            <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="<?=(!empty(@$users->profile_img))?'data:image/jpeg;base64,'.@$users->profile_img:'/assets/img/1.jpg'?>" alt=""></div>
                                             <span class="f_s_14 f_w_400 text_color_red"><?php echo $users->name ?></span>
                                         </div>
                                         <div class="user_info">

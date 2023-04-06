@@ -42,7 +42,7 @@ window.location.href="/";
                         </div>
 
                         <div class="profile_info">
-                            <img src="/assets/img/client_img.png" alt="#">
+                            <img src="<?=(!empty($_SESSION['profile_img']))?'data:image/jpeg;base64,'.$_SESSION['profile_img']:'/assets/img/1.jpg'?>" alt="#">
 
                             <?=!empty($_SESSION['role']) && $_SESSION['role']==1?'A':''?>
 
@@ -55,8 +55,8 @@ window.location.href="/";
                                      <span><i class="fa fa-envelope"></i><?=!empty($_SESSION['uemail'])?$_SESSION['uemail']:''?></span>
                                      <?php if(!empty($_SESSION['role']) && $_SESSION['role']==1){?>
                                     <a href="/dashboard/user_role"><i class="fa fa-eye"></i>Role Based Access Manager</a><?php }?>
-                                    <a href="/dashboard/chgpwd"><i class="fa fa-eye"></i>Change Password</a>
-                                    <a href="/dashboard/settings"><i class="fa fa-cog"></i>Settings</a>
+                                    <a href="/dashboard/chgpwd"><i class="fa fa-eye"></i>My Profile</a>
+                                    <?php if(!empty($_SESSION['role']) && $_SESSION['role']==1){?><a href="/dashboard/settings"><i class="fa fa-cog"></i>Settings</a><?php }?>
                                     <a href="/home/logout"><i class="fa fa-sign-out-alt"></i>Log Out </a>
                                 </div>
                             </div>
