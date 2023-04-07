@@ -20,7 +20,7 @@ on:
       TARGET_CLUSTER:      
         type: choice
         description: 'Please choose the Target K3S Cluster(s)'
-        default: 'k3s3'
+        default: 'k3s2'
         required: true
         options:
         - k3s1
