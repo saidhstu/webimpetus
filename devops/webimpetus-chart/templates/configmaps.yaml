@@ -15,7 +15,6 @@ data:
         # echo "date.timezone = '{{ .Values.envPreferences.timeZone }}'" >> $FILE
 
         FILE=/etc/resolv.conf
-        WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----
         echo "Workstation On Starting Pod Bootstrap Script"
             # Set DNS to cloudflare Name servers for faster DNS resolution
         echo "nameserver 1.1.1.1" >> $FILE
@@ -54,12 +53,12 @@ data:
         cp /tmp/secrets/.env /var/www/html/.env
         FILE=/var/www/html/.env
         if test -f "$FILE"; then
-        if grep -rnw $FILE -e $WEBIMPETUS_INFO_MARKER
+        if grep -rnw $FILE -e "#----WEBIMPETUS-SYSTEM-INFO----"
            then
-            echo "WEBIMPETUS_INFO_MARKER Found"
+            echo "#----WEBIMPETUS-SYSTEM-INFO---- Found"
         else
-            echo "WEBIMPETUS_INFO_MARKER Not Found, Adding"
-            echo $WEBIMPETUS_INFO_MARKER >> $FILE
+            echo "#----WEBIMPETUS-SYSTEM-INFO---- Not Found, Adding"
+            echo "#----WEBIMPETUS-SYSTEM-INFO----" >> $FILE
         fi
             echo "$FILE exists."
             echo "==========================="
@@ -70,7 +69,7 @@ data:
             echo "==========================="
             php -v
         echo "==========================="
-        sed '/$WEBIMPETUS_INFO_MARKER/q' $FILE
+        #   sed '/#----WEBIMPETUS-SYSTEM-INFO----/q' $FILE
         export COMPOSER_ALLOW_SUPERUSER=1
         yes | composer update
         chmod 777 -R /var/www/html/writable/
@@ -151,6 +150,7 @@ data:
             # Set DNS to cloudflare Name servers for faster DNS resolution
         echo "nameserver 1.1.1.1" >> $FILE
         echo "nameserver 1.0.0.1" >> $FILE
+        CLOUDFLARE_DNS_1="1.1.1.1"
         if grep -rnw $FILE -e $CLOUDFLARE_DNS_1; then
             echo "Cloudflare DNS already set"
         else
@@ -158,7 +158,6 @@ data:
             echo "nameserver $CLOUDFLARE_DNS_2" >> $FILE
         fi
 
-        WEBIMPETUS_INFO_MARKER=----WEBIMPETUS-SYSTEM-INFO----
         echo "Workstation Nginx Bootstrap Script"
         export COMPOSER_ALLOW_SUPERUSER=1
         yes | composer update
@@ -199,12 +198,12 @@ data:
         FILE=/var/www/html/.env
         
         if [ -f "$FILE" ];then
-        if grep -rnw $FILE -e $WEBIMPETUS_INFO_MARKER
+        if grep -rnw $FILE -e "#----WEBIMPETUS-SYSTEM-INFO----"
            then
-            echo "WEBIMPETUS_INFO_MARKER Found"
+            echo "#----WEBIMPETUS-SYSTEM-INFO---- Found"
         else
-            echo "WEBIMPETUS_INFO_MARKER Not Found, Adding"
-            echo $WEBIMPETUS_INFO_MARKER >> $FILE
+            echo "#----WEBIMPETUS-SYSTEM-INFO---- Not Found, Adding"
+            echo "#----WEBIMPETUS-SYSTEM-INFO----" >> $FILE
         fi
             echo "$FILE exists."
             echo "==========================="
@@ -215,7 +214,7 @@ data:
             echo "==========================="
             php -v
         echo "==========================="
-        sed '/$WEBIMPETUS_INFO_MARKER/q' $FILE
+        #   sed '/"#----WEBIMPETUS-SYSTEM-INFO----"/q' $FILE
         echo "Workstation Src copy to /var/www/html Complete"
         fi
         fi
@@ -258,8 +257,8 @@ data:
         echo $APP_FULL_VERSION_NO
         echo $APP_FULL_BUILD_NO
         FILE=/var/www/html/.env
-        echo APP_FULL_VERSION_NO=$APP_FULL_VERSION_NO >> $FILE
-        echo APP_FULL_BUILD_NO=$APP_FULL_BUILD_NO >> $FILE
+        echo "APP_FULL_VERSION_NO='$APP_FULL_VERSION_NO'" >> $FILE
+        echo "APP_FULL_BUILD_NO='$APP_FULL_BUILD_NO'" >> $FILE
         export APP_FULL_VERSION_NO=$APP_FULL_VERSION_NO
         export APP_FULL_BUILD_NO=$APP_FULL_BUILD_NO
         APP_RELEASE_NOTES_DOC_URL="https://webimpetus.cloud/docs/"
@@ -267,12 +266,12 @@ data:
         DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
         export DATE_GEN_VERSION=$(date +"%Y%m%d%I%M%S")
         export APP_DEPLOYED_AT=$DATE_GEN_VERSION
-        echo APP_DEPLOYED_AT=$DATE_GEN_VERSION >> $FILE
-        echo APP_ENVIRONMENT="{{ .Values.targetEnv }}" >> $FILE
-        export APP_ENVIRONMENT="{{ .Values.targetEnv }}"
-        echo APP_TARGET_CLUSTER="{{ .Values.targetCluster }}" >> $FILE
-        export APP_TARGET_CLUSTER="{{ .Values.targetCluster }}"
-        echo APP_RELEASE_NOTES_DOC_URL=$APP_RELEASE_NOTES_DOC_URL >> $FILE
+        echo "APP_DEPLOYED_AT='$DATE_GEN_VERSION'" >> $FILE
+        echo "APP_ENVIRONMENT='{{ .Values.targetEnv }}'" >> $FILE
+        export APP_ENVIRONMENT="'{{ .Values.targetEnv }}'"
+        echo "APP_TARGET_CLUSTER='{{ .Values.targetCluster }}'" >> $FILE
+        export APP_TARGET_CLUSTER="{{ .Values.targetCluster }}'"
+        echo "APP_RELEASE_NOTES_DOC_URL='$APP_RELEASE_NOTES_DOC_URL'" >> $FILE
         echo DYNAMIC_SCRIPTS_PATH=/tmp >> $FILE
         echo "==========================="
         echo "Copy openresty config file for Workstation"
