@@ -12,9 +12,9 @@
     </div>
 
     <div class="sidebar-search-wrapper">
-        <span class="sidebar-search-label sidebar-search-front-label">Search</span>
         <input type="text" class="form-control sidebar-search search-placeholder" id="myInput" onkeyup="search_menu()" placeholder="Search by name" />
-        <span class="sidebar-search-label sidebar-search-back-label">navigation</span>
+        <span class="sidebar-search-label sidebar-search-front-label">Search</span>
+        <span class="sidebar-search-label sidebar-search-back-label">Navigation</span>
     </div>
 
 
@@ -106,8 +106,8 @@
                         $catname = $val['catname'];
                         ?>
 
-                        <li>
-                            <a href="#" id="<?= $inc ?>"><?php echo $val['catname']; ?>
+                        <li class="cat-listing">
+                            <a href="#" id="<?= $inc ?>" class="cat-caret-wrapper"><?php echo $val['catname']; ?>
                                 <span class="fas fa-caret-down"></span>
                             </a>
                             <ul class="item-show-1">
@@ -199,4 +199,11 @@
     searchElement[0].onfocusout = () => {
         document.getElementsByClassName('sidebar-search-front-label')[0].style.display = 'flex'
     }
+    searchText = document.getElementsByClassName("sidebar-search-label");
+    for (const searchEle of searchText) {
+        searchEle.onclick = () => {
+            document.getElementById('myInput').focus();
+        }
+    }
+
 </script>
