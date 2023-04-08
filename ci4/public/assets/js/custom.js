@@ -233,6 +233,16 @@
         });
     });
 
+    $(document).on("click", ".search-icon #header-search-icon", () => {
+        $(".header_search .header_search_form").toggle('slow', () => {
+            if ($(".header_search .header_search_form").is(':visible')) {
+                $(".search-icon #header-search-icon").removeClass('fa-search').addClass('fa-times');
+            }
+            else {
+                $(".search-icon #header-search-icon").removeClass('fa-times').addClass('fa-search');
+            }
+        });        
+    })
 
 }(jQuery));
 
