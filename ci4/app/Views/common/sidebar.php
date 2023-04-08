@@ -106,8 +106,8 @@
                         $catname = $val['catname'];
                         ?>
 
-                        <li>
-                            <a href="#" id="<?= $inc ?>"><?php echo $val['catname']; ?>
+                        <li class="cat-listing">
+                            <a href="#" id="<?= $inc ?>" class="cat-caret-wrapper"><?php echo $val['catname']; ?>
                                 <span class="fas fa-caret-down"></span>
                             </a>
                             <ul class="item-show-1">

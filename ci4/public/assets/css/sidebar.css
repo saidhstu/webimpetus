@@ -621,3 +621,15 @@ span.sidebar-search-label {
   font-weight: 500;
   transition: var(--tran-05);
 }
+
+.cat-listing {
+  border: 1px solid rgb(0 0 0 / 19%);
+}
+
+.cat-listing .cat-caret-wrapper {
+  justify-content: space-between !important;
+}
+
+.cat-listing ul {
+  margin-left: 0 !important;
+}
