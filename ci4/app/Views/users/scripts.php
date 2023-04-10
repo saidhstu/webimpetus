@@ -72,6 +72,7 @@
 				},
 				scrollX: true,
 				order: [[0, 'desc']],
+				stateSave: true
 			});
 		}
 		
