@@ -24,13 +24,41 @@ class Enquiries extends CommonController
 	}
     public function index()
     {        
-        $data[$this->table] = $this->enquries_model->findAll();
+		$builder = $this->enquries_model;
+		if(!empty($this->request->getGet('search'))){
+			$builder->like('name',$this->request->getGet('search'));
+			$builder->orLike('email',$this->request->getGet('search'));
+			$builder->orLike('message',$this->request->getGet('search'));
+		}
+        $data[$this->table] = $builder->orderBy('id','desc')->paginate(10);
+		//total rows
+		$total_query = $this->enquries_model->asArray();
+		if(!empty($this->request->getGet('search'))){
+			$total_query->like('name',$this->request->getGet('search'));
+			$total_query->orLike('email',$this->request->getGet('search'));
+			$total_query->orLike('message',$this->request->getGet('search'));
+		}
+        $data['total'] = $total_query->countAllResults();
+		//$data['results'] = $this->enquries_model->orderBy('id','desc')->paginate(10);
+		//$data['pager'] = $this->enquries_model->pager;
+		//print_r($data['pager']);die;
 		$data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
         $data['is_add_permission'] = 1;
 
         return view($this->table."/list",$data);
     }
+
+	public function loadData($record=0) {
+		$builder = $this->enquries_model;
+		if(!empty($this->request->getGet('search'))){
+			$builder->like('name',$this->request->getGet('search'));
+			$builder->orLike('email',$this->request->getGet('search'));
+			$builder->orLike('message',$this->request->getGet('search'));
+		}
+        $data['results'] = $builder->orderBy('id','desc')->paginate(10);
+		echo json_encode($data); die;		
+	}
 
 	
 	

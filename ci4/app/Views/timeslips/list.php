@@ -2,18 +2,23 @@
 <div class="white_card_body ">
     <div class="QA_table ">
         <!-- table-responsive -->
-        <table id="example" class="table table-listing-items tableDocument table-striped table-bordered">
+        <table id="myTable" class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
                 <tr>
-                    <th scope="col" width="30"></th>
-                    <?php foreach ($fields as $field) { ?>
+                    <th scope="col" width="30"></th>                  
+                    <th scope="col">Week No.</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Employee</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Start Time</th>
+                    <?php /* foreach ($fields as $field) { ?>
                         <th scope="col"><?php echo lang('Timeslips.'.$field); ?></th>
-                    <?php } ?>
+                    <?php } */ ?>
                     <th scope="col" width="50"><?php echo lang('Common.action');?></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach (${$tableName} as $row) { ?>
+                <?php /* foreach (${$tableName} as $row) { ?>
                     <tr data-link="/<?php echo $tableName; ?>/edit/<?= $row[$identifierKey]; ?>">
                         <td class="f_s_12 f_w_400"><input type="checkbox" value="<?= $row['uuid'] ?>" class="check_all" onclick="setExportItem(this);"></td>
                         <?php foreach ($fields as $field) { ?>
@@ -35,15 +40,69 @@
                             </div>
                         </td>
                     </tr>
-                <?php } ?>
+                <?php } */ ?>
 
             </tbody>
         </table>
+
+        <nav aria-label="Page navigation">
+	        <ul class="pagination"  id="myPager"></ul>        
+        </nav>
     </div>
 </div>
 
 <?php require_once(APPPATH . 'Views/timeslips/footer.php'); ?>
+<?php require_once(APPPATH . 'Views/common/pagination.php'); ?>
+<script>
+    var executed = false;
+    window.createPagination = function(pageNum) {
+            pageNum=pageNum+1
+            $.ajax({
+                url: '<?=base_url()?>/api/<?=$tableName?>/<?=$uuid_business?>/?page='+pageNum+'<?=!empty($_GET['search'])?'&search='.$_GET['search']:''?>',
+                type: 'get',
+                dataType: 'json',
+                success: function(responseData){
+                    //$('#pagination').html(responseData.pagination);  
+                    if (!executed) {
+                        $('#myTable').pageMe({
+                            pagerSelector: '#myPager',
+                            showPrevNext: true,
+                            hidePageNumbers: false,
+                            perPage: 10,
+                            total: responseData.total
+                        });
+                        executed = true;
 
+                    }
+                    paginationData(responseData.data);
+                }
+            });
+        }
+
+        window.paginationData = function(data) {
+            //console.log(data)
+            $('#myTable tbody').empty();
+            for(emp in data){
+                var empRow = "<tr data-link='/<?=$tableName."/edit/"?>"+data[emp].uuid+"'>";
+                empRow += "<td class='f_s_12 f_w_400'><input type='checkbox' value="+ data[emp].uuid+" class='check_all' onclick='setExportItem(this);'></td><td>"+ data[emp].week_no +"</td>";
+                empRow += "<td>"+ data[emp].task_name.substr(0, 20)+(data[emp].task_name.length>20?'...':'') +"</td>";
+                empRow += "<td>"+ data[emp].employee_name.substr(0, 20)+(data[emp].employee_name.length>20?'...':'') +"</td>"
+                empRow += "<td>"+ data[emp].slip_start_date+"</td>"
+                empRow += "<td>"+ data[emp].slip_timer_started +"</td>"
+                empRow += '<td class="f_s_12 f_w_400 text-right"><div class="header_more_tool"> <div class="dropdown"> <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">  <i class="ti-more-alt"></i></span> <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" onclick="return confirm(\'Are you sure want to delete?\');" href="/<?=$tableName?>/delete/'+data[emp].uuid+'"> <i class="ti-trash"></i> Delete</a><a class="dropdown-item" href="/<?=$tableName?>/edit/'+data[emp].uuid+'"> <i class="fas fa-edit"></i> Edit</a </div> </div></div></td>'
+                //empRow += "<td>"+ data[emp].designation +"</td>"
+                //empRow += "<td>"+ data[emp].address +"</td>";
+                empRow += "</tr>";
+                console.log($('#myTable tbody').length)
+                $('#myTable tbody').append(empRow);					
+            }
+        }
+
+
+$(document).ready(function () {    
+    window.createPagination(0);    
+});
+</script>
 <script>
     $('.table-listing-items  tr  td').on('click', function(e) {
         var dataClickable = $(this).parent().attr('data-link');

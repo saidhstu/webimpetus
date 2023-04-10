@@ -23,7 +23,7 @@ class Timeslips extends CommonController
     {
 
         $data['columns'] = $this->db->getFieldNames($this->table);
-        $data['fields'] = array_diff($data['columns'], $this->notAllowedFields);
+        $data['fields'] = array_slice(array_diff($data['columns'], $this->notAllowedFields), 0, 6, true);
 
         if(isset($_GET['reset']) && $_GET['reset']==1){
             $this->session->set('list_week','');
@@ -71,6 +71,7 @@ class Timeslips extends CommonController
         $data["employees"] = $this->timeSlipsModel->getEmployeesData();
         $data['templates'] = $this->templateModel->getMatchRows(['module_name' => $this->table]);
         $data['weeks'] = $this->timeSlipsModel->getDistinctWeeks();
+        $data['uuid_business'] = $this->session->get('uuid_business');
 
         $viewPath = "timeslips/list";
         return view($viewPath, $data);
