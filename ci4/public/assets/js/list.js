@@ -1,5 +1,4 @@
-$('.table-listing-items  tr  td').on('click' , function(e) {
-	  
+$(document).on('click', ".table-listing-items  tr  td", function() {	  
     var dataClickable = $(this).parent().attr('data-link');
     if($(this).is(':last-child')){
     }else{

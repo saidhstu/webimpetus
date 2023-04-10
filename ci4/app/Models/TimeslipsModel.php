@@ -163,9 +163,9 @@ class TimeslipsModel extends Model
         $this->join('employees', 'employees.id = ' . $table . '.employee_name');
         if ($id === false) {
             if (empty($timeslip_where)) {
-                return $this->findAll();
+                return $this->paginate(10);
             } else {
-                return $this->getWhere($timeslip_where)->getResultArray();
+                return $this->where($timeslip_where)->paginate(10);
             }
         } else {
             $whereCond = array_merge(array('id' => $id), $timeslip_where);

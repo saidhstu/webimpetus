@@ -53,13 +53,8 @@ class BaseController extends Controller
 
     public function __construct()
     {
-        $this->db = Database::connect();
-
-        $this->session = \Config\Services::session();
-        if(!$this->session->get('uuid')){
-            header('Location:/');die();
-        };           
-        helper(["global"]);
+        $this->db = Database::connect();                  
+        helper(["global"]);        
     }
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)

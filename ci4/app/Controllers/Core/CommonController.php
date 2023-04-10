@@ -20,6 +20,10 @@ class CommonController extends BaseController
 	function __construct()
 	{
 		parent::__construct();
+		$this->session = \Config\Services::session();
+        if(!$this->session->get('uuid')){
+            header('Location:/');die();
+        }; 
 		$this->businessUuid = session('uuid_business');
 		$this->whereCond['uuid_business_id'] = $this->businessUuid;
 
