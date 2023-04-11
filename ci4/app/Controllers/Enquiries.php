@@ -25,18 +25,18 @@ class Enquiries extends CommonController
     public function index()
     {        
 		$builder = $this->enquries_model;
-		if(!empty($this->request->getGet('search'))){
-			$builder->like('name',$this->request->getGet('search'));
-			$builder->orLike('email',$this->request->getGet('search'));
-			$builder->orLike('message',$this->request->getGet('search'));
+		if(!empty($this->request->getGet('filter'))){
+			$builder->like('name',$this->request->getGet('filter'));
+			$builder->orLike('email',$this->request->getGet('filter'));
+			$builder->orLike('message',$this->request->getGet('filter'));
 		}
         $data[$this->table] = $builder->orderBy('id','desc')->paginate(10);
 		//total rows
 		$total_query = $this->enquries_model->asArray();
-		if(!empty($this->request->getGet('search'))){
-			$total_query->like('name',$this->request->getGet('search'));
-			$total_query->orLike('email',$this->request->getGet('search'));
-			$total_query->orLike('message',$this->request->getGet('search'));
+		if(!empty($this->request->getGet('filter'))){
+			$total_query->like('name',$this->request->getGet('filter'));
+			$total_query->orLike('email',$this->request->getGet('filter'));
+			$total_query->orLike('message',$this->request->getGet('filter'));
 		}
         $data['total'] = $total_query->countAllResults();
 		//$data['results'] = $this->enquries_model->orderBy('id','desc')->paginate(10);
@@ -51,10 +51,10 @@ class Enquiries extends CommonController
 
 	public function loadData($record=0) {
 		$builder = $this->enquries_model;
-		if(!empty($this->request->getGet('search'))){
-			$builder->like('name',$this->request->getGet('search'));
-			$builder->orLike('email',$this->request->getGet('search'));
-			$builder->orLike('message',$this->request->getGet('search'));
+		if(!empty($this->request->getGet('filter'))){
+			$builder->like('name',$this->request->getGet('filter'));
+			$builder->orLike('email',$this->request->getGet('filter'));
+			$builder->orLike('message',$this->request->getGet('filter'));
 		}
         $data['results'] = $builder->orderBy('id','desc')->paginate(10);
 		echo json_encode($data); die;		

@@ -133,7 +133,7 @@ class TimeslipsModel extends Model
         return $db->table($this->table)->select('week_no')->orderBy('week_no', 'ASC')->distinct()->getWhere(array('uuid_business_id' => $this->businessUuid, 'week_no !=' => NULL))->getResultArray();
     }
 
-    public function getApiRows($id = false, $timeslip_where = array())
+    public function getApiRows($id = false, $timeslip_where = array(),$search='')
     {
 
         $table = $this->table;
@@ -161,11 +161,20 @@ class TimeslipsModel extends Model
         $this->select($selectFields);
         $this->join('tasks', 'tasks.id = ' . $table . '.task_name');
         $this->join('employees', 'employees.id = ' . $table . '.employee_name');
+        
         if ($id === false) {
             if (empty($timeslip_where)) {
                 return $this->paginate(10);
             } else {
-                return $this->where($timeslip_where)->paginate(10);
+                
+                if(!empty($search)){
+                    $this->like('tasks.name',$search);
+                    $this->orLike('employees.first_name',$search);
+                    $this->orLike('employees.surname',$search);
+                }
+                $this->where($timeslip_where);
+                
+                return $this->paginate(10);
             }
         } else {
             $whereCond = array_merge(array('id' => $id), $timeslip_where);
@@ -173,5 +182,32 @@ class TimeslipsModel extends Model
         }
 
         //echo '<pre>'; print_r($timeslip_where); die;
+    }
+
+    public function getApiCount($id = false, $timeslip_where = array(),$search='')
+    {
+
+        $table = $this->table;
+        $selectFields = array(
+            $table . '.id',
+            $table . '.uuid',
+        );
+        $this->select($selectFields);
+        $this->join('tasks', 'tasks.id = ' . $table . '.task_name');
+        $this->join('employees', 'employees.id = ' . $table . '.employee_name');        
+        
+            if (empty($timeslip_where)) {
+                return $this->countAllResults();
+            } else {
+                
+                if(!empty($search)){
+                    $this->like('tasks.name',$search);
+                    $this->orLike('employees.first_name',$search);
+                    $this->orLike('employees.surname',$search);
+                }
+                $this->where($timeslip_where);
+                
+                return $this->countAllResults();
+            }
     }
 }

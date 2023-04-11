@@ -1,7 +1,7 @@
 <?php require_once(APPPATH . 'Views/common/list-title.php'); ?>
 <div class="white_card_body ">
-    
-<form id="example_filter" class="dataTables_filter align-items-right"><label>Search:<input type="search" class="" placeholder="" name="search" aria-controls="example" value="<?=@$_GET['search']?>"></label></form>
+<div class="page_title_right" style="float:right;">Total Records: <span id="total"><?=$total?></span> </div>
+<form id="example_filter" class="dataTables_filter align-items-right"><label>Filter by keyword:<input type="text" class="form-control" placeholder="" name="filter" aria-controls="example" value="<?=@$_GET['filter']?>"></label></form>
     <div class="QA_table table-responsive ">
 
 
@@ -62,7 +62,7 @@
     window.createPagination = function(pageNum) {
             pageNum=pageNum+1
             $.ajax({
-                url: '<?=base_url()?>/index.php/enquiries/loadData/?page='+pageNum+'<?=!empty($_GET['search'])?'&search='.$_GET['search']:''?>',
+                url: '<?=base_url()?>/index.php/enquiries/loadData/?page='+pageNum+'<?=!empty($_GET['filter'])?'&filter='.$_GET['filter']:''?>',
                 type: 'get',
                 dataType: 'json',
                 success: function(responseData){

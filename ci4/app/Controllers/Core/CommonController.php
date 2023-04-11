@@ -9,7 +9,8 @@ use App\Models\Amazon_s3_model;
 
 use App\Models\Users_model;
 use PHPUnit\Framework\Constraint\FileExists;
-
+use Config\Services;
+use \Firebase\JWT\JWT;
 class CommonController extends BaseController
 {
 	protected $table;
@@ -53,6 +54,14 @@ class CommonController extends BaseController
 		} else {
 			echo view("errors/html/error_404");
 			die;
+		}
+		$key = Services::getSecretKey();
+		try {
+			$tokenArray = JWT::decode($this->session->get('jwt_token'), $key, array('HS256'));
+		}catch (\Firebase\JWT\ExpiredException $e) {
+			//print "Error!: " . $e->getMessage();
+			header('Location:/home/logout');
+			die();
 		}
 	}
 

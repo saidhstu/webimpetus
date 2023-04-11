@@ -72,6 +72,7 @@ class Timeslips extends CommonController
         $data['templates'] = $this->templateModel->getMatchRows(['module_name' => $this->table]);
         $data['weeks'] = $this->timeSlipsModel->getDistinctWeeks();
         $data['uuid_business'] = $this->session->get('uuid_business');
+        $data['token'] = $this->session->get('jwt_token');
 
         $viewPath = "timeslips/list";
         return view($viewPath, $data);

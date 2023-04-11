@@ -46,6 +46,10 @@ class Home extends BaseController
 
 			$count = $this->model->getWhere(['status' => 1, 'email' => $this->request->getPost('email'),'password' => md5($this->request->getPost('password'))])->getNumRows();
 			if(!empty($count)){
+
+				//echo '<pre>'; $this->curlcmd($this->request->getPost('email'),$this->request->getPost('password')); 
+				helper('jwt');
+				$token = getSignedJWTForUser($this->request->getPost('email'));
 				//session()->setFlashdata('message', 'Email already exist!');
 				//session()->setFlashdata('alert-class', 'alert-success');
 				$row = $this->model->getWhere(['email' => $this->request->getPost('email')])->getRow();
@@ -62,6 +66,7 @@ class Home extends BaseController
 				$this->session->set('logo',$logo->meta_value);	
 				$this->session->set('uuid_business_id',$uuid_business_id);	
 				$this->session->set('uuid_business',$uuid_business);	
+				$this->session->set('jwt_token',$token);	
 				$arr = json_decode($row->permissions);
 				$roww = $this->menu_model->getWherein($arr);
 				// echo '<pre>';print_r($roww); die;
@@ -80,6 +85,55 @@ class Home extends BaseController
 			}
 			return redirect()->to('/');
     }
+
+	/* private function curlcmd($email,$password){
+		$url = base_url().'/auth/login';
+		$data = array("email" => $email,"password" => $password);
+
+		$client = new \GuzzleHttp\Client(); 
+		$res = $client->request(
+			'POST', $url,
+			[
+				'form_params' => $data
+				
+		]);
+		echo $res->getStatusCode();
+		// "200"
+		echo $res->getHeader('content-type')[0];
+		// 'application/json; charset=utf8'
+		echo $res->getBody();
+		// {"type":"User"...'
+		// Instance
+		/* $client = \Config\Services::curlrequest();
+		// Header data
+		$headerData = array(
+			'Content-Type' => 'application/json',
+			'Accept' => 'application/json',
+		 );
+       
+		// Send request
+		$response = $client->post($url, [
+			'form_params' => [
+				'foo' => 'bar',
+				'baz' => ['hi', 'there'],
+			],
+		]);
+ 
+		// Read response
+		$code = $response->getStatusCode();
+		$reason = $response->getReason(); // OK
+ 
+		if($code == 200){ // Success
+ 
+		   // Read data 
+		   $body = json_decode($response->getBody());
+ 
+		   echo $body;
+		}else{
+		   echo "failed";
+		   die;
+		} 
+	} */
 
 	public function register(){
 		
