@@ -1,6 +1,7 @@
 <?php require_once(APPPATH . 'Views/timeslips/list-title.php'); ?>
 <div class="white_card_body ">
     <div class="QA_table ">
+<div class="page_title_right" style="float:right;">Total Records: <span id="total">0</span> </div>
         <!-- table-responsive -->
         <table id="myTable" class="table table-listing-items tableDocument table-striped table-bordered">
             <thead>
@@ -58,8 +59,13 @@
     window.createPagination = function(pageNum) {
             pageNum=pageNum+1
             $.ajax({
-                url: '<?=base_url()?>/api/<?=$tableName?>/<?=$uuid_business?>/?page='+pageNum+'<?=!empty($_GET['search'])?'&search='.$_GET['search']:''?>',
-                type: 'get',
+                url: '<?=base_url()?>/api/<?=$tableName?>/<?=$uuid_business?>/?page='+pageNum+'<?='&'.$_SERVER['QUERY_STRING']?>',
+                headers: {
+                    'Authorization':'Basic <?=!empty($token)?$token:''?>',
+                    //'X-CSRF-TOKEN':'xxxxxxxxxxxxxxxxxxxx',
+                    'Content-Type':'application/json'
+                },
+                method: 'POST',
                 dataType: 'json',
                 success: function(responseData){
                     //$('#pagination').html(responseData.pagination);  
@@ -71,6 +77,7 @@
                             perPage: 10,
                             total: responseData.total
                         });
+                        $("#total").html(responseData.total);
                         executed = true;
 
                     }
@@ -83,13 +90,15 @@
             //console.log(data)
             $('#myTable tbody').empty();
             for(emp in data){
+                var d = new Date(data[emp].slip_start_date * 1000);
+                var dateString = d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
                 var empRow = "<tr data-link='/<?=$tableName."/edit/"?>"+data[emp].uuid+"'>";
                 empRow += "<td class='f_s_12 f_w_400'><input type='checkbox' value="+ data[emp].uuid+" class='check_all' onclick='setExportItem(this);'></td><td>"+ data[emp].week_no +"</td>";
                 empRow += "<td>"+ data[emp].task_name.substr(0, 20)+(data[emp].task_name.length>20?'...':'') +"</td>";
                 empRow += "<td>"+ data[emp].employee_name.substr(0, 20)+(data[emp].employee_name.length>20?'...':'') +"</td>"
-                empRow += "<td>"+ data[emp].slip_start_date+"</td>"
+                empRow += "<td>"+ dateString+"</td>"
                 empRow += "<td>"+ data[emp].slip_timer_started +"</td>"
-                empRow += '<td class="f_s_12 f_w_400 text-right"><div class="header_more_tool"> <div class="dropdown"> <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">  <i class="ti-more-alt"></i></span> <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" onclick="return confirm(\'Are you sure want to delete?\');" href="/<?=$tableName?>/delete/'+data[emp].uuid+'"> <i class="ti-trash"></i> Delete</a><a class="dropdown-item" href="/<?=$tableName?>/edit/'+data[emp].uuid+'"> <i class="fas fa-edit"></i> Edit</a </div> </div></div></td>'
+                empRow += '<td class="f_s_12 f_w_400 text-right"><div class="header_more_tool"> <div class="dropdown"> <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">  <i class="ti-more-alt"></i></span> <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" onclick="return confirm(\'Are you sure want to delete?\');" href="/<?=$tableName?>/delete/'+data[emp].uuid+'"> <i class="ti-trash"></i> Delete</a><a class="dropdown-item" href="/<?=$tableName?>/edit/'+data[emp].uuid+'"> <i class="fas fa-edit"></i> Edit</a><a class="dropdown-item" href="/<?php echo $tableName; ?>/clone/'+data[emp].uuid+'"> <i class="fas fa-copy"></i> Clone</a> </div> </div></div></td>'
                 //empRow += "<td>"+ data[emp].designation +"</td>"
                 //empRow += "<td>"+ data[emp].address +"</td>";
                 empRow += "</tr>";

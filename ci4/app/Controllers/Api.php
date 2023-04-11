@@ -591,14 +591,13 @@ class Api extends BaseController
     }
 
     public function timeslips($ubusiness_id = "") {
-        $arr = [];
         $arr2 = [];
+        $search = !empty($_GET['filter'])?$_GET['filter']:'';
         if(!empty($ubusiness_id)){
-            $arr = ['uuid_business_id'=>$ubusiness_id];
-            $arr2 = ['timeslips.uuid_business_id'=>$ubusiness_id];
+            $arr2 = ['tasks.uuid_business_id'=>$ubusiness_id];
         }
-        $count = $this->common_model->getCount('timeslips',$arr);
-        $rows = $this->timeSlipsModel->getApiRows(false, $arr2);
+        $count = $this->timeSlipsModel->getApiCount(false, $arr2,$search);
+        $rows = $this->timeSlipsModel->getApiRows(false, $arr2,$search);
         $data['data'] = $rows;
         $data['total'] = $count;
         $data['status'] = 'success';

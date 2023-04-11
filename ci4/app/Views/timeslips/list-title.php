@@ -66,6 +66,9 @@
                             <div class="box_header m-0">
                                 <form method="GET">
                                     <div class="row">
+                                    <div class="form-group mr-3">
+                                    <input type="text" class="form-control" placeholder="Filter by task name" name="filter" aria-controls="example" value="<?=@$_GET['filter']?>">
+                                        </div>
                                         <div class="form-group mr-3">
                                             <select class="form-control" id="list_week" name="list_week">
                                                 <option value="">--<?php echo lang('Common.select_week');?>--</option>
