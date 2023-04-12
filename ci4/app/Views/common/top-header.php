@@ -22,7 +22,7 @@ window.location.href="/";
                     <div class="header_search">
                         <form action="/dashboard" class="header_search_form" style="margin: 0;">
                             <div class="business-uuid-selector ml-3 mr-3">
-                                <input type="search"  class="form-control" name="search" value="<?php echo isset($_GET['search'])?$_GET['search']:''?>" placeholder="Search.." />
+                                <input type="search"  class="form-control" name="search" value="<?php echo isset($_GET['search'])?$_GET['search']:''?>" placeholder="Search..." />
                             </div>
                         </form>
                         <div class="search-icon">

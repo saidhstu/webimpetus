@@ -20,10 +20,10 @@
                             </ol>
                         </div>
                         <div class="page_title_right">
-                            <div class="page_date_button d-flex align-items-center">
+                            <!-- <div class="page_date_button d-flex align-items-center">
                                 <img src="/img/icon/calender_icon.svg" alt="">
                                 August 1, 2020 - August 31, 2020
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

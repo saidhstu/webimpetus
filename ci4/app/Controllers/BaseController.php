@@ -80,7 +80,7 @@ class BaseController extends Controller
     public function getRequestInput(IncomingRequest $request)
     {
         $input = $request->getPost();
-        if (empty($input)) {
+        if (empty($input) && !empty($request->getBody())) {
             //convert request body to associative array
             $input = json_decode($request->getBody(), true);
         }

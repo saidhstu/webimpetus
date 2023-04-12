@@ -596,8 +596,27 @@ class Api extends BaseController
         if(!empty($ubusiness_id)){
             $arr2 = ['tasks.uuid_business_id'=>$ubusiness_id];
         }
+
+        $list_week = !empty($_GET['list_week'])?$_GET['list_week']:'';
+        $list_monthpicker = !empty($_GET['list_month'])?$_GET['list_month']:'';
+        $list_yearpicker = !empty($_GET['list_year'])?$_GET['list_year']:'';
+
+        if (!empty($list_week)) {
+            $arr2['week_no'] = $list_week;
+        }
+
+        if (!empty($list_monthpicker) && !empty($list_yearpicker)) {
+           
+            $lmonth = "{$list_yearpicker}-{$list_monthpicker}-01";
+            $submitted_time = strtotime($lmonth);
+            $submitted_time2 = strtotime("{$list_yearpicker}-{$list_monthpicker}-".date("t", strtotime($lmonth)));
+            $arr2['slip_start_date >='] = $submitted_time;
+            $arr2['slip_end_date <='] = $submitted_time2;
+        }
+
         $count = $this->timeSlipsModel->getApiCount(false, $arr2,$search);
         $rows = $this->timeSlipsModel->getApiRows(false, $arr2,$search);
+        //$this->timeSlipsModel->getLastQuery()->getQuery();die;
         $data['data'] = $rows;
         $data['total'] = $count;
         $data['status'] = 'success';
