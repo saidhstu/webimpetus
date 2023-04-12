@@ -55,11 +55,42 @@
 <?php require_once(APPPATH . 'Views/timeslips/footer.php'); ?>
 <?php require_once(APPPATH . 'Views/common/pagination.php'); ?>
 <script>
+
+function delay(callback, ms) {
+  var timer = 0;
+  return function() {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      callback.apply(context, args);
+    }, ms || 0);
+  };
+}
+
+
+// Example usage:
+
+$('#filter').keyup(delay(function (e) {
+  console.log('Time elapsed!', this.value);
+  window.searchTimeslips();
+}, 500));
+
+
     var executed = false;
+    window.searchTimeslips = function(){
+        executed = false;
+        $('#myPager').html('');
+        window.createPagination(0);
+
+    }
     window.createPagination = function(pageNum) {
+        var filter = document.getElementById('filter').value;
+        var list_week = document.getElementById('list_week').value;
+        var list_month = document.getElementById('list_monthpicker2').value;
+        var list_year = document.getElementById('list_yearpicker2').value;
             pageNum=pageNum+1
             $.ajax({
-                url: '<?=base_url()?>/api/<?=$tableName?>/<?=$uuid_business?>/?page='+pageNum+'<?='&'.$_SERVER['QUERY_STRING']?>',
+                url: '<?=base_url()?>/api/<?=$tableName?>/<?=$uuid_business?>/?page='+pageNum+'&filter='+filter+'&list_week='+list_week+'&list_month='+list_month+'&list_year='+list_year,
                 headers: {
                     'Authorization':'Basic <?=!empty($token)?$token:''?>',
                     //'X-CSRF-TOKEN':'xxxxxxxxxxxxxxxxxxxx',
@@ -79,9 +110,8 @@
                         });
                         $("#total").html(responseData.total);
                         executed = true;
-
                     }
-                    paginationData(responseData.data);
+                    window.paginationData(responseData.data);
                 }
             });
         }
@@ -104,6 +134,11 @@
                 empRow += "</tr>";
                 console.log($('#myTable tbody').length)
                 $('#myTable tbody').append(empRow);					
+            }
+            if(data.length==0){
+                $('#myTable tbody').empty();
+                var empRow = "<tr ><td colspan=7>No data found!!</td></tr>";
+                $('#myTable tbody').append(empRow);	
             }
         }
 
@@ -141,4 +176,19 @@ $(document).ready(function () {
             $(".time-picker").show();
         }
     }
+
+    $(document).on('click', ".table-listing-items  tr  td", function() {
+    console.log($(this).html())
+    if($(this).html().indexOf('<input')<0){
+        var dataClickable = $(this).parent().attr('data-link');
+        if($(this).is(':last-child')){
+        }else{
+            if(dataClickable && dataClickable.length > 0){
+                
+                window.location = dataClickable;
+            }
+        }
+    }
+        
+});
 </script>

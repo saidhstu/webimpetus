@@ -138,8 +138,9 @@ class TimeslipsModel extends Model
 
         $table = $this->table;
         $selectFields = array(
-            $table . '.id',
             $table . '.uuid',
+            $table . '.id as ci4_internal_id',
+            $table . '.uuid as id',
             'tasks.name as task_name',
             $table . '.week_no',
             'CONCAT_WS(" ", employees.saludation, employees.first_name, employees.surname) as employee_name',
@@ -168,9 +169,11 @@ class TimeslipsModel extends Model
             } else {
                 
                 if(!empty($search)){
+                    $this->groupStart();
                     $this->like('tasks.name',$search);
                     $this->orLike('employees.first_name',$search);
                     $this->orLike('employees.surname',$search);
+                    $this->groupEnd();
                 }
                 $this->where($timeslip_where);
                 
@@ -201,9 +204,11 @@ class TimeslipsModel extends Model
             } else {
                 
                 if(!empty($search)){
+                    $this->groupStart();
                     $this->like('tasks.name',$search);
                     $this->orLike('employees.first_name',$search);
                     $this->orLike('employees.surname',$search);
+                    $this->groupEnd();
                 }
                 $this->where($timeslip_where);
                 
