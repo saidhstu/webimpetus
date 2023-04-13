@@ -121,7 +121,7 @@ $('#filter').keyup(delay(function (e) {
             $('#myTable tbody').empty();
             for(emp in data){
                 var d = new Date(data[emp].slip_start_date * 1000);
-                var dateString = d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
+                var dateString =  ('0' + (d.getMonth()+1)).slice(-2)+'/'+('0' + (d.getDate())).slice(-2)+'/'+d.getFullYear();
                 var empRow = "<tr data-link='/<?=$tableName."/edit/"?>"+data[emp].uuid+"'>";
                 empRow += "<td class='f_s_12 f_w_400'><input type='checkbox' value="+ data[emp].uuid+" class='check_all' onclick='setExportItem(this);'></td><td>"+ data[emp].week_no +"</td>";
                 empRow += "<td>"+ data[emp].task_name.substr(0, 20)+(data[emp].task_name.length>20?'...':'') +"</td>";

@@ -611,12 +611,12 @@ class Api extends BaseController
             $submitted_time = strtotime($lmonth);
             $submitted_time2 = strtotime("{$list_yearpicker}-{$list_monthpicker}-".date("t", strtotime($lmonth)));
             $arr2['slip_start_date >='] = $submitted_time;
-            $arr2['slip_end_date <='] = $submitted_time2;
+            $arr2['slip_start_date <='] = $submitted_time2;
         }
 
         $count = $this->timeSlipsModel->getApiCount(false, $arr2,$search);
         $rows = $this->timeSlipsModel->getApiRows(false, $arr2,$search);
-        //$this->timeSlipsModel->getLastQuery()->getQuery();die;
+        //echo $this->timeSlipsModel->getLastQuery()->getQuery();die;
         $data['data'] = $rows;
         $data['total'] = $count;
         $data['status'] = 'success';
