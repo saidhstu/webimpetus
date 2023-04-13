@@ -180,8 +180,8 @@ class TimeslipsModel extends Model
                 return $this->paginate(10);
             }
         } else {
-            $whereCond = array_merge(array('id' => $id), $timeslip_where);
-            return $this->getWhere($whereCond);
+            $whereCond = array_merge(array($table .'.uuid' => $id), $timeslip_where);
+            return $this->where($whereCond)->get()->getResult();
         }
 
         //echo '<pre>'; print_r($timeslip_where); die;
