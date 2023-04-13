@@ -623,6 +623,14 @@ class Api extends BaseController
         echo json_encode($data); die;
     }
 
+    public function timeslip($uuid = "") {
+        $row = $this->timeSlipsModel->getApiRows($uuid);
+        //$this->timeSlipsModel->getLastQuery()->getQuery();die;
+        $data['data'] = $row;
+        $data['status'] = 'success';
+        echo json_encode($data); die;
+    }
+
     public function addTimeslip()
     {
         // $post = $this->request->getPost(); 
