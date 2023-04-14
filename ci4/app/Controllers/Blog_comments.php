@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Libraries\UUID;
 use App\Models\Content_model;
 use App\Models\Users_model;
 use App\Models\Cat_model;
@@ -25,7 +26,7 @@ class Blog_comments extends CommonController
 		echo view($this->table."/list", $data);
 	}
 	
-	public function edit($id = 0)
+	public function edit($id = "")
 	{
 		$_SESSION["menucode"] = 9;
 		$data['tableName'] = $this->table;
@@ -130,6 +131,9 @@ class Blog_comments extends CommonController
 			if(!empty($this->request->getPost('title'))){
 				
 				if($this->request->getPost('title')) {
+
+        			$uuidVal = UUID::v5(UUID::v4(), 'blog_comments');
+					$data['uuid'] = $uuidVal;
 					
 					// Set Session
 					session()->setFlashdata('message', 'Data entered Successfully!');

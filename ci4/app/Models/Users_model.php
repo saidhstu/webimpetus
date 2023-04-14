@@ -41,7 +41,7 @@ class Users_model extends Model
             return $this->where($whereCond)->findAll();
         } else {
             $whereCond = array_merge(['uuid' => $uuid], $whereCond);
-            return $this->getWhere($whereCond);
+            return $this->getWhere(array_filter($whereCond));
         }
     }
 
@@ -56,6 +56,26 @@ class Users_model extends Model
             $whereCond = ['uuid_business_id' => $id];
             return $this->where($whereCond)->findAll();
         }
+    }
+
+    public function getApiV2Users($id = false)
+    {
+        $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
+        $whereCond = $this->whereCond;
+        if ($id == false) {
+            $whereCond = [];
+            return $this->where($whereCond)->paginate($_GET['perPage']);
+        } else {
+            //$whereCond = ['uuid_business_id' => $id];
+            return $this->where($whereCond)->paginate($_GET['perPage']);
+        }
+    }
+    
+    public function getApiV2UsersCount()
+    {
+        $whereCond = [];
+        //$whereCond = ['uuid_business_id' => $id];
+        return $this->where($whereCond)->countAllResults();
     }
 
     public function countUsers()
@@ -79,6 +99,12 @@ class Users_model extends Model
     public function deleteUser($id)
     {
         $query = $this->db->table($this->table)->delete(array('id' => $id));
+        return $query;
+    }
+
+    public function deleteAPIUser($id)
+    {
+        $query = $this->db->table($this->table)->delete(array('uuid' => $id));
         return $query;
     }
 

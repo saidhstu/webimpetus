@@ -417,10 +417,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
-                                                <select class="select2 col-md-2 ">
+                                                <select class="select2 col-lg-12">
                                                     <option value="1">Role</option>
-                                                    <option value="1">Role 1</option>
-                                                    <option value="1">Role2</option>
+                                                    <option value="1">Member</option>
+                                                    <option value="1">Editor</option>
                                                 </select>
                                             </div>
                                             <div class="col-12">

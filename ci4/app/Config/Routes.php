@@ -36,6 +36,13 @@ $routes->get('/', 'Home::index');
 $routes->get('users/delete/(:num)', 'Users::delete/$1');
 //$routes->post('users/update/(:num)', 'Users::update');
 
+
+//API V2
+//Users Request API
+$routes->resource('api/v2/users');
+$routes->resource('api/v2/timeslips');
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

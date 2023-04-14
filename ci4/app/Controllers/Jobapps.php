@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controllers;
 use App\Controllers\BaseController;
+use App\Libraries\UUID;
  
 use CodeIgniter\Controller;
 use App\Models\Content_model;
@@ -26,7 +27,7 @@ class Jobapps extends CommonController
 		$data['is_add_permission'] = 1;
 		echo view($this->table."/list", $data);
     }
-	public function edit($id = 0)
+	public function edit($id = "")
     {
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
@@ -104,6 +105,9 @@ class Jobapps extends CommonController
 			session()->setFlashdata('message', 'Data updated Successfully!');
 			session()->setFlashdata('alert-class', 'alert-success');
 		}else {
+
+			$uuidVal = UUID::v5(UUID::v4(), 'job_applications');
+			$data['uuid'] = $uuidVal;
 			
 
 			$bid = $this->model->saveData($data); 

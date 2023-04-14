@@ -19,7 +19,7 @@
             <tbody>                                        
             
             <?php foreach($content as $row):?>
-            <tr data-link="/blog_comments/edit/<?= $row['id'];?>">
+            <tr data-link="/blog_comments/edit/<?= $row['uuid'];?>">
                 
                 <td class="f_s_12 f_w_400"><?= $row['id'];?></td>
                 <td class="f_s_12 f_w_400"><?= $row['title'];?>
