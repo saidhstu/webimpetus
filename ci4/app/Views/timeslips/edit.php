@@ -218,7 +218,7 @@ if (empty(@$timeslips['slip_timer_started'])) {
                 <div class="col-md-3"></div>
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-primary"><?php echo lang('Common.submit');?></button>
-                    <button type="button" class="btn btn-secondary"><?php echo lang('Common.cancel');?></button>
+                    <a href="/<?php echo strtolower($tableName).(!empty($_SERVER['QUERY_STRING'])?'?'.$_SERVER['QUERY_STRING']:''); ?>" type="button" class="btn btn-secondary"><?php echo lang('Common.cancel');?></a>
                 </div>
             </div>
         </form>

@@ -165,7 +165,8 @@ class TimeslipsModel extends Model
         
         if ($id === false) {
             if (empty($timeslip_where)) {
-                return $this->paginate(10);
+                $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
+                return $this->paginate($_GET['perPage']);
             } else {
                 
                 if(!empty($search)){
@@ -177,7 +178,8 @@ class TimeslipsModel extends Model
                 }
                 $this->where($timeslip_where);
                 
-                return $this->paginate(10);
+                $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
+                return $this->paginate($_GET['perPage']);
             }
         } else {
             $whereCond = array_merge(array($table .'.uuid' => $id), $timeslip_where);
