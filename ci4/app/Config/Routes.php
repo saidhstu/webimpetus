@@ -41,6 +41,8 @@ $routes->get('users/delete/(:num)', 'Users::delete/$1');
 //Users Request API
 $routes->resource('api/v2/users');
 $routes->resource('api/v2/timeslips');
+$routes->resource('api/v2/webpages');
+$routes->resource('api/v2/tasks');
 
 
 /*

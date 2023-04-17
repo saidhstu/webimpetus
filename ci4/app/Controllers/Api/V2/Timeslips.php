@@ -16,8 +16,21 @@ class Timeslips extends ResourceController
     {
         $api =  new Api_v2();
         $params = !empty($_GET['params'])?json_decode($_GET['params'],true):[];
+
+        //Pagination Params
         $_GET['page'] = !empty($params['pagination']) && !empty($params['pagination']['page'])?$params['pagination']['page']:1;
         $_GET['perPage'] = !empty($params['pagination']) && !empty($params['pagination']['perPage'])?$params['pagination']['perPage']:10;
+
+        //Sorting params
+        $_GET['field'] = !empty($params['sort']) && !empty($params['sort']['field'])?$params['sort']['field']:'';
+        $_GET['order'] = !empty($params['sort']) && !empty($params['sort']['order'])?$params['sort']['order']:'';
+
+        //filter by business uuid, week, month and year
+        $_GET['list_week'] = !empty($params['filter']) && !empty($params['filter']['list_week'])?$params['filter']['list_week']:'';
+        $_GET['list_month'] = !empty($params['filter']) && !empty($params['filter']['list_month'])?$params['filter']['list_month']:'';
+        $_GET['list_year'] = !empty($params['filter']) && !empty($params['filter']['list_year'])?$params['filter']['list_year']:'';
+        $_GET['uuid_business_id'] = !empty($params['filter']) && !empty($params['filter']['uuid_business_id'])?$params['filter']['uuid_business_id']:'';
+        $_GET['q'] = !empty($params['filter']) && !empty($params['filter']['q'])?$params['filter']['q']:'';
 
         return $this->respond($api->timeslips()); //
     }
@@ -84,7 +97,7 @@ class Timeslips extends ResourceController
     {
         $api =  new Api_v2();
         $data['data'] = $api->timeSlipsModel->deleteData($id);
-        $data['message'] = 'success';
+        $data['message'] = 200;
         return $this->respond($data);
     }
 }
