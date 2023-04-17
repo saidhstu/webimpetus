@@ -165,6 +165,11 @@ class TimeslipsModel extends Model
         
         if ($id === false) {
             if (empty($timeslip_where)) {
+                if(!empty($_GET['field']) && !empty($_GET['order'])){
+                    $this->orderBy($_GET['field'],$_GET['order']);
+                }else {
+                    $this->orderBy('created_at','ASC');
+                }
                 $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
                 return $this->paginate($_GET['perPage']);
             } else {
@@ -177,13 +182,19 @@ class TimeslipsModel extends Model
                     $this->groupEnd();
                 }
                 $this->where($timeslip_where);
+
+                if(!empty($_GET['field']) && !empty($_GET['order'])){
+                    $this->orderBy($_GET['field'],$_GET['order']);
+                }else {
+                    $this->orderBy('created_at','ASC');
+                }                
                 
                 $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
                 return $this->paginate($_GET['perPage']);
             }
         } else {
             $whereCond = array_merge(array($table .'.uuid' => $id), $timeslip_where);
-            return $this->where($whereCond)->get()->getResult();
+            return $this->where($whereCond)->get()->getRow();
         }
 
         //echo '<pre>'; print_r($timeslip_where); die;

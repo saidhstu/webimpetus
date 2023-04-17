@@ -73,7 +73,7 @@ class Api_v2 extends BaseController
             }
             $data['data'] =$data1;
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         if($write==true){
             return json_encode($data['data']);
         }else echo json_encode($data); die;
@@ -85,7 +85,7 @@ class Api_v2 extends BaseController
         }else {
             $data['data'] = ($id>0)?$this->tmodel->getRows($id)->getRow():$this->tmodel->getRows();
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function domains($id=false)
@@ -95,7 +95,7 @@ class Api_v2 extends BaseController
         }else {
             $data['data'] = ($id>0)?$this->dmodel->getRows($id)->getRow():$this->dmodel->getRows();
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function categories($id=false)
@@ -105,7 +105,7 @@ class Api_v2 extends BaseController
         }else {
             $data['data'] = ($id>0)?$this->catmodel->getRows($id)->getRow():$this->catmodel->getRows();
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function templates($type=1,$id=false)
@@ -115,7 +115,7 @@ class Api_v2 extends BaseController
         }else {
             $data['data'] = ($id>0)?$this->cmodel->getWhere(['status' => 1,'id' => $id,'type'=>$type])->getRow():$this->cmodel->where(['status' => 1,'type'=>$type])->get()->getResult();
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function enquiries($type=1,$id=false)
@@ -125,7 +125,7 @@ class Api_v2 extends BaseController
         }else {
             $data['data'] = ($id>0)?$this->emodel->getWhere(['id' => $id,'type'=>$type])->getRow():$this->emodel->where(['type'=>$type])->get()->getResult();
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function blocks($id=false)
@@ -135,7 +135,7 @@ class Api_v2 extends BaseController
         }else {
             $data['data'] = ($id>0)?$this->bmodel->getWhere(['id' => $id])->getRow():$this->bmodel->get()->getResult();
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function media($id=false)
@@ -145,7 +145,7 @@ class Api_v2 extends BaseController
         }else {
             $data['data'] = ($id>0)?$this->gmodel->getWhere(['id' => $id])->getRow():$this->gmodel->get()->getResult();
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function secrets($id=false)
@@ -155,7 +155,7 @@ class Api_v2 extends BaseController
         }else {
             $data['data'] = ($id>0)?$this->sec_model->getWhere(['id' => $id])->getRow():$this->sec_model->get()->getResult();
         }
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function webpages($customer_id=false){
@@ -184,7 +184,7 @@ class Api_v2 extends BaseController
                     $webPageList[$key] = $eachPage;
                 }
                 $data['data'] = $webPageList;
-                $data['status'] = 'success';
+                $data['status'] = 200;
             }else{
                 $data['status'] = 'error';
             }
@@ -214,7 +214,7 @@ class Api_v2 extends BaseController
                 $webPageList[$key]->blockList = @$blockList[$eachPage->id];
             }
             $data['data'] = $webPageList;
-            $data['status'] = 'success';
+            $data['status'] = 200;
         }else{
             $data['status'] = 'error';
             $data['status'] = 'Id is missing';
@@ -232,7 +232,7 @@ class Api_v2 extends BaseController
             $documentList[$key] = $eachPage;
         }
         $data['data'] = $documentList;
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
     public function sendEmail() {
@@ -281,7 +281,7 @@ class Api_v2 extends BaseController
 			$from_email = "info@odincm.com";
 			$is_send = $this->emailModel->send_mail($from_email, $name, $from_email, $emailMessage, $subject, [], "", $ccEmail);
 			if($is_send){
-				$data['status'] = 'success';
+				$data['status'] = 200;
 				$data['msg']    = 'Email send successfully!';
 				$insertArray["uuid_business_id"] = $uuid_business_id;
 				$insertArray["name"] = $name;
@@ -304,7 +304,7 @@ class Api_v2 extends BaseController
     public function menus($uuid_business_id='',$lang='en')
     {   
         $data['data'] = $this->menuModel->getMenu($uuid_business_id, $lang);
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -325,7 +325,7 @@ class Api_v2 extends BaseController
             $this->menuModel->saveMenuCat($in_id,$this->request->getPost('categories')); 
             
             $data['data'] = $cat_data;
-            $data['status'] = 'success';
+            $data['status'] = 200;
         }
         echo json_encode($data); die;
     }
@@ -345,7 +345,7 @@ class Api_v2 extends BaseController
             if(!empty($this->request->getPost('uuid_business_id')))  $cat_data['uuid_business_id'] = $this->request->getPost('uuid_business');        
             $this->menuModel->updateData($this->request->getPost('uuid'),$cat_data);
             $this->menuModel->saveMenuCat($this->request->getPost('uuid'),$this->request->getPost('categories'));           
-            $data['status'] = 'success';
+            $data['status'] = 200;
             $data['data'] = $cat_data;
         }        
         echo json_encode($data); die;
@@ -354,7 +354,7 @@ class Api_v2 extends BaseController
     public function users($id = false)
     {   
         $data['data'] = $this->userModel->getApiUsers($id);
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -387,7 +387,7 @@ class Api_v2 extends BaseController
                 //echo json_encode($data_array); die;
                 $this->userModel->saveUser($data_array);
                 $data['data'] = $data_array;
-                $data['status'] = 'success';
+                $data['status'] = 200;
                 echo json_encode($data); die;
             }           
 
@@ -422,7 +422,7 @@ class Api_v2 extends BaseController
                 $this->userModel->updateUser($data_array, $id);
 
                 $data['data'] = $data_array;
-                $data['status'] = 'success';
+                $data['status'] = 200;
                 echo json_encode($data); die;
 			}	
 		} else {
@@ -436,7 +436,7 @@ class Api_v2 extends BaseController
     public function customers($id = false)
     {   
         $data['data'] = $this->customer_model->getCustomers($id);
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -506,7 +506,7 @@ class Api_v2 extends BaseController
                     }
                 }
                 $response_data['data'] = $data;
-                $response_data['status'] = 'success';
+                $response_data['status'] = 200;
                 echo json_encode($response_data); die;
             }
 
@@ -582,7 +582,7 @@ class Api_v2 extends BaseController
                         }
                     }
                     $response_data['data'] = $data;
-                    $response_data['status'] = 'success';
+                    $response_data['status'] = 200;
                     echo json_encode($response_data); die;
                 }
         }else{
@@ -595,9 +595,9 @@ class Api_v2 extends BaseController
     public function timeslips($id = "") {
         if(empty($id)){
             $arr2 = [];
-            $search = !empty($_GET['filter'])?$_GET['filter']:'';
-            if(!empty($ubusiness_id)){
-                $arr2 = ['tasks.uuid_business_id'=>$ubusiness_id];
+            $search = !empty($_GET['q'])?$_GET['q']:'';
+            if(!empty($_GET['uuid_business_id'])){
+                $arr2 = ['tasks.uuid_business_id'=>$_GET['uuid_business_id']];
             }
 
             $list_week = !empty($_GET['list_week'])?$_GET['list_week']:'';
@@ -622,14 +622,14 @@ class Api_v2 extends BaseController
             //echo $this->timeSlipsModel->getLastQuery()->getQuery();die;
             $data['data'] = $rows;
             $data['total'] = $count;
-            $data['status'] = 'success';
+            $data['status'] = 200;
             echo json_encode($data); die;
         }else {
 
             $row = $this->timeSlipsModel->getApiRows($id);
             //$this->timeSlipsModel->getLastQuery()->getQuery();die;
             $data['data'] = $row;
-            $data['status'] = 'success';
+            $data['status'] = 200;
             echo json_encode($data); die;
             
         }
@@ -639,7 +639,7 @@ class Api_v2 extends BaseController
         $row = $this->timeSlipsModel->getApiRows($uuid);
         //$this->timeSlipsModel->getLastQuery()->getQuery();die;
         $data['data'] = $row;
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -672,7 +672,7 @@ class Api_v2 extends BaseController
             //$data['id']= @$post["id"];
             $response = $this->timeSlipsModel->saveByUuid('', $data);
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
         }else{
             $response_data['status'] = 'error';
@@ -707,7 +707,7 @@ class Api_v2 extends BaseController
             //$data['id']= @$post["id"];
             $response = $this->timeSlipsModel->saveByUuid($uuidVal, $data);
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
         }else{
             $response_data['status'] = 'error';
@@ -719,7 +719,7 @@ class Api_v2 extends BaseController
     public function tasks($ubusiness_id = false) {
         $rows = $this->tasksModel->getApiTaskList($ubusiness_id);
         $data['data'] = $rows;
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -758,7 +758,7 @@ class Api_v2 extends BaseController
 
             $response = $this->common_model->CommonInsertOrUpdate("tasks",'',$data);
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
         }else{
             $response_data['status'] = 'error';
@@ -792,7 +792,7 @@ class Api_v2 extends BaseController
 
             $response = $this->common_model->CommonInsertOrUpdate("tasks",$post['uuid'],$data);
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
         }else{
             $response_data['status'] = 'error';
@@ -804,7 +804,7 @@ class Api_v2 extends BaseController
     public function employees($id = false)
     {   
         $data['data'] = $id!=false?$this->common_model->getCommonData('employees',array('uuid_business_id'=>$id)):$this->common_model->getCommonData('employees');
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -840,7 +840,7 @@ class Api_v2 extends BaseController
                 //$data['id']= @$post["id"];
                 $response = $this->common_model->CommonInsertOrUpdate('employees','', $data);
                 $response_data['data'] = $data;
-                $response_data['status'] = 'success';
+                $response_data['status'] = 200;
                 echo json_encode($response_data); die;
             }
 
@@ -879,7 +879,7 @@ class Api_v2 extends BaseController
                 //$data['id']= @$post["id"];
                 $response = $this->common_model->CommonInsertOrUpdate('employees',$post['uuid'], $data);
                 $response_data['data'] = $data;
-                $response_data['status'] = 'success';
+                $response_data['status'] = 200;
                 echo json_encode($response_data); die;
             }
 
@@ -893,7 +893,7 @@ class Api_v2 extends BaseController
     public function purchase_invoices($id = false)
     {   
         $data['data'] = $id!=false?$this->purchase_invoice_model->getApiInvoice($id):$this->purchase_invoice_model->getApiInvoice();
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -980,7 +980,7 @@ class Api_v2 extends BaseController
 
 
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
 
         }else{
@@ -1066,7 +1066,7 @@ class Api_v2 extends BaseController
             }
 
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
 
         }else{
@@ -1080,7 +1080,7 @@ class Api_v2 extends BaseController
     public function sales_invoices($id = false)
     {   
         $data['data'] = $id!=false?$this->sales_invoice_model->getApiInvoice($id):$this->sales_invoice_model->getApiInvoice();
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -1167,7 +1167,7 @@ class Api_v2 extends BaseController
 
 
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
 
         }else{
@@ -1253,7 +1253,7 @@ class Api_v2 extends BaseController
             }
 
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
 
         }else{
@@ -1267,7 +1267,7 @@ class Api_v2 extends BaseController
     public function work_orders($id = false)
     {   
         $data['data'] = $id!=false?$this->work_orders_model->getApiInvoice($id):$this->work_orders_model->getApiInvoice();
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -1342,7 +1342,7 @@ class Api_v2 extends BaseController
 
 
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
 
         }else{
@@ -1423,7 +1423,7 @@ class Api_v2 extends BaseController
 
 
             $response_data['data'] = $data;
-            $response_data['status'] = 'success';
+            $response_data['status'] = 200;
             echo json_encode($response_data); die;
 
         }else{
@@ -1437,7 +1437,7 @@ class Api_v2 extends BaseController
     public function businesses($id = false)
     {   
         $data['data'] = $this->common_model->getCommonData("businesses");
-        $data['status'] = 'success';
+        $data['status'] = 200;
         echo json_encode($data); die;
     }
 
@@ -1469,7 +1469,7 @@ class Api_v2 extends BaseController
             //echo json_encode($data_array); die;
             $this->common_model->CommonInsertOrUpdate('businesses','',$data_array);
             $data['data'] = $data_array;
-            $data['status'] = 'success';
+            $data['status'] = 200;
             echo json_encode($data); die;           
 
         }else {
@@ -1504,7 +1504,7 @@ class Api_v2 extends BaseController
             //echo json_encode($data_array); die;
             $this->common_model->CommonInsertOrUpdate('businesses',$this->request->getPost('uuid'), $data_array);
             $data['data'] = $data_array;
-            $data['status'] = 'success';
+            $data['status'] = 200;
             echo json_encode($data); die;           
 
         }else {

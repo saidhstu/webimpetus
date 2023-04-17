@@ -16,12 +16,18 @@ class Users extends ResourceController
     {
         $api =  new Api_v2();
         $params = !empty($_GET['params'])?json_decode($_GET['params'],true):[];
+        
+        //Pagination Params
         $_GET['page'] = !empty($params['pagination']) && !empty($params['pagination']['page'])?$params['pagination']['page']:1;
         $_GET['perPage'] = !empty($params['pagination']) && !empty($params['pagination']['perPage'])?$params['pagination']['perPage']:10;
 
+        //Sorting params
+        $_GET['field'] = !empty($params['sort']) && !empty($params['sort']['field'])?$params['sort']['field']:'';
+        $_GET['order'] = !empty($params['sort']) && !empty($params['sort']['order'])?$params['sort']['order']:'';
+
         $data['data'] = $api->userModel->getApiV2Users();
         $data['total'] = $api->userModel->getApiV2UsersCount();
-        $data['message'] = 'success';
+        $data['message'] = 200;
         return $this->respond($data);
     }
 
@@ -34,7 +40,7 @@ class Users extends ResourceController
     {
         $api =  new Api_v2();
         $data['data'] = $api->userModel->getUserByUUID($id)->getRow();
-        $data['message'] = 'success';
+        $data['message'] = 200;
         return $this->respond($data);
     }
 
@@ -89,7 +95,7 @@ class Users extends ResourceController
     {        
         $api =  new Api_v2();
         $data['data'] = $api->userModel->deleteAPIUser($id);
-        $data['message'] = 'success';
+        $data['message'] = 200;
         return $this->respond($data);
     }
 }

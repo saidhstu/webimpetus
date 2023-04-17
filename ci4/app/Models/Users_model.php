@@ -58,17 +58,16 @@ class Users_model extends Model
         }
     }
 
-    public function getApiV2Users($id = false)
+    public function getApiV2Users($id = false, $whereCond = [])
     {
         $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
-        $whereCond = $this->whereCond;
-        if ($id == false) {
-            $whereCond = [];
-            return $this->where($whereCond)->paginate($_GET['perPage']);
-        } else {
-            //$whereCond = ['uuid_business_id' => $id];
-            return $this->where($whereCond)->paginate($_GET['perPage']);
-        }
+        $this->where($whereCond);
+        if(!empty($_GET['field']) && !empty($_GET['order'])){
+            $this->orderBy($_GET['field'],$_GET['order']);
+        }else {
+            $this->orderBy('date_time','ASC');
+        }  
+        return $this->paginate($_GET['perPage']);
     }
     
     public function getApiV2UsersCount()
