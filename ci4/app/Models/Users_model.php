@@ -61,6 +61,11 @@ class Users_model extends Model
     public function getApiV2Users($id = false, $whereCond = [])
     {
         $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
+        $fields = $this->getFieldNames('users');
+        $unset = array('password','id','uuid');
+        $fields = array_diff($fields,$unset);
+        //print_r($fields);die;
+        $this->select(implode(',',$fields).",uuid as id,id as ci4_internal_id");
         $this->where($whereCond);
         if(!empty($_GET['field']) && !empty($_GET['order'])){
             $this->orderBy($_GET['field'],$_GET['order']);

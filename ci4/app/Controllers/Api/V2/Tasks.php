@@ -5,7 +5,7 @@ use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
 
-class Users extends ResourceController
+class Tasks extends ResourceController
 {
     /**
      * Return an array of resource objects, themselves in array format
@@ -27,9 +27,11 @@ class Users extends ResourceController
 
         //filter by business uuid
         $_GET['q'] = !empty($params['filter']) && !empty($params['filter']['q'])?$params['filter']['q']:'';
+
+        $_GET['uuid_business_id'] = !empty($params['filter']) && !empty($params['filter']['uuid_business_id'])?$params['filter']['uuid_business_id']:false;
         
-        $data['data'] = $api->userModel->getApiV2Users();
-        $data['total'] = $api->userModel->getApiV2UsersCount();
+        $data['data'] = $api->tasksModel->getApiTaskList($_GET['uuid_business_id']);
+        $data['total'] = $api->tasksModel->getTasksCount($_GET['uuid_business_id']);
         $data['message'] = 200;
         return $this->respond($data);
     }
@@ -42,8 +44,8 @@ class Users extends ResourceController
     public function show($id = null)
     {
         $api =  new Api_v2();
-        $data['data'] = $api->userModel->getUserByUUID($id)->getRow();
-        $data['message'] = 200;
+        $data['data'] = $api->tasksModel->getTaskByUUID($id);
+        $data['status'] = 200;
         return $this->respond($data);
     }
 
@@ -65,7 +67,7 @@ class Users extends ResourceController
     public function create()
     {
         $api =  new Api_v2();
-        return $this->respond($api->addUser());
+        return $this->respond($api->addTask());
     }
 
     /**
@@ -74,7 +76,7 @@ class Users extends ResourceController
      * @return mixed
      */
     public function edit($id = null)
-    {       
+    {
         //
     }
 
@@ -86,7 +88,7 @@ class Users extends ResourceController
     public function update($id = null)
     {
         $api =  new Api_v2();
-        return $this->respond($api->updateUser());
+        return $this->respond($api->updateTask());
     }
 
     /**
@@ -95,10 +97,10 @@ class Users extends ResourceController
      * @return mixed
      */
     public function delete($id = null)
-    {        
+    {
         $api =  new Api_v2();
         $data['data'] = $api->userModel->deleteAPIUser($id);
-        $data['message'] = 200;
+        $data['status'] = 200;
         return $this->respond($data);
     }
 }

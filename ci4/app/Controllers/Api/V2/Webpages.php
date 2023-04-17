@@ -5,7 +5,7 @@ use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
 
-class Users extends ResourceController
+class Webpages extends ResourceController
 {
     /**
      * Return an array of resource objects, themselves in array format
@@ -27,11 +27,12 @@ class Users extends ResourceController
 
         //filter by business uuid
         $_GET['q'] = !empty($params['filter']) && !empty($params['filter']['q'])?$params['filter']['q']:'';
+        $_GET['customer_id'] = !empty($params['filter']) && !empty($params['filter']['customer_id'])?$params['filter']['customer_id']:'';
         
-        $data['data'] = $api->userModel->getApiV2Users();
-        $data['total'] = $api->userModel->getApiV2UsersCount();
-        $data['message'] = 200;
-        return $this->respond($data);
+        // $data['data'] = $api->webpages($customer_id);
+        // $data['total'] = $api->userModel->getApiV2UsersCount();
+        // $data['message'] = 200;
+        return $this->respond($api->webpages($_GET['customer_id']));
     }
 
     /**
@@ -42,9 +43,7 @@ class Users extends ResourceController
     public function show($id = null)
     {
         $api =  new Api_v2();
-        $data['data'] = $api->userModel->getUserByUUID($id)->getRow();
-        $data['message'] = 200;
-        return $this->respond($data);
+        return $this->respond($api->webpagesEdit($id));        
     }
 
     /**
@@ -64,8 +63,8 @@ class Users extends ResourceController
      */
     public function create()
     {
-        $api =  new Api_v2();
-        return $this->respond($api->addUser());
+        // $api =  new Api_v2();
+        // return $this->respond($api->addTimeslip());
     }
 
     /**
@@ -74,7 +73,7 @@ class Users extends ResourceController
      * @return mixed
      */
     public function edit($id = null)
-    {       
+    {
         //
     }
 
@@ -85,8 +84,8 @@ class Users extends ResourceController
      */
     public function update($id = null)
     {
-        $api =  new Api_v2();
-        return $this->respond($api->updateUser());
+        // $api =  new Api_v2();
+        // return $this->respond($api->addTimeslip());
     }
 
     /**
@@ -95,10 +94,7 @@ class Users extends ResourceController
      * @return mixed
      */
     public function delete($id = null)
-    {        
-        $api =  new Api_v2();
-        $data['data'] = $api->userModel->deleteAPIUser($id);
-        $data['message'] = 200;
-        return $this->respond($data);
+    {
+        //
     }
 }

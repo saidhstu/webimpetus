@@ -186,11 +186,14 @@ class Api_v2 extends BaseController
                 $data['data'] = $webPageList;
                 $data['status'] = 200;
             }else{
-                $data['status'] = 'error';
+                $data['message'] = 'No data found!';
+                $data['data'] = [];
+                $data['status'] = 404;
             }
         }
         else{
-            $data['status'] = 'error';
+            $data['message'] = 'customer_id could not null';
+            $data['status'] = 400;
         }
         echo json_encode($data); die;
     }
@@ -216,8 +219,8 @@ class Api_v2 extends BaseController
             $data['data'] = $webPageList;
             $data['status'] = 200;
         }else{
-            $data['status'] = 'error';
-            $data['status'] = 'Id is missing';
+            $data['status'] = 400;
+            $data['message'] = 'Id is missing';
         }
         echo json_encode($data); die;
     }
@@ -252,13 +255,13 @@ class Api_v2 extends BaseController
 			$toEmail = !empty(getenv('ADMINISTRATOR_EMAIL')) ? getenv('ADMINISTRATOR_EMAIL') : 'balinder.walia@gmail.com';
 			// BW/HS: we add block query here to fetch email address from block table customer field
 			if (strlen(trim($toEmail)) < 1) {
-				$data['status'] = 'error';
-				$data['msg']    = 'Please contact website administrator!';
+				$data['status'] = 400;
+				$data['message']    = 'Please contact website administrator!';
 				echo json_encode($data); die;
 			}
 			if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
-				$data['status'] = 'error';
-				$data['msg']    = 'Please Enter a valid email!';
+				$data['status'] = 400;
+				$data['message']    = 'Please Enter a valid email!';
 				echo json_encode($data); die;
 			}
 			$message = $this->request->getVar('message');
@@ -282,7 +285,7 @@ class Api_v2 extends BaseController
 			$is_send = $this->emailModel->send_mail($from_email, $name, $from_email, $emailMessage, $subject, [], "", $ccEmail);
 			if($is_send){
 				$data['status'] = 200;
-				$data['msg']    = 'Email send successfully!';
+				$data['message']    = 'Email send successfully!';
 				$insertArray["uuid_business_id"] = $uuid_business_id;
 				$insertArray["name"] = $name;
 				$insertArray["email"] = $ccEmail;
@@ -291,12 +294,12 @@ class Api_v2 extends BaseController
 				$insertArray["type"] = 1;
 				$this->emodel->saveData($insertArray);
 			}else{
-				$data['status'] = 'error';
-				$data['msg']    = 'Email send failed!';
+				$data['status'] = 400;
+				$data['message']    = 'Email send failed!';
 			}
 		} else {
-			$data['status'] = 'error';
-			$data['msg']    = 'Captcha failed!';
+			$data['status'] = 400;
+			$data['message']    = 'Captcha failed!';
 		}
 		echo json_encode($data); die;
     }
@@ -311,8 +314,8 @@ class Api_v2 extends BaseController
     public function addMenu()
     { 
         if(empty($this->request->getPost('name')) || empty($this->request->getPost('link')) || empty($this->request->getPost('uuid_business_id'))){
-            $data['status'] = 'error';
-            $data['msg']    = 'name, link and business id required for add menu!!';
+            $data['status'] = 400;
+            $data['message']    = 'name, link and business id required for add menu!!';
         }else {
             $cat_data = [];
             $cat_data['name'] = $this->request->getPost('name');
@@ -333,8 +336,8 @@ class Api_v2 extends BaseController
     public function updateMenu()
     { 
         if(empty($this->request->getPost('name')) || empty($this->request->getPost('link')) || empty($this->request->getPost('uuid'))){
-            $data['status'] = 'error';
-            $data['msg']    = 'name, business id, Menu uuid and link required for update menu!!';
+            $data['status'] = 400;
+            $data['message']    = 'name, business id, Menu uuid and link required for update menu!!';
         }else {
             $cat_data = [];
             $cat_data['name'] = $this->request->getPost('name');
@@ -365,8 +368,8 @@ class Api_v2 extends BaseController
 
             $count = $this->userModel->getWhere(['email' => $this->request->getPost('email')])->getNumRows();
             if(!empty($count)){
-                $data['status'] = 'error';
-                $data['msg']    = 'Email already exist!!';
+                $data['status'] = 400;
+                $data['message']    = 'Email already exist!!';
                 echo json_encode($data); die;
             }else {
                 $uuidNamespace = UUID::v4();
@@ -392,8 +395,8 @@ class Api_v2 extends BaseController
             }           
 
         }else {
-            $data['status'] = 'error';
-            $data['msg']    = 'Name, Email, password, business uuid could not be empty!!';
+            $data['status'] = 400;
+            $data['message']    = 'Name, Email, password, business uuid could not be empty!!';
             echo json_encode($data); die;  
         }
     }
@@ -404,8 +407,8 @@ class Api_v2 extends BaseController
 		if(!empty($id) && !empty($this->request->getPost('email'))){
 			$count = $this->userModel->getWhere(['email' => $this->request->getPost('email'), 'id!=' => $id])->getNumRows();
             if(!empty($count)){ 
-                $data['status'] = 'error';
-                $data['msg']    = 'Email already exist!!';
+                $data['status'] = 400;
+                $data['message']    = 'Email already exist!!';
                 echo json_encode($data); die;                
             }else {
 				$data_array = array(
@@ -426,8 +429,8 @@ class Api_v2 extends BaseController
                 echo json_encode($data); die;
 			}	
 		} else {
-                $data['status'] = 'error';
-                $data['msg']    = 'Email and user uuid could not be empty!!';
+                $data['status'] = 400;
+                $data['message']    = 'Email and user uuid could not be empty!!';
                 echo json_encode($data); die;  
         }
            
@@ -466,8 +469,8 @@ class Api_v2 extends BaseController
             //$data['id']= @$post["id"];
             $response = $this->customer_model->insertOrUpdate('', $data);
             if(!$response){
-                $response_data['status'] = 'error';
-                $response_data['msg']    = 'something wrong!!';
+                $response_data['status'] = 400;
+                $response_data['message']    = 'something wrong!!';
                 echo json_encode($response_data); die;   
             }else{           
                 $id = $response;          
@@ -511,8 +514,8 @@ class Api_v2 extends BaseController
             }
 
         }else {
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'business uuid, Company name and account number cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'business uuid, Company name and account number cannot be empty!!';
             echo json_encode($response_data); die; 
         }
 
@@ -543,8 +546,8 @@ class Api_v2 extends BaseController
                 $id= $post["uuid"];
                 $response = $this->customer_model->insertOrUpdate($id, $data);
                 if(!$response){
-                    $response_data['status'] = 'error';
-                    $response_data['msg']    = 'something wrong!!';
+                    $response_data['status'] = 400;
+                    $response_data['message']    = 'something wrong!!';
                     echo json_encode($response_data); die;   
                 }else{            
                     $i = 0;
@@ -586,8 +589,8 @@ class Api_v2 extends BaseController
                     echo json_encode($response_data); die;
                 }
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'uuid, business uuid, Company name and account number cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'uuid, business uuid, Company name and account number cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -675,8 +678,8 @@ class Api_v2 extends BaseController
             $response_data['status'] = 200;
             echo json_encode($response_data); die;
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'Task id, slip start date,employee id , business uuid cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'Task id, slip start date,employee id , business uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -710,8 +713,8 @@ class Api_v2 extends BaseController
             $response_data['status'] = 200;
             echo json_encode($response_data); die;
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'uuid, task id cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'uuid, task id cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -761,8 +764,8 @@ class Api_v2 extends BaseController
             $response_data['status'] = 200;
             echo json_encode($response_data); die;
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'projects_id, customers_id, contacts_id, name,reported_by, category, start_date, priority, end_date, sprint_id business uuid cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'projects_id, customers_id, contacts_id, name,reported_by, category, start_date, priority, end_date, sprint_id business uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -795,8 +798,8 @@ class Api_v2 extends BaseController
             $response_data['status'] = 200;
             echo json_encode($response_data); die;
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'task uuid cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'task uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -815,8 +818,8 @@ class Api_v2 extends BaseController
         if(!empty($this->request->getPost('first_name')) && !empty($this->request->getPost('email')) && !empty($this->request->getPost('uuid_business_id'))){
             $count = $this->common_model->getCount('employees',['email'=>$this->request->getPost('email')]);
             if(!empty($count)){
-                $data['status'] = 'error';
-                $data['msg']    = 'Email already exist!!';
+                $data['status'] = 400;
+                $data['message']    = 'Email already exist!!';
                 echo json_encode($data); die;
             }else {
                 
@@ -845,8 +848,8 @@ class Api_v2 extends BaseController
             }
 
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'first_name, uuid_business_id and email cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'first_name, uuid_business_id and email cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -859,8 +862,8 @@ class Api_v2 extends BaseController
 
             $count = $this->common_model->getCount('employees',['email'=>$this->request->getPost('email'),'id!='=>$this->request->getPost('uuid')]);
             if(!empty($count)){
-                $data['status'] = 'error';
-                $data['msg']    = 'Email already exist!!';
+                $data['status'] = 400;
+                $data['message']    = 'Email already exist!!';
                 echo json_encode($data); die;
             }else {                
                 $post = $this->request->getPost(); 
@@ -884,8 +887,8 @@ class Api_v2 extends BaseController
             }
 
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'employee uuid cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'employee uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
     }
@@ -984,8 +987,8 @@ class Api_v2 extends BaseController
             echo json_encode($response_data); die;
 
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'terms, date, due_date, supplier and uuid_business_id cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'terms, date, due_date, supplier and uuid_business_id cannot be empty!!';
             echo json_encode($response_data); die;         
         }
 
@@ -1070,8 +1073,8 @@ class Api_v2 extends BaseController
             echo json_encode($response_data); die;
 
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'uuid cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
 
@@ -1171,8 +1174,8 @@ class Api_v2 extends BaseController
             echo json_encode($response_data); die;
 
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'terms, date, due_date, supplier and uuid_business_id cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'terms, date, due_date, supplier and uuid_business_id cannot be empty!!';
             echo json_encode($response_data); die;         
         }
 
@@ -1257,8 +1260,8 @@ class Api_v2 extends BaseController
             echo json_encode($response_data); die;
 
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'uuid cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'uuid cannot be empty!!';
             echo json_encode($response_data); die;         
         }
 
@@ -1346,8 +1349,8 @@ class Api_v2 extends BaseController
             echo json_encode($response_data); die;
 
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'client_id and uuid_business_id cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'client_id and uuid_business_id cannot be empty!!';
             echo json_encode($response_data); die;         
         }
 
@@ -1427,8 +1430,8 @@ class Api_v2 extends BaseController
             echo json_encode($response_data); die;
 
         }else{
-            $response_data['status'] = 'error';
-            $response_data['msg']    = 'uuid, uuid_business_id cannot be empty!!';
+            $response_data['status'] = 400;
+            $response_data['message']    = 'uuid, uuid_business_id cannot be empty!!';
             echo json_encode($response_data); die;         
         }
 
@@ -1473,8 +1476,8 @@ class Api_v2 extends BaseController
             echo json_encode($data); die;           
 
         }else {
-            $data['status'] = 'error';
-            $data['msg']    = 'name, business_code could not be empty!!';
+            $data['status'] = 400;
+            $data['message']    = 'name, business_code could not be empty!!';
             echo json_encode($data); die;  
         }
     }
@@ -1508,8 +1511,8 @@ class Api_v2 extends BaseController
             echo json_encode($data); die;           
 
         }else {
-            $data['status'] = 'error';
-            $data['msg']    = 'uuid could not be empty!!';
+            $data['status'] = 400;
+            $data['message']    = 'uuid could not be empty!!';
             echo json_encode($data); die;  
         }
     }

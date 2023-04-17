@@ -84,7 +84,7 @@ class Tasks_model extends Model
     public function getApiTaskList($businessUuid =false, $whereConditions = null)
     {
         $builder = $this->db->table($this->table);
-        $builder->select($this->table . ".*, customers.company_name, projects.name as project_name");
+        $builder->select($this->table . ".*,".$this->table.".uuid as id, customers.company_name, projects.name as project_name");
         $builder->join('customers', 'customers.id = ' . $this->table . '.reported_by', 'left');
         $builder->join('projects', 'projects.id = ' . $this->table . '.projects_id', 'left');
         if($businessUuid !==false) $builder->where($this->table . ".uuid_business_id",  $businessUuid);
@@ -93,6 +93,27 @@ class Tasks_model extends Model
         }
         // echo $this->db->getLastQuery();
         return $builder->get()->getResultArray();
+    }
+
+    public function getTasksCount($businessUuid =false,$whereConditions = null)
+    {
+        $builder = $this->db->table($this->table);
+        $builder->select($this->table . ".id");
+        $builder->join('customers', 'customers.id = ' . $this->table . '.reported_by', 'left');
+        $builder->join('projects', 'projects.id = ' . $this->table . '.projects_id', 'left');
+        if($businessUuid !==false) $builder->where($this->table . ".uuid_business_id",  $businessUuid);
+        if (!empty($whereConditions)) {
+            $builder->where($whereConditions);
+        }
+
+        // echo $this->db->getLastQuery();
+
+        return $builder->countAllResults();
+    }
+
+    public function getTaskByUUID($id = false)
+    {
+        return $this->getWhere(['uuid' => $id])->getRow();
     }
 
 }

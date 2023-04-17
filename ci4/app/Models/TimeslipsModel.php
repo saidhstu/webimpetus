@@ -165,6 +165,14 @@ class TimeslipsModel extends Model
         
         if ($id === false) {
             if (empty($timeslip_where)) {
+                if(!empty($search)){
+                    $this->groupStart();
+                    $this->like('tasks.name',$search);
+                    $this->orLike('employees.first_name',$search);
+                    $this->orLike('employees.surname',$search);
+                    $this->groupEnd();
+                }
+
                 if(!empty($_GET['field']) && !empty($_GET['order'])){
                     $this->orderBy($_GET['field'],$_GET['order']);
                 }else {
@@ -213,6 +221,13 @@ class TimeslipsModel extends Model
         $this->join('employees', 'employees.id = ' . $table . '.employee_name');        
         
             if (empty($timeslip_where)) {
+                if(!empty($search)){
+                    $this->groupStart();
+                    $this->like('tasks.name',$search);
+                    $this->orLike('employees.first_name',$search);
+                    $this->orLike('employees.surname',$search);
+                    $this->groupEnd();
+                }
                 return $this->countAllResults();
             } else {
                 

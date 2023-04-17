@@ -30,6 +30,7 @@ class Timeslips extends ResourceController
         $_GET['list_month'] = !empty($params['filter']) && !empty($params['filter']['list_month'])?$params['filter']['list_month']:'';
         $_GET['list_year'] = !empty($params['filter']) && !empty($params['filter']['list_year'])?$params['filter']['list_year']:'';
         $_GET['uuid_business_id'] = !empty($params['filter']) && !empty($params['filter']['uuid_business_id'])?$params['filter']['uuid_business_id']:'';
+        $_GET['q'] = !empty($params['filter']) && !empty($params['filter']['q'])?$params['filter']['q']:'';
 
         return $this->respond($api->timeslips()); //
     }
