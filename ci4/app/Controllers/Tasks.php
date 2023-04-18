@@ -78,7 +78,7 @@ class Tasks extends CommonController
         session()->setFlashdata('message', 'Data cloned Successfully!');
         session()->setFlashdata('alert-class', 'alert-success');
 
-        return redirect()->to($this->table . "/edit/" . $data['uuid']);
+        return redirect()->to($this->table . "/editrow/" . $data['uuid']);
     }
 
 

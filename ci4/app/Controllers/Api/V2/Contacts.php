@@ -5,7 +5,7 @@ use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
 
-class Tasks extends ResourceController
+class Contacts extends ResourceController
 {
     /**
      * Return an array of resource objects, themselves in array format
@@ -29,9 +29,12 @@ class Tasks extends ResourceController
         $_GET['q'] = !empty($params['filter']) && !empty($params['filter']['q'])?$params['filter']['q']:'';
 
         $_GET['uuid_business_id'] = !empty($params['filter']) && !empty($params['filter']['uuid_business_id'])?$params['filter']['uuid_business_id']:false;
-        
-        $data['data'] = $api->tasksModel->getApiTaskList($_GET['uuid_business_id']);
-        $data['total'] = $api->tasksModel->getTasksCount($_GET['uuid_business_id']);
+        $arr = [];
+        if(!empty($_GET['uuid_business_id'])){
+            $arr['uuid_business_id'] = $_GET['uuid_business_id'];
+        }
+        $data['data'] = $api->common_model->getApiData('contacts',$arr);
+        $data['total'] = $api->common_model->getCount('contacts',$arr);
         $data['message'] = 200;
         return $this->respond($data);
     }
@@ -44,8 +47,8 @@ class Tasks extends ResourceController
     public function show($id = null)
     {
         $api =  new Api_v2();
-        $data['data'] = $api->tasksModel->getTaskByUUID($id);
-        $data['status'] = 200;
+        $data['data'] = $api->common_model->getRow('contacts',$id,'uuid');
+        $data['message'] = 200;
         return $this->respond($data);
     }
 
@@ -66,8 +69,7 @@ class Tasks extends ResourceController
      */
     public function create()
     {
-        $api =  new Api_v2();
-        return $this->respond($api->addTask());
+        //
     }
 
     /**
@@ -87,8 +89,7 @@ class Tasks extends ResourceController
      */
     public function update($id = null)
     {
-        $api =  new Api_v2();
-        return $this->respond($api->updateTask());
+        //
     }
 
     /**
@@ -98,9 +99,6 @@ class Tasks extends ResourceController
      */
     public function delete($id = null)
     {
-        $api =  new Api_v2();
-        $data['data'] = $api->common_model->deleteTableData('tasks',$id,'uuid');
-        $data['status'] = 200;
-        return $this->respond($data);
+        //
     }
 }

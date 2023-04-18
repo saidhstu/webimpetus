@@ -75,7 +75,7 @@
 
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Mobile</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder=""  value="<?= @$employee->mobile ?>">
+                        <input type="text" class="form-control phone" id="mobile" name="mobile" placeholder=""  value="<?= @$employee->mobile ?>">
                     </div>
                 </div>
                 <div class="form-row">

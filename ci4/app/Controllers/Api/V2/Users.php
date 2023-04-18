@@ -42,7 +42,7 @@ class Users extends ResourceController
     public function show($id = null)
     {
         $api =  new Api_v2();
-        $data['data'] = $api->userModel->getUserByUUID($id)->getRow();
+        $data['data'] = $api->userModel->getApiUserByUUID($id)->getRow();
         $data['message'] = 200;
         return $this->respond($data);
     }

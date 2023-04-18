@@ -158,6 +158,8 @@ class TimeslipsModel extends Model
             $table . '.billing_status',
             $table . '.created_at',
             $table . '.modified_at',
+            $table . '.task_name as task_id',
+            $table . '.employee_name as employee_id',
         );
         $this->select($selectFields);
         $this->join('tasks', 'tasks.id = ' . $table . '.task_name');
@@ -174,9 +176,9 @@ class TimeslipsModel extends Model
                 }
 
                 if(!empty($_GET['field']) && !empty($_GET['order'])){
-                    $this->orderBy($_GET['field'],$_GET['order']);
+                    $this->orderBy($table . '.' .$_GET['field'],$_GET['order']);
                 }else {
-                    $this->orderBy('created_at','ASC');
+                    $this->orderBy($table . '.slip_start_date','DESC');
                 }
                 $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
                 return $this->paginate($_GET['perPage']);
@@ -192,10 +194,10 @@ class TimeslipsModel extends Model
                 $this->where($timeslip_where);
 
                 if(!empty($_GET['field']) && !empty($_GET['order'])){
-                    $this->orderBy($_GET['field'],$_GET['order']);
+                    $this->orderBy($table . '.' .$_GET['field'],$_GET['order']);
                 }else {
-                    $this->orderBy('created_at','ASC');
-                }                
+                    $this->orderBy($table . '.slip_start_date','DESC');
+                }         
                 
                 $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
                 return $this->paginate($_GET['perPage']);

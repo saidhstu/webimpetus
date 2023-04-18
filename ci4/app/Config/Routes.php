@@ -43,6 +43,9 @@ $routes->resource('api/v2/users');
 $routes->resource('api/v2/timeslips');
 $routes->resource('api/v2/webpages');
 $routes->resource('api/v2/tasks');
+$routes->resource('api/v2/customers');
+$routes->resource('api/v2/businesses');
+$routes->resource('api/v2/contacts');
 
 
 /*
