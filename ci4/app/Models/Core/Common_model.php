@@ -203,7 +203,7 @@ class Common_model extends Model
     }
     public function getRow($tableName, $value, $field = "id")
     {
-        $result = $this->db->table($tableName)->getWhere([
+        $result = $this->db->table($tableName)->select("*,uuid as id")->getWhere([
             $field => $value
         ])->getRow();
 
@@ -334,6 +334,22 @@ class Common_model extends Model
             $query = $this->db->table($tableName)->get()->getResultArray();
             return $query;
         }
+    }
+
+    public function getApiData($tableName,$where = [])
+    {
+        $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:0;
+        $offset = !empty($_GET['perPage']) && !empty($_GET['page'])?($_GET['page']-1)*$_GET['perPage']:0;
+        $builder = $this->db->table($tableName);
+        $builder->select("*,uuid as id,id as ci4_internal_id");
+        if(!empty($where)){
+            $builder->where($where);
+        }
+        if(!empty($_GET['field']) && !empty($_GET['order'])){
+            $builder->orderBy($tableName .'.'.$_GET['field'],$_GET['order']);
+        }  
+        return $builder->get($_GET['perPage'],$offset)->getResultArray();
+           
     }
 
     public function getCount($tableName,$where = []){

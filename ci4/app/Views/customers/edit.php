@@ -42,11 +42,11 @@ $categories = getResultArray("categories");
                                                                                                                         "checked";
                                                                                                                     } ?> value="<?php echo @$customer->status; ?>">
                                         <label class="form-check-label" for="flexCheckIndeterminate">
-                                            <?php if (@$customer->status == "1") {
+                                            <?php /* if (@$customer->status == "1") {
                                                 echo "Inactive";
-                                            } else {
+                                            } else { */
                                                 echo "Active";
-                                            } ?>
+                                            //} ?>
                                         </label>
                                     </div>
                                 </div>

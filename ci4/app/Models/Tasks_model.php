@@ -83,6 +83,8 @@ class Tasks_model extends Model
 
     public function getApiTaskList($businessUuid =false, $whereConditions = null)
     {
+        $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:0;
+        $offset = !empty($_GET['perPage']) && !empty($_GET['page'])?($_GET['page']-1)*$_GET['perPage']:0;
         $builder = $this->db->table($this->table);
         $builder->select($this->table . ".*,".$this->table.".uuid as id, customers.company_name, projects.name as project_name");
         $builder->join('customers', 'customers.id = ' . $this->table . '.reported_by', 'left');
@@ -92,7 +94,12 @@ class Tasks_model extends Model
             $builder->where($whereConditions);
         }
         // echo $this->db->getLastQuery();
-        return $builder->get()->getResultArray();
+        if(!empty($_GET['field']) && !empty($_GET['order'])){
+            $builder->orderBy($this->table .'.'.$_GET['field'],$_GET['order']);
+        }else {
+            $builder->orderBy($this->table . ".created_at","ASC");
+        }  
+        return $builder->get($_GET['perPage'],$offset)->getResultArray();
     }
 
     public function getTasksCount($businessUuid =false,$whereConditions = null)
@@ -113,6 +120,7 @@ class Tasks_model extends Model
 
     public function getTaskByUUID($id = false)
     {
+        $this->select($this->table . ".*,".$this->table.".uuid as id");
         return $this->getWhere(['uuid' => $id])->getRow();
     }
 
