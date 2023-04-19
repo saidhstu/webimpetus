@@ -203,7 +203,14 @@ class Common_model extends Model
     }
     public function getRow($tableName, $value, $field = "id")
     {
-        $result = $this->db->table($tableName)->select("*,uuid as id")->getWhere([
+        $fields = $this->getFieldNames($tableName);
+        //print_r($fields);die;
+        if(in_array('uuid',$fields)){
+            $arr = "*,uuid as id";
+        }else{
+            $arr = "*";
+        }
+        $result = $this->db->table($tableName)->select($arr)->getWhere([
             $field => $value
         ])->getRow();
 
@@ -336,12 +343,22 @@ class Common_model extends Model
         }
     }
 
-    public function getApiData($tableName,$where = [])
+    public function getApiData($tableName,$where = [],$concat = false)
     {
         $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:0;
         $offset = !empty($_GET['perPage']) && !empty($_GET['page'])?($_GET['page']-1)*$_GET['perPage']:0;
+        $fields = $this->getFieldNames($tableName);
+        //print_r($fields);die;
+        if(in_array('uuid',$fields) && $tableName!=='categories'){
+            $arr = "*,uuid as id,";
+        }else{
+            $arr = "*,";
+        }
         $builder = $this->db->table($tableName);
-        $builder->select("*,uuid as id,id as ci4_internal_id");
+        if($concat!==false){
+            $arr = $arr.$concat;
+        }
+        $builder->select($arr);
         if(!empty($where)){
             $builder->where($where);
         }

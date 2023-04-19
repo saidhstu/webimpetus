@@ -5,7 +5,7 @@ use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
 
-class Customers extends ResourceController
+class Menu extends ResourceController
 {
     /**
      * Return an array of resource objects, themselves in array format
@@ -29,14 +29,18 @@ class Customers extends ResourceController
         $_GET['q'] = !empty($params['filter']) && !empty($params['filter']['q'])?$params['filter']['q']:'';
 
         $_GET['uuid_business_id'] = !empty($params['filter']) && !empty($params['filter']['uuid_business_id'])?$params['filter']['uuid_business_id']:false;
+        $_GET['language_code'] = !empty($params['filter']) && !empty($params['filter']['language_code'])?$params['filter']['language_code']:'en';
         $arr = [];
         if(!empty($_GET['uuid_business_id'])){
             $arr['uuid_business_id'] = $_GET['uuid_business_id'];
         }
-        $data['data'] = $api->common_model->getApiData('customers',$arr,'CONCAT_WS(" ", contact_firstname, contact_lastname) as name');
-        $data['total'] = $api->common_model->getCount('customers',$arr);
-        $data['message'] = 200;
-        return $this->respond($data);
+        if(!empty($_GET['language_code'])){
+            $arr['language_code'] = $_GET['language_code'];
+        }
+        // $data['data'] = $api->menus($_GET['uuid_business_id'],$_GET['language_code']);
+        // $data['total'] = $api->common_model->getCount('menu',$arr);
+        // $data['message'] = 200;
+        return $this->respond($api->menus($_GET['uuid_business_id'],$_GET['language_code']));
     }
 
     /**
@@ -47,7 +51,7 @@ class Customers extends ResourceController
     public function show($id = null)
     {
         $api =  new Api_v2();
-        $data['data'] = $api->common_model->getRow('customers',$id,'uuid');
+        $data['data'] = $api->common_model->getRow('menu',$id,'id');
         $data['message'] = 200;
         return $this->respond($data);
     }
@@ -70,7 +74,7 @@ class Customers extends ResourceController
     public function create()
     {
         $api =  new Api_v2();
-        return $this->respond($api->addCustomer());
+        return $this->respond($api->addMenu());
     }
 
     /**
@@ -91,7 +95,7 @@ class Customers extends ResourceController
     public function update($id = null)
     {
         $api =  new Api_v2();
-        return $this->respond($api->updateCustomer());
+        return $this->respond($api->updateMenu());
     }
 
     /**
@@ -102,7 +106,7 @@ class Customers extends ResourceController
     public function delete($id = null)
     {       
         $api =  new Api_v2();
-        $data['data'] = $api->common_model->deleteTableData('customers',$id,'uuid');
+        $data['data'] = $api->common_model->deleteTableData('menu',$id,'id');
         $data['status'] = 200;
         return $this->respond($data);    
     }

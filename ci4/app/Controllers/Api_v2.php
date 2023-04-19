@@ -1517,4 +1517,251 @@ class Api_v2 extends BaseController
         }
     }
 
+    public function addCat()
+    { 
+        if(!empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('uuid')) && !empty($this->request->getPost('name'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'categories');
+            $data_array = array(
+                'name'  => $this->request->getPost('name'),
+                'uuid_business_id'  => $this->request->getPost('uuid_business_id'),
+                'uuid' => $this->request->getPost('uuid')
+            );
+            if(!empty($post["notes"])) $data_array["notes"] = @$post["notes"];
+            if(!empty($post["image_logo"])) $data_array["image_logo"] = @$post["image_logo"];
+            $data_array["sort_order"] = !empty($post["sort_order"])?@$post["sort_order"]:0;
+            
+            $this->common_model->CommonInsertOrUpdate('categories','',$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'name, uuid_business_id, uuid could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function updateCat()
+    { 
+        if(!empty($this->request->getPost('id')) && !empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('uuid')) && !empty($this->request->getPost('name'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'categories');
+            $data_array = array(
+                'name'  => $this->request->getPost('name'),
+                'uuid_business_id'  => $this->request->getPost('uuid_business_id'),
+                'uuid' => $this->request->getPost('uuid')
+            );
+            if(!empty($post["notes"])) $data_array["notes"] = @$post["notes"];
+            if(!empty($post["image_logo"])) $data_array["image_logo"] = @$post["image_logo"];
+            $data_array["sort_order"] = !empty($post["sort_order"])?@$post["sort_order"]:0;
+            
+            $this->common_model->CommonInsertOrUpdate('categories',$this->request->getPost('id'),$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'id, name, uuid_business_id, uuid could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function addProject()
+    { 
+        if(!empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('customers_id')) && !empty($this->request->getPost('name'))){
+            $data_array = array(
+                'name'  => $this->request->getPost('name'),
+                'uuid_business_id'  => $this->request->getPost('uuid_business_id'),
+                'customers_id'  => $this->request->getPost('customers_id')
+            );
+            if(!empty($post["start_date"])) $data_array["start_date"] = @$post["start_date"];
+            if(!empty($post["deadline_date"])) $data_array["deadline_date"] = @$post["deadline_date"];
+            $data_array["budget"] = !empty($post["budget"])?@$post["budget"]:0.00;
+            $data_array["rate"] = !empty($post["rate"])?@$post["rate"]:0.00;
+            $data_array["currency"] = !empty($post["currency"])?@$post["currency"]:1;
+            $data_array["active"] = !empty($post["active"])?@$post["active"]:1;
+            
+            $this->common_model->CommonInsertOrUpdate('projects','',$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'name, uuid_business_id, customers_id could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function updateProject()
+    { 
+        if(!empty($this->request->getPost('id')) && !empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('customers_id')) && !empty($this->request->getPost('name'))){
+            $data_array = array(
+                'name'  => $this->request->getPost('name'),
+                'uuid_business_id'  => $this->request->getPost('uuid_business_id'),
+                'customers_id'  => $this->request->getPost('customers_id')
+            );
+            if(!empty($post["start_date"])) $data_array["start_date"] = @$post["start_date"];
+            if(!empty($post["deadline_date"])) $data_array["deadline_date"] = @$post["deadline_date"];
+            $data_array["budget"] = !empty($post["budget"])?@$post["budget"]:0.00;
+            $data_array["rate"] = !empty($post["rate"])?@$post["rate"]:0.00;
+            $data_array["currency"] = !empty($post["currency"])?@$post["currency"]:1;
+            $data_array["active"] = !empty($post["active"])?@$post["active"]:1;
+            
+            $this->common_model->CommonInsertOrUpdate('projects',$this->request->getPost('id'),$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'id, name, uuid_business_id, customers_id could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+
+    public function addContact()
+    {
+        if(!empty($this->request->getPost('client_id')) && !empty($this->request->getPost('first_name')) && !empty($this->request->getPost('email')) && !empty($this->request->getPost('password')) && !empty($this->request->getPost('uuid_business'))){		
+                
+            $post = $this->request->getPost(); 
+            $data["client_id"] = @$post["client_id"];
+            $data["first_name"] = @$post["first_name"];
+            $data["surname"] = @$post["surname"];
+            $data["email"] = @$post["email"];
+            $data["password"] = md5(@$post["password"]);
+            $data["uuid_business_id"] = @$post['uuid_business'];
+            $data["uuid"] = UUID::v5(UUID::v4(), 'contacts');
+            if(!empty($post["title"])) $data["title"] = @$post["title"];
+            if(!empty($post["saludation"])) $data["saludation"] = @$post["saludation"];
+            if(!empty($post["comments"])) $data["comments"] = @$post["comments"];
+            if(!empty($post["news_letter_status"])) $data["news_letter_status"] = @$post["news_letter_status"];
+            $data["allow_web_access"] = !empty($post["allow_web_access"])?@$post["allow_web_access"]:0;
+            if(!empty($post["direct_phone"])) $data["direct_phone"] = @$post["direct_phone"];
+            if(!empty($post["mobile"])) $data["mobile"] = @$post["mobile"];
+            if(!empty($post["direct_fax"])) $data["direct_fax"] = @$post["direct_fax"];
+            if(!empty($post["contact_type"])) $data["contact_type"] = @$post["contact_type"];
+            //$data['id']= @$post["id"];
+            $response = $this->common_model->CommonInsertOrUpdate('contacts','',$data);
+            if(!$response){
+                $response_data['status'] = 400;
+                $response_data['message']    = 'something wrong!!';
+                echo json_encode($response_data); die;   
+            }else{           
+                $id = $response;          
+                $i = 0;
+                if(count($post["address_line_1"])>0){
+                    foreach($post["address_line_1"] as $firstName){
+
+                        $contact["address_line_1"] = $firstName;
+                        $contact["uuid_customer"] = $data["uuid"];
+                        $contact["address_line_2"] = @$post["address_line_2"][$i];
+                        $contact["address_line_3"] = @$post["address_line_3"][$i];
+                        $contact["address_line_4"] = @$post["address_line_4"][$i];
+                        $contact["city"] = @$post["city"][$i];
+                        $contact["state"] = @$post["state"][$i];
+                        $contact["country"] = @$post["country"][$i];
+                        $contact["post_code"] = @$post["post_code"][$i];
+                        $contact["address_type"] = @$post["address_type"][$i];
+                        $contact["uuid_business_id"] = @$post['uuid_business'];
+                        $contactId =  '';
+                        if(strlen(trim($firstName)) > 0 || strlen(trim($contact["surname"])>0) || strlen(trim($contact["email"])>0)){
+                            $this->common_model->CommonInsertOrUpdate("addresses",$contactId, $contact);
+                            //print_r($contact); die;
+                        }
+
+                        $i++;
+                    }
+
+
+                }
+              
+                $response_data['data'] = $data;
+                $response_data['status'] = 200;
+                echo json_encode($response_data); die;
+            }
+
+        }else {
+            $response_data['status'] = 400;
+            $response_data['message']    = 'client_id, first_name, email, password, uuid_business_id cannot be empty!!';
+            echo json_encode($response_data); die; 
+        }
+
+
+    }
+
+    public function updateContact()
+    {
+        if(!empty($this->request->getPost('client_id')) && !empty($this->request->getPost('uuid')) && !empty($this->request->getPost('first_name')) && !empty($this->request->getPost('email')) && !empty($this->request->getPost('uuid_business'))){		
+                
+            $post = $this->request->getPost(); 
+            $data["client_id"] = @$post["client_id"];
+            $data["first_name"] = @$post["first_name"];
+            $data["surname"] = @$post["surname"];
+            $data["email"] = @$post["email"];
+            if(!empty($post["password"])) $data["password"] = md5(@$post["password"]);
+            $data["uuid_business_id"] = @$post['uuid_business'];
+            //$data["uuid"] = UUID::v5(UUID::v4(), 'contacts');
+            if(!empty($post["title"])) $data["title"] = @$post["title"];
+            if(!empty($post["saludation"])) $data["saludation"] = @$post["saludation"];
+            if(!empty($post["comments"])) $data["comments"] = @$post["comments"];
+            if(!empty($post["news_letter_status"])) $data["news_letter_status"] = @$post["news_letter_status"];
+            $data["allow_web_access"] = !empty($post["allow_web_access"])?@$post["allow_web_access"]:0;
+            if(!empty($post["direct_phone"])) $data["direct_phone"] = @$post["direct_phone"];
+            if(!empty($post["mobile"])) $data["mobile"] = @$post["mobile"];
+            if(!empty($post["direct_fax"])) $data["direct_fax"] = @$post["direct_fax"];
+            if(!empty($post["contact_type"])) $data["contact_type"] = @$post["contact_type"];
+            //$data['id']= @$post["id"];
+            $response = $this->common_model->CommonInsertOrUpdate('contacts',$this->request->getPost('uuid'),$data);
+            if(!$response){
+                $response_data['status'] = 400;
+                $response_data['message']    = 'something wrong!!';
+                echo json_encode($response_data); die;   
+            }else{           
+                $id = $response;          
+                $i = 0;
+                if(count($post["address_line_1"])>0){
+                    foreach($post["address_line_1"] as $firstName){
+
+                        $contact["address_line_1"] = $firstName;
+                        $contact["uuid_customer"] = $data["uuid"];
+                        $contact["address_line_2"] = @$post["address_line_2"][$i];
+                        $contact["address_line_3"] = @$post["address_line_3"][$i];
+                        $contact["address_line_4"] = @$post["address_line_4"][$i];
+                        $contact["city"] = @$post["city"][$i];
+                        $contact["state"] = @$post["state"][$i];
+                        $contact["country"] = @$post["country"][$i];
+                        $contact["post_code"] = @$post["post_code"][$i];
+                        $contact["address_type"] = @$post["address_type"][$i];
+                        $contact["uuid_business_id"] = @$post['uuid_business'];
+                        $contactId =  @$post["uuid_contact"][$i];
+                        if(!empty($firstName) && strlen(trim($firstName)) > 0){
+                            $this->common_model->CommonInsertOrUpdate("addresses",$contactId, $contact);
+                            //print_r($contact); die;
+                        }
+
+                        $i++;
+                    }
+
+
+                }
+              
+                $response_data['data'] = $data;
+                $response_data['status'] = 200;
+                echo json_encode($response_data); die;
+            }
+
+        }else {
+            $response_data['status'] = 400;
+            $response_data['message']    = 'uuid, client_id, first_name, email, uuid_business_id cannot be empty!!';
+            echo json_encode($response_data); die; 
+        }
+
+
+    }
+
 }

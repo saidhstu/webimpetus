@@ -4,7 +4,7 @@ var phone_validation_msg ='Use valid format like <strong>+31651150036</strong>';
 var number_validation_msg ='Enter valid number';
 var acc_validation_msg ='Account number should be number and in between 9 to 18 digits';
 var common_validation_msg ='You have some form errors please check below';
-
+var only_alphabets_msg = 'Only alphabets allowed!!';
 
 $(":submit").click( function ( e ) {
     //call form validation function
@@ -40,6 +40,7 @@ function checkFormValidation(){
         var is_email = $(this).hasClass('email');
         var is_number = $(this).hasClass('number');
         var acc_number = $(this).hasClass('acc_number');
+        var only_alpha = $(this).hasClass('only_alpha');
 		
 		var field_value = $(this).val();
 		var field_type = $(this).attr('type');
@@ -65,6 +66,17 @@ function checkFormValidation(){
 			jQuery(this).after(error_msg);			
             validation =  false;
         }
+
+		var regex = /^[a-zA-Z]*$/;
+		if (only_alpha && !regex.test(field_value)) {
+	  
+			$(this).focus();
+			jQuery(this).closest(".form-group").addClass('has-danger');
+			jQuery(this).parent("div").children("form-control-feedback").remove();
+			var error_msg = "<div id='"+field_name+"' class='form-control-feedback'>"+only_alphabets_msg+"</div>";
+			jQuery(this).after(error_msg);
+			validation =  false;
+		}
 		
 		if ( is_file == true && field_value.length  < 1 && is_req ) {
 

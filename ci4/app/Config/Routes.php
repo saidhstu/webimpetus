@@ -46,6 +46,11 @@ $routes->resource('api/v2/tasks');
 $routes->resource('api/v2/customers');
 $routes->resource('api/v2/businesses');
 $routes->resource('api/v2/contacts');
+$routes->resource('api/v2/menu');
+$routes->resource('api/v2/categories');
+$routes->resource('api/v2/projects');
+$routes->resource('api/v2/employees');
+$routes->resource('api/v2/sprints'); //
 
 
 /*
