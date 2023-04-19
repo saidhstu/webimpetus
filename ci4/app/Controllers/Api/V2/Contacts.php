@@ -33,7 +33,7 @@ class Contacts extends ResourceController
         if(!empty($_GET['uuid_business_id'])){
             $arr['uuid_business_id'] = $_GET['uuid_business_id'];
         }
-        $data['data'] = $api->common_model->getApiData('contacts',$arr);
+        $data['data'] = $api->common_model->getApiData('contacts',$arr,'CONCAT_WS(" ", first_name, surname) as name');
         $data['total'] = $api->common_model->getCount('contacts',$arr);
         $data['message'] = 200;
         return $this->respond($data);
@@ -69,7 +69,8 @@ class Contacts extends ResourceController
      */
     public function create()
     {
-        //
+        $api =  new Api_v2();
+        return $this->respond($api->addContact());
     }
 
     /**
@@ -89,7 +90,8 @@ class Contacts extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        $api =  new Api_v2();
+        return $this->respond($api->updateContact());
     }
 
     /**
@@ -98,7 +100,10 @@ class Contacts extends ResourceController
      * @return mixed
      */
     public function delete($id = null)
-    {
-        //
+    {       
+        $api =  new Api_v2();
+        $data['data'] = $api->common_model->deleteTableData('contacts',$id,'uuid');
+        $data['status'] = 200;
+        return $this->respond($data);    
     }
 }

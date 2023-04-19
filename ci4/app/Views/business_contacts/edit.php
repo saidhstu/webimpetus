@@ -17,7 +17,7 @@
 
                     <div class="form-group required col-md-6">
                         <label for="inputEmail4">First Name</label>
-                        <input type="text" class="form-control required" id="first_name" name="first_name" placeholder=""  value="<?= @$business_contact->first_name ?>">
+                        <input type="text" class="form-control required only_alpha" id="first_name" name="first_name" placeholder=""  value="<?= @$business_contact->first_name ?>">
                     </div>
 
                 </div>
@@ -25,7 +25,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Surname</label>
-                        <input type="text" class="form-control" id="surname" name="surname" placeholder=""  value="<?= @$business_contact->surname ?>">
+                        <input type="text" class="form-control only_alpha" id="surname" name="surname" placeholder=""  value="<?= @$business_contact->surname ?>">
                     </div>
 
                     <div class="form-group col-md-6">
@@ -62,12 +62,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Direct Phone</label>
-                        <input type="text" class="form-control" id="direct_phone" name="direct_phone" placeholder=""  value="<?= @$business_contact->direct_phone ?>">
+                        <input type="text" class="form-control number" id="direct_phone" name="direct_phone" placeholder=""  value="<?= @$business_contact->direct_phone ?>">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Mobile</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder=""  value="<?= @$business_contact->mobile ?>">
+                        <input type="text" class="form-control number" id="mobile" name="mobile" placeholder=""  value="<?= @$business_contact->mobile ?>">
                     </div>
                 </div>
                 <div class="form-row">
