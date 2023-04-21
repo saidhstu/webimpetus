@@ -36,6 +36,8 @@ $routes->get('/', 'Home::index');
 $routes->get('users/delete/(:num)', 'Users::delete/$1');
 //$routes->post('users/update/(:num)', 'Users::update');
 
+//Ping function
+$routes->get('/api/v1/ping', 'Home::ping');
 
 //API V2
 //Users Request API
@@ -50,7 +52,8 @@ $routes->resource('api/v2/menu');
 $routes->resource('api/v2/categories');
 $routes->resource('api/v2/projects');
 $routes->resource('api/v2/employees');
-$routes->resource('api/v2/sprints'); //
+$routes->resource('api/v2/sprints');
+$routes->resource('api/v2/user_business'); //
 
 
 /*
