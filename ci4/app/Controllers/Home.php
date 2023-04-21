@@ -264,4 +264,18 @@ class Home extends BaseController
 		$bid = $this->request->getPost('bid');
 		session()->set('uuid_business', $bid);
 	}
+
+	public function ping()
+	{
+		header('Content-Type: application/json; charset=utf-8');
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+		header('Access-Control-Allow-Headers: Accept,Authorization,Content-Type');
+		$str = file_get_contents(ROOTPATH . 'webimpetus.json');
+		$json = json_decode($str, true);
+
+		$json['php_version'] = phpversion();
+
+		echo json_encode($json); die;
+	}
 }

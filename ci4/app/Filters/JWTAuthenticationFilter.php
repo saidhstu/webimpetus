@@ -17,7 +17,9 @@ class JWTAuthenticationFilter implements FilterInterface
     {
 
         $pos = strpos( $_SERVER['REQUEST_URI'], "api/sendEmail");
-        if($pos  ===  false){
+        $ping = strpos( $_SERVER['REQUEST_URI'], "api/v1/ping");
+
+        if($pos  ===  false && $ping  ===  false){
 
             $authenticationHeader = $request->getServer('HTTP_AUTHORIZATION');
             try {
