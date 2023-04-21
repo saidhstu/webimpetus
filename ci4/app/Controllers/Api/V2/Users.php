@@ -2,11 +2,90 @@
 
 namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
-
 use CodeIgniter\RESTful\ResourceController;
-
+    /**
+     * @OA\Get(
+     *     path="/api/v2/users",
+     *     tags={"User"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the users data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/users/{uuid}",
+     *      tags={"User"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single user data"
+     *     )
+     * )
+     * 
+     * 
+     * *@OA\Post(
+     *     path="/api/v2/users",
+     * tags={"User"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a user data"
+     *     )
+     * )
+     * 
+     *@OA\Put(
+     *     path="/api/v2/users/{uuid}",
+     * tags={"User"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The user uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a user data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/users/{uuid}",
+     * tags={"User"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a user"
+     *     )
+     * )
+     */
 class Users extends ResourceController
 {
+    
     /**
      * Return an array of resource objects, themselves in array format
      *
@@ -33,6 +112,7 @@ class Users extends ResourceController
         $data['message'] = 200;
         return $this->respond($data);
     }
+    
 
     /**
      * Return the properties of a resource object

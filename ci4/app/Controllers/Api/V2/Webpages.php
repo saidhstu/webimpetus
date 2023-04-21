@@ -4,7 +4,34 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+/**
+     * @OA\Get(
+     *     path="/api/v2/webpages",
+     *     tags={"Webpages"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the webpage data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/webpages/{uuid}",
+     *      tags={"Webpages"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single webpage data"
+     *     )
+     * )
+     * 
+     * 
+     
+     */
 class Webpages extends ResourceController
 {
     /**

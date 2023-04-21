@@ -5,6 +5,77 @@ use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
 
+ /**
+     * @OA\Get(
+     *     path="/api/v2/businesses",
+     *     tags={"Businesses"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the businesses data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/businesses/{uuid}",
+     *      tags={"Businesses"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single business data"
+     *     )
+     * )
+     * 
+     *  * *  * * *@OA\Post(
+     *     path="/api/v2/businesses",
+     * tags={"Businesses"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a business data"
+     *     )
+     * )
+     * 
+     *@OA\Put(
+     *     path="/api/v2/businesses/{uuid}",
+     * tags={"Businesses"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The businesse uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a businesse data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/businesses/{uuid}",
+     * tags={"Businesses"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a businesse"
+     *     )
+     * )
+     */
+
 class Businesses extends ResourceController
 {
     /**

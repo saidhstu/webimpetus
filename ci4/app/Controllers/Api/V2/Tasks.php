@@ -4,7 +4,86 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+ /**
+     * @OA\Get(
+     *     path="/api/v2/tasks",
+     *     tags={"Tasks"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the tasks data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/tasks/{uuid}",
+     *      tags={"Tasks"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single task data"
+     *     )
+     * )
+     * 
+     * * *@OA\Post(
+     *     path="/api/v2/tasks",
+     * tags={"Tasks"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a task"
+     *     )
+     * )
+     * 
+     * 
+     *@OA\Put(
+     *     path="/api/v2/tasks/{uuid}",
+     * tags={"Tasks"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The task uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a task data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/tasks/{uuid}",
+     * tags={"Tasks"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a task"
+     *     )
+     * )
+     */
 class Tasks extends ResourceController
 {
     /**

@@ -4,7 +4,88 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+ /**
+     * @OA\Get(
+     *     path="/api/v2/contacts",
+     *     tags={"Contacts"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the contacts data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/contacts/{uuid}",
+     *      tags={"Contacts"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single contact data"
+     *     )
+     * )
+     * 
+     * 
+     * 
+     * * 
+     *  * * *@OA\Post(
+     *     path="/api/v2/contacts",
+     * tags={"Contacts"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a contact data"
+     *     )
+     * )
+     * 
+     *@OA\Put(
+     *     path="/api/v2/contacts/{uuid}",
+     * tags={"Contacts"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The contact uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a contact data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/contacts/{uuid}",
+     * tags={"Contacts"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a contact"
+     *     )
+     * )
+     */
 class Contacts extends ResourceController
 {
     /**
