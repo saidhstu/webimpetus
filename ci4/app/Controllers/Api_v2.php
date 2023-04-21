@@ -51,6 +51,10 @@ class Api_v2 extends BaseController
       $this->work_orders_model = new Work_orders_model();
         $this->request = \Config\Services::request();
         header('Content-Type: application/json; charset=utf-8');
+        if($_SERVER['REQUEST_METHOD']=='PUT'){
+            $obj = file_get_contents('php://input');
+            $_POST = json_decode($obj,true);
+        }
       // header('Access-Control-Allow-Origin: *');
       // header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
       //header('Access-Control-Allow-Headers: Accept,Authorization,Content-Type');
@@ -59,6 +63,7 @@ class Api_v2 extends BaseController
     {
         echo 'API ....';
     }
+
     public function services($id=false,$write=false)
     {
         if($this->request->getVar('q')){
@@ -660,6 +665,7 @@ class Api_v2 extends BaseController
             $data["employee_name"] = @$post["employee_id"];
             $data["uuid_business_id"] = @$post['uuid_business_id'];
             $data["uuid"] = @$uuidVal;
+            if(!empty($post["week_no"])) $data["week_no"] = @$post["week_no"];
             if(!empty($post["slip_timer_started"])) $data["slip_timer_started"] = @$post["slip_timer_started"];
             if(!empty($post["slip_end_date"])) $data["slip_end_date"] = @$post["slip_end_date"];
             if(!empty($post["slip_timer_end"])) $data["slip_timer_end"] = @$post["slip_timer_end"];
@@ -686,14 +692,13 @@ class Api_v2 extends BaseController
 
     public function updateTimeslip()
     {
-        if(!empty($this->request->getPost('uuid'))){	
-            
+        if(!empty($this->request->getPost('uuid'))){            
             $uuidVal = $this->request->getPost('uuid');
-                
             $post = $this->request->getPost(); 
             if(!empty($post["task_id"])) $data["task_name"] = @$post["task_id"];
             if(!empty($post["slip_start_date"])) $data["slip_start_date"] = strtotime(@$post["slip_start_date"]);
             $data["employee_name"] = @$post["employee_id"];
+            if(!empty($post["week_no"])) $data["week_no"] = @$post["week_no"];
             if(!empty($post["uuid_business_id"])) $data["uuid_business_id"] = @$post['uuid_business_id'];
             if(!empty($post["slip_timer_started"])) $data["slip_timer_started"] = @$post["slip_timer_started"];
             if(!empty($post["slip_end_date"])) $data["slip_end_date"] = strtotime(@$post["slip_end_date"]);
@@ -1762,6 +1767,56 @@ class Api_v2 extends BaseController
         }
 
 
+    }
+
+    public function addSprint()
+    { 
+        if(!empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('start_date')) && !empty($this->request->getPost('sprint_name')) && !empty($this->request->getPost('end_date'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'sprints');
+            $data_array = array(
+                'sprint_name'  => $this->request->getPost('sprint_name'),
+                'uuid_business_id'  => $this->request->getPost('uuid_business_id'),
+                'start_date' => $this->request->getPost('start_date'),
+                'end_date' => $this->request->getPost('end_date')
+            );
+            if(!empty($post["note"])) $data_array["note"] = @$post["note"];
+            
+            $this->common_model->CommonInsertOrUpdate('sprints','',$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'sprint_name, uuid_business_id, start_date, end_date could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function updateSprint()
+    { 
+        if(!empty($this->request->getPost('uuid_business_id')) && !empty($this->request->getPost('uuid')) && !empty($this->request->getPost('start_date')) && !empty($this->request->getPost('sprint_name')) && !empty($this->request->getPost('end_date'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'sprints');
+            $data_array = array(
+                'sprint_name'  => $this->request->getPost('sprint_name'),
+                'uuid_business_id'  => $this->request->getPost('uuid_business_id'),
+                'start_date' => $this->request->getPost('start_date'),
+                'end_date' => $this->request->getPost('end_date')
+            );
+            if(!empty($post["note"])) $data_array["note"] = @$post["note"];
+            
+            $this->common_model->CommonInsertOrUpdate('sprints',$this->request->getPost('uuid'),$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'uuid, sprint_name, uuid_business_id, start_date, end_date could not be empty!!';
+            echo json_encode($data); die;  
+        }
     }
 
 }

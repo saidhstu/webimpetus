@@ -4,7 +4,87 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+ /**
+     * @OA\Get(
+     *     path="/api/v2/customers",
+     *     tags={"Customers"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the Customers data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/customers/{uuid}",
+     *      tags={"Customers"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single customer data"
+     *     )
+     * )
+     * 
+     * * 
+     *  * * *@OA\Post(
+     *     path="/api/v2/customers",
+     * tags={"Customers"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a customer data"
+     *     )
+     * )
+     * 
+     * 
+     *@OA\Put(
+     *     path="/api/v2/customers/{uuid}",
+     * tags={"Customers"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The customer uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a customer data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/customers/{uuid}",
+     * tags={"Customers"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a customer"
+     *     )
+     * )
+     */
 class Customers extends ResourceController
 {
     /**

@@ -4,7 +4,78 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+ /**
+     * @OA\Get(
+     *     path="/api/v2/projects",
+     *     tags={"Projects"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the projects data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/projects/{uuid}",
+     *      tags={"Projects"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single project data"
+     *     )
+     * )
+     * 
+     * * 
+     *  * * *@OA\Post(
+     *     path="/api/v2/projects",
+     * tags={"Projects"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a sprint data"
+     *     )
+     * )
+     * 
+     * 
+     *@OA\Put(
+     *     path="/api/v2/projects/{uuid}",
+     * tags={"Projects"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The project uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a project data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/projects/{uuid}",
+     * tags={"Projects"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a project"
+     *     )
+     * )
+     */
 class Projects extends ResourceController
 {
     /**

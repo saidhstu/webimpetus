@@ -4,7 +4,85 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+ /**
+     * @OA\Get(
+     *     path="/api/v2/employees",
+     *     tags={"Employee"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the employees data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/employees/{uuid}",
+     *      tags={"Employee"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single Employee data"
+     *     )
+     * )
+     *
+     * *@OA\Post(
+     *     path="/api/v2/employees",
+     * tags={"Employee"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a employee data"
+     *     )
+     * ) 
+     * 
+     *@OA\Put(
+     *     path="/api/v2/employees/{uuid}",
+     * tags={"Employee"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The employee uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a employee data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/employees/{uuid}",
+     * tags={"Employee"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a employee"
+     *     )
+     * )
+     */
 class Employees extends ResourceController
 {
     /**
@@ -33,7 +111,7 @@ class Employees extends ResourceController
         if(!empty($_GET['uuid_business_id'])){
             $arr['uuid_business_id'] = $_GET['uuid_business_id'];
         }
-        $data['data'] = $api->common_model->getApiData('employees',$arr);
+        $data['data'] = $api->common_model->getApiData('employees',$arr,'CONCAT_WS(" ", first_name, surname) as name');
         $data['total'] = $api->common_model->getCount('employees',$arr);
         $data['message'] = 200;
         return $this->respond($data);

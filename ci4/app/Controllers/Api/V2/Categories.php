@@ -4,7 +4,86 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+ /**
+     * @OA\Get(
+     *     path="/api/v2/categories",
+     *     tags={"Categories"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the category data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/categories/{uuid}",
+     *      tags={"Categories"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single category data"
+     *     )
+     * )
+     * 
+     * 
+     * *  * * *@OA\Post(
+     *     path="/api/v2/categories",
+     * tags={"Categories"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a category data"
+     *     )
+     * )
+     * 
+     *@OA\Put(
+     *     path="/api/v2/categories/{uuid}",
+     * tags={"Categories"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The category uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a category data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/categories/{uuid}",
+     * tags={"Categories"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a category"
+     *     )
+     * )
+     */
 class Categories extends ResourceController
 {
     /**

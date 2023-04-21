@@ -4,7 +4,86 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+ /**
+     * @OA\Get(
+     *     path="/api/v2/sprints",
+     *     tags={"Sprints"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the sprints data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/sprints/{uuid}",
+     *      tags={"Sprints"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single sprint data"
+     *     )
+     * )
+     * 
+     *  * * *@OA\Post(
+     *     path="/api/v2/sprints",
+     * tags={"Sprints"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a sprint data"
+     *     )
+     * )
+     * 
+     * 
+     *@OA\Put(
+     *     path="/api/v2/sprints/{uuid}",
+     * tags={"Sprints"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The sprint uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a sprint data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/sprints/{uuid}",
+     * tags={"Sprints"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a sprint"
+     *     )
+     * )
+     */
 class Sprints extends ResourceController
 {
     /**
@@ -69,7 +148,8 @@ class Sprints extends ResourceController
      */
     public function create()
     {
-        //
+        $api =  new Api_v2();
+        return $this->respond($api->addSprint());
     }
 
     /**
@@ -89,7 +169,8 @@ class Sprints extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        $api =  new Api_v2();
+        return $this->respond($api->updateSprint());
     }
 
     /**
@@ -98,7 +179,10 @@ class Sprints extends ResourceController
      * @return mixed
      */
     public function delete($id = null)
-    {
-        //
+    {       
+        $api =  new Api_v2();
+        $data['data'] = $api->common_model->deleteTableData('sprints',$id,'id');
+        $data['status'] = 200;
+        return $this->respond($data);    
     }
 }

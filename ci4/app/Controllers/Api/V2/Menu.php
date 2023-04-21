@@ -4,7 +4,87 @@ namespace App\Controllers\Api\V2;
 use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
-
+ /**
+     * @OA\Get(
+     *     path="/api/v2/menu",
+     *     tags={"Menu"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the menues data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/menu/{uuid}",
+     *      tags={"Menu"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single menu data"
+     *     )
+     * )
+     * 
+     * * 
+     *  * * *@OA\Post(
+     *     path="/api/v2/menu",
+     * tags={"Menu"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a menu data"
+     *     )
+     * )
+     * 
+     * 
+     *@OA\Put(
+     *     path="/api/v2/menu/{uuid}",
+     * tags={"Menu"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The menu uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a menu data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/menu/{uuid}",
+     * tags={"Menu"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a menu"
+     *     )
+     * )
+     */
 class Menu extends ResourceController
 {
     /**

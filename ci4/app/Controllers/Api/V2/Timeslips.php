@@ -5,6 +5,86 @@ use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
 
+    /**
+     * @OA\Get(
+     *     path="/api/v2/timeslips",
+     *     tags={"Timeslips"},
+     *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the timeslips data"
+     *     )
+     * )
+     * 
+     *@OA\Get(
+     *     path="/api/v2/timeslips/{uuid}",
+     *     tags={"Timeslips"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get the single timeslip data"
+     *     )
+     * )
+     * * * *@OA\Post(
+     *     path="/api/v2/timeslips",
+     * tags={"Timeslips"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid_business_id",
+     *          in="query",
+     *          required=true,
+     *          description="business uuid required",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created a timeslip"
+     *     )
+     * )
+     * 
+     * 
+     *@OA\Put(
+     *     path="/api/v2/timeslips/{uuid}",
+     *     tags={"Timeslips"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *          name="uuid",
+     *          in="query",
+     *          required=true,
+     *          description="The timeslip uuid",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated a timeslip data"
+     *     )
+     * )
+     * 
+     *@OA\Delete(
+     *     path="/api/v2/timeslips/{uuid}",
+     *     tags={"Timeslips"},
+     * *     security={
+     *       {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Delete a timeslip"
+     *     )
+     * )
+     */
+
 class Timeslips extends ResourceController
 {
     /**
