@@ -5,7 +5,7 @@ use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
 
-class UserBusiness extends ResourceController
+class Documents extends ResourceController
 {
     /**
      * Return an array of resource objects, themselves in array format
@@ -30,11 +30,11 @@ class UserBusiness extends ResourceController
 
         $_GET['uuid_business_id'] = !empty($params['filter']) && !empty($params['filter']['uuid_business_id'])?$params['filter']['uuid_business_id']:false;
         $arr = [];
-        // if(!empty($_GET['uuid_business_id'])){
-        //     $arr['uuid_business_id'] = $_GET['uuid_business_id'];
-        // }
-        $data['data'] = $api->user_business_model->getApiBusiness();
-        $data['total'] = $api->common_model->getCount('user_business',$arr);
+        if(!empty($_GET['uuid_business_id'])){
+            $arr['uuid_business_id'] = $_GET['uuid_business_id'];
+        }
+        $data['data'] = $api->common_model->getApiData('documents',$arr);
+        $data['total'] = $api->common_model->getCount('documents',$arr);
         $data['message'] = 200;
         return $this->respond($data);
     }
@@ -47,7 +47,7 @@ class UserBusiness extends ResourceController
     public function show($id = null)
     {
         $api =  new Api_v2();
-        $data['data'] = $api->common_model->getRow('user_business',$id,'id');
+        $data['data'] = $api->common_model->getRow('documents',$id,'uuid');
         $data['message'] = 200;
         return $this->respond($data);
     }
@@ -69,8 +69,7 @@ class UserBusiness extends ResourceController
      */
     public function create()
     {
-        $api =  new Api_v2(); //
-        return $this->respond($api->addUserBusiness());
+        //
     }
 
     /**
@@ -90,8 +89,7 @@ class UserBusiness extends ResourceController
      */
     public function update($id = null)
     {
-        $api =  new Api_v2(); //$api->user_business_model->update()
-        return $this->respond($api->updateUserBusiness());
+        //
     }
 
     /**
@@ -102,7 +100,7 @@ class UserBusiness extends ResourceController
     public function delete($id = null)
     {       
         $api =  new Api_v2();
-        $data['data'] = $api->common_model->deleteTableData('user_business',$id,'id');
+        $data['data'] = $api->common_model->deleteTableData('documents',$id,'uuid');
         $data['status'] = 200;
         return $this->respond($data);    
     }

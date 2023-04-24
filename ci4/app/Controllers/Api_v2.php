@@ -16,12 +16,15 @@ use App\Models\CustomerCategory;
 use App\Models\Email_model;
 use App\Models\Menu_model;
 use App\Models\Users_model;
+use App\Models\User_business_model;
 use App\Models\Core\Common_model;
 use App\Models\TimeslipsModel;
 use App\Models\Tasks_model;
 use App\Models\Purchase_invoice_model;
 use App\Models\Sales_invoice_model;
 use App\Models\Work_orders_model;
+use App\Models\Purchase_orders_model;
+use App\Models\Meta_model;
 use App\Libraries\UUID;
 class Api_v2 extends BaseController
 {
@@ -43,12 +46,15 @@ class Api_v2 extends BaseController
       $this->emailModel = new Email_model();
       $this->menuModel = new Menu_model();
       $this->userModel = new Users_model();
+      $this->user_business_model = new User_business_model();
       $this->timeSlipsModel = new TimeslipsModel();
       $this->tasksModel = new Tasks_model();
       $this->common_model = new Common_model();
       $this->purchase_invoice_model = new Purchase_invoice_model();
       $this->sales_invoice_model = new Sales_invoice_model();
       $this->work_orders_model = new Work_orders_model();
+      $this->purchase_orders_model = new Purchase_orders_model();
+      $this->meta_model = new Meta_model();
         $this->request = \Config\Services::request();
         header('Content-Type: application/json; charset=utf-8');
         if($_SERVER['REQUEST_METHOD']=='PUT'){
@@ -1815,6 +1821,144 @@ class Api_v2 extends BaseController
         }else {
             $data['status'] = 400;
             $data['message']    = 'uuid, sprint_name, uuid_business_id, start_date, end_date could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function addUserBusiness()
+    { 
+        if(!empty($this->request->getPost('user_id')) && !empty($this->request->getPost('user_business_id')) && !empty($this->request->getPost('primary_business_uuid'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'sprints');
+            $data_array = array(
+                'user_id'  => $this->request->getPost('user_id'),
+                'user_business_id'  => $this->request->getPost('user_business_id'),
+                'primary_business_uuid' => $this->request->getPost('primary_business_uuid')
+            );
+            $this->common_model->CommonInsertOrUpdate('user_business','',$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'user_id, user_business_id, primary_business_uuid could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function updateUserBusiness()
+    { 
+        if(!empty($this->request->getPost('user_id')) && !empty($this->request->getPost('id')) && !empty($this->request->getPost('user_business_id')) && !empty($this->request->getPost('primary_business_uuid'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'sprints');
+            $data_array = array(
+                'user_id'  => $this->request->getPost('user_id'),
+                'user_business_id'  => $this->request->getPost('user_business_id'),
+                'primary_business_uuid' => $this->request->getPost('primary_business_uuid')
+            );
+            $this->common_model->CommonInsertOrUpdate('user_business',$this->request->getPost('id'),$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'id, user_id, user_business_id, primary_business_uuid could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function addTax()
+    { 
+        if(!empty($this->request->getPost('tax_code')) && !empty($this->request->getPost('tax_rate')) && !empty($this->request->getPost('uuid_business_id'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'sprints');
+            $data_array = array(
+                'tax_code'  => $this->request->getPost('tax_code'),
+                'tax_rate'  => $this->request->getPost('tax_rate'),
+                'uuid_business_id'  => $this->request->getPost('uuid_business_id'),
+                'description' => $this->request->getPost('description')
+            );
+            $this->common_model->CommonInsertOrUpdate('taxes','',$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'tax_code, user_business_id, tax_rate could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function updateTax()
+    { 
+        if(!empty($this->request->getPost('id'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'sprints');
+            $data_array = array();
+            if(!empty($this->request->getPost["tax_code"])) $data_array["tax_code"] = @$this->request->getPost["tax_code"];
+            if(!empty($this->request->getPost["tax_rate"])) $data_array["tax_rate"] = @$this->request->getPost["tax_rate"];
+            if(!empty($this->request->getPost["description"])) $data_array["description"] = @$this->request->getPost["description"];
+            if(!empty($this->request->getPost["uuid_business_id"])) $data_array["uuid_business_id"] = @$this->request->getPost["uuid_business_id"];
+
+            $this->common_model->CommonInsertOrUpdate('taxes',$this->request->getPost('id'),$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'id could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function addEnquiry()
+    { 
+        if(!empty($this->request->getPost('name')) && !empty($this->request->getPost('email')) && !empty($this->request->getPost('phone')) && !empty($this->request->getPost('uuid_business_id'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'sprints');
+            $data_array = array(
+                'name'  => $this->request->getPost('name'),
+                'email'  => $this->request->getPost('email'),
+                'uuid_business_id'  => $this->request->getPost('uuid_business_id'),
+                'phone'  => $this->request->getPost('phone'),
+                'message' => $this->request->getPost('message')
+            );
+            $this->common_model->CommonInsertOrUpdate('enquiries','',$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'name, user_business_id, email, phone could not be empty!!';
+            echo json_encode($data); die;  
+        }
+    }
+
+    public function updateEnquiry()
+    { 
+        if(!empty($this->request->getPost('id'))){
+            // $uuidNamespace = UUID::v4();
+            // $uuid = UUID::v5($uuidNamespace, 'sprints');
+            $data_array = array();
+            if(!empty($this->request->getPost["name"])) $data_array["name"] = @$this->request->getPost["name"];
+            if(!empty($this->request->getPost["email"])) $data_array["email"] = @$this->request->getPost["email"];
+            if(!empty($this->request->getPost["message"])) $data_array["message"] = @$this->request->getPost["message"];
+            if(!empty($this->request->getPost["phone"])) $data_array["phone"] = @$this->request->getPost["phone"];
+            if(!empty($this->request->getPost["uuid_business_id"])) $data_array["uuid_business_id"] = @$this->request->getPost["uuid_business_id"];
+
+            $this->common_model->CommonInsertOrUpdate('enquiries',$this->request->getPost('id'),$data_array);
+            $data['data'] = $data_array;
+            $data['status'] = 200;
+            echo json_encode($data); die;           
+
+        }else {
+            $data['status'] = 400;
+            $data['message']    = 'id could not be empty!!';
             echo json_encode($data); die;  
         }
     }
