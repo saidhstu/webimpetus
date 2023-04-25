@@ -53,7 +53,15 @@ $routes->resource('api/v2/categories');
 $routes->resource('api/v2/projects');
 $routes->resource('api/v2/employees');
 $routes->resource('api/v2/sprints');
-$routes->resource('api/v2/user_business'); //
+$routes->resource('api/v2/userbusiness');
+$routes->resource('api/v2/documents'); //
+$routes->resource('api/v2/media'); //
+$routes->resource('api/v2/enquiries');
+$routes->resource('api/v2/taxes');
+$routes->resource('api/v2/purchase_invoices');
+$routes->resource('api/v2/sales_invoices');
+$routes->resource('api/v2/work_orders');
+$routes->resource('api/v2/purchase_orders');
 
 
 /*

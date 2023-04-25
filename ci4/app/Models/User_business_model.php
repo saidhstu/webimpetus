@@ -77,4 +77,26 @@ class User_business_model extends Model
         $query = $this->db->table($this->table)->where('id', $id)->get()->getResultObject();
         return $query;
     }
+
+    public function getApiBusiness($where = array())
+    {
+        $table = $this->table;
+        $selectFields = array(
+            $table . '.*',
+            'users.name',
+        );
+        $this->select($selectFields);
+        $this->join('users', 'users.id = ' . $table . '.user_id');
+
+        if(!empty($where)) $this->where($where);
+
+        // if(!empty($_GET['field']) && !empty($_GET['order'])){
+        //     $this->orderBy($table . '.' .$_GET['field'],$_GET['order']);
+        // }else {
+        //     $this->orderBy($table . '.id','ASC');
+        // }         
+        
+        $_GET['perPage'] = !empty($_GET['perPage'])?$_GET['perPage']:10;
+        return $this->paginate($_GET['perPage']);
+    }
 }

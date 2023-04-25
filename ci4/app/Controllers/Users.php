@@ -24,7 +24,7 @@ class Users extends CommonController
 	{
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
-		$data['user'] = $this->userModel->getUserByUUID($id)->getRow();
+		$data['user'] = !empty($id)?$this->userModel->getUserByUUID($id)->getRow():[];
 		$data['menu'] = $this->menu_model->getRows();
 		return view('users/edit', $data);
 	}
