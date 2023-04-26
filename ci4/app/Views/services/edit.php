@@ -1,4 +1,7 @@
-<?php require_once (APPPATH.'Views/common/edit-title.php'); ?>
+<?php require_once (APPPATH.'Views/common/edit-title.php');
+
+$blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->id]);
+?>
 <div class="white_card_body">
     <div class="card-body">
         <form id="addservice" method="post" action="/services/update" enctype="multipart/form-data">
@@ -8,7 +11,8 @@
                     <nav>
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Service Detail</a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Services Secrets</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Service Secrets</a>
+                            <a class="nav-item nav-link" id="nav-steps-tab" data-toggle="tab" href="#nav-steps" role="tab" aria-controls="nav-steps" aria-selected="false">Service Steps</a>
                         </div>
                     </nav>
                     <div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
@@ -166,7 +170,7 @@
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="inputEmail4">Secret Value</label>
-                                        <input autocomplete="off" type="text" class="form-control" id="key_value_<?php echo $new_id; ?>" name="key_value[]" placeholder="" value="<?=$secret_services[$jak_i]['key_value'] ?>">
+                                        <input autocomplete="off" type="text" class="form-control" id="key_value_<?php echo $new_id; ?>" name="key_value[]" placeholder="" value="<?=(!empty($_SESSION['role']) && $_SESSION['role']==1)?$secret_services[$jak_i]['key_value']:'********' ?>">
                                     </div>
                                     <?php
                                         if($jak_i == 0){
@@ -214,6 +218,108 @@
                             <?php
                                 }
                             ?>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-steps" role="tabpanel" aria-labelledby="nav-steps-tab">
+                        <?php
+							if (count($blocks_list) > 0) {
+							?>
+								<div class="form-row blocks_html">
+									<?php
+									for ($jak_i = 0; $jak_i < count($blocks_list); $jak_i++) {
+										$new_id = $jak_i + 1;
+									?>
+										<div class="form-row col-md-12 each-row each-block" style="margin-bottom:30px;" id="blocks_html_<?php echo $new_id; ?>">
+											<div class="form-group col-md-6">
+												<label for="inputEmail4">Code</label>
+												<input autocomplete="off" type="text" class="form-control blocks_code" id="blocks_code<?php echo $new_id; ?>" name="blocks_code[]" placeholder="" value="<?= $blocks_list[$jak_i]['code'] ?>"><br>
+
+												<label for="inputEmail4">Title</label>
+												<input autocomplete="off" type="text" class="form-control" id="blocks_title<?php echo $new_id; ?>" name="blocks_title[]" placeholder="" value="<?= $blocks_list[$jak_i]['title'] ?>"><br>
+
+												<label for="inputEmail4">Sort</label>
+												<input autocomplete="off" type="number" class="form-control" name="sort[]" placeholder="" value="<?= $blocks_list[$jak_i]['sort'] ?>">
+
+												<label for="inputEmail4">Type</label>
+												<select name="type[]" id="text_type" class="form-control text_type">
+													<option value="database" <?php if ($blocks_list[$jak_i]['type'] == 'database') echo "selected"; ?>>Database</option>
+													<option value="nginx" <?php if ($blocks_list[$jak_i]['type'] == 'nginx') echo "selected"; ?>>Nginx</option>
+													<option value="dns" <?php if ($blocks_list[$jak_i]['type'] == 'dns') echo "selected"; ?>>DNS</option>
+													<option value="varnish" <?php if ($blocks_list[$jak_i]['type'] == 'varnish') echo "selected"; ?>>Varnish</option>
+													<option value="secrets" <?php if ($blocks_list[$jak_i]['type'] == 'secrets') echo "selected"; ?>>Secrets</option>
+													<option value="bash" <?php if ($blocks_list[$jak_i]['type'] == 'bash') echo "selected"; ?>>Bash</option>
+
+                                                    
+												</select>
+											</div>
+
+											<input type="hidden" class="hidden_type_value" value="<?= $blocks_list[$jak_i]['type'] ?>">
+											<input type="hidden" class="hidden_blocks_text_value" value="<?= $blocks_list[$jak_i]['text'] ?>">
+
+											<div class="form-group col-md-5 textarea-block">
+												<label class="textarea_label" for="inputEmail4"><?php echo @$type[$blocks_list[$jak_i]['type']]; ?></label>
+
+												<textarea class="form-control blocks_text <?php if ($blocks_list[$jak_i]['type'] == 'WYSIWYG') {
+																								echo "myClassName";
+																							} else {
+																								echo "textarea-height";
+																							} ?>" id="blocks_text<?php echo $new_id; ?>" name="blocks_text[]"><?= $blocks_list[$jak_i]['text'] ?></textarea>
+											</div>
+											<input type="hidden" value="<?= $blocks_list[$jak_i]['id'] ?>" id="blocks_id" name="blocks_id[]">
+
+											<div class="form-group col-md-1 change">
+												<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 38px;margin-left: 10px;margin-bottom:10px;">-</button>
+												<br>
+												<a href="#" class="tooltip-class" style="margin-left: 23px;" data-toggle="tooltip" title="<?= @$data_type_format[$blocks_list[$jak_i]['type']]; ?>"><i class="fa fa-info-circle"></i></a>
+											</div>
+										</div>
+									<?php
+									}
+									?>
+								</div>
+
+								<input type="hidden" value="<?php echo count($blocks_list); ?>" id="total_blocks" name="total_blocks" />
+
+							<?php
+							} else {
+							?>
+								<div class="form-row each-block" style="margin-bottom:30px;" id="blocks_html_1">
+									<div class="form-group col-md-6">
+										<label for="inputEmail4">Code</label>
+										<input autocomplete="off" type="text" class="form-control blocks_code" id="first_name_1" name="blocks_code[]" placeholder="" value="">
+
+										<label for="inputEmail4">Title</label>
+										<input autocomplete="off" type="text" class="form-control" id="surname" name="blocks_title[]" placeholder="" value="">
+										<label for="inputEmail4">Sort</label>
+										<input autocomplete="off" type="number" class="form-control" name="sort[]" placeholder="" value="">
+
+										<label for="inputEmail4">Type</label>
+										<select name="type[]" id="text_type" class="form-control text_type">
+                                            <option value="database">Database</option>
+											<option value="nginx">Nginx</option>
+											<option value="dns">DNS</option>
+											<option value="varnish">Varnish</option>
+											<option value="secrets">Secrets</option>
+											<option value="bash">Bash</option>
+										</select>
+									</div>
+									<div class="form-group col-md-5 textarea-block">
+										<label class="textarea_label" for="inputEmail4">Text</label>
+										<textarea class="form-control textarea-height blocks_text" id="ck-content" name="blocks_text[]"></textarea>
+									</div>
+								</div>
+								<input type="hidden" value="0" id="contact_id" name="contact_id">
+								<div class="form-row blocks_html">
+								</div>
+								<input type="hidden" value="1" id="total_blocks" name="total_blocks">
+							<?php
+							}
+							?>
+
+							<div class="form-group">
+								<button class="btn btn-primary add_step" type="button" style="float:right;margin-right: 120px;">Add Steps</button><br><br>
+							</div>
+
                         </div>
                     </div>
                 </div>
@@ -551,4 +657,55 @@ function newUploadDocFiles2(fileobj, id) {
         e.preventDefault();
         $(".all-media-image-files").html("");
     })
+
+    $(document).ready(function() {
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        var max_fields_limit = 20; //set limit for maximum input fields
+        total_blocks = parseInt($('#total_blocks').val()); //initialize counter for text box
+
+        $('.add_step').click(function(e) { //click event on add more fields button having class add_more_button
+
+            $('.blocks_html').append('<div class="form-row col-md-12 each-block" style="margin-bottom:30px;" id="blocks_html_' + total_blocks + '"><div class="form-group col-md-6">' +
+                '<label for="inputSecretKey">Code</label>' +
+                '<input type="text" class="form-control blocks_code" id="blocks_code' + total_blocks + '" name="blocks_code[]" placeholder="" value=""><br>' +
+
+                '<label for="inputSecretValue">Title</label>' +
+                '<input type="text" class="form-control" id="blocks_title' + total_blocks + '" name="blocks_title[]" placeholder="" value=""><br>' +
+                '<label for="inputEmail4">Sort</label>' +
+                '<input autocomplete="off" type="number" class="form-control"  name="sort[]" placeholder="" value="">' +
+
+                '<label for="inputEmail4">Type</label>' +
+                '<select name="type[]" id="text_type" class="form-control text_type">' +
+                '<option value="database">Database</option>' +
+                '<option value="nginx">Nginx</option>' +
+                '<option value="dns" >DNS</option>' +
+                '<option value="varnish" >Varnish</option>' +
+                '<option value="secrets" >Secrets	</option>' +
+                '<option value="bash">Bash</option>' +
+                '</select>' +
+
+                '</div>' +
+                '<div class="form-group col-md-5 textarea-block">' +
+                '<label class="textarea_label" for="inputSecretValue">Text</label>' +
+                '<textarea class="form-control textarea-height blocks_text" id="blocks_text' + total_blocks + '" name="blocks_text[]" placeholder="" value="" ></textarea> ' +
+                '</div> <input type="hidden" value="0" id="blocks_id" name="blocks_id[]">' +
+                '<div class="form-group col-md-1 change">' +
+                '<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>' +
+                '</div></div>'
+            );
+
+            total_blocks++;
+
+            CKEDITOR.replaceAll('myClassName');
+
+            $('.deleteaddress').on("click", function(e) { //user click on remove text links
+
+                $(this).parent().parent().remove();
+                total_blocks--;
+
+            })
+        });
+    });
 </script>

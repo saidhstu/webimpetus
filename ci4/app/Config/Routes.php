@@ -65,6 +65,7 @@ $routes->resource('api/v2/purchase_orders');
 $routes->resource('api/v2/blocks');
 $routes->resource('api/v2/secrets');
 $routes->resource('api/v2/create_domain');
+$routes->resource('api/v2/services');
 
 
 /*

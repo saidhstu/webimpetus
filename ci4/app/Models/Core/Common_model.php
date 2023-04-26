@@ -201,7 +201,7 @@ class Common_model extends Model
 
         return $result;
     }
-    public function getRow($tableName, $value, $field = "id")
+    public function getRow($tableName, $value, $field = "id", $arrType = false)
     {
         $fields = $this->getFieldNames($tableName);
         //print_r($fields);die;
@@ -212,9 +212,9 @@ class Common_model extends Model
         }
         $result = $this->db->table($tableName)->select($arr)->getWhere([
             $field => $value
-        ])->getRow();
+        ]);
 
-        return $result;
+        return $arrType==false?$result->getRow():$result->getRowArray();
     }
 
     public function deleteTableData($tableName, $id, $field = "id")
@@ -349,7 +349,7 @@ class Common_model extends Model
         $offset = !empty($_GET['perPage']) && !empty($_GET['page'])?($_GET['page']-1)*$_GET['perPage']:0;
         $fields = $this->getFieldNames($tableName);
         //print_r($fields);die;
-        if(in_array('uuid',$fields) && $tableName!=='categories'){
+        if(in_array('uuid',$fields) && $tableName!=='categories' && $tableName!=='services'){
             $arr = "*,uuid as id,";
         }else{
             $arr = "*,";
@@ -378,6 +378,6 @@ class Common_model extends Model
             ->orderBy('id', 'asc')
             ->limit(1)
             ->get()
-            ->getRow();
+            ->getRowArray();
     }
 }

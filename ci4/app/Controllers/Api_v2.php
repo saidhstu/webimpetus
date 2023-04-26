@@ -433,7 +433,7 @@ class Api_v2 extends BaseController
                 if(!empty($this->request->getPost('language_code'))) $data_array['language_code'] = $this->request->getPost('language_code');
                 if(!empty($this->request->getPost('permissions'))) $data_array['permissions'] = !empty($this->request->getPost('permissions'))?json_encode($this->request->getPost('permissions')):'';
                 
-                $this->userModel->updateUser($data_array, $id);
+                $this->common_model->CommonInsertOrUpdate('users',$id,$data_array);
 
                 $data['data'] = $data_array;
                 $data['status'] = 200;
@@ -2130,7 +2130,7 @@ class Api_v2 extends BaseController
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-        for ($i = 0; $i < 8; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
         }
@@ -2144,18 +2144,18 @@ class Api_v2 extends BaseController
             // $uuidNamespace = UUID::v4();
             // $uuid = UUID::v5($uuidNamespace, 'sprints');
             $business = $this->common_model->getAdminBusiness();
-            //print_r($_POST);die;
             if(empty($business['uuid_business_id'])){
                 $data['message'] = 'There is no any workspace in the database!!';
                 $data['status'] = 400;
                 echo json_encode($data); die;
             }
+            //echo $business['uuid_business_id']; die;
             $data_array = [];
             $cust_uuid = UUID::v5(UUID::v4(), 'customers');
             $cust_array = array(
-                'company_name'  => !empty($this->request->getPost('company_name'))?$this->request->getPost('company_name'):$this->request->getPost('name'),
+                'company_name'  => (!empty($this->request->getPost('company_name'))?$this->request->getPost('company_name'):$this->request->getPost('name')),
                 'acc_no'  => $this->request->getPost('phone'),
-                'uuid_business_id'  => !empty($business['uuid_business_id'])?$business['uuid_business_id']:'',
+                'uuid_business_id'  => (!empty($business['uuid_business_id'])?$business['uuid_business_id']:''),
                 'phone'  => $this->request->getPost('phone'),
                 'email' => $this->request->getPost('email'),
                 'uuid' => $cust_uuid
@@ -2164,24 +2164,25 @@ class Api_v2 extends BaseController
 
             $data_array['customer'] = $cust_array;
 
-            //$contact_id = UUID::v5(UUID::v4(), 'contacts');
-            echo $password = 'aa'; die;//$this->randomPassword(); die;
+            /* $contact_id = UUID::v5(UUID::v4(), 'contacts');
+            $password = $this->randomPassword(); //die;
             $contact_array = array(
                 'first_name'  => $this->request->getPost('name'),
                 'client_id'  => $cust_uuid,
                 'email'  => $this->request->getPost('email'),
                 'password'  => md5($password),
-                'uuid_business_id'  => !empty($business['uuid_business_id'])?$business['uuid_business_id']:'',
+                'uuid_business_id'  => (!empty($business['uuid_business_id'])?$business['uuid_business_id']:''),
                 'mobile'  => $this->request->getPost('phone'),
                 'uuid'  => $contact_id,
                 'allow_web_access' => 1
             );
+            //print_r($contact_array);die;
             $this->common_model->CommonInsertOrUpdate('contacts','',$contact_array);
             $contact_array['password'] = $password;
-            $data_array['contact'] = $contact_array;
+            $data_array['contact'] = $contact_array; */
 
             $domain_array = array(
-                'uuid'  => $contact_id,
+                'uuid'  => $cust_uuid,
                 'sid'  => '',
                 'uuid_business_id'  => !empty($business['uuid_business_id'])?$business['uuid_business_id']:'',
                 'name'  => $this->request->getPost('domain')
