@@ -11,10 +11,10 @@
             <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">name</th>
+                    <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Message</th>
-                    <th scope="col">created at</th>
+                    <th scope="col">Created at</th>
                     <th scope="col" width="50">Action</th>
                 </tr>
             </thead>

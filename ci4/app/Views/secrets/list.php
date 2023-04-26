@@ -12,7 +12,7 @@
                     
                     <th scope="col">Services</th>
                     
-                    <th scope="col">created at</th>
+                    <th scope="col">Created at</th>
                     <?php if(!empty($_SESSION['role'])){ ?><th scope="col" width="50">Action</th><?php } ?>
                 </tr>
             </thead>

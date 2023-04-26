@@ -274,6 +274,7 @@ class Home extends BaseController
 		$str = file_get_contents(ROOTPATH . 'webimpetus.json');
 		$json = json_decode($str, true);
 
+		$json['response'] = "pong";
 		$json['php_version'] = phpversion();
 
 		echo json_encode($json); die;

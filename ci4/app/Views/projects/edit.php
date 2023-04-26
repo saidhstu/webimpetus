@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4">currency</label>
+                        <label for="inputEmail4">Currency</label>
                      
                         <select name="currency" id="currency" class="form-control select2">
                             <option value="1" <?php if( @$project->currency == 1)echo "selected" ?>>GBP</option>
@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4">active</label>
+                        <label for="inputEmail4">Active</label>
                         <select name="active" id="active" class="form-control select2">
                             <option value="1" <?php if( @$project->active == 1)echo "selected" ?>>Active</option>
                             <option value="2" <?php if( @$project->active == 2)echo "selected" ?>>Completed</option>

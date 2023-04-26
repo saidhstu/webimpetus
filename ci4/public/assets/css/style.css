@@ -7226,7 +7226,7 @@ div.dataTables_wrapper div.dataTables_paginate {
   cursor: default;
   color: #444!important;
   border: 0;
-  background: #444 !important;
+  /*background: #444 !important;*/
 }
 
 /* line 67,*/

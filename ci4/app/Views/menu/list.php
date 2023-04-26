@@ -7,9 +7,9 @@
                     <tr>
                         
                         <th scope="col">Id</th>
-                        <th scope="col">name</th>
-                        <th scope="col">link</th>
-                        <th scope="col">icon</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Link</th>
+                        <th scope="col">Icon</th>
                        
                         <th scope="col" width="50">Action</th>
                     </tr>

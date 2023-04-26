@@ -14,7 +14,7 @@
                     <th scope="col">Availavle Stock</th>
                     <th scope="col">Unit Price</th>
                     <th scope="col">Sort Order</th>
-                    <th scope="col">created at</th>
+                    <th scope="col">Created at</th>
                     <th scope="col" width="50">Action</th>
                 </tr>
             </thead>

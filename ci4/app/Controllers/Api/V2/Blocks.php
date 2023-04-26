@@ -5,7 +5,7 @@ use App\Controllers\Api_v2;
 
 use CodeIgniter\RESTful\ResourceController;
 
-class Purchase_orders extends ResourceController
+class Blocks extends ResourceController
 {
     /**
      * Return an array of resource objects, themselves in array format
@@ -33,8 +33,8 @@ class Purchase_orders extends ResourceController
         if(!empty($_GET['uuid_business_id'])){
             $arr['uuid_business_id'] = $_GET['uuid_business_id'];
         }
-        $data['data'] = $api->purchase_orders_model->getApiV2Invoice($_GET['uuid_business_id']);
-        $data['total'] = $api->common_model->getCount('purchase_orders',$arr);
+        $data['data'] = $api->common_model->getApiData('blocks_list',$arr);
+        $data['total'] = $api->common_model->getCount('blocks_list',$arr);
         $data['message'] = 200;
         return $this->respond($data);
     }
@@ -47,7 +47,7 @@ class Purchase_orders extends ResourceController
     public function show($id = null)
     {
         $api =  new Api_v2();
-        $data['data'] = $api->purchase_orders_model->getApiV2SingleInvoice($id);
+        $data['data'] = $api->common_model->getRow('blocks_list',$id,'id');
         $data['message'] = 200;
         return $this->respond($data);
     }
@@ -70,7 +70,7 @@ class Purchase_orders extends ResourceController
     public function create()
     {
         $api =  new Api_v2();
-        return $this->respond($api->addPurchaseOrder());
+        return $this->respond($api->addBlock());
     }
 
     /**
@@ -91,7 +91,7 @@ class Purchase_orders extends ResourceController
     public function update($id = null)
     {
         $api =  new Api_v2();
-        return $this->respond($api->updatePurchaseOrder());
+        return $this->respond($api->updateBlock());
     }
 
     /**
@@ -102,7 +102,7 @@ class Purchase_orders extends ResourceController
     public function delete($id = null)
     {       
         $api =  new Api_v2();
-        $data['data'] = $api->common_model->deleteTableData('purchase_orders',$id,'uuid');
+        $data['data'] = $api->common_model->deleteTableData('blocks_list',$id,'id');
         $data['status'] = 200;
         return $this->respond($data);    
     }
