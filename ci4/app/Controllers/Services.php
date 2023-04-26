@@ -63,6 +63,8 @@ class Services extends Api
 
     public function update()
     {
+		// $post = $this->request->getPost();
+		// print_r($post); die;
         $id = $this->request->getPost('id');
 
 	
@@ -116,6 +118,35 @@ class Services extends Api
 			}
 	
 		}
+
+			$i = 0;
+			$post = $this->request->getPost();
+			if (count($post["blocks_code"])>0) {
+				foreach ($post["blocks_code"] as $code) {
+
+					$blocks = [];
+					$blocks["code"] = $code;
+					//$blocks["webpages_id"] = '';
+					$blocks["text"] = $post["blocks_text"][$i];
+					$blocks["title"] = $post["blocks_title"][$i];
+					$blocks["sort"] = $post["sort"][$i];
+					$blocks["type"] = $post["type"][$i];
+					$blocks["uuid_linked_table"] = $id;
+					$blocks["uuid_business_id"] = session('uuid_business');
+					$blocks_id =  @$post["blocks_id"][$i];
+					if (empty($blocks["sort"])) {
+						$blocks["sort"] = $blocks_id;
+					}
+					$blocks_id = $this->serviceModel->insertOrUpdate("blocks_list", $blocks_id, $blocks);
+					if (empty($blocks["sort"])) {
+						$this->serviceModel->insertOrUpdate("blocks_list", $blocks_id, ["sort" => $blocks_id]);
+					}
+
+					$i++;
+				}
+			} else {
+				$this->model->deleteTableData("blocks_list", $uuid, "uuid_linked_table");
+			}
 
 		
         return redirect()->to('/services');

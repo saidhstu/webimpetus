@@ -1,7 +1,7 @@
 <?php require_once(APPPATH . 'Views/common/edit-title.php');
 
 $blocks_list = getResultArray("blocks_list", !empty($webpage->uuid)?["uuid_linked_table" => @$webpage->uuid]:array());
-$categories = getResultArray("categories");
+$categories = getResultArray("categories",array());
 
 $type["TEXT"] = "TEXT";
 $type["JSON"] = "JSON";
@@ -81,11 +81,12 @@ $data_type_format["YAML"] = "# Employee records
 										<?php
 										if (isset($webpage) && (!empty($webpage->categories))) {
 											$arr = json_decode(@$webpage->categories);
+										}else $arr = [];
 											foreach ($categories as $row) : ?>
 												<option value="<?= $row['id']; ?>" <?php if ($arr) echo
 																					in_array($row['id'], $arr) ? 'selected="selected"' : '' ?>><?= $row['name']; ?></option>
 										<?php endforeach;
-										} ?>
+										 ?>
 									</select>
 								</div>
 
