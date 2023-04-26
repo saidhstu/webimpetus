@@ -37,7 +37,7 @@
                     </select>
                 </div> -->
                 
-                <?php if(@$secret->id){ ?>
+                <?php if(@$secret->id && !empty($_SESSION['role']) && $_SESSION['role']==1){ ?>
                 <div class="form-group col-md-12">
                     <label for="inputEmail4"><input type="checkbox" value="1" class="form-control" id="status" name="status" placeholder="" /> Show secret value </label>
                 </div>

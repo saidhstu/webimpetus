@@ -28,7 +28,7 @@ return [
     'status' => 'Status',
     'date' => 'Date',
     'discount' => 'Discount',
-    'qty' => 'qty',
+    'qty' => 'Qty',
     'ID' => 'ID',
     'comments' => 'Comments',
     'clone' => 'Clone',

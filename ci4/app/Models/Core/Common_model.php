@@ -372,4 +372,12 @@ class Common_model extends Model
     public function getCount($tableName,$where = []){
         return $count = $this->db->table($tableName)->getWhere($where)->getNumRows();
     }
+
+    public function getAdminBusiness(){
+        return $this->db->table('businesses')
+            ->orderBy('id', 'asc')
+            ->limit(1)
+            ->get()
+            ->getRow();
+    }
 }

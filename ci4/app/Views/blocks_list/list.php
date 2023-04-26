@@ -12,9 +12,9 @@
                     <th scope="col">Code</th>
                     <th scope="col">Title</th>
 
-                    <th scope="col">status</th>
+                    <th scope="col">Status</th>
 
-                    <th scope="col">created at</th>
+                    <th scope="col">Created at</th>
                     <th scope="col" width="50">Action</th>
                 </tr>
             </thead>
