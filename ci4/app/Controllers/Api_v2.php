@@ -2144,11 +2144,30 @@ class Api_v2 extends BaseController
             // $uuidNamespace = UUID::v4();
             // $uuid = UUID::v5($uuidNamespace, 'sprints');
             $business = $this->common_model->getAdminBusiness();
-            if(empty($business['uuid_business_id'])){
+            if(empty($business['uuid_business_id']) && empty($this->request->getPost('uuid_business_id'))){
                 $data['message'] = 'There is no any workspace in the database!!';
                 $data['status'] = 400;
                 echo json_encode($data); die;
             }
+
+            $business['uuid_business_id'] = $this->request->getPost('uuid_business_id')?$this->request->getPost('uuid_business_id'):$business['uuid_business_id'];
+
+            $exist_customer = $this->common_model->getCount('customers',array('uuid_business_id'=>$business['uuid_business_id'],'email'=>$this->request->getPost('email')));
+
+            if($exist_customer>0){
+                $data['message'] = 'Customer email already exist for this workspace!!';
+                $data['status'] = 400;
+                echo json_encode($data); die;
+            }
+
+            $exist_domain = $this->common_model->getCount('domains',array('uuid_business_id'=>$business['uuid_business_id'],'name'=>$this->request->getPost('domain')));
+
+            if($exist_domain>0){
+                $data['message'] = 'domain already exist for this workspace!!';
+                $data['status'] = 400;
+                echo json_encode($data); die;
+            }
+            
             //echo $business['uuid_business_id']; die;
             $data_array = [];
             $cust_uuid = UUID::v5(UUID::v4(), 'customers');
@@ -2182,7 +2201,8 @@ class Api_v2 extends BaseController
             $data_array['contact'] = $contact_array; */
 
             $domain_array = array(
-                'uuid'  => $cust_uuid,
+                'customer_uuid' => $cust_uuid,
+                'uuid' => UUID::v5(UUID::v4(), 'domains'),
                 'sid'  => '',
                 'uuid_business_id'  => !empty($business['uuid_business_id'])?$business['uuid_business_id']:'',
                 'name'  => $this->request->getPost('domain')

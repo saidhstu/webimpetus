@@ -1,6 +1,7 @@
 <?php require_once (APPPATH.'Views/common/edit-title.php');
-
-$blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->id]);
+$blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->uuid]);
+$domains = getResultArray("domains", ["sid" => @$service->uuid]);
+//print_r($blocks_list); die;
 ?>
 <div class="white_card_body">
     <div class="card-body">
@@ -13,6 +14,7 @@ $blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Service Detail</a>
                             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Service Secrets</a>
                             <a class="nav-item nav-link" id="nav-steps-tab" data-toggle="tab" href="#nav-steps" role="tab" aria-controls="nav-steps" aria-selected="false">Service Steps</a>
+                            <a class="nav-item nav-link" id="nav-domains-tab" data-toggle="tab" href="#nav-domains" role="tab" aria-controls="nav-domains" aria-selected="false">Domains</a>
                         </div>
                     </nav>
                     <div class="tab-content py-3 px-3 px-sm-0 col-md-12" id="nav-tabContent">
@@ -22,14 +24,14 @@ $blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->
                                     <label for="inputEmail4">Name</label>
                                     <input autocomplete="off" autocomplete="off" type="text" class="form-control required" id="name" name="name" placeholder=""  value="<?=@$service->name ?>">
                                     
-                                    <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$service->id ?>" />
+                                    <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$service->uuid ?>" />
                                 </div>
                                 <div class="form-group required col-md-6">
                                     <label for="inputState">Choose User</label>
                                     <select id="uuid" name="uuid" class="form-control required">
                                         <option value="" selected="">--Select--</option>
                                         <?php foreach($users as $row):?>
-                                        <option value="<?= $row['uuid'];?>" <?=($row['uuid']==@$service->uuid)?'selected':'' ?> ><?= $row['name'];?></option>
+                                        <option value="<?= $row['uuid'];?>" <?=($row['uuid']==@$service->user_uuid)?'selected':'' ?> ><?= $row['name'];?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
@@ -65,10 +67,17 @@ $blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->
                                     <input autocomplete="off" autocomplete="off" type="text" class="form-control required" id="code" name="code" placeholder=""  value="<?=@$service->code ?>">
                                 </div>
                                     <div class="form-group required col-md-6">
-                                    <label for="inputPassword4">Notes</label>
+                                    <label for="inputPassword4">Description</label>
                                     <textarea class="form-control required" id="notes" name="notes" placeholder=""><?=@$service->notes ?></textarea>
                                 </div>                                      
                             </div>
+                            <div class="form-row">
+                    <div class="form-group col-md-12">
+                    <label for="inputPassword4">Link</label>
+                    <input type="text" class="form-control" id="link" name="link" placeholder=""  value="<?=@$service->link ?>">
+</div>
+                
+            </div>
                             
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -77,7 +86,7 @@ $blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->
                                     <span class="all-media-image-files">
                                         <?php if(!empty(@$service->image_logo)) { ?>
                                             <img class="img-rounded" src="<?= @$service->image_logo;?>" width="100px">
-                                            <a href="/services/rmimg/image_logo/<?=@$service->id ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                            <a href="/services/rmimg/image_logo/<?=@$service->uuid ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                         <?php } ?>
                                     </span>
                                     <div class="uplogInrDiv" id="drop_file_doc_zone">
@@ -105,7 +114,7 @@ $blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->
                                     <span class="all-media-image-files2">
                                     <?php if(!empty(@$service->image_brand)) { ?>
                                         <img src="<?= @$service->image_brand;?>" width="100px">
-                                        <a href="/services/rmimg/image_brand/<?=@$service->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        <a href="/services/rmimg/image_brand/<?=@$service->uuid ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     <?php } ?>
                                     </span>
                                     <div class="uplogInrDiv " id="drop_file_doc_zone2">
@@ -321,6 +330,88 @@ $blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->
 							</div>
 
                         </div>
+
+                        <div class="tab-pane fade" id="nav-domains" role="tabpanel" aria-labelledby="nav-domains-tab">
+                           
+                            
+                            <?php
+                                if(count($domains) > 0){
+                            ?>
+                            <div class="form-row domains_container">
+                                <?php
+                                    for($jak_i=0; $jak_i<count($domains); $jak_i++){
+                                        $new_id = $jak_i + 1;
+                                ?>
+                                <div class="form-row col-md-12" id="domains_<?php echo $new_id; ?>">
+                                    <div class="form-group col-md-6">
+
+                                        <label for="inputEmail4">Select Domain</label>
+                                        
+
+
+                                        <select id="domains" name="domains[]" class="form-control">
+                                            <option value="" selected="">--Select--</option>
+                                            <?php foreach($all_domains as $row):?>
+                                            <option value="<?= $row['uuid'];?>" <?=($row['uuid']==@$domains[$jak_i]['uuid'])?'selected':'' ?>><?= $row['name'];?></option>
+                                            <?php endforeach;?>
+                                        </select>
+
+                                    </div>
+                                   
+                                    <?php
+                                        if($jak_i == 0){
+                                    ?>
+                                        <div class="form-group col-md-1 change">
+                                            <button class="btn btn-primary bootstrap-touchspin-up add_domain " type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+                                        </div>
+                                    <?php
+                                        }else{
+                                    ?>
+                                        <div class="form-group col-md-1 change">
+                                            <button class="btn btn-info bootstrap-touchspin-up deleteaddress" data-id="<?=$domains[$jak_i]['uuid'] ?>" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>
+                                        </div>
+                                    <?php
+                                        }
+                                    ?>
+                                </div>
+                                <?php
+                                    }
+                                ?>
+                            </div>
+                            
+                            <input type="hidden" value="<?php echo count($domains); ?>" id="total_domains" name="total_domains">
+                            
+                            <?php
+                                }else{
+                            ?>
+                                <div class="form-row" id="domains_1">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Select Domain</label>
+
+                                        <select id="domains" name="domains[]" class="form-control">
+                                            <option value="" selected="">--Select--</option>
+                                            <?php foreach($all_domains as $row):?>
+                                            <option value="<?= $row['uuid'];?>"><?= $row['name'];?></option>
+                                            <?php endforeach;?>
+                                        </select>
+
+
+                                    </div>
+                                    
+                                    <div class="form-group col-md-1 change">
+                                        <button class="btn btn-primary bootstrap-touchspin-up add_domain" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-row domains_container">
+                                
+                                </div>
+                                <input type="hidden" value="1" id="total_domains" name="total_domains">
+                            <?php
+                                }
+                            ?>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -413,7 +504,7 @@ $blocks_list = getResultArray("blocks_list", ["uuid_linked_table" => @$service->
     
 
 
-var id = "<?=@$service->id ?>";
+var id = "<?=@$service->uuid ?>";
    
 $(document).on('drop', '#drop_file_doc_zone', function(e){
     // $("#ajax_load").show();
@@ -554,7 +645,7 @@ function newUploadDocFiles2(fileobj, id) {
     $('#DeployService').on('click', function () {
         var Status = $(this).val();
         $.ajax({
-        url: "/services/deploy_service/<?=@$service->id?>",
+        url: "/services/deploy_service/<?=@$service->uuid?>",
         type: "post",
         data: {'data':Status },
         success: function (response) {
@@ -572,7 +663,7 @@ function newUploadDocFiles2(fileobj, id) {
     $('#DeleteService').on('click', function () {
         var Status = $(this).val();
         $.ajax({
-        url: "/services/delete_service/<?=@$service->id?>",
+        url: "/services/delete_service/<?=@$service->uuid?>",
         type: "post",
         data: {'data':Status },
         success: function (response) {
@@ -708,4 +799,34 @@ function newUploadDocFiles2(fileobj, id) {
             })
         });
     });
+
+
+    
+	$(document).ready(function() {
+
+var max_fields_limit = 10; //set limit for maximum input fields
+var x = $('#total_domains').val(); //initialize counter for text box
+$('.add_domain').click(function(e){ //click event on add more fields button having class add_more_button
+    // e.preventDefault();
+    if(x < max_fields_limit){ //check conditions
+        x++; //counter increment
+        
+        $('.domains_container').append('<div class="form-row col-md-12" id="domains_'+x+'"><div class="form-group col-md-6">'+
+                                        '<label for="inputSecretKey">Select Domain</label>'+
+                                '<select id="domains" name="domains[]" class="form-control">                                      <option value="" selected="">--Select--</option> <?php foreach($all_domains as $row):?>     <option value="<?= $row['uuid'];?>"><?= $row['name'];?></option> <?php endforeach;?> </select></div>'+
+                                    '<div class="form-group col-md-1 change">'+
+                                        '<button class="btn btn-info bootstrap-touchspin-up deleteaddress" id="deleteRow" type="button" style="max-height: 35px;margin-top: 28px;margin-left: 10px;">-</button>'+
+                                    '</div></div>'
+                                    );
+        
+        
+    }
+    
+    $('.deleteaddress').on("click", function(e){ //user click on remove text links
+        e.preventDefault(); 
+        $(this).parent().parent().remove();
+        x--;
+    })
+});   
+});
 </script>

@@ -11,7 +11,7 @@
                         <select id="uuid" name="uuid" class="form-control required dashboard-dropdown">
                             <option value="" selected="">--Select--</option>
                             <?php foreach($users as $row):?>
-                            <option value="<?= $row['uuid'];?>" <?=($row['uuid']== @$category->uuid)?'selected':'' ?>><?= $row['name'];?></option>
+                            <option value="<?= $row['uuid'];?>" <?=($row['uuid']== @$category->user_uuid)?'selected':'' ?>><?= $row['name'];?></option>
                             <?php endforeach;?>
                         </select>
                     </div>

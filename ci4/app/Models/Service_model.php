@@ -23,7 +23,7 @@ class Service_model extends Model
 			$this->where([$this->table . '.uuid_business_id' => $this->businessUuid]);
             return $this->findAll();
         }else{
-            return $this->getWhere(['id' => $id, 'uuid_business_id' => $this->businessUuid]);
+            return $this->getWhere(['uuid' => $id, 'uuid_business_id' => $this->businessUuid]);
         }   
     }
 	
@@ -67,9 +67,9 @@ class Service_model extends Model
     public function insertOrUpdate($table, $id = null, $data = null)
 	{
         unset($data["id"]);
-
+        $field = is_numeric($id)?'id':'uuid';
         if(@$id){
-            $query = $this->db->table($table)->update($data, array('id' => $id));
+            $query = $this->db->table($table)->update($data, array($field => $id));
             if( $query){
                 session()->setFlashdata('message', 'Data updated Successfully!');
                 session()->setFlashdata('alert-class', 'alert-success');

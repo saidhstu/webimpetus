@@ -10,6 +10,7 @@ use App\Models\Template_model;
 use App\Models\Meta_model;
 use App\Models\Amazon_s3_model;
 use App\Models\Core\Common_model;
+use App\Libraries\UUID;
 
 class Services extends Api
 {	
@@ -50,21 +51,22 @@ class Services extends Api
     {        
 		$data['tableName'] = "services";
         $data['rawTblName'] = "service";
-        $data['service'] = $this->serviceModel->getRows($id)->getRow();
+        $data['service'] = !empty($id)?$this->serviceModel->getRows($id)->getRow():[];
 		$data['tenants'] = $this->tmodel->getRows();
 		$data['category'] = $this->cmodel->getRows();
 		$data['users'] = $this->user_model->getUser();
 		$data['secret_services'] = $this->secret_model->getSecrets($id);
+		$data['all_domains'] = $this->common_model->getCommonData('domains',['uuid_business_id' => $this->businessUuid]);
       
-		
+		//print_r($data['all_domains']); die;
         echo view('services/edit', $data);
     }
 	
 
     public function update()
     {
-		// $post = $this->request->getPost();
-		// print_r($post); die;
+		//$post = $this->request->getPost();
+		//print_r($post); die;
         $id = $this->request->getPost('id');
 
 	
@@ -72,14 +74,18 @@ class Services extends Api
 			'name'  => $this->request->getPost('name'),
 			'code' => $this->request->getPost('code'),				
 			'notes' => $this->request->getPost('notes'),	
-			'uuid' => $this->request->getPost('uuid'),
+			'user_uuid' => $this->request->getPost('uuid'),
 			//'nginx_config' => $this->request->getPost('nginx_config'),
 			//'varnish_config' => $this->request->getPost('varnish_config'),
 			'cid' => $this->request->getPost('cid'),
 			'tid' => $this->request->getPost('tid'),
+			'link' => $this->request->getPost('link'),
 			
 			'uuid_business_id' => $this->businessUuid,
 		);
+		if(empty($id)){
+			$data['uuid'] = UUID::v5(UUID::v4(), 'services');
+		}
 		
 		$image_logo = $this->request->getPost('image_logo');
 		$brand_logo = $this->request->getPost('brand_logo');
@@ -93,7 +99,7 @@ class Services extends Api
 		}
 
 		 
-        $id = $this->serviceModel->insertOrUpdate("services", $id,$data);
+        $id = $this->serviceModel->insertOrUpdate("services", $id,$data); //die;
 		
 		$this->secret_model->deleteServiceFromServiceID($id);
 		
@@ -121,6 +127,7 @@ class Services extends Api
 
 			$i = 0;
 			$post = $this->request->getPost();
+			//print_r($post); die;
 			if (count($post["blocks_code"])>0) {
 				foreach ($post["blocks_code"] as $code) {
 
@@ -134,6 +141,7 @@ class Services extends Api
 					$blocks["uuid_linked_table"] = $id;
 					$blocks["uuid_business_id"] = session('uuid_business');
 					$blocks_id =  @$post["blocks_id"][$i];
+					//print_r($blocks); die;
 					if (empty($blocks["sort"])) {
 						$blocks["sort"] = $blocks_id;
 					}
@@ -146,6 +154,14 @@ class Services extends Api
 				}
 			} else {
 				$this->model->deleteTableData("blocks_list", $uuid, "uuid_linked_table");
+			}
+			//print_r($post["domains"]); die;
+			if (count($post["domains"])>0) {
+				foreach ($post["domains"] as $domain) {
+					$this->serviceModel->insertOrUpdate("domains", $domain, ['sid'=>$id]);
+				}
+			}else{
+
 			}
 
 		

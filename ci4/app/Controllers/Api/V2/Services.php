@@ -47,7 +47,7 @@ class Services extends ResourceController
     public function show($id = null)
     {
         $api =  new Api_v2();
-        $service = $api->common_model->getRow('services',$id,'id',true);
+        $service = $api->common_model->getRow('services',$id,'uuid',true);
         $service['blocks'] = $api->common_model->getCommonData('blocks_list',['uuid_linked_table'=>$id]);
         $data['data'] = $service;
         $data['message'] = 200;

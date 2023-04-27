@@ -349,7 +349,7 @@ class Common_model extends Model
         $offset = !empty($_GET['perPage']) && !empty($_GET['page'])?($_GET['page']-1)*$_GET['perPage']:0;
         $fields = $this->getFieldNames($tableName);
         //print_r($fields);die;
-        if(in_array('uuid',$fields) && $tableName!=='categories' && $tableName!=='services'){
+        if(in_array('uuid',$fields) && $tableName!=='categories'){
             $arr = "*,uuid as id,";
         }else{
             $arr = "*,";

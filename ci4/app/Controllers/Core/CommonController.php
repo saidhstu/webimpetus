@@ -127,7 +127,7 @@ class CommonController extends BaseController
 		$data['tableName'] = $this->table;
 		$data['rawTblName'] = $this->rawTblName;
 		$data["users"] = $this->model->getUser();
-		$data[$this->rawTblName] = $this->model->getRowsByUUID($uuid)->getRow();
+		$data[$this->rawTblName] = !empty($uuid)?$this->model->getRowsByUUID($uuid)->getRow():[];
 		// if there any special cause we can overried this function and pass data to add or edit view
 		if($this->rawTblName=='task'){
 			$data['media_list'] = $this->getMediaItems('media_list',$uuid,'id,name');
