@@ -109,17 +109,17 @@ class Secret_model extends Model
     }
 
     public function saveOrUpdateData($service_id, $data){
-
         if(strlen(trim($data["key_name"])) == 0){
             return 0;
         }
      
         $builder = $this->db->table("secrets");
         $builder->select('secrets.id');
-        $builder->join('secrets_services', 'secrets.id=secrets_services.secret_id AND `secrets_services`.`service_id` = '.$service_id.'', 'LEFT');					
+        $builder->join('secrets_services', 'secrets.id=secrets_services.secret_id AND `secrets_services`.`service_id` = "'.$service_id.'"', 'LEFT');					
         $builder->where("secrets.key_name", $data["key_name"]);				
         $builder->where("secrets.uuid_business_id", $this->businessUuid);				
-        $records = $builder ->get()->getRowArray();	
+        $records = $builder->get()->getRowArray();	
+        //echo $service_id; print_r($records);die;
         if( $records){
             $query = $this->db->table($this->table)->update($data, array('id' => $records["id"]));
             return $records["id"];

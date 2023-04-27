@@ -4,6 +4,7 @@ use App\Models\Cat_model;
 use App\Models\Users_model;
 use App\Controllers\Core\CommonController; 
 use App\Models\Amazon_s3_model; 
+use App\Libraries\UUID;
 
 class Categories extends CommonController
 {	
@@ -27,10 +28,13 @@ class Categories extends CommonController
 			'name'  => $this->request->getPost('name'),				
 			'notes' => $this->request->getPost('notes'),
 			'sort_order' => $this->request->getPost('sort_order'),
-			'uuid' => $this->request->getPost('uuid'),
+			'user_uuid' => $this->request->getPost('uuid'),
 			'uuid_business_id' => $this->session->get('uuid_business'),
 		);
-		
+
+		if(empty($id)){
+			$data['uuid'] = UUID::v5(UUID::v4(), 'categories');
+		}		
 
 		$file = $this->request->getPost('file');
 		if(isset($file) && strlen($file) > 0){

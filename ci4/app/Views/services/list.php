@@ -24,7 +24,7 @@
             <tbody>                                        
             
             <?php foreach($services as $row):?>  
-            <tr data-link="/services/edit/<?= $row['id'];?>">                                     
+            <tr data-link="/services/edit/<?= $row['uuid'];?>">                                     
                 <td class="f_s_12 f_w_400"><?= $row['id'];?>
                 </td>
                 <td class="f_s_12 f_w_400 "><?= $row['name'];?>
@@ -67,8 +67,8 @@
                             </span>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 
-                                <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/services/delete/<?= $row['id'];?>"> <i class="ti-trash"></i> Delete</a>
-                                <a class="dropdown-item" href="/services/edit/<?= $row['id'];?>"> <i class="fas fa-edit"></i> Edit</a>
+                                <a class="dropdown-item" onclick="return confirm('Are you sure want to delete?');" href="/services/delete/<?= $row['uuid'];?>"> <i class="ti-trash"></i> Delete</a>
+                                <a class="dropdown-item" href="/services/edit/<?= $row['uuid'];?>"> <i class="fas fa-edit"></i> Edit</a>
                                 
                                 
                             </div>

@@ -23,7 +23,7 @@ class Domain_model extends Model
             $this->where($whereCond);
             return $this->findAll();
         }else{
-            $whereCond = array_merge(['id' => $id], $whereCond);
+            $whereCond = array_merge(['uuid' => $id], $whereCond);
             return $this->getWhere($whereCond);
         }   
     }
@@ -36,13 +36,13 @@ class Domain_model extends Model
 	
 	public function deleteData($id)
     {
-        $query = $this->db->table($this->table)->delete(array('id' => $id));
+        $query = $this->db->table($this->table)->delete(array('uuid' => $id));
         return $query;
     }
 	
 	public function updateData($id = null, $data = null)
 	{
-		$query = $this->db->table($this->table)->update($data, array('id' => $id));
+		$query = $this->db->table($this->table)->update($data, array('uuid' => $id));
 		return $query;
 	}
 }

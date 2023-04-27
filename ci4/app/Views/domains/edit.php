@@ -6,11 +6,11 @@
             <div class="form-row">
             
             <div class="form-group required col-md-12">
-                    <label for="inputState">Choose User</label>
-                    <select id="uuid" name="uuid" class="form-control required">
+                    <label for="inputState">Choose Customer</label>
+                    <select id="uuid" name="uuid" class="form-control required select2">
                         <option value="" selected="">--Select--</option>
-                        <?php foreach($users as $row):?>
-                        <option value="<?= $row['uuid'];?>" <?=($row['uuid']==@$domain->uuid)?'selected':'' ?>><?= $row['name'];?></option>
+                        <?php foreach($customers as $row):?>
+                        <option value="<?= $row['uuid'];?>" <?=($row['uuid']==@$domain->customer_uuid)?'selected':'' ?>><?= $row['email'].'-'.$row['contact_firstname'].' '.$row['contact_lastname'];?></option>
                         <?php endforeach;?>
                     </select>
                 </div>
@@ -21,7 +21,7 @@
                     <select id="sid" name="sid" class="form-control required">
                         <option value="" selected="">--Select--</option>
                         <?php foreach($services as $row):?>
-                        <option value="<?= $row['id'];?>" <?=($row['id']==@$domain->sid)?'selected':'' ?>><?= $row['name'];?></option>
+                        <option value="<?= $row['uuid'];?>" <?=($row['uuid']==@$domain->sid)?'selected':'' ?>><?= $row['name'];?></option>
                         <?php endforeach;?>
                     </select>
                 </div>
@@ -32,7 +32,7 @@
 
                     <p id="domain_error"></p>
                     
-                    <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$domain->id ?>" />
+                    <input type="hidden" class="form-control" name="id" placeholder="" value="<?=@$domain->uuid ?>" />
                 </div>
 
                     <div class="form-group col-md-12">
@@ -40,7 +40,7 @@
                     <span class="all-media-image-files">
                     <?php if(!empty(@$domain->image_logo)) { ?>
                     <img src="<?=@$domain->image_logo;?>" width="100px">
-                        <a href="/domains/deleteImage/<?=@$domain->id ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                        <a href="/domains/deleteImage/<?=@$domain->uuid ?>"  onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                     <?php } ?>
                     </span>
                     <div class="uplogInrDiv" id="drop_file_doc_zone">
@@ -85,7 +85,7 @@
 <script>
   
 
-  var id = "<?=@$domain->id ?>";
+  var id = "<?=@$domain->uuid ?>";
   $(document).on('drop', '#drop_file_doc_zone', function(e){
    
    // $("#ajax_load").show();

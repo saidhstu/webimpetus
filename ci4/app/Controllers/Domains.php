@@ -7,6 +7,7 @@ use App\Models\Service_model;
 use App\Controllers\Core\CommonController; 
 use App\Models\Core\Common_model;
 
+use App\Libraries\UUID;
 
 class Domains extends CommonController
 {	
@@ -28,12 +29,14 @@ class Domains extends CommonController
     }
 	
 
-	public function edit($id=0)
+	public function edit($id='')
     {        
 		$data['tableName'] = $this->table;
         $data['rawTblName'] = $this->rawTblName;
-        $data['domain'] = $this->domainModel->getRows($id)->getRow();
-		$data['users'] = $this->user_model->getUser('',true);
+        $data['domain'] = !empty($id)?$this->domainModel->getRows($id)->getRow():[];
+		//$data['users'] = $this->user_model->getUser('',true);
+		$data['customers'] = $this->model->getCommonData('customers',array('uuid_business_id' => session('uuid_business'),'email!='=>''));
+		//echo '<pre>';print_r($data['customers']); die;
 		$data['services'] = $this->service_model->getRows();
 
 		echo view($this->table."/edit",$data);
@@ -43,14 +46,17 @@ class Domains extends CommonController
 	public function update()
     {        
         $id = $this->request->getPost('id');
+		
 		$data = array(
 			'name'  => $this->request->getPost('name'),				
 			'notes' => $this->request->getPost('notes'),
-			'uuid' => $this->request->getPost('uuid'),
+			'customer_uuid' => $this->request->getPost('uuid'),
 			'sid' => $this->request->getPost('sid'),
 			'uuid_business_id' => session('uuid_business'),
 		);
-		
+		if(empty($id)){
+			$data['uuid'] = UUID::v5(UUID::v4(), 'domains');
+		}
 		$file = $this->request->getPost('file');
 		if($file && !empty($file) && strlen($file) > 0){
 			$data['image_logo'] = $file;
@@ -67,6 +73,26 @@ class Domains extends CommonController
 		return redirect()->to('/'.$this->table);
 
     }
+
+
+	public function delete($id)
+{       
+	//echo $id; die;
+	if(!empty($id)) {
+		$response = $this->domainModel->deleteData($id);		
+		if($response){
+			session()->setFlashdata('message', 'Data deleted Successfully!');
+			session()->setFlashdata('alert-class', 'alert-success');
+		}else{
+			session()->setFlashdata('message', 'Something wrong delete failed!');
+			session()->setFlashdata('alert-class', 'alert-danger');		
+		}
+
+	}
+	
+	return redirect()->to('/domains');
+}
+
 
 
 
