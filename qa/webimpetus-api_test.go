@@ -15,9 +15,9 @@ import (
 var tokenValue string
 var userId string
 var employeeId string
-var email = os.Getenv("Email")
-var password = os.Getenv("Password")
-var businessId = os.Getenv("Business_id")
+var email = os.Getenv("QA_LOGIN_EMAIL")
+var password = os.Getenv("QA_LOGIN_PASSWORD")
+var businessId = os.Getenv("QA_BUSINESS_ID")
 
 const targetHost = "https://test-my.workstation.co.uk"
 
