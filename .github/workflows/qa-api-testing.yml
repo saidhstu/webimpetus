@@ -24,7 +24,7 @@ jobs:
         go mod init myapp
         go test -v 
       env: 
-        Email: ${{ secrets.Email}}
-        Password: ${{ secrets.Password}}
-        Business_id: ${{ secrets.Business_id}} 
+        Email: ${{ secrets.QA_LOGIN_EMAIL }}
+        Password: ${{ secrets.QA_LOGIN_PASSWORD }}
+        Business_id: ${{ secrets.QA_BUSINESS_ID }} 
       
