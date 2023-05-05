@@ -18,14 +18,11 @@ jobs:
       with:
         go-version: 1.19    
 
-    - name: change file dir
-      run: cd qa    
- 
-    - name: mod init
-      run: go mod init myapp        
-
     - name: Test
-      run: go test -v 
+      working-directory: ./qa
+      run: | 
+        go mod init myapp
+        go test -v 
       env: 
         Email: ${{ secrets.Email}}
         Password: ${{ secrets.Password}}
